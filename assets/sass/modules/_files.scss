@@ -106,7 +106,6 @@ body.dropzone-active {
     }
 
     form[name=file_upload] {
-        text-align:center;
         .fa {
             display: inline-block !important; // TODO sort out this hacky solution
         }

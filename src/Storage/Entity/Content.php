@@ -334,13 +334,23 @@ class Content extends Entity
      */
     public function getTitle()
     {
-        if (array_key_exists('title', $this->_fields)) {
-            return $this->_fields['title'];
+        $fields = $this->_fields;
+
+        if (array_key_exists('title', $fields)) {
+            return $fields['title'];
         }
 
-        $fieldName = $this->getTitleColumnName($this->contenttype);
+        $fieldNames = $this->getTitleColumnNames($this->contenttype);
 
-        return $this->$fieldName;
+        $title = [];
+        foreach ($fieldNames as $fieldName) {
+            // Make sure we add strings only, as some fields may be an array or DateTime.
+            if (array_key_exists($fieldName, $fields)) {
+                $title[] = is_array($fields[$fieldName]) ? implode(' ', $fields[$fieldName]) : (string) $fields[$fieldName];
+            }
+        }
+
+        return implode(' ', $title);
     }
 
     /**

@@ -89,7 +89,7 @@
     },
     buid: buid(),
     uploadConfig: {
-        url: path('files'),
+        url: path('files', {'namespace': app.request.get('namespace'), 'path': app.request.get('path')}),
         acceptFilesTypes: app.config.get('general/accept_file_types'),
         maxSize: app['filepermissions'].getMaxUploadSize(),
         maxSizeNice: app['filepermissions'].getMaxUploadSizeNice(),

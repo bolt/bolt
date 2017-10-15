@@ -28,16 +28,21 @@
         } %}
         {% for rkey, rfield in field.fields[block].fields %}
             {% set rfield = defaults|merge(rfield) %}
+            {% if rfield.type == 'select' %}
+                {% set values = context.values.select_choices[rkey] %}
+            {% endif %}
             {% set rcontext = {
-            'key':        name ~ '_' ~ index ~ '_' ~ block ~ '_' ~ rkey,
-            'name':       name ~ '[' ~ index ~ '][' ~ block ~ '][' ~ rkey ~ ']',
-            'contentkey': rkey,
-            'field':      rfield,
-            'labelkey':   rfield.label|default(rkey|ucfirst),
-            'context': {
-            'content':  content,
-            'can':      context.can,
-            }
+                'key':        name ~ '_' ~ index ~ '_' ~ block ~ '_' ~ rkey,
+                'name':       name ~ '[' ~ index ~ '][' ~ block ~ '][' ~ rkey ~ ']',
+                'contentkey': rkey,
+                'values':     values|default(),
+                'field':      rfield,
+                'labelkey':   rfield.label|default(rkey|ucfirst),
+                'context': {
+                    'content':  content,
+                    'can':      context.can,
+                    'file_matcher': context.file_matcher,
+                }
             } %}
             <div class="block-field" data-bolt-fieldset="{{ rfield.type }}">
                 {# Prefix #}

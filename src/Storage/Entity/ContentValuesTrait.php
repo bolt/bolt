@@ -591,8 +591,10 @@ trait ContentValuesTrait
         }
 
         foreach ($this->getTitleColumnName() as $fieldName) {
-            if (strip_tags($this->values[$fieldName], $allowedTags) !== '') {
-                $titleParts[] = strip_tags($this->values[$fieldName], $allowedTags);
+            // Make sure we add strings only, as some fields may be an array or DateTime.
+            $value = is_array($this->values[$fieldName]) ? implode(' ', $this->values[$fieldName]) : (string) $this->values[$fieldName];
+            if (strip_tags($value, $allowedTags) !== '') {
+                $titleParts[] = strip_tags($value, $allowedTags);
             }
         }
 
@@ -615,11 +617,7 @@ trait ContentValuesTrait
     {
         // If we specified a specific fieldname or array of fieldnames as 'title'.
         if (!empty($this->contenttype['title_format'])) {
-            if (!is_array($this->contenttype['title_format'])) {
-                $this->contenttype['title_format'] = [$this->contenttype['title_format']];
-            }
-
-            return $this->contenttype['title_format'];
+            return (array) $this->contenttype['title_format'];
         }
 
         // Sets the names of some 'common' names for the 'title' column.

@@ -220,7 +220,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->selectOption('#templatefields-select_record_single', '2');
         $I->selectOption('#templatefields-select_record_keys', 'contact');
 
-        $I->click('Save pages', '#content_edit_save');
+        $I->click('Save Page', '#content_edit_save');
 
         $I->click('Contact Page');
 

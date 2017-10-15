@@ -288,7 +288,11 @@ class RepeatingFieldCollection extends ArrayCollection
     {
         $output = [];
         foreach ($this as $collection => $vals) {
-            $output[$collection] = $vals->serialize();
+            if ($vals->getBlock() !== null) {
+                $output[$collection][$vals->getBlock()] = $vals->serialize();
+            } else {
+                $output[$collection] = $vals->serialize();
+            }
         }
 
         return $output;

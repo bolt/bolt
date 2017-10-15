@@ -63,7 +63,7 @@ class Records extends BackendBase
         $contentType = $this->getContentType($contentTypeKey);
 
         $data = null;
-        $options = ['contenttype_name' => $contentTypeKey];
+        $options = ['contenttype_name' => $contentType['singular_name']];
         /** @var Form $form */
         $form = $this->createFormBuilder(ContentEditType::class, $data, $options)
             ->getForm()
