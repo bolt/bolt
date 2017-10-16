@@ -27,7 +27,7 @@
                 {% elseif log.route == 'logout' %}
                     <em>{{ macro.userlink(log.ownerid|default('')) }}</em> {{ __('panel.latest-activity.logged-out') }}
                 {% else %}
-                    <em>{{ log.message|raw|shy }}</em>
+                    <em>{{ log.message|raw|excerpt(32) }}</em>
                 {% endif %}
                 <small>({{ buic_moment(log.date) }})</small>
             </li>
