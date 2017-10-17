@@ -2,7 +2,6 @@
 
 namespace Bolt\Helpers;
 
-use Bolt\Common\Deprecated;
 use Cocur\Slugify\Slugify;
 
 class Str extends \Bolt\Common\Str
