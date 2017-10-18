@@ -1,6 +1,30 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.4 beta 4
+---------------
+
+Released: 2017-10-18. Notable changes:
+
+ - Change: Allow `group` on named repeater's sets [#7099](https://github.com/bolt/bolt/pull/7099)
+ - Change: Composer script logic for default site bundle. [See](https://github.com/bolt/composer-install/pull/28) [#7071](https://github.com/bolt/bolt/pull/7071)
+ - Change: Handle separate bundles under src/ [#7087](https://github.com/bolt/bolt/pull/7087)
+ - Fixed: `title_format` addition: Only use fields that (still) exist [#7086](https://github.com/bolt/bolt/pull/7086)
+ - Fixed: A few minor fileupload tweaks [#7078](https://github.com/bolt/bolt/pull/7078)
+ - Fixed: Change `trimtext` to `excerpt` [#7091](https://github.com/bolt/bolt/pull/7091)
+ - Fixed: Don't require double confirmation on deleting folders. [#7081](https://github.com/bolt/bolt/pull/7081)
+ - Fixed: Don't show empty "Latest changes panel" if the changelog is not enabled. [#7101](https://github.com/bolt/bolt/pull/7101)
+ - Fixed: Fix incorrect link to Routing docs. [#7073](https://github.com/bolt/bolt/pull/7073)
+ - Fixed: Fix named repeaters during CLI import and export [#7070](https://github.com/bolt/bolt/pull/7070)
+ - Fixed: Fix select values in new named repeater blocks [#7082](https://github.com/bolt/bolt/pull/7082)
+ - Fixed: Handle images that aren't found a bit more gracefully. [#7084](https://github.com/bolt/bolt/pull/7084)
+ - Fixed: Only pass user's ID into `Users::addRole()` [#7092](https://github.com/bolt/bolt/pull/7092)
+ - Fixed: Remove `import` for Deprecated in `Arr.php` too [#7097](https://github.com/bolt/bolt/pull/7097)
+ - Fixed: Remove import for Bolt\Common\Deprecated [#7094](https://github.com/bolt/bolt/pull/7094)
+ - Fixed: Restrict resizing of `<textarea>` to vertical only. [#7100](https://github.com/bolt/bolt/pull/7100)
+ - Fixed: Use `icon_one` for Singleton ContentTypes, instead of `icon_many` in menu. [#7098](https://github.com/bolt/bolt/pull/7098)
+
+
 Bolt 3.4 beta 3
 ---------------
 
