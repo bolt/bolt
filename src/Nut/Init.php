@@ -58,6 +58,7 @@ class Init extends BaseCommand
     {
         $fs = $this->app['filesystem']->getFilesystem('root');
         $files = [
+            '.bolt.yml',
             'composer.json',
             'composer.lock',
             'src/Site/CustomisationExtension.php'
