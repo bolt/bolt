@@ -178,7 +178,11 @@ class General extends AsyncBase
         // Test/get page number
         $page = $this->app['pager']->getCurrentPage('activity');
 
-        $change = $this->app['logger.manager']->getActivity('change', $page, 8);
+        if ($this->app['config']->get('general/changelog/enabled')) {
+            $change = $this->app['logger.manager']->getActivity('change', $page, 8);
+        } else {
+            $change = null;
+        }
         $system = $this->app['logger.manager']->getActivity('system', $page, 8, ['context' => ['authentication', 'security']]);
 
         $response = $this->render(
