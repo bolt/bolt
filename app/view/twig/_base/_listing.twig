@@ -236,7 +236,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                     {% if modifiable %}
                         {% if content.status != 'published' %}
                             {% if permissions.publish %}
-                                <li>{{ macro.actionform(content, 'publish', 'fa-circle status-published', __('contenttypes.generic.publish',{'%contenttype%':content.contenttype.slug})) }}</li>
+                                <li>{{ macro.actionform(content, 'publish', 'fa-circle status-published', __('contenttypes.generic.publish',{'%contenttype%':content.contenttype.singular_name})) }}</li>
                             {% endif %}
                         {% else %}
                             {% if permissions.depublish %}
@@ -248,7 +248,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                         {% if permissions.create %}
                             <li>
                                 <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'source': content.id, 'duplicate': 1}) }}">
-                                    <i class="fa fa-copy"></i> {{ __('contenttypes.generic.duplicate', {'%contenttype%': content.contenttype.slug}) }}
+                                    <i class="fa fa-copy"></i> {{ __('contenttypes.generic.duplicate', {'%contenttype%': content.contenttype.singular_name}) }}
                                 </a>
                             </li>
                         {% endif %}
@@ -256,7 +256,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                             <li>
                                 {{ macro.actionform(content, 'delete',
                                 'fa-trash',
-                                __('contenttypes.generic.delete', {'%contenttype%': content.contenttype.slug}),
+                                __('contenttypes.generic.delete', {'%contenttype%': content.contenttype.singular_name}),
                                 "Are you sure you want to delete '" ~ content.getTitle ~ "'?" ) }}
                             </li>
                         {% endif %}
