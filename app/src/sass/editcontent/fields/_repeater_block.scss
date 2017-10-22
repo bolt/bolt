@@ -1,4 +1,4 @@
-/*** Fieldset: Repeater ***/
+/*** Fieldset: Repeaters and Blocks ***/
 
 fieldset.bolt-field-repeater,
 fieldset.bolt-field-block {
@@ -6,10 +6,6 @@ fieldset.bolt-field-block {
         margin-top: 10px;
         float: none;
         padding-left: 0px;
-    }
-
-    .repeater-add {
-        float: right;
     }
 
     .repeater-group {
@@ -30,7 +26,8 @@ fieldset.bolt-field-block {
         padding: 15px 0 0 15px;
     }
 
-    .repeater-field {
+    .repeater-field,
+    .block-field {
         @include make-xs-column(12);
 
         margin-top: 24px;
