@@ -16,7 +16,7 @@ class SelectQueryHandler
     /**
      * @param ContentQueryParser $contentQuery
      *
-     * @return QueryResultset|Content|null
+     * @return QueryResultset|Content|false
      */
     public function __invoke(ContentQueryParser $contentQuery)
     {
@@ -50,6 +50,10 @@ class SelectQueryHandler
         }
 
         if ($query->getSingleFetchMode()) {
+            if ($set->count() === 0) {
+                return false;
+            }
+
             return $set->current();
         }
 
