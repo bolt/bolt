@@ -3,6 +3,7 @@
 namespace Bolt\Composer;
 
 use Bolt\Composer\Script\BootstrapYamlUpdater;
+use Bolt\Composer\Script\BundleConfigurator;
 use Bolt\Composer\Script\DirectoryConfigurator;
 use Bolt\Composer\Script\DirectorySyncer;
 use Bolt\Composer\Script\ScriptHandlerUpdater;
@@ -62,13 +63,13 @@ final class ScriptHandler
      */
     public static function updateProject(Event $event)
     {
-        (new BootstrapYamlUpdater($event->getIO()))->update();
+        BootstrapYamlUpdater::fromEvent($event)->update();
     }
 
     /**
-     * Configures installation's directory structure.
+     * Configures installation's directory structure and default site bundle.
      *
-     * The configured paths are written to .bolt.yml
+     * The configured paths & extensions are written to .bolt.yml
      * and the skeleton structure is modified accordingly.
      *
      * @param Event $event
@@ -76,6 +77,7 @@ final class ScriptHandler
     public static function configureProject(Event $event)
     {
         DirectoryConfigurator::fromEvent($event)->run();
+        BundleConfigurator::fromEvent($event)->run();
 
         // Install assets here since they they were skipped above
         static::installAssets($event, false);

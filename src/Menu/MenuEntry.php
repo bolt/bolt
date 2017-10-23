@@ -3,6 +3,7 @@
 namespace Bolt\Menu;
 
 use Bolt\Common\Serialization;
+use GuzzleHttp\Psr7\Uri;
 use Serializable;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -115,19 +116,27 @@ class MenuEntry implements Serializable
      */
     public function getUri()
     {
-        if ($this->routeName !== null) {
-            if ($this->routeGenerated === null) {
-                $this->routeGenerated = $this->urlGenerator->generate($this->routeName, $this->routeParams);
-            }
-
+        if ($this->routeGenerated) {
             return $this->routeGenerated;
         }
 
-        if (strpos($this->uri, '/') === 0 || !$this->parent) {
-            return $this->uri;
+        if ($this->routeName !== null) {
+            return $this->routeGenerated = $this->urlGenerator->generate($this->routeName, $this->routeParams);
         }
 
-        return $this->uri ? $this->parent->getUri() . '/' . $this->uri : $this->uri;
+        if (strpos($this->uri, '/') === 0 || !$this->parent) {
+            return $this->routeGenerated = $this->uri;
+        }
+
+        $parentUri = $this->parent ? $this->parent->getUri() : null;
+        if ($parentUri === null) {
+            return $this->routeGenerated = $this->uri;
+        }
+
+        $routeGenerated = new Uri($parentUri);
+        $routeGenerated = $routeGenerated->withPath($routeGenerated->getPath() . '/' . $this->uri);
+
+        return $this->routeGenerated = (string) $routeGenerated;
     }
 
     /**

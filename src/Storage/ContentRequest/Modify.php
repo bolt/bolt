@@ -5,6 +5,7 @@ namespace Bolt\Storage\ContentRequest;
 use Bolt\Helpers\Input;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Entity\Content;
+use Bolt\Storage\Entity\FieldValue;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping;
 use Bolt\Storage\Repository;
@@ -115,6 +116,14 @@ class Modify
         $result = $repo->delete($entity);
         if ($result) {
             $this->loggerSystem->info(sprintf('Deleted %s: %s', $contentType['singular_name'], $entity->getTitle()), ['event' => 'content']);
+            $fieldRepo = $this->em->getRepository(FieldValue::class);
+            $deleteFieldQuery = $fieldRepo->createQueryBuilder()
+                ->delete($fieldRepo->getTableName())
+                ->where('content_id = :content_id')
+                ->andWhere('contenttype= :contenttype')
+                ->setParameter('content_id', $recordId)
+                ->setParameter('contenttype', $contentTypeName);
+            $deleteFieldQuery->execute();
         }
 
         return $result;

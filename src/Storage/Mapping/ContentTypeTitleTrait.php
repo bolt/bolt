@@ -30,7 +30,7 @@ trait ContentTypeTitleTrait
     }
 
     /**
-     * Get an array of the columnname(s) of the title.
+     * Get an array of the column name(s) of the title.
      *
      * @param ContentType|array $contentType
      *
@@ -40,7 +40,7 @@ trait ContentTypeTitleTrait
     {
         Deprecated::method();
 
-        // If we specified a specific fieldname or array of fieldnames as 'title'.
+        // If we specified a specific field name or array of field names as 'title'.
         if (!empty($contentType['title_format'])) {
             return (array) $contentType['title_format'];
         }
@@ -68,9 +68,7 @@ trait ContentTypeTitleTrait
             }
         }
 
-        // If this is a ContentType without any textfields
-        $keys = array_keys($fields);
-
-        return reset($keys);
+        // If this is a ContentType without any text fields, we can't provide a proper title.
+        return [];
     }
 }

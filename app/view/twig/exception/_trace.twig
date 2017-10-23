@@ -6,7 +6,7 @@
             <th class="narrow"># {{ loop.index }} </th>
             <td>
                 {% if t.class is defined %}
-                    {{ t.class|default()|split("\\")[0:-1]|join("\\") -}}\<strong>{{- t.class|default()|split("\\")|last|trimtext(32) -}}</strong>::
+                    {{ t.class|default()|split("\\")[0:-1]|join("\\") -}}\<strong>{{- t.class|default()|split("\\")|last|excerpt(32) -}}</strong>::
                 {%- endif -%}
                 {{ t.function|default() }}(
 
