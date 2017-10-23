@@ -14,6 +14,7 @@
 {% set page_locale_long = app.locale %}
 {% set page_locale_short = page_locale_long[:2] %}
 {% set page_timezone_offset = app.timezone_offset %}
+{% set request = app.request_stack.currentrequest %}
 
 {% if block('page_subtitle') is defined %}
     {% set page_title = block('page_title') ~ ' » ' ~ block('page_subtitle') %}
@@ -89,7 +90,7 @@
     },
     buid: buid(),
     uploadConfig: {
-        url: path('files', {'namespace': app.request.get('namespace'), 'path': app.request.get('path')}),
+        url: path('files', {'namespace': request.get('namespace'), 'path': request.get('path')}),
         acceptFilesTypes: app.config.get('general/accept_file_types'),
         maxSize: app['filepermissions'].getMaxUploadSize(),
         maxSizeNice: app['filepermissions'].getMaxUploadSizeNice(),
