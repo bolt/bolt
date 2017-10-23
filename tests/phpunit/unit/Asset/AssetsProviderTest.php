@@ -37,7 +37,7 @@ HTML;
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" href="existing.css" media="screen">
-<link rel="stylesheet" href="/testfile.css?5e544598b8d78644071a6f25fd8bba82" media="screen">
+<link rel="stylesheet" href="/extensions/testfile.css?5e544598b8d78644071a6f25fd8bba82" media="screen">
 </head>
 <body>
 <script src="existing.js"></script>
@@ -53,7 +53,7 @@ HTML;
 </head>
 <body>
 <script src="existing.js"></script>
-<link rel="stylesheet" href="/testfile.css?5e544598b8d78644071a6f25fd8bba82" media="screen">
+<link rel="stylesheet" href="/extensions/testfile.css?5e544598b8d78644071a6f25fd8bba82" media="screen">
 </body>
 </html>
 HTML;
@@ -63,7 +63,7 @@ HTML;
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" href="existing.css" media="screen">
-<script src="/testfile.js?289fc946f38fee1a3e947eca1d6208b6"></script>
+<script src="/extensions/testfile.js?289fc946f38fee1a3e947eca1d6208b6"></script>
 </head>
 <body>
 <script src="existing.js"></script>
@@ -79,7 +79,7 @@ HTML;
 </head>
 <body>
 <script src="existing.js"></script>
-<script src="/testfile.js?289fc946f38fee1a3e947eca1d6208b6"></script>
+<script src="/extensions/testfile.js?289fc946f38fee1a3e947eca1d6208b6"></script>
 </body>
 </html>
 HTML;
@@ -265,7 +265,9 @@ HTML;
     public function testJsProcessAssets()
     {
         $app = $this->getApp();
-        $javaScript = JavaScript::create('testfile.js');
+        $javaScript = JavaScript::create('testfile.js')
+            ->setPackageName('extensions')
+        ;
         $app['asset.queue.file']->add($javaScript);
         $app = $this->getApp();
 
@@ -279,6 +281,7 @@ HTML;
     {
         $app = $this->getApp();
         $javaScript = JavaScript::create('testfile.js')
+            ->setPackageName('extensions')
             ->setLate(true)
         ;
         $app['asset.queue.file']->add($javaScript);
@@ -291,7 +294,9 @@ HTML;
     public function testCssProcessAssets()
     {
         $app = $this->getApp();
-        $stylesheet = Stylesheet::create('testfile.css');
+        $stylesheet = Stylesheet::create('testfile.css')
+            ->setPackageName('extensions')
+        ;
         $app['asset.queue.file']->add($stylesheet);
         $response = new Response($this->template);
 
@@ -303,6 +308,7 @@ HTML;
     {
         $app = $this->getApp();
         $stylesheet = Stylesheet::create('testfile.css')
+            ->setPackageName('extensions')
             ->setLate(true)
         ;
         $app['asset.queue.file']->add($stylesheet);

@@ -29,7 +29,10 @@ class AssetServiceProvider implements ServiceProviderInterface
                 $packages->addPackage('bolt', $bolt);
                 $packages->addPackage('bolt_assets', $bolt); // For FS plugin
 
-                $packages->addPackage('extensions', new PathPackage('', $app['asset.version_strategy']('web'), $app['asset.context']));
+                $ext = $app['asset.package_factory']('extensions_assets');
+                $packages->addPackage('extensions', $ext);
+                $packages->addPackage('extensions_assets', $ext); // For FS plugin
+
                 $packages->addPackage('files', $app['asset.package_factory']('files'));
                 $packages->addPackage('theme', $app['asset.package_factory']('theme'));
                 $packages->addPackage('themes', $app['asset.package_factory']('themes'));

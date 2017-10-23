@@ -3,6 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Common\Deprecated;
+use Bolt\Configuration\PathResolver;
 use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Filesystem\LazyFilesystem;
@@ -21,31 +22,35 @@ class FilesystemServiceProvider implements ServiceProviderInterface
     {
         $app['filesystem'] = $app->share(
             function ($app) {
+                /** @var PathResolver $resolver */
+                $resolver = $app['path_resolver'];
                 $manager = new Manager(
                     [
                         // Bolt's project directory. Not configurable.
                         // Use for anything that's supposed to be in core:
                         // src files, our twig templates, our js & css files, our translations, etc.
-                        'bolt'              => new Filesystem(new Local($app['path_resolver']->resolve('bolt'), LOCK_EX, Local::SKIP_LINKS)),
+                        'bolt'              => new Filesystem(new Local($resolver->resolve('bolt'), LOCK_EX, Local::SKIP_LINKS)),
                         // Root directory. Not configurable.
-                        'root'              => new Filesystem(new Local($app['path_resolver']->resolve('root'), LOCK_EX, Local::SKIP_LINKS)),
+                        'root'              => new Filesystem(new Local($resolver->resolve('root'), LOCK_EX, Local::SKIP_LINKS)),
 
                         // User's web root
-                        'web'               => new Filesystem(new Local($app['path_resolver']->resolve('web'), LOCK_EX, Local::SKIP_LINKS)),
+                        'web'               => new Filesystem(new Local($resolver->resolve('web'), LOCK_EX, Local::SKIP_LINKS)),
                         // User's files directory
-                        'files'             => new Filesystem(new Local($app['path_resolver']->resolve('files'), LOCK_EX, Local::SKIP_LINKS)),
+                        'files'             => new Filesystem(new Local($resolver->resolve('files'), LOCK_EX, Local::SKIP_LINKS)),
                         // User's synced bolt assets directory
-                        'bolt_assets'       => new Filesystem(new Local($app['path_resolver']->resolve('bolt_assets'), LOCK_EX, Local::SKIP_LINKS)),
+                        'bolt_assets'       => new Filesystem(new Local($resolver->resolve('bolt_assets'), LOCK_EX, Local::SKIP_LINKS)),
                         // User's config directory
-                        'config'            => new Filesystem(new Local($app['path_resolver']->resolve('config'), LOCK_EX, Local::SKIP_LINKS)),
+                        'config'            => new Filesystem(new Local($resolver->resolve('config'), LOCK_EX, Local::SKIP_LINKS)),
                         // User's themes directory
-                        'themes'            => new Filesystem(new Local($app['path_resolver']->resolve('themes'), LOCK_EX, Local::SKIP_LINKS)),
+                        'themes'            => new Filesystem(new Local($resolver->resolve('themes'), LOCK_EX, Local::SKIP_LINKS)),
                         // User's extension directory
-                        'extensions'        => new Filesystem(new Local($app['path_resolver']->resolve('extensions'), LOCK_EX, Local::SKIP_LINKS)),
+                        'extensions'        => new Filesystem(new Local($resolver->resolve('extensions'), LOCK_EX, Local::SKIP_LINKS)),
+                        // User's extension assets directory
+                        'extensions_assets' => new Filesystem(new Local($resolver->resolve('extensions_assets'), LOCK_EX, Local::SKIP_LINKS)),
                         // User's extension config directory
-                        'extensions_config' => new Filesystem(new Local($app['path_resolver']->resolve('extensions_config'), LOCK_EX, Local::SKIP_LINKS)),
+                        'extensions_config' => new Filesystem(new Local($resolver->resolve('extensions_config'), LOCK_EX, Local::SKIP_LINKS)),
                         // User's cache directory
-                        'cache'             => new Filesystem(new Local($app['path_resolver']->resolve('cache'), LOCK_EX, Local::SKIP_LINKS)),
+                        'cache'             => new Filesystem(new Local($resolver->resolve('cache'), LOCK_EX, Local::SKIP_LINKS)),
 
                         'app'     => new LazyFilesystem(function () use ($app) {
                             Deprecated::warn('The "app" filesystem', 3.3, 'Use a filesystem at a more specific mount point instead.');

@@ -35,13 +35,14 @@ class PathResolver
             'cache'             => '%app%/cache',
             'config'            => '%app%/config',
             'database'          => '%app%/database',
-            'extensions'        => '%site%/extensions',
-            'extensions_config' => '%config%/extensions',
             'var'               => '%site%/var',
             'web'               => '%site%/public',
             'files'             => '%web%/files',
             'themes'            => '%web%/theme',
             'bolt_assets'       => '%web%/bolt-public',
+            'extensions'        => '%site%/extensions',
+            'extensions_assets' => '%web%/extensions',
+            'extensions_config' => '%config%/extensions',
         ];
     }
 
