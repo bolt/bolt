@@ -129,6 +129,8 @@ class Manager
             $dir = dirname($reflector->getFileName());
             if (basename($dir) === 'src') {
                 $dir = dirname($dir);
+            } elseif (basename(dirname($dir)) === 'src') {
+                $dir = dirname(dirname($dir));
             }
             $fs = new Filesystem(new Local($dir));
 

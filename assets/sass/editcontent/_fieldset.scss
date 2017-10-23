@@ -37,13 +37,6 @@ div[data-bolt-fieldset="meta"] {
     margin-bottom: 15px;
 }
 
-// Repeater group.
-div[data-bolt-fieldset="repeater"] {
-    >.prefix {
-        display: none;
-    }
-}
-
 // No spacing for hidden fields.
 div[data-bolt-fieldset="hidden"] {
     margin: 0;

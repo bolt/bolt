@@ -423,7 +423,9 @@ class Users
         $this->app['logger.flash']->info(Trans::__('general.phrase.missing-root-jackpot'));
 
         // If we reach this point, there is no user 'root'. We promote the current user.
-        return $this->addRole($this->getCurrentUser(), 'root');
+        $user = $this->getCurrentUser();
+
+        return $this->addRole($user['id'], 'root');
     }
 
     /**

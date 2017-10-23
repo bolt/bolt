@@ -33,23 +33,26 @@
         {% endfor %}
     </div>
 
-    <div class="col-xs-12">
-        <div class="block-add">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default">{{ __('field.block.label.add-new') }}</button>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    {% for blockname, block in field.fields %}
-                        <li>
-                            <a class="add-button" data-block-type="{{ blockname }}">
-                                <i class="fa fa-plus"></i> {{  __('field.block.label.add-set', {'%label%': block.label}) }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+    <div class="btn-group block-add">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            {{ __('field.block.label.add-new') }}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            {% for blockname, block in field.fields %}
+                {% if block.group is defined %}
+                    {% if not loop.first %}
+                        <li class="divider"></li>
+                    {% endif %}
+                    <li class="dropdown-header">{{ block.group }}</li>
+                {% endif %}
+                <li>
+                    <a class="add-button" data-block-type="{{ blockname }}">
+                        <i class="fa fa-plus"></i> {{  __('field.block.label.add-set', {'%label%': block.label}) }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
+
 </fieldset>

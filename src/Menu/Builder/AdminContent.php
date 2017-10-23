@@ -72,12 +72,14 @@ final class AdminContent
      */
     private function addContentType(MenuEntry $contentRoot, $contentTypeKey, Bag $contentType)
     {
+        $icon = $contentType->get('singleton') ? $contentType->get('icon_one') : $contentType->get('icon_many');
+
         // Named ContentType root
         $contentTypeEntry = $contentRoot->add(
             MenuEntry::create($contentTypeKey)
                 ->setRoute('overview', ['contenttypeslug' => $contentTypeKey])
                 ->setLabel($contentType->get('name'))
-                ->setIcon($contentType->get('icon_many'))
+                ->setIcon($icon)
                 ->setPermission('contenttype:' . $contentTypeKey)
         );
         // View

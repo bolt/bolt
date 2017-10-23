@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Query\Handler;
 
+use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Storage\Query\SearchQuery;
 use Bolt\Storage\Query\SearchQueryResultset;
@@ -15,7 +16,7 @@ class SearchQueryHandler
     /**
      * @param ContentQueryParser $contentQuery
      *
-     * @return SearchQueryResultset
+     * @return SearchQueryResultset|Content|false
      */
     public function __invoke(ContentQueryParser $contentQuery)
     {
@@ -54,6 +55,10 @@ class SearchQueryHandler
         }
 
         if ($query->getSingleFetchMode()) {
+            if ($set->count() === 0) {
+                return false;
+            }
+
             return $set->current();
         }
 

@@ -178,6 +178,8 @@ trait ContentRouteTrait
                     $params[$fieldName] = array_pop($tempValues);
                 } elseif ($this->get($fieldName)) {
                     $params[$fieldName] = $this->get($fieldName);
+                } elseif (isset($route['defaults'][$fieldName])) {
+                    $params[$fieldName] = $route['defaults'][$fieldName];
                 } else {
                     // unknown
                     $params[$fieldName] = null;
