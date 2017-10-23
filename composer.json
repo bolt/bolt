@@ -99,7 +99,7 @@
         }
     },
     "bin": [
-        "app/nut"
+        "bin/nut"
     ],
     "extra": {
         "branch-alias": {
