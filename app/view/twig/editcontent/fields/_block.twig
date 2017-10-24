@@ -19,6 +19,9 @@
         </div>
     {% endif %}
 
+    {# This ensures that an empty value is always submitted even if there are no subsequent repeater sets #}
+    <input type="hidden" name="{{ name }}[]">
+
     <div class="block-slot">
         {% set blockfieldvals = context.content.get(contentkey) %}
         {% for blockname,block in field.fields %}
