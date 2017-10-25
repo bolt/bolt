@@ -33,6 +33,7 @@ class AssetServiceProvider implements ServiceProviderInterface
                 $packages->addPackage('files', $app['asset.package_factory']('files'));
                 $packages->addPackage('theme', $app['asset.package_factory']('theme'));
                 $packages->addPackage('themes', $app['asset.package_factory']('themes'));
+                $packages->addPackage('web', $app['asset.package_factory']('web'));
 
                 return $packages;
             }
