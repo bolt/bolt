@@ -67,8 +67,19 @@ class StorageEvent extends GenericEvent
      * Return the record's ContentType name.
      *
      * @return string
+     * @deprecated to be removed in 4.0, use getContentTypeSlug() instead.
      */
     public function getContentType()
+    {
+        return $this->getContentTypeSlug();
+    }
+
+    /**
+     * Return the record's ContentType slug.
+     *
+     * @return string
+     */
+    public function getContentTypeSlug()
     {
         $contentType = $this->getSubject()->contenttype;
         if ($contentType !== null && isset($contentType['slug'])) {
