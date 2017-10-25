@@ -20,12 +20,13 @@ class ImageExtension extends Extension
     public function getFunctions()
     {
         $safe = ['is_safe' => ['html']];
+        $env = ['needs_environment' => true];
         $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
             new \Twig_SimpleFunction('fancybox',  [Runtime\ImageRuntime::class, 'popup'], $safe + $deprecated + ['alternative' => 'popup']),
-            new \Twig_SimpleFunction('image',     [Runtime\ImageRuntime::class, 'image']),
+            new \Twig_SimpleFunction('image',     [Runtime\ImageRuntime::class, 'image'], $env),
             new \Twig_SimpleFunction('imageinfo', [Runtime\ImageRuntime::class, 'imageInfo']),
             new \Twig_SimpleFunction('popup',     [Runtime\ImageRuntime::class, 'popup'], $safe),
             new \Twig_SimpleFunction('showimage', [Runtime\ImageRuntime::class, 'showImage'], $safe),
@@ -40,12 +41,13 @@ class ImageExtension extends Extension
     public function getFilters()
     {
         $safe = ['is_safe' => ['html']];
+        $env = ['needs_environment' => true];
         $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
             new \Twig_SimpleFilter('fancybox',  [Runtime\ImageRuntime::class, 'popup'], $safe + $deprecated + ['alternative' => 'popup']),
-            new \Twig_SimpleFilter('image',     [Runtime\ImageRuntime::class, 'image']),
+            new \Twig_SimpleFilter('image',     [Runtime\ImageRuntime::class, 'image'], $env),
             new \Twig_SimpleFilter('imageinfo', [Runtime\ImageRuntime::class, 'imageInfo']),
             new \Twig_SimpleFilter('popup',     [Runtime\ImageRuntime::class, 'popup'], $safe),
             new \Twig_SimpleFilter('showimage', [Runtime\ImageRuntime::class, 'showImage'], $safe),

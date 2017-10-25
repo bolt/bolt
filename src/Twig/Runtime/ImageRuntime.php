@@ -11,6 +11,7 @@ use Bolt\Filesystem\Matcher;
 use Bolt\Helpers\Image\Thumbnail;
 use Bolt\Translation\Translator as Trans;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\Environment;
 
 /**
  * Bolt specific Twig functions and filters that provide image support.
@@ -51,14 +52,15 @@ class ImageRuntime
     /**
      * Helper function to make a path to an image.
      *
-     * @param string         $fileName Target filename
+     * @param Environment    $env
+     * @param string|array   $fileName Target filename
      * @param string|integer $width    Target width
      * @param string|integer $height   Target height
      * @param string         $crop     String identifier for cropped images
      *
      * @return string Image path
      */
-    public function image($fileName = null, $width = null, $height = null, $crop = null)
+    public function image(Environment $env, $fileName = null, $width = null, $height = null, $crop = null)
     {
         //Check if it's an alias as the only parameter after $filename
         if ($width && !$height && !$crop && $this->isAlias($width)) {
@@ -86,7 +88,7 @@ class ImageRuntime
         } catch (FileNotFoundException $e) {
             // If a non-existing filename is given, we either re-throw the Exception (in DEV) or defer to the
             // Thumbnailer, so the user sees the "404 image".
-            if ($this->config->get('general/debug')) {
+            if ($env->isDebug()) {
                 throw $e;
             }
             $url = $this->getThumbnailUri($this->getThumbnail($fileName));
