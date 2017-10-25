@@ -192,8 +192,16 @@ trait AssetTrait
         }
 
         $app = $this->getContainer();
+        $filesystem = $app['filesystem'];
 
-        $themeFile = $app['filesystem']->getFile(sprintf('theme://%s', $path));
+        $publicFile = $filesystem->getFile("web://$path");
+        if ($publicFile->exists()) {
+            $asset->setPackageName('web');
+
+            return;
+        }
+
+        $themeFile = $filesystem->getFile("theme://$path");
         if ($themeFile->exists()) {
             $asset->setPackageName('theme');
 
@@ -201,10 +209,12 @@ trait AssetTrait
         }
 
         $message = sprintf(
-            "Couldn't add file asset '%s': File does not exist in either %s or %s directories. Make sure the file exists in either of these locations, by " .
-            'placing the file there manually (for Bundled Extensions) or by uninstalling / installing the extension again (for Managed Extensions).',
-            $path,
-            $this->getWebDirectory()->getFullPath(),
+            "Couldn't add file asset '%s': File does not exist in %s, %s or %s directories. Make sure the file " .
+            'exists in one of these locations, by placing the file there manually (for Bundled Extensions) or by ' .
+            'uninstalling and reinstalling the extension again (for Managed Extensions).',
+            $asset->getPath(),
+            $file->getFullPath(),
+            $publicFile->getFullPath(),
             $themeFile->getFullPath()
         );
         $app['logger.system']->error($message, ['event' => 'extensions']);
