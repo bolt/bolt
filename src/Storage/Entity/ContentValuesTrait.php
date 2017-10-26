@@ -97,6 +97,20 @@ trait ContentValuesTrait
                 if ($field['type'] === 'markdown') {
                     $excerptParts[] = $this->app['markdown']->text($this->values[$key]);
                 }
+                // add 'repeater' field
+                if ($field['type'] === 'repeater') {
+                    /** @var RepeatingFieldCollection $repeater */
+                    $repeater = $this->values[$key];
+                    /** @var FieldValue $repeatField */
+                    foreach ($repeater->flatten() as $repeatField) {
+                        if (in_array($repeatField->getFieldType(), ['text', 'html', 'textarea'])) {
+                            $excerptParts[] = $repeatField->getValue();
+                        }
+                        if ($repeatField->getFieldType() === 'markdown') {
+                            $excerptParts[] = $this->app['markdown']->text($repeatField->getValue());
+                        }
+                    }
+                }
             }
         }
 
