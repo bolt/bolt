@@ -9,7 +9,7 @@ use Bolt\Twig\Runtime\ImageRuntime;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class to test Bolt\Twig\Runtime\ImageRuntime.
+ * @covers \Bolt\Twig\Runtime\ImageRuntime
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -23,69 +23,76 @@ class ImageRuntimeTest extends BoltUnitTest
         $fs->copy(PHPUNIT_ROOT . '/resources/generic-logo.png', $files . '/generic-logo.png', true);
     }
 
-    public function testImageFileNameLegacy()
+    /**
+     * @return array
+     */
+    public function providerImageMethod()
     {
-        $handler = $this->getImageRuntime();
+        return [
+            // File names
+            'Legacy file name' => [
+                '/files/generic-logo.png', 'generic-logo.png',
+            ],
+            'Array file name' => [
+                '/files/generic-logo.png', 'generic-logo.png',
+            ],
 
-        $result = $handler->image('generic-logo.png');
-        $this->assertStringStartsWith('/files/generic-logo.png', $result);
+            // Specific dimensions
+            'Width no height' => [
+                '/thumbs/20x120c/generic-logo.png', ['filename' => 'generic-logo.png'], 20,
+            ],
+            'Height no width' => [
+                '/thumbs/160x20c/generic-logo.png', ['filename' => 'generic-logo.png'], null, 20,
+            ],
+            'Height and width' => [
+                '/thumbs/20x20c/generic-logo.png', ['filename' => 'generic-logo.png'], 20, 20,
+            ],
+
+            // Manipulation
+            'Fit 20x20' => [
+                '/thumbs/20x20f/generic-logo.png', ['filename' => 'generic-logo.png'], 20, 20, 'fit',
+            ],
+            'Fit 20x20 abbreviated' => [
+                '/thumbs/20x20f/generic-logo.png', ['filename' => 'generic-logo.png'], 20, 20, 'f',
+            ],
+            'Resize 20x20' => [
+                '/thumbs/20x20r/generic-logo.png', ['filename' => 'generic-logo.png'], 20, 20, 'resize',
+            ],
+            'Resize 20x20 abbreviated' => [
+                '/thumbs/20x20r/generic-logo.png', ['filename' => 'generic-logo.png'], 20, 20, 'r',
+            ],
+            'Borders 20x20' => [
+                '/thumbs/20x20b/generic-logo.png', ['filename' => 'generic-logo.png'], 20, 20, 'borders',
+            ],
+            'Borders 20x20 abbreviated' => [
+                '/thumbs/20x20b/generic-logo.png', ['filename' => 'generic-logo.png'], 20, 20, 'b',
+            ],
+            'Crop 20x20' => [
+                '/thumbs/20x20c/generic-logo.png', ['filename' => 'generic-logo.png'], 20, 20, 'crop',
+            ],
+            'Crop 20x20 abbreviated' => [
+                '/thumbs/20x20c/generic-logo.png', ['filename' => 'generic-logo.png'], 20, 20, 'c',
+            ],
+        ];
     }
 
-    public function testImageFileNameArray()
+    /**
+     * @dataProvider providerImageMethod
+     *
+     * @param string       $expect
+     * @param string|array $fileName
+     * @param int|null     $width
+     * @param int|null     $height
+     * @param string|null  $crop
+     */
+    public function testImageMethod($expect, $fileName, $width = null, $height = null, $crop = null)
     {
+        $app = $this->getApp();
         $handler = $this->getImageRuntime();
+        $env = $app['twig'];
 
-        $result = $handler->image(['filename' => 'generic-logo.png']);
-        $this->assertStringStartsWith('/files/generic-logo.png', $result);
-    }
-
-    public function testImageFileNameWidthOnly()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->image(['filename' => 'generic-logo.png'], 20);
-        $this->assertSame('/thumbs/20x120c/generic-logo.png', $result);
-    }
-
-    public function testImageFileNameHeightOnly()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->image(['filename' => 'generic-logo.png'], '', 20);
-        $this->assertSame('/thumbs/160x20c/generic-logo.png', $result);
-    }
-
-    public function testImageFileNameWidthHeight()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->image(['filename' => 'generic-logo.png'], 20, 20);
-        $this->assertSame('/thumbs/20x20c/generic-logo.png', $result);
-    }
-
-    public function testImageFileNameCrop()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->image(['filename' => 'generic-logo.png'], 20, 20, 'f');
-        $this->assertSame('/thumbs/20x20f/generic-logo.png', $result);
-        $result = $handler->image(['filename' => 'generic-logo.png'], 20, 20, 'fit');
-        $this->assertSame('/thumbs/20x20f/generic-logo.png', $result);
-
-        $result = $handler->image(['filename' => 'generic-logo.png'], 20, 20, 'r');
-        $this->assertSame('/thumbs/20x20r/generic-logo.png', $result);
-        $result = $handler->image(['filename' => 'generic-logo.png'], 20, 20, 'resize');
-        $this->assertSame('/thumbs/20x20r/generic-logo.png', $result);
-
-        $result = $handler->image(['filename' => 'generic-logo.png'], 20, 20, 'b');
-        $this->assertSame('/thumbs/20x20b/generic-logo.png', $result);
-        $result = $handler->image(['filename' => 'generic-logo.png'], 20, 20, 'borders');
-        $this->assertSame('/thumbs/20x20b/generic-logo.png', $result);
-
-        $result = $handler->image(['filename' => 'generic-logo.png'], 20, 20, 'c');
-        $this->assertSame('/thumbs/20x20c/generic-logo.png', $result);
-        $result = $handler->image(['filename' => 'generic-logo.png'], 20, 20, 'crop');
-        $this->assertSame('/thumbs/20x20c/generic-logo.png', $result);
+        $result = $handler->image($env, $fileName, $width, $height, $crop);
+        $this->assertStringStartsWith($expect, $result);
     }
 
     public function testImageInfoNotReadable()
@@ -106,166 +113,191 @@ class ImageRuntimeTest extends BoltUnitTest
         $this->assertInstanceOf(Image\Info::class, $image->getInfo());
     }
 
-    public function testPopupEmptyFileName()
+    public function providerPopup()
     {
-        $handler = $this->getImageRuntime();
+        return [
+            // File names
+            'Empty file name' => [
+                '',
+                null,
+            ],
+            'testPopupFileNameOnly' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>',
+                'generic-logo.png',
+            ],
+            'File name array with title' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Koala"></a>',
+                ['title' => 'Koala', 'filename' => 'generic-logo.png'],
+            ],
+            'File name array without title' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>',
+                ['filename' => 'generic-logo.png'],
+            ],
+            'File name array with alt' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Gum Leaves"></a>',
+                ['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'],
+            ],
 
-        $result = $handler->popup();
-        $this->assertSame('', $result);
+            // Specific dimensions
+            'testPopupWidth' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/50x120c/generic-logo.png" width="50" height="120" alt="Image: generic-logo.png"></a>',
+                'generic-logo.png', 50,
+            ],
+            'testPopupHeight' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x50c/generic-logo.png" width="160" height="50" alt="Image: generic-logo.png"></a>',
+                'generic-logo.png', null, 50,
+            ],
+            'Width & height' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/50x50c/generic-logo.png" width="50" height="50" alt="Image: generic-logo.png"></a>',
+                'generic-logo.png', 50, 50,
+            ],
+
+            // Manipulation
+            'Fit' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120f/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>',
+                'generic-logo.png', null, null, 'fit',
+            ],
+            'Fit abbreviated' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120f/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>',
+                'generic-logo.png', null, null, 'f',
+            ],
+            'Resize' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120r/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>',
+                'generic-logo.png', null, null, 'resize',
+            ],
+            'Resize abbreviated' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120r/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>',
+                'generic-logo.png', null, null, 'r`',
+            ],
+            'borders' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120b/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>',
+                'generic-logo.png', null, null, 'b',
+            ],
+            'Borders abbreviated' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120b/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>',
+                'generic-logo.png', null, null, 'borders',
+            ],
+            'Crop' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>',
+                'generic-logo.png', null, null, 'crop',
+            ],
+            'Crop abbreviated' => [
+                '<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>',
+                'generic-logo.png', null, null, 'c',
+            ],
+        ];
     }
 
-    public function testPopupFileNameOnly()
+    /**
+     * @dataProvider providerPopup
+     *
+     * @param string       $expect
+     * @param string|array $fileName
+     * @param int|null     $width
+     * @param int|null     $height
+     * @param string|null  $crop
+     * @param string|null  $title
+     */
+    public function testPopup($expect, $fileName, $width = null, $height = null, $crop = null, $title = null)
     {
         $handler = $this->getImageRuntime();
 
-        $result = $handler->popup('generic-logo.png');
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
+        $result = $handler->popup($fileName, $width, $height, $crop, $title);
+        $this->assertSame($expect, $result);
     }
 
-    public function testPopupWidth()
+    /**
+     * @return array
+     */
+    public function providerShowImage()
     {
-        $handler = $this->getImageRuntime();
+        return [
+            // File names
+            'Empty file name' => [
+                '', null,
+            ],
+            'File name only' => [
+                '<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">',
+                'generic-logo.png',
+            ],
+            'File name array with title' => [
+                '<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="Koala">',
+                ['title' => 'Koala', 'filename' => 'generic-logo.png'],
+            ],
+            'File name array without title' => [
+                '<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">',
+                ['filename' => 'generic-logo.png'],
+            ],
+            'File name array with alt' => [
+                '<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="Gum Leaves">',
+                ['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'],
+            ],
 
-        $result = $handler->popup('generic-logo.png', 50);
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/50x120c/generic-logo.png" width="50" height="120" alt="Image: generic-logo.png"></a>', $result);
+            // Specific dimensions
+            'Width only' => [
+                '<img src="/thumbs/50x28c/generic-logo.png" width="50" height="28" alt="">',
+                'generic-logo.png', 50,
+            ],
+            'Height only' => [
+                '<img src="/thumbs/89x50c/generic-logo.png" width="89" height="50" alt="">',
+                'generic-logo.png', null, 50,
+            ],
+            'Width & height' => [
+                '<img src="/thumbs/50x50c/generic-logo.png" width="50" height="50" alt="">',
+                'generic-logo.png', 50, 50,
+            ],
+
+            // Manipulation
+            'Fit' => [
+                '<img src="/thumbs/1000x750f/generic-logo.png" width="1000" height="750" alt="">',
+                'generic-logo.png', null, null, 'fit',
+            ],
+            'Fit abbreviated' => [
+                '<img src="/thumbs/1000x750f/generic-logo.png" width="1000" height="750" alt="">',
+                'generic-logo.png', null, null, 'f',
+            ],
+            'Resize' => [
+                '<img src="/thumbs/1000x750r/generic-logo.png" width="1000" height="750" alt="">',
+                'generic-logo.png', null, null, 'resize',
+            ],
+            'Resize abbreviated' => [
+                '<img src="/thumbs/1000x750r/generic-logo.png" width="1000" height="750" alt="">',
+                'generic-logo.png', null, null, 'r`',
+            ],
+            'borders' => [
+                '<img src="/thumbs/1000x750b/generic-logo.png" width="1000" height="750" alt="">',
+                'generic-logo.png', null, null, 'b',
+            ],
+            'Borders abbreviated' => [
+                '<img src="/thumbs/1000x750b/generic-logo.png" width="1000" height="750" alt="">',
+                'generic-logo.png', null, null, 'borders',
+            ],
+            'Crop' => [
+                '<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">',
+                'generic-logo.png', null, null, 'crop',
+            ],
+            'Crop abbreviated' => [
+                '<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">',
+                'generic-logo.png', null, null, 'c',
+            ],
+        ];
     }
 
-    public function testPopupHeight()
+    /**
+     * @dataProvider providerShowImage
+     *
+     * @param string       $expect
+     * @param string|array $fileName
+     * @param int|null     $width
+     * @param int|null     $height
+     * @param string|null  $crop
+     */
+    public function testShowImage($expect, $fileName, $width = null, $height = null, $crop = null)
     {
         $handler = $this->getImageRuntime();
 
-        $result = $handler->popup('generic-logo.png', null, 50);
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x50c/generic-logo.png" width="160" height="50" alt="Image: generic-logo.png"></a>', $result);
-    }
-
-    public function testPopupCrop()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->popup('generic-logo.png', null, null, 'f');
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120f/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
-        $result = $handler->popup('generic-logo.png', null, null, 'fit');
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120f/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
-
-        $result = $handler->popup('generic-logo.png', null, null, 'r');
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120r/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
-        $result = $handler->popup('generic-logo.png', null, null, 'resize');
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120r/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
-
-        $result = $handler->popup('generic-logo.png', null, null, 'b');
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120b/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
-        $result = $handler->popup('generic-logo.png', null, null, 'borders');
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120b/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
-
-        $result = $handler->popup('generic-logo.png', null, null, 'c');
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
-        $result = $handler->popup('generic-logo.png', null, null, 'crop');
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
-    }
-
-    public function testPopupFileNameArrayWithTitle()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->popup(['title' => 'Koala', 'filename' => 'generic-logo.png'], null, null, null, null);
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Koala"></a>', $result);
-    }
-
-    public function testPopupFileNameArrayWithoutTitle()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->popup(['filename' => 'generic-logo.png'], null, null, null, null);
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Image: generic-logo.png"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Image: generic-logo.png"></a>', $result);
-    }
-
-    public function testPopupFileNameArrayWithAlt()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->popup(['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'], null, null, null, null);
-        $this->assertSame('<a href="/thumbs/1000x750r/generic-logo.png" class="magnific" title="Koala"><img src="/thumbs/160x120c/generic-logo.png" width="160" height="120" alt="Gum Leaves"></a>', $result);
-    }
-
-    public function testShowImageEmptyFileName()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->showImage();
-        $this->assertSame('', $result);
-    }
-
-    public function testShowImageFileNameOnly()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->showImage('generic-logo.png');
-        $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">', $result);
-    }
-
-    public function testShowImageWidth()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->showImage('generic-logo.png', 50);
-        $this->assertSame('<img src="/thumbs/50x28c/generic-logo.png" width="50" height="28" alt="">', $result);
-    }
-
-    public function testShowImageHeight()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->showImage('generic-logo.png', null, 50);
-        $this->assertSame('<img src="/thumbs/89x50c/generic-logo.png" width="89" height="50" alt="">', $result);
-    }
-
-    public function testShowImageCrop()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->showImage('generic-logo.png', null, null, 'f');
-        $this->assertSame('<img src="/thumbs/1000x750f/generic-logo.png" width="1000" height="750" alt="">', $result);
-        $result = $handler->showImage('generic-logo.png', null, null, 'fit');
-        $this->assertSame('<img src="/thumbs/1000x750f/generic-logo.png" width="1000" height="750" alt="">', $result);
-
-        $result = $handler->showImage('generic-logo.png', null, null, 'r');
-        $this->assertSame('<img src="/thumbs/1000x750r/generic-logo.png" width="1000" height="750" alt="">', $result);
-        $result = $handler->showImage('generic-logo.png', null, null, 'resize');
-        $this->assertSame('<img src="/thumbs/1000x750r/generic-logo.png" width="1000" height="750" alt="">', $result);
-
-        $result = $handler->showImage('generic-logo.png', null, null, 'b');
-        $this->assertSame('<img src="/thumbs/1000x750b/generic-logo.png" width="1000" height="750" alt="">', $result);
-        $result = $handler->showImage('generic-logo.png', null, null, 'borders');
-        $this->assertSame('<img src="/thumbs/1000x750b/generic-logo.png" width="1000" height="750" alt="">', $result);
-
-        $result = $handler->showImage('generic-logo.png', null, null, 'c');
-        $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">', $result);
-        $result = $handler->showImage('generic-logo.png', null, null, 'crop');
-        $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">', $result);
-    }
-
-    public function testShowImageFileNameArrayWithTitle()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->showImage(['title' => 'Koala', 'filename' => 'generic-logo.png'], null, null, null);
-        $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="Koala">', $result);
-    }
-
-    public function testShowImageFileNameArrayWithoutTitle()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->showImage(['filename' => 'generic-logo.png'], null, null, null);
-        $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="">', $result);
-    }
-
-    public function testShowImageFileNameArrayWithAlt()
-    {
-        $handler = $this->getImageRuntime();
-
-        $result = $handler->showImage(['title' => 'Koala', 'alt' => 'Gum Leaves', 'filename' => 'generic-logo.png'], null, null, null);
-        $this->assertSame('<img src="/thumbs/1000x750c/generic-logo.png" width="1000" height="750" alt="Gum Leaves">', $result);
+        $result = $handler->showImage($fileName, $width, $height, $crop);
+        $this->assertSame($expect, $result);
     }
 
     /**
