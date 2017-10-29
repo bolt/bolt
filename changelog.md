@@ -4,7 +4,7 @@ Changelog for Bolt 3.x
 Bolt 3.4 beta 5
 ---------------
 
-Released: 2017-10-28. Notable changes:
+Released: 2017-10-29. Notable changes:
 
  - Fixed: A handful of HTML/CSS tweaks for Blocks <-> Repeaters consistency [#7114](https://github.com/bolt/bolt/pull/7114)
  - Fixed: Add an empty hidden field to ensure the field is saved [#7117](https://github.com/bolt/bolt/pull/7117)
