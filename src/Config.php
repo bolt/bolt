@@ -75,6 +75,8 @@ class Config
     /** @var JsonFile */
     private $cacheFile;
 
+    private $passed;
+
     /**
      * @param Silex\Application $app
      */
@@ -850,7 +852,6 @@ class Config
      */
     private function checkTaxonomy()
     {
-        $passed = true;
         foreach ($this->data['taxonomy'] as $key => $taxonomy) {
             if (empty($taxonomy['options']) || !is_array($taxonomy['options'])) {
                 continue;
@@ -861,7 +862,7 @@ class Config
                     continue;
                 }
 
-                $passed = false;
+                $this->passed = false;
                 $error = Trans::__(
                     'general.phrase.invalid-taxonomy-slug',
                     ['%taxonomy%' => $key, '%option%' => $optionValue]
@@ -870,7 +871,7 @@ class Config
             }
         }
 
-        return $passed;
+        return $this->passed;
     }
 
     /**
@@ -881,7 +882,11 @@ class Config
     public function checkConfig()
     {
         $slugs = [];
-        $passed = true;
+        if ($this->passed === null) {
+            $this->passed = true;
+        } else {
+            return $this->passed;
+        }
 
         foreach ($this->data['contenttypes'] as $key => $ct) {
             // Make sure that there are no hyphens in the contenttype name, advise to change to underscores
@@ -893,11 +898,9 @@ class Config
                     ]
                 );
                 $this->app['logger.flash']->error($error);
-                $original = $this->data['contenttypes'][$key];
-                $key = str_replace('-', '_', strtolower(Str::makeSafe($key, true)));
-                $this->data['contenttypes'][$key] = $original;
+                unset($this->data['contenttypes'][$key]);
 
-                $passed = false;
+                $this->passed = false;
             }
 
             /**
@@ -924,7 +927,7 @@ class Config
                     );
                     $this->app['logger.flash']->danger($error);
 
-                    $passed = false;
+                    $this->passed = false;
                 }
 
                 // Check 'uses'. If it's an array, split it up, and check the separate parts. We also need to check
@@ -938,7 +941,7 @@ class Config
                             );
                             $this->app['logger.flash']->warning($error);
 
-                            $passed = false;
+                            $this->passed = false;
                         }
                     }
                 }
@@ -956,7 +959,7 @@ class Config
                     $this->app['logger.flash']->warning($error);
 
                     unset($ct['fields'][$fieldname]);
-                    $passed = false;
+                    $this->passed = false;
                 }
             }
 
@@ -980,7 +983,7 @@ class Config
                         $this->app['logger.flash']->error($error);
 
                         unset($this->data['contenttypes'][$key]['relations'][$relKey]);
-                        $passed = false;
+                        $this->passed = false;
                     }
                     if (array_key_exists($relKey, $ct['fields'])) {
                         $error = Trans::__(
@@ -1015,7 +1018,7 @@ class Config
                 );
                 $this->app['logger.flash']->warning($error);
 
-                $passed = false;
+                $this->passed = false;
             }
         }
 
@@ -1029,12 +1032,12 @@ class Config
                     );
                     $this->app['logger.flash']->warning($error);
 
-                    $passed = false;
+                    $this->passed = false;
                 }
             }
         }
 
-        return $passed && $this->checkTaxonomy();
+        return $this->checkTaxonomy();
     }
 
     /**

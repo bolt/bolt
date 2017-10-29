@@ -107,6 +107,22 @@ Bolt 3.5-dev
 
 -
 
+Bolt 3.4 beta 5
+---------------
+
+Released: 2017-10-29. Notable changes:
+
+ - Fixed: A handful of HTML/CSS tweaks for Blocks <-> Repeaters consistency [#7114](https://github.com/bolt/bolt/pull/7114)
+ - Fixed: Add an empty hidden field to ensure the field is saved [#7117](https://github.com/bolt/bolt/pull/7117)
+ - Fixed: Change `bolt/requirements` to a stable constraint (^1.0) [#7112](https://github.com/bolt/bolt/pull/7112)
+ - Fixed: Contextual menu in listing should show `singular_name` [#7105](https://github.com/bolt/bolt/pull/7105)
+ - Fixed: Edge-case in `title_format` for CT's with no textual fields [#7108](https://github.com/bolt/bolt/pull/7108)
+ - Fixed: Handle deletion of field content after a content record is deleted [#7109](https://github.com/bolt/bolt/pull/7109)
+ - Fixed: Handle parent URIs with query parameters [#7115](https://github.com/bolt/bolt/pull/7115)
+ - Fixed: Hyphenated ContentTypes & validation checks [#7125](https://github.com/bolt/bolt/pull/7125)
+ - Fixed: In route generation, lookup parameters from the route defaults [#7106](https://github.com/bolt/bolt/pull/7106)
+ - Fixed: In single fetch mode return `false` instead of empty set [#7110](https://github.com/bolt/bolt/pull/7110)
+
 Bolt 3.4 beta 4
 ---------------
 

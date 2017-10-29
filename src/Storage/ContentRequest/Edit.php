@@ -245,10 +245,13 @@ class Edit
     {
         $fields = [];
 
-        // Regex the 'format' for things that look like 'item.foo', and intersect with the actual fields in the contenttype.
+        // Get the field names from the ContentType, including 'status'.
+        $fieldNames = array_merge(array_keys($relationConfig['fields']), ['status']);
+
+        // Regex the 'format' for things that look like 'item.foo', and intersect with the field names.
         if (!empty($relationValues['format'])) {
             preg_match_all('/\bitem\.([a-z0-9_]+)\b/i', $relationValues['format'], $matches);
-            $fields = array_intersect($matches[1], array_keys($relationConfig['fields']));
+            $fields = array_intersect($matches[1], $fieldNames);
         }
 
         return $fields;
