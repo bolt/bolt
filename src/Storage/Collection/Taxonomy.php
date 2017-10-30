@@ -251,4 +251,19 @@ class Taxonomy extends ArrayCollection
         return $output;
     }
 
+
+    /**
+     * @return null|string
+     */
+    public function getGroupingTaxonomy()
+    {
+        foreach ($this->config->getData() as $taxKey => $taxonomy) {
+            if ($taxonomy['behaves_like'] === 'grouping') {
+                return $taxKey;
+            }
+        }
+
+        return null;
+    }
+
 }
