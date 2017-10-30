@@ -130,4 +130,26 @@ class Listing
                 ->setShowingTo($start + $results->count());
         }
     }
+
+    /**
+     * @param $results
+     * @return array
+     */
+    protected function runGroupSort($results)
+    {
+        if (!$results instanceof QueryResultset) {
+            return $results;
+        }
+        $grouped = [];
+        foreach ($results as $result) {
+            foreach ($result->getTaxonomy() as $taxonomy) {
+                if ($taxonomy->getTaxonomytype() == $result->getTaxonomy()->getGroupingTaxonomy()) {
+                    $taxGroup = $taxonomy->getSlug();
+                }
+            }
+            $grouped[$taxGroup][] = $result;
+        }
+
+        return call_user_func_array('array_merge', $grouped);
+    }
 }
