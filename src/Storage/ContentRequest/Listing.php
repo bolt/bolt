@@ -145,12 +145,15 @@ class Listing
         }
         $grouped = [];
         foreach ($results as $result) {
+            $taxGroup = null;
             foreach ($result->getTaxonomy() as $taxonomy) {
                 if ($taxonomy->getTaxonomytype() == $result->getTaxonomy()->getGroupingTaxonomy()) {
                     $taxGroup = $taxonomy->getSlug();
                 }
             }
-            $grouped[$taxGroup][] = $result;
+            if ($taxGroup !== null) {
+                $grouped[$taxGroup][] = $result;
+            }
         }
 
         if (!count($grouped)) {
