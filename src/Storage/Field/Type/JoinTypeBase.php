@@ -27,11 +27,12 @@ abstract class JoinTypeBase extends FieldTypeBase
      * For example, `_from_id => "4,4,4"` gets normalized to `['fromid'=>4]`
      *
      * @param Traversable $data
-     * @param string      $field
+     * @param string $field
+     * @param string $separator
      *
      * @return array
      */
-    protected function normalizeData($data, $field)
+    protected function normalizeData($data, $field, $separator = ',')
     {
         $normalized = [];
 
@@ -48,7 +49,7 @@ abstract class JoinTypeBase extends FieldTypeBase
             if ($value === null) {
                 continue;
             }
-            foreach (explode(',', $value) as $i => $val) {
+            foreach (explode($separator, $value) as $i => $val) {
                 $compiled[$i][$key] = $val;
             }
         }
