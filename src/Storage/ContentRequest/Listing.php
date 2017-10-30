@@ -153,6 +153,10 @@ class Listing
             $grouped[$taxGroup][] = $result;
         }
 
+        if (!count($grouped)) {
+            return $results;
+        }
+
         return call_user_func_array('array_merge', $grouped);
     }
 }
