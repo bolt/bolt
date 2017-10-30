@@ -103,7 +103,7 @@ class TaxonomyType extends JoinTypeBase
     {
         $taxName = $this->mapping['fieldname'];
 
-        $data = $this->normalizeData($data, $taxName);
+        $data = $this->normalizeData($data, $taxName, '|');
         /** @var Entity\Content $entity */
         if (!count($entity->getTaxonomy())) {
             $entity->setTaxonomy($this->em->createCollection(Entity\Taxonomy::class));
