@@ -99,6 +99,9 @@ class Listing
             $records = $this->query->getContent($contentTypeSlug, $contentParameters);
         }
         $this->runPagerQueries($records);
+        if ($options->getGroupSort()) {
+            $records = $this->runGroupSort();
+        }
 
         return $records;
     }
