@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Collection;
 
+use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityProxy;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -26,12 +27,13 @@ class LazyCollection extends ArrayCollection
     }
 
     /**
-     *  Force loads the proxy objects and returns the real objects
+     * Force loads the proxy objects and returns the required data for Twig.
      */
-    public function serialize()
+    public function getProxy()
     {
         $output = [];
         foreach ($this as $element) {
+            /** @var Content $proxy */
             $proxy = $element->getProxy();
             $output[] = $proxy->getContenttype() . '/' . $proxy->getSlug();
         }

@@ -4,6 +4,7 @@ namespace Bolt\Configuration;
 
 use ArrayAccess;
 use Bolt\Config;
+use Serializable;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -15,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
+class ConfigurationValueProxy implements ArrayAccess, Serializable, EventSubscriberInterface
 {
     /** @var mixed|null */
     protected $data;
@@ -121,5 +122,24 @@ class ConfigurationValueProxy implements ArrayAccess, EventSubscriberInterface
     {
         $this->checked = false;
         $this->initialize();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        $this->initialize();
+
+        return serialize($this->data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        $this->checked = true;
+        $this->data = unserialize($serialized);
     }
 }

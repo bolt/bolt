@@ -21,15 +21,25 @@ class TemplateFields extends Entity
         return $this->$accessor();
     }
 
-    public function serialize()
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray()
     {
-        $fields = $this->getContenttype()->getFields();
+        /** @var \Bolt\Storage\Mapping\ContentType $contentType */
+        $contentType = $this->get('contenttype');
+        if (!method_exists($contentType, 'getFields')) {
+            throw new \BadMethodCallException(
+                sprintf('ContentType contained in %s does not implement getFields()', __CLASS__)
+            );
+        }
+        $fields = $contentType->getFields();
         $values = [];
         foreach ($fields as $field) {
             $fieldName = $field['fieldname'];
             $val = $this->$fieldName;
             if (in_array($field['type'], ['date','datetime'])) {
-                $val = (string)$this->$fieldName;
+                $val = (string) $this->$fieldName;
             }
             if (is_callable([$val, 'serialize'])) {
                 $val = $val->serialize();

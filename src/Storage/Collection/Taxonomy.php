@@ -2,19 +2,23 @@
 
 namespace Bolt\Storage\Collection;
 
+use Bolt\Configuration\ConfigurationValueProxy;
+use Bolt\Helpers\Deprecated;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Closure;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
+use Serializable;
 
 /**
  * This class stores an array collection of Taxonomy Entities.
  *
  * @author Ross Riley <riley.ross@gmail.com>
  */
-class Taxonomy extends ArrayCollection
+class Taxonomy extends ArrayCollection implements Serializable
 {
+    /** @var array|null|ConfigurationValueProxy */
     public $config;
 
     /**
@@ -122,7 +126,7 @@ class Taxonomy extends ArrayCollection
     public function getGrouped()
     {
         $types = [];
-        $elements = $this->toArray();
+        $elements = parent::toArray();
         /** @var Entity\Taxonomy $element */
         foreach ($elements as $element) {
             $type = $element->get('taxonomytype');
@@ -241,6 +245,9 @@ class Taxonomy extends ArrayCollection
         }
     }
 
+    /**
+     * @internal
+     */
     public function serialize()
     {
         $output = [];
@@ -248,7 +255,30 @@ class Taxonomy extends ArrayCollection
             $output[] = ['slug' => $existing->getSlug(), 'name' => $existing->getName()];
         }
 
-        return $output;
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+        if (isset($trace[0]['file'])) {
+            Deprecated::method(3.4, 'toArray');
+
+            return $output;
+        }
+
+        $data = [
+            'elements' => $this->toArray(),
+            'config'   => $this->config,
+        ];
+
+        return serialize($data);
     }
 
+    /**
+     * @internal
+     */
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+        $this->config = $data['config'];
+        foreach ($data['elements'] as $k => $v) {
+            $this->set($k, $v);
+        }
+    }
 }

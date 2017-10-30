@@ -4,12 +4,13 @@ namespace Bolt\Storage\Entity;
 
 use ArrayAccess;
 use JsonSerializable;
+use Serializable;
 
 /**
  * An abstract class that other entities can inherit. Provides automatic getters and setters along
  * with serialization.
  */
-abstract class Entity implements ArrayAccess, JsonSerializable
+abstract class Entity implements ArrayAccess, JsonSerializable, Serializable
 {
     use MagicAttributeTrait;
     use EntitySerializeTrait;
@@ -17,6 +18,9 @@ abstract class Entity implements ArrayAccess, JsonSerializable
 
     /** @var int */
     protected $id;
+    /** @var array */
+    protected $_internal = ['contenttype'];
+
 
     /**
      * Constructor.
@@ -73,8 +77,36 @@ abstract class Entity implements ArrayAccess, JsonSerializable
         $this->id = $id;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __toString()
     {
         return (string) $this->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray()
+    {
+        $data = [];
+        foreach ($this as $k => $v) {
+            if (strpos($k, '_') === 0) {
+                continue;
+            }
+            if (in_array($k, $this->_internal)) {
+                continue;
+            }
+            $method = 'serialize' . $k;
+            $data[$k] = $this->$method();
+        }
+
+        foreach ($this->_fields as $k => $v) {
+            $method = 'serialize' . $k;
+            $data[$k] = $this->$method();
+        }
+
+        return $data;
     }
 }

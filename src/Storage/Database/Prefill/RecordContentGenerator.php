@@ -33,6 +33,7 @@ class RecordContentGenerator
     private $defaultTitles;
     /** @var array */
     private $createSummary;
+
     /**
      * Constructor.
      *
@@ -159,7 +160,7 @@ class RecordContentGenerator
 
         $taxonomies = null;
         /** @var Entity\Taxonomy $taxonomy */
-        foreach ($contentEntity->getTaxonomy()->toArray() as $taxonomy) {
+        foreach ($contentEntity->getTaxonomy() as $taxonomy) {
             $type = $taxonomy->getTaxonomytype();
             $taxonomies[$type][] = $taxonomy->getName();
         }
