@@ -185,11 +185,11 @@ class TaxonomyType extends JoinTypeBase
 
         switch ($platform) {
             case 'mysql':
-                return "GROUP_CONCAT($column ORDER BY $order ASC) as $alias";
+                return "GROUP_CONCAT($column ORDER BY $order ASC SEPARATOR '|') as $alias";
             case 'sqlite':
-                return "GROUP_CONCAT($column) as $alias";
+                return "GROUP_CONCAT($column, '|') as $alias";
             case 'postgresql':
-                return "string_agg($column" . "::character varying, ',' ORDER BY $order) as $alias";
+                return "string_agg($column" . "::character varying, '|' ORDER BY $order) as $alias";
         }
 
         throw new StorageException(sprintf('Unsupported platform: %s', $platform));
