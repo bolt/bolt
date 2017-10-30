@@ -100,7 +100,7 @@ class Listing
         }
         $this->runPagerQueries($records);
         if ($options->getGroupSort()) {
-            $records = $this->runGroupSort();
+            $records = $this->runGroupSort($records);
         }
 
         return $records;
