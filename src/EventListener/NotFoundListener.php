@@ -55,12 +55,17 @@ class NotFoundListener implements EventSubscriberInterface
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
+        $request = $event->getRequest();
         $exception = $event->getException();
-        if (!$exception instanceof HttpExceptionInterface || Zone::isBackend($event->getRequest())) {
+        if (!$exception instanceof HttpExceptionInterface || Zone::isBackend($request)) {
             return;
         }
         if ($exception->getStatusCode() !== Response::HTTP_NOT_FOUND) {
             return;
+        }
+        // If no zone is set, assume front-end as SELECT queries can leak unpublished records
+        if (Zone::get($request) === null) {
+            Zone::set($request, Zone::FRONTEND);
         }
 
         try {
