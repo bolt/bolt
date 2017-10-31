@@ -3,16 +3,16 @@
 namespace Bolt\Twig;
 
 use Twig\Environment;
+use Twig\Extension\ExtensionInterface;
+use Twig\Loader\LoaderInterface;
+use Twig\NodeVisitor\NodeVisitorInterface;
+use Twig\RuntimeLoader\RuntimeLoaderInterface;
+use Twig\TokenParser\TokenParserInterface;
+use Twig\TokenStream;
 use Twig_CompilerInterface as CompilerInterface;
-use Twig_ExtensionInterface as ExtensionInterface;
 use Twig_LexerInterface as LexerInterface;
-use Twig_LoaderInterface as LoaderInterface;
 use Twig_NodeInterface as NodeInterface;
-use Twig_NodeVisitorInterface as NodeVisitorInterface;
 use Twig_ParserInterface as ParserInterface;
-use Twig_RuntimeLoaderInterface as RuntimeLoaderInterface;
-use Twig_TokenParserInterface as TokenParserInterface;
-use Twig_TokenStream as TokenStream;
 
 /**
  * Base class for wrapping twig environment.

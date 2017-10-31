@@ -3,7 +3,7 @@
 namespace Bolt\Twig;
 
 use Twig\Markup;
-use Twig\Sandbox\SecurityError as SecurityError;
+use Twig\Sandbox\SecurityError;
 use Twig\Sandbox\SecurityNotAllowedFilterError;
 use Twig\Sandbox\SecurityNotAllowedFunctionError;
 use Twig\Sandbox\SecurityNotAllowedTagError;

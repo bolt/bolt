@@ -4,8 +4,8 @@ namespace Bolt\Twig;
 
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\ConstantExpression;
+use Twig\Token;
 use Twig\TokenParser\AbstractTokenParser;
-use Twig_Token as Token;
 
 /**
  * Twig {{ setcontent }} token parser.
