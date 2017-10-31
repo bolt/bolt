@@ -183,6 +183,7 @@ class Records extends BackendBase
             ->setPage($request->query->get('page_' . $contenttypeslug))
             ->setFilter($request->query->get('filter'))
             ->setTaxonomies($taxonomy)
+            ->setGroupSort(true)
         ;
 
         $context = [

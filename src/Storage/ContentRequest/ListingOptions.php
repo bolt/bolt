@@ -17,6 +17,8 @@ class ListingOptions
     protected $taxonomies;
     /** @var string */
     protected $filter;
+    /** @var bool */
+    protected $groupSort;
 
     /**
      * Set the order.
@@ -124,5 +126,25 @@ class ListingOptions
     public function getFilter()
     {
         return $this->filter;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroupSort()
+    {
+        return $this->groupSort;
+    }
+
+    /**
+     * @param mixed $groupSort
+     *
+     * @return ListingOptions
+     */
+    public function setGroupSort($groupSort)
+    {
+        $this->groupSort = $groupSort;
+
+        return $this;
     }
 }
