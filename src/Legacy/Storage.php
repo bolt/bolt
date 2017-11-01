@@ -525,6 +525,7 @@ class Storage
         // (see also Content->getFieldWeights)
         $searchableTypes = ['text', 'textarea', 'html', 'markdown'];
         $table = $this->getContenttypeTablename($contenttype);
+        $fieldValueTable = $this->getTablename('field-value');
 
         if ($implode) {
             $query['words'] = [ implode(' ', $query['words']) ];
@@ -537,6 +538,18 @@ class Storage
                 foreach ($query['words'] as $word) {
                     // Build the LIKE, lowering the searched field to cover case-sensitive database systems
                     $fieldsWhere[] = sprintf('LOWER(%s.%s) LIKE LOWER(%s)', $table, $field, $this->app['db']->quote('%' . $word . '%'));
+                }
+            } elseif ($fieldconfig['type'] === 'repeater') {
+                foreach ($query['words'] as $word) {
+                    // Build the LIKE, lowering the searched field to cover case-sensitive database systems
+                    $word = $this->app['db']->quote('%' . $word . '%');
+                    $fieldsWhere[] = sprintf(
+                        "((LOWER(%s.value_text) LIKE LOWER(%s)) OR (LOWER(%s.value_string) LIKE LOWER(%s)))",
+                        $fieldValueTable,
+                        $word,
+                        $fieldValueTable,
+                        $word
+                    );
                 }
             }
         }
@@ -571,6 +584,20 @@ class Storage
             }
         }
 
+        // make repeaters work
+        $taxonomytable = $this->getTablename('taxonomy');
+        $taxonomies    = $this->getContentTypeTaxonomy($contenttype);
+        $tagsWhere     = [];
+        $tagsQuery     = '';
+
+        foreach ($taxonomies as $taxonomy) {
+            if ($taxonomy['behaves_like'] == 'tags') {
+                foreach ($query['words'] as $word) {
+                    $tagsWhere[] = sprintf('%s.slug LIKE %s', $taxonomytable, $this->app['db']->quote('%' . $word . '%'));
+                }
+            }
+        }
+
         // Build actual where
         $where = [];
         $where[] = sprintf("%s.status = 'published'", $table);
@@ -579,12 +606,15 @@ class Storage
 
         // Build SQL query
         $select = sprintf(
-            'SELECT %s.id FROM %s LEFT JOIN %s ON %s.id = %s.content_id WHERE %s GROUP BY %s.id',
+            'SELECT %s.id FROM %s LEFT JOIN %s ON %s.id = %s.content_id LEFT JOIN %s ON %s.id = %s.content_id WHERE %s GROUP BY %s.id',
             $table,
             $table,
             $taxonomytable,
             $table,
             $taxonomytable,
+            $fieldValueTable,
+            $table,
+            $fieldValueTable,
             implode(' AND ', $where),
             $table
         );
