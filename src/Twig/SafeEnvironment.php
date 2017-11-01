@@ -4,8 +4,8 @@ namespace Bolt\Twig;
 
 use Bolt\Common\Deprecated;
 use Twig\Environment;
+use Twig\Extension\ExtensionInterface;
 use Twig\Extension\SandboxExtension;
-use Twig_ExtensionInterface as ExtensionInterface;
 
 /**
  * Wraps real Twig environment:
