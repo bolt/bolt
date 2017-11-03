@@ -34,7 +34,7 @@ class PrefillServiceProvider implements ServiceProviderInterface
             function () {
                 return new Bag([
                     'blocks' => [
-                        'title' => 'About Us', 'Address', 'Search Teaser', '404 Not Found'
+                        'title' => 'About Us', 'Address', 'Search Teaser', '404 Not Found',
                     ],
                 ]);
             }

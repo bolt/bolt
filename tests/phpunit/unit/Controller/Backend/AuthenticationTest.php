@@ -3,12 +3,10 @@
 namespace Bolt\Tests\Controller\Backend;
 
 use Bolt\AccessControl\Password;
-use Bolt\Logger\FlashLogger;
 use Bolt\Response\TemplateResponse;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
-use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -27,7 +25,7 @@ class AuthenticationTest extends ControllerUnitTest
                 'username' => 'test',
                 'password' => 'pass',
                 '_token'   => 'xyz',
-            ]
+            ],
         ]));
 
         $app = $this->getApp();
@@ -54,7 +52,7 @@ class AuthenticationTest extends ControllerUnitTest
                 'username' => 'test@example.com',
                 'password' => 'pass',
                 '_token'   => 'xyz',
-            ]
+            ],
         ]));
 
         $app = $this->getApp();
@@ -81,7 +79,7 @@ class AuthenticationTest extends ControllerUnitTest
                 'username' => 'test',
                 'password' => 'pass',
                 '_token'   => 'xyz',
-            ]
+            ],
         ]));
 
         $app = $this->getApp();
@@ -105,7 +103,7 @@ class AuthenticationTest extends ControllerUnitTest
                 'username' => 'test',
                 'password' => 'pass',
                 '_token'   => 'xyz',
-            ]
+            ],
         ]));
 
         $app = $this->getApp();
@@ -129,7 +127,7 @@ class AuthenticationTest extends ControllerUnitTest
                 'reset'    => '',
                 'username' => 'admin',
                 '_token'   => 'xyz',
-            ]
+            ],
         ]));
 
         $app = $this->getApp();

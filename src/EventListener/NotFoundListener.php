@@ -38,7 +38,7 @@ class NotFoundListener implements EventSubscriberInterface
      * @param string          $notFoundPage
      * @param Storage         $storage
      * @param TemplateChooser $templateChooser
-     * @param Environment $twig
+     * @param Environment     $twig
      */
     public function __construct($notFoundPage, Storage $storage, TemplateChooser $templateChooser, Environment $twig)
     {

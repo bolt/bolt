@@ -20,7 +20,6 @@ class ValidatorServiceProvider extends Provider\ValidatorServiceProvider
      */
     public function register(Application $app)
     {
-
         parent::register($app);
 
         $app['validator.mapping.class_metadata_factory'] = $app->share(function ($app) {

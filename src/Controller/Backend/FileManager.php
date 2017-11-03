@@ -379,6 +379,7 @@ class FileManager extends BackendBase
             default:
                 $plugins = [];
         }
+
         return array_merge($plugins, ['fold/foldcode', 'fold/foldgutter', 'fold/indent-fold']);
     }
 }
