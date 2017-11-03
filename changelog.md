@@ -1,6 +1,22 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.4 beta 6
+---------------
+
+Released: 2017-11-03. Notable changes:
+
+ - Cleanup: CS clean-up [#7143](https://github.com/bolt/bolt/pull/7143)
+ - Cleanup: More Twig namespaces [#7134](https://github.com/bolt/bolt/pull/7134)
+ - Cleanup: Updating a few dutch labels and a column width for Block type. [#7142](https://github.com/bolt/bolt/pull/7142)
+ - Fixed: Ensure hyphens in urls are replaced with underscores before going into the Query Engine [#7140](https://github.com/bolt/bolt/pull/7140)
+ - Fixed: Fix grouping support in backend overview. [#7131](https://github.com/bolt/bolt/pull/7131)
+ - Fixed: Fix taxonomy grouping queries with commas. [#7130](https://github.com/bolt/bolt/pull/7130)
+ - Fixed: Make the `type: blocks` field work with `{{ block() }}`. [#8](https://github.com/bolt/themes/pull/8)
+ - Fixed: Move build logic out of loop, and account for first ContentType being a singleton in menu. [#7135](https://github.com/bolt/bolt/pull/7135)
+ - Fixed: On Dashboard listings, use 'key' instead of 'slug' [#7141](https://github.com/bolt/bolt/pull/7141)
+ - Fixed: Remove permissions in incoming relationships. [#7144](https://github.com/bolt/bolt/pull/7144)
+
 Bolt 3.4 beta 5
 ---------------
 
