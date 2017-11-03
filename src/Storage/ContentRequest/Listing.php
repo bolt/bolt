@@ -29,9 +29,9 @@ class Listing
      * Constructor.
      *
      * @param EntityManager $em
-     * @param Query $query
-     * @param Config $config
-     * @param PagerManager $pager
+     * @param Query         $query
+     * @param Config        $config
+     * @param PagerManager  $pager
      */
     public function __construct(EntityManager $em, Query $query, Config $config, PagerManager $pager = null)
     {
@@ -136,6 +136,7 @@ class Listing
 
     /**
      * @param $results
+     *
      * @return array
      */
     protected function runGroupSort($results)

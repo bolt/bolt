@@ -28,8 +28,8 @@ class TemplateFields extends Entity
         foreach ($fields as $field) {
             $fieldName = $field['fieldname'];
             $val = $this->$fieldName;
-            if (in_array($field['type'], ['date','datetime'])) {
-                $val = (string)$this->$fieldName;
+            if (in_array($field['type'], ['date', 'datetime'])) {
+                $val = (string) $this->$fieldName;
             }
             if (is_callable([$val, 'serialize'])) {
                 $val = $val->serialize();

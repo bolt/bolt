@@ -124,7 +124,6 @@ class MetadataDriver implements MappingDriver
                 }
             }
         }
-
     }
 
     /**

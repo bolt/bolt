@@ -147,7 +147,7 @@ class Records extends BackendBase
             return 'test';
         }
         if ($name === 'save') {
-            return $isAjax ? 'ajax': $name;
+            return $isAjax ? 'ajax' : $name;
         }
 
         return $name;

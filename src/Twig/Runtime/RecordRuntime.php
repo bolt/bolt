@@ -7,10 +7,10 @@ use Bolt\Common\Str;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
 use Bolt\Helpers\Excerpt;
-use Bolt\Storage\Entity;
 use Bolt\Legacy;
 use Bolt\Pager\PagerManager;
 use Bolt\Storage\Collection\Taxonomy;
+use Bolt\Storage\Entity;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\HttpFoundation\Request;
@@ -234,11 +234,11 @@ class RecordRuntime
     /**
      * Output a simple pager, for paginated listing pages.
      *
-     * @param Environment       $env
-     * @param string            $pagerName
-     * @param integer           $surr
-     * @param string            $template  The template to apply
-     * @param string            $class
+     * @param Environment $env
+     * @param string      $pagerName
+     * @param integer     $surr
+     * @param string      $template  The template to apply
+     * @param string      $class
      *
      * @return string The rendered pager HTML
      */
@@ -252,10 +252,10 @@ class RecordRuntime
         $thisPager = $this->pagerManager->getPager($pagerName);
 
         $context = [
-            'pager' => $thisPager,
-            'surr'  => $surr, // @deprecated
+            'pager'    => $thisPager,
+            'surr'     => $surr, // @deprecated
             'surround' => $surr,
-            'class' => $class,
+            'class'    => $class,
         ];
 
         /* Little hack to avoid doubling this function and having context without breaking frontend */
@@ -306,12 +306,13 @@ class RecordRuntime
                     }
                 }
                 $retval[$element] = $row;
-            } else if ($fieldName === 'contenttype') {
+            } elseif ($fieldName === 'contenttype') {
                 $retval[$element] = $c->contenttype['singular_name'];
             } elseif (isset($c->values[$fieldName])) {
                 $retval[$element] = $c->values[$fieldName];
             }
         }
+
         return $retval;
     }
 

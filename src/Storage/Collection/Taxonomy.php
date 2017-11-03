@@ -251,7 +251,6 @@ class Taxonomy extends ArrayCollection
         return $output;
     }
 
-
     /**
      * @return null|string
      */
@@ -265,5 +264,4 @@ class Taxonomy extends ArrayCollection
 
         return null;
     }
-
 }

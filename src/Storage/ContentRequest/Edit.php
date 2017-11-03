@@ -428,5 +428,4 @@ class Edit
 
         return array_keys($fieldtypes);
     }
-
 }

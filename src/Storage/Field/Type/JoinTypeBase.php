@@ -27,8 +27,8 @@ abstract class JoinTypeBase extends FieldTypeBase
      * For example, `_from_id => "4,4,4"` gets normalized to `['fromid'=>4]`
      *
      * @param Traversable $data
-     * @param string $field
-     * @param string $separator
+     * @param string      $field
+     * @param string      $separator
      *
      * @return array
      */
