@@ -8,38 +8,10 @@
 #          re-map your translations.
 
 #   0 Unused messages
-#   1 Legacy untranslated messages
-#  15 Untranslated messages
-#  39 Legacy translation messages
-# 543 Translation messages
-
-#--- Legacy untranslated messages ---------------------------------------------
-
-"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
-
-#--- Untranslated messages ----------------------------------------------------
-
-field.block.label.add-new: # "Add new..."
-field.block.label.add-set: # "Add new %label% set"
-
-field.repeater.label.add-set: # "Add new %label% set"
-
-general.phrase.upload-progress: # "Current uploads"
-
-menu.configuration.checks: # "Set-up checks"
-
-page.checks.php-pass: # "All PHP configuration checks pass!"
-page.checks.php-problem: # "PHP configuration check found problems!"
-page.checks.show-all: # "Show all checks"
-page.checks.show-failed: # "Show only failed checks"
-page.checks.system-pass: # "All system configuration checks pass!"
-page.checks.system-problem: # "System configuration check found problems!"
-
-page.edit-users.error.email-invalid: # "This email address is not valid."
-page.edit-users.error.password-different-email: # "Password must not match the email address."
-page.edit-users.error.password-long: # "This value is too long. It should have 128 characters or less."
-
-page.file-management.actions-for-files: # "Actions for files"
+#   0 Legacy untranslated messages
+#   0 Untranslated messages
+#  40 Legacy translation messages
+# 559 Translation messages
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -48,12 +20,13 @@ page.file-management.actions-for-files: # "Actions for files"
 "(no group)": "(geen groep)"
 "(none)": "(geen)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-default'>Records met Loripsum tekst toe</a>"
+"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": "Toegevoegde records aan het ContentType <tt>%CONTENTYPE%</tt>"
 "Added to <tt>%key%</tt> '%title%'": "Toegevoegd aan <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Er is een fout opgetreden tijdens het bijwerken van de '%TABLE%'. De fout is %ERROR%"
 "Current (saved) status:": "Huidige (opgeslagen) status"
 "Dependencies": "Afhankelijkheden"
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": "Bolt versie <b>%VERSION%</b> gedetecteerd en de cache is gewist. <a href=\\\"%URI%\\\">Controleer de database</a>, als je dat nog niet gedaan hebt.\""
-"Do you really want to delete %FOLDERNAME%?": "Weet u zeker dat u %FOLDERNAME% wil verwijderen?"
+"Do you really want to delete %FOLDERNAME%?": "Weet je zeker dat je %FOLDERNAME% wil verwijderen?"
 "Error reading extensions/composer.json file: %ERROR%": "Fout bij het lezen van extensions/composer.json bestand: %ERROR%"
 "Everybody": "Iedereen"
 "Excerpt": "Samenvatting"
@@ -124,6 +97,9 @@ contenttypes.generic.wrong-use-field: "In het contenttype voor '%contenttype%', 
 
 contenttypes.record.comment-add-colon: "Voeg een opmerking toe:"
 
+field.block.label.add-new: "Voeg toe…"
+field.block.label.add-set: "Voeg nieuwe set %label% toe"
+
 field.general.allowed-filetypes: "Toegestane bestandtypes:"
 field.general.select-from-server: "Kies vanaf de server"
 field.general.stack: "Stapel"
@@ -140,6 +116,8 @@ field.image.label.alt: "Alt."
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Voorvertoning"
+
+field.repeater.label.add-set: "Voeg nieuwe set %label% toe"
 
 field.slug.button.edit: "Bewerk"
 field.slug.button.generate: "Genereer van:"
@@ -161,7 +139,7 @@ general.about: "Over"
 
 general.about-bolt: "Over Bolt"
 
-general.access-control.reset-failed: "Resetten van het wachtwoord is mislukt! Is het token correct? Wellicht heeft u te lang gewacht of geprobeerd het wachtwoord te resetten vanaf een ander ip-adres."
+general.access-control.reset-failed: "Resetten van het wachtwoord is mislukt! Is het token correct? Wellicht heb je te lang gewacht of geprobeerd het wachtwoord te resetten vanaf een ander ip-adres."
 general.access-control.reset-successful: "Gelukt! Je kunt nu inloggen met het wachtwoord dat per e-mail is verzonden."
 
 general.access-denied.content-not-modified: "Inhoud '%title%' kon niet worden aangepast."
@@ -187,7 +165,7 @@ general.phrase.access-denied-permissions-edit-file: "Je hebt niet de juiste rech
 general.phrase.access-denied-permissions-view-file-directory: "Je hebt niet de juiste rechten om het bestand of directory '%s' weer te geven."
 general.phrase.access-denied-privilege-edit-user: "Je beschikt niet over de juiste rechten om deze gebruiker te bewerken."
 general.phrase.access-denied-privilege-view-page: "Je bent niet gerechtigd om die pagina te bekijken."
-general.phrase.access-denied-self-action: "Je kan jezelf niet %s."
+general.phrase.access-denied-self-action: "Je kunt jezelf niet %s."
 general.phrase.action-plural: "Acties"
 general.phrase.add-selected: "Selectie toevoegen"
 general.phrase.author: "Schrijver"
@@ -197,7 +175,7 @@ general.phrase.by: "door"
 general.phrase.cancel: "Annuleer"
 general.phrase.change-current-status: "Klik om de huidige status aan te passen."
 general.phrase.change-log: "Changelog"
-general.phrase.changelog-not-enabled: "De changelog is niet ingeschakeld. Als je deze aanzet kan je op deze pagina alle wijzigingen aan alle ContentTypes teruglezen. Pas de code onder <code>changelog:</code> aan in je <code>config.yml</code> om de changelog in- of uit te schakelen."
+general.phrase.changelog-not-enabled: "De changelog is niet ingeschakeld. Als je deze aanzet kun je op deze pagina alle wijzigingen aan alle ContentTypes teruglezen. Pas de code onder <code>changelog:</code> aan in je <code>config.yml</code> om de changelog in- of uit te schakelen."
 general.phrase.changelog-note: "Let op: De databasetabel blijft groeien als editors wijzigingen aanbrengen in de content. Als je deze functie inschakelt op een live-omgeving kan deze uiteindelijk veel ruimte in beslag nemen."
 general.phrase.changelog-what-changed: "Plaats optioneel een korte opmerking om de aanpassingen te beschrijven."
 general.phrase.check-again: "Controleer nogmaals"
@@ -223,7 +201,7 @@ general.phrase.confirm-remove-file: "Weet je zeker dat je dit bestand wil verwij
 general.phrase.confirm-remove-files: "Weet je zeker dat je deze bestanden wil verwijderen?"
 general.phrase.confirm-remove-image: "Weet je zeker dat je deze afbeelding wil verwijderen?"
 general.phrase.confirm-remove-images: "Weet je zeker dat je deze afbeeldingen wil verwijderen?"
-general.phrase.confirm-remove-record: "Weet je zeker dat je dit gegeven wil verwijderen? Dit kan je niet ongedaan maken."
+general.phrase.confirm-remove-record: "Weet je zeker dat je dit gegeven wil verwijderen? Dit kun je niet ongedaan maken."
 general.phrase.content: "Content"
 general.phrase.content-type-permissions: "Content type permissies"
 general.phrase.content-types: "Contenttypen"
@@ -246,7 +224,7 @@ general.phrase.delete-set: "Set verwijderen"
 general.phrase.delete-user-name: "Verwijder %username%"
 general.phrase.depublication-date-colon: "Depublicatiedatum:"
 general.phrase.depublish: "Publicatie opheffen"
-general.phrase.depublish-date-past: "De datum van het opheffen van de publicatie ligt in het verleden. Wijzig de status als je de publicatie nu wilt opheffen."
+general.phrase.depublish-date-past: "De datum van het opheffen van de publicatie ligt in het verleden. Wijzig de status als je de publicatie nu ongedaan wilt maken."
 general.phrase.depublish-explanation: "Als hier iets is ingevoerd, wordt deze record automatisch gedepubliceerd op deze datum."
 general.phrase.deselect-all: "Deselecteer alles"
 general.phrase.details: "Details"
@@ -317,8 +295,8 @@ general.phrase.missing-root-jackpot: "Er moet altijd minstens één 'root'-gebru
 general.phrase.modifications-database-colon: "Aanpassingen gedaan aan de database:"
 general.phrase.modifications-needed-colon: "Vereiste aanpassingen:"
 general.phrase.modified: "Aangepast"
-general.phrase.move-down: "Omlaag Verplaatsen"
-general.phrase.move-up: "Omhoog Verplaatsen"
+general.phrase.move-down: "Omlaag"
+general.phrase.move-up: "Omhoog"
 general.phrase.no-content: "geen content …"
 general.phrase.no-content-found: "Geen content gevonden."
 general.phrase.no-files-in-list: "De lijst bevat nog geen bestanden."
@@ -421,6 +399,7 @@ general.phrase.upload-file: "Upload bestand"
 general.phrase.upload-file-to-directory: "Upload een bestand naar deze map"
 general.phrase.upload-image: "Upload afbeelding"
 general.phrase.upload-not-allowed: "Deze upload is niet toegestaan"
+general.phrase.upload-progress: "Huidige uploads"
 general.phrase.used-libraries: "Gebruikte Libraries / Componenten"
 general.phrase.user-deleted: "Gebruiker '%s' is verwijderd."
 general.phrase.user-disabled: "Gebruiker '%s' is uitgeschakeld."
@@ -463,11 +442,19 @@ logs.system-log: "Systeemlog"
 logs.system-log.cleared: "De systeemlog is gewist."
 logs.system-log.trimmed: "De systeemlog is verkleind."
 
+menu.configuration.checks: "Installatie-checks"
 menu.configuration.routing: "Route instellingen"
 
 nut.greeting: "Welkom bij Bolt!"
 
 nut.version: "versie"
+
+page.checks.php-pass: "Alle PHP-configuratie checks zijn doorlopen."
+page.checks.php-problem: "PHP-configuratie check heeft een probleem gevonden!"
+page.checks.show-all: "Toon alle checks"
+page.checks.show-failed: "Toon alleen de mislukte checks"
+page.checks.system-pass: "Alle systeem-configuratie checks zijn doorlopen."
+page.checks.system-problem: "Systeem-configuratie check heeft een probleem gevonden!"
 
 page.ckeditor-browse-server.files: "Bestanden"
 page.ckeditor-browse-server.modified: "Aangepast"
@@ -493,9 +480,12 @@ page.edit-users.activated.no: "Gebruiker gedeactiveerd"
 page.edit-users.activated.yes: "Gebruiker geactiveerd"
 page.edit-users.button.save: "Gebruiker opslaan"
 page.edit-users.error.displayname-used: "Deze schermnaam is al in gebruik. Kies een andere schermnaam."
+page.edit-users.error.email-invalid: "Dit e-mail adres is niet valide."
 page.edit-users.error.email-used: "Dit e-mailadres is al in gebruik"
 page.edit-users.error.password-different-displayname: "Jouw wachtwoord mag geen deel uitmaken van jouw weergavenaam."
+page.edit-users.error.password-different-email: "Wacthwoord mag niet gelijk zijn aan e-mail adres"
 page.edit-users.error.password-different-username: "Het wachtwoord mag niet gelijk zijn aan de gebruikersnaam."
+page.edit-users.error.password-long: "De waarde is te lang. Deze moet 128 karakters of minder zijn."
 page.edit-users.error.password-mismatch: "Wachtwoord komt niet overeen"
 page.edit-users.error.password-short: "Het wachtwoord is te kort"
 page.edit-users.error.username-used: "Gebruikersnaam al in gebruik"
@@ -581,7 +571,7 @@ page.extend.message.compatible-unstable-versions: "De hieronder opgesomde versie
 page.extend.message.confirm-remove: "Bevestig dat je deze extensie wilt verwijderen?"
 page.extend.message.copying: "Thema-bestanden kopiëren …"
 page.extend.message.discover-by-visiting: "Ontdek nieuwe extensies"
-page.extend.message.ext-dir-missing: "De maplocatie van de extensie (<code>%DIRECTORY%</code>) bestaat niet of is niet schrijfbaar. Daarom kan u Bolt extensies niet bewerken vanuit de backend. Probeer de extensies handmatig te bewerken of verander de bestandsrechten om Bolt een schrijfrecht te verlenen voor (<code>%DIRECTORY%</code>)."
+page.extend.message.ext-dir-missing: "De maplocatie van de extensie (<code>%DIRECTORY%</code>) bestaat niet of is niet schrijfbaar. Daarom kun je Bolt extensies niet bewerken vanuit de backend. Probeer de extensies handmatig te bewerken of verander de bestandsrechten om Bolt een schrijfrecht te verlenen voor (<code>%DIRECTORY%</code>)."
 page.extend.message.install-all: "Bezig met de installatie van alle packages …"
 page.extend.message.installation-running: "Installatie loopt"
 page.extend.message.installing: "Package installatie aan het voorbereiden …"
@@ -589,8 +579,8 @@ page.extend.message.installing-selected-package: "Geselecteerde packages worden 
 page.extend.message.installs-all-listed-packages: "Dit zorgt ervoor dat alle opgesomde pakketten worden geïnstalleerd. Gebruik dit als je een nieuwe server in gebruik hebt genomen of als je handmatig een nieuwe extensie hebt geïnstalleerd."
 page.extend.message.installs-updates: "Dit zal alle updates installeren."
 page.extend.message.invalid-theme-source-dir: "Ongeldige theme source directory: %SOURCE%"
-page.extend.message.latest-version: "De hieronder vermelde versie is de laatste stabiele versie zoals aangegeven door de ontwikkelaar, die compatibel is met de versie van Bolt die u momenteel gebruikt."
-page.extend.message.loading-disabled: "Extensies laden is uitgeschakeld door een beheerder in het bestand %CONFIG%. Je kan extensies installeren, bijwerken en verwijderen, maar deze zullen niet laden totdat deze instelling is gewijzigd."
+page.extend.message.latest-version: "De hieronder vermelde versie is de laatste stabiele versie zoals aangegeven door de ontwikkelaar, die compatibel is met de versie van Bolt die je momenteel gebruikt."
+page.extend.message.loading-disabled: "Extensies laden is uitgeschakeld door een beheerder in het bestand %CONFIG%. Je kunt extensies installeren, bijwerken en verwijderen, maar deze zullen niet laden totdat deze instelling is gewijzigd."
 page.extend.message.maintenance: "Onderhoud"
 page.extend.message.marked-as-stable: "De hieronder opgesomde versies zijn als stabiel aangemerkt door de ontwikkelaar en zijn compatibel met de Bolt-versie die je momenteel gebruikt."
 page.extend.message.no-bolt-extensions-installed: "Geen Bolt extensies geinstalleerd."
@@ -614,6 +604,7 @@ page.extend.theme.generation.failure: "Het thema kon niet worden aangemaakt. Het
 page.extend.theme.generation.missing.name: "Geen themanaam gevonden. Het thema is niet gegenereerd."
 page.extend.theme.generation.success: "Thema aangemaakt! Je kunt de bestanden bewerken in de thema-map."
 
+page.file-management.actions-for-files: "Handelingen voor bestanden"
 page.file-management.label.create-file: "Maak bestand aan"
 page.file-management.label.create-folder: "Maak map aan"
 page.file-management.message.access-denied: "Uploaden naar deze map is niet toegestaan."
@@ -639,8 +630,8 @@ page.login.label.username: "Gebruikersnaam / e-mail"
 page.login.password-hide: "Verberg"
 page.login.password-reset-link-sent: "Een link om het wachtwoord te resetten is verstuurd aan '%user%'."
 page.login.password-show: "Toon"
-page.login.placeholder.userame: "Je inlognaam"
 page.login.placeholder.password: "Je wachtwoord"
+page.login.placeholder.username: "Je inlognaam"
 page.login.title: "Inloggen"
 
 page.prefill.connection-timeout: "Timeout bij het verbinden met de 'Lorem Ipsum' generator. Het is op dit moment niet mogelijk om dummy inhoud toe te voegen."
@@ -669,5 +660,3 @@ permissions.roles.label.anonymous: "Anoniem"
 permissions.roles.label.owner: "Eigenaar"
 
 users.actions-for-users: "Handelingen voor Gebruikers"
-
-users.your-password: "Je wachtwoord"
