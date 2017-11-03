@@ -30,9 +30,9 @@
                 {% endif %}
             </div>
 
-            {% for contenttype, multiplecontent in context.latest %}
+            {% for contenttype_key, multiplecontent in context.latest %}
                 {% if multiplecontent %}
-                    {% set contenttype = config.get('contenttypes/' ~ contenttype) %}
+                    {% set contenttype = config.get('contenttypes/' ~ contenttype_key) %}
                     {{ include('@bolt/dashboard/_recently_edited.twig') }}
                 {% endif %}
             {% endfor %}

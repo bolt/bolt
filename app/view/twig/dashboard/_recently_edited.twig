@@ -17,7 +17,7 @@
                 'compact':       true,
                 'content':       content,
                 'excerptlength': 280,
-                'permissions':   context.permissions[contenttype.slug],
+                'permissions':   context.permissions[contenttype_key],
                 'thumbsize':     54,
             } %}
             {{ include(['@bolt/custom/listing/' ~ content.contenttype.slug ~ '.twig', '@bolt/_sub/_listing.twig'],  listing_vars) }}
