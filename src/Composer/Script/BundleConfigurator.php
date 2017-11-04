@@ -60,7 +60,7 @@ final class BundleConfigurator
      */
     public function run()
     {
-        if (!class_exists(SiteBundleLoader::class)) {
+        if (!class_exists(CustomisationExtension::class)) {
             return;
         }
         $contents = $this->load();
