@@ -48,9 +48,8 @@ class FormServiceProvider implements ServiceProviderInterface
         );
 
         $app['validator.validator_service_ids'] += [
-            ExistingEntityValidator::class => 'form.validator.existing_entity'
+            ExistingEntityValidator::class => 'form.validator.existing_entity',
         ];
-
 
         $app['csrf'] = $app->share(
             function ($app) {

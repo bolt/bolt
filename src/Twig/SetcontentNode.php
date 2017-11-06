@@ -5,9 +5,9 @@ namespace Bolt\Twig;
 use Bolt\Common\Deprecated;
 use Bolt\Twig\Extension\BoltExtension;
 use Bolt\Twig\Runtime\BoltRuntime;
+use Twig\Compiler;
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Node;
-use Twig_Compiler as Compiler;
 
 /**
  * Twig setcontent node.

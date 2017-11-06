@@ -83,6 +83,7 @@ class QueryResultset extends AppendIterator implements Countable
 
     /**
      * @param null $type
+     *
      * @return QueryBuilder
      */
     public function getOriginalQuery($type = null)

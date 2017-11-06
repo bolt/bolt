@@ -61,7 +61,7 @@ class Init extends BaseCommand
             '.bolt.yml',
             'composer.json',
             'composer.lock',
-            'src/Site/CustomisationExtension.php'
+            'src/Site/CustomisationExtension.php',
         ];
         foreach ($files as $file) {
             $dist = $fs->getFile($file . '.dist');

@@ -4,8 +4,8 @@ namespace Bolt\Twig;
 
 use Twig\Error\SyntaxError;
 use Twig\Node\Node;
+use Twig\Token;
 use Twig\TokenParser\AbstractTokenParser;
-use Twig_Token as Token;
 
 /**
  * Adapted from code originally in Twig/extensions.

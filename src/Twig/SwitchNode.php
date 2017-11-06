@@ -2,8 +2,8 @@
 
 namespace Bolt\Twig;
 
+use Twig\Compiler;
 use Twig\Node\Node;
-use Twig_Compiler as Compiler;
 
 /**
  * Represents a switch node.

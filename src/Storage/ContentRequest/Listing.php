@@ -29,9 +29,9 @@ class Listing
      * Constructor.
      *
      * @param EntityManager $em
-     * @param Query $query
-     * @param Config $config
-     * @param PagerManager $pager
+     * @param Query         $query
+     * @param Config        $config
+     * @param PagerManager  $pager
      */
     public function __construct(EntityManager $em, Query $query, Config $config, PagerManager $pager = null)
     {
@@ -99,6 +99,9 @@ class Listing
             $records = $this->query->getContent($contentTypeSlug, $contentParameters);
         }
         $this->runPagerQueries($records);
+        if ($options->getGroupSort()) {
+            $records = $this->runGroupSort($records);
+        }
 
         return $records;
     }
@@ -129,5 +132,35 @@ class Listing
                 ->setShowingFrom($start + 1)
                 ->setShowingTo($start + $results->count());
         }
+    }
+
+    /**
+     * @param $results
+     *
+     * @return array
+     */
+    protected function runGroupSort($results)
+    {
+        if (!$results instanceof QueryResultset) {
+            return $results;
+        }
+        $grouped = [];
+        foreach ($results as $result) {
+            $taxGroup = null;
+            foreach ($result->getTaxonomy() as $taxonomy) {
+                if ($taxonomy->getTaxonomytype() == $result->getTaxonomy()->getGroupingTaxonomy()) {
+                    $taxGroup = $taxonomy->getSlug();
+                }
+            }
+            if ($taxGroup !== null) {
+                $grouped[$taxGroup][] = $result;
+            }
+        }
+
+        if (!count($grouped)) {
+            return $results;
+        }
+
+        return call_user_func_array('array_merge', $grouped);
     }
 }
