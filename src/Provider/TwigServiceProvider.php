@@ -12,6 +12,7 @@ use Pimple\ServiceProviderInterface;
 use Silex\Api\BootableProviderInterface;
 use Silex\Application;
 use Symfony\Bridge\Twig\Extension\AssetExtension;
+use Symfony\Component\Form\FormRenderer;
 use Twig\Environment;
 use Twig\Extension\SandboxExtension;
 use Twig\Extension\StringLoaderExtension;
@@ -109,6 +110,7 @@ class TwigServiceProvider implements ServiceProviderInterface, BootableProviderI
                     Twig\Runtime\UtilsRuntime::class   => 'twig.runtime.bolt_utils',
                     Twig\Runtime\WidgetRuntime::class  => 'twig.runtime.bolt_widget',
                     Twig\Runtime\DumpRuntime::class    => 'twig.runtime.dump',
+                    FormRenderer::class                => 'twig.form.renderer',
                 ];
             }
         );
