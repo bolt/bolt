@@ -25,6 +25,7 @@ class SelectQueryHandler
         $query = $contentQuery->getService('select');
 
         foreach ($contentQuery->getContentTypes() as $contentType) {
+            $contentType = str_replace('-', '_', $contentType);
             $repo = $contentQuery->getEntityManager()->getRepository($contentType);
             $query->setQueryBuilder($repo->createQueryBuilder('_' . $contentType));
             $query->setContentType($contentType);

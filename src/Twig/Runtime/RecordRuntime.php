@@ -174,11 +174,11 @@ class RecordRuntime
     /**
      * Output a simple pager, for paginated listing pages.
      *
-     * @param Environment       $env
-     * @param string            $pagerName
-     * @param integer           $surround
-     * @param string            $template  The template to apply
-     * @param string            $class
+     * @param Environment $env
+     * @param string      $pagerName
+     * @param int         $surround
+     * @param string      $template
+     * @param string      $class
      *
      * @return string The rendered pager HTML
      */
@@ -245,12 +245,13 @@ class RecordRuntime
                     }
                 }
                 $retval[$element] = $row;
-            } else if ($fieldName === 'contenttype') {
+            } elseif ($fieldName === 'contenttype') {
                 $retval[$element] = $c->contenttype['singular_name'];
             } elseif (isset($c->values[$fieldName])) {
                 $retval[$element] = $c->values[$fieldName];
             }
         }
+
         return $retval;
     }
 

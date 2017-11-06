@@ -63,7 +63,7 @@ class MenuTraitTest extends BoltUnitTest
     protected function getApp($boot = true)
     {
         $app = parent::getApp($boot);
-        $token = new Token(New Users([]), new Authtoken([]));
+        $token = new Token(new Users([]), new Authtoken([]));
         $app['session']->set('authentication', $token);
         $permissions = $this->getMockBuilder(Permissions::class)
             ->disableOriginalConstructor()

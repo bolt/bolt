@@ -39,7 +39,7 @@
         {% endfor %}
     </table>
 
-    {% for bag in bags %}
+    {% for bag in bags if attribute(request_data, bag)|default(false) %}
         <h2>{{ bag|capitalize }}</h2>
 
         <table class="table table-striped table-hover table-condensed">

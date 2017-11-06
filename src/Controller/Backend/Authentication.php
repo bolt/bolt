@@ -94,7 +94,7 @@ class Authentication extends BackendBase
         }
         $context = [
             'form'        => $form->createView(),
-            'randomquote' => true
+            'randomquote' => true,
         ];
 
         return $this->render('@bolt/login/login.twig', $context);

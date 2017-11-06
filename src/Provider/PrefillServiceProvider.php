@@ -29,7 +29,7 @@ class PrefillServiceProvider implements ServiceProviderInterface
         $app['prefill.default_field_values'] = function () {
             return new Bag([
                 'blocks' => [
-                    'title' => 'About Us', 'Address', 'Search Teaser', '404 Not Found'
+                    'title' => 'About Us', 'Address', 'Search Teaser', '404 Not Found',
                 ],
             ]);
         };

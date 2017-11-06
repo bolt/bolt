@@ -28,10 +28,11 @@ abstract class JoinTypeBase extends FieldTypeBase
      *
      * @param Traversable $data
      * @param string      $field
+     * @param string      $separator
      *
      * @return array
      */
-    protected function normalizeData($data, $field)
+    protected function normalizeData($data, $field, $separator = ',')
     {
         $normalized = [];
 
@@ -48,7 +49,7 @@ abstract class JoinTypeBase extends FieldTypeBase
             if ($value === null) {
                 continue;
             }
-            foreach (explode(',', $value) as $i => $val) {
+            foreach (explode($separator, $value) as $i => $val) {
                 $compiled[$i][$key] = $val;
             }
         }

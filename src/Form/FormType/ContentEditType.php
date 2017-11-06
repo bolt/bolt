@@ -26,7 +26,7 @@ class ContentEditType extends AbstractType
                 'save',
                 SubmitType::class,
                 [
-                    'label' => Trans::__('contenttypes.generic.save', ['%contenttype%' => $options['contenttype_name']])
+                    'label' => Trans::__('contenttypes.generic.save', ['%contenttype%' => $options['contenttype_name']]),
                 ]
             )
             ->add(
@@ -63,7 +63,7 @@ class ContentEditType extends AbstractType
                 [
                     'label' => Trans::__('contenttypes.generic.delete', ['%contenttype%' => $options['contenttype_name']]),
                     'attr'  => [
-                        'style' => 'visibility: hidden;'
+                        'style' => 'visibility: hidden;',
                     ],
                 ]
             )

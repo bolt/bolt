@@ -113,8 +113,8 @@ class MetadataDriver implements MappingDriver
             if ($tableName = $table->getName()) {
                 $mainAlias = $this->getContentTypeFromAlias($table->getOption('alias'));
                 $this->aliases[$mainAlias] = $tableName;
-                $slugAlias = $this->getContentTypeFromAlias($table->getOption('alias'), true);
-                $singularAlias = $this->getContentTypeFromAlias($table->getOption('alias'), 'singular');
+                $slugAlias = $this->normalizeClassName($this->getContentTypeFromAlias($table->getOption('alias'), true));
+                $singularAlias = $this->normalizeClassName($this->getContentTypeFromAlias($table->getOption('alias'), 'singular'));
 
                 if ($mainAlias !== $slugAlias) {
                     $this->aliases[$slugAlias] = $tableName;
@@ -124,7 +124,6 @@ class MetadataDriver implements MappingDriver
                 }
             }
         }
-
     }
 
     /**

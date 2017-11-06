@@ -57,54 +57,51 @@ class Builder
             try {
                 $existingCount = $this->storage->getRepository($contentTypeName)->count();
             } catch (TableNotFoundException $e) {
-                $response->setPath('errors/' . $contentTypeName, Trans::__(
-                    'page.prefill.database-update-required',
-                    ['%CONTENTTYPE%' => $contentTypeName]
-                ));
+                $msg = Trans::__('page.prefill.database-update-required', ['%CONTENTTYPE%' => $contentTypeName]);
+                $response->setPath('errors/' . $contentTypeName, $msg);
 
                 continue;
             }
 
             // If we're over 'max' and we're not skipping "non empty" ContentTypes, show a notice and move on.
             if ($existingCount >= $this->maxCount && !$canExceedMax) {
-                $response->setPath('warnings/' . $contentTypeName, Trans::__(
-                    'page.prefill.skipped-existing',
-                    ['%key%' => $contentTypeName]
-                ));
+                $msg = Trans::__('page.prefill.skipped-existing', ['%key%' => $contentTypeName]);
+                $response->setPath('warnings/' . $contentTypeName, $msg);
 
                 continue;
             }
 
             // Singletons are always limited to 1 item max.
             if ($this->contentTypes->getPath($contentTypeName . '/singleton')) {
-                $count = 1;
                 if ($existingCount > 0) {
-                    $response->setPath('warnings/' . $contentTypeName, Trans::__(
-                        'page.prefill.skipped-singleton',
-                        ['%key%' => $contentTypeName]
-                    ));
-
-                    continue;
+                    $msg = Trans::__('page.prefill.skipped-singleton', ['%key%' => $contentTypeName]);
+                    $response->setPath('warnings/' . $contentTypeName, $msg);
+                } else {
+                    $this->doBuild($contentTypeName, 1, $response);
                 }
-            }
-
-            // Take the current amount of items into consideration, when adding more.
-            $createCount = $canExceedMax ? $count : $count - $existingCount;
-            if ($createCount < 1) {
                 continue;
             }
 
-            $recordContentGenerator = $this->createRecordContentGenerator($contentTypeName);
-            try {
-                $response->setPath('created/' . $contentTypeName, $recordContentGenerator->generate($createCount));
-            } catch (RequestException $e) {
-                $response->setPath('errors/' . $contentTypeName, Trans::__('page.prefill.connection-timeout'));
-
-                return $response;
-            }
+            $createCount = $canExceedMax ? $this->maxCount : $this->maxCount - $existingCount;
+            $this->doBuild($contentTypeName, $createCount, $response);
         }
 
         return $response;
+    }
+
+    /**
+     * @param string     $contentTypeName
+     * @param int        $createCount
+     * @param MutableBag $response
+     */
+    private function doBuild($contentTypeName, $createCount, MutableBag $response)
+    {
+        try {
+            $recordContentGenerator = $this->createRecordContentGenerator($contentTypeName);
+            $response->setPath('created/' . $contentTypeName, $recordContentGenerator->generate($createCount));
+        } catch (RequestException $e) {
+            $response->setPath('errors/' . $contentTypeName, Trans::__('page.prefill.connection-timeout'));
+        }
     }
 
     /**

@@ -2,10 +2,10 @@
 
 namespace Bolt\Composer\Script;
 
-use Bolt\Bundle\Site\SiteBundleLoader;
 use Bolt\Collection\MutableBag;
 use Bolt\Nut\Output\NutStyleInterface;
 use Bolt\Nut\Style\NutStyle;
+use Bundle\Site\CustomisationExtension;
 use Composer\Script\Event;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -60,7 +60,7 @@ final class BundleConfigurator
      */
     public function run()
     {
-        if (!class_exists(SiteBundleLoader::class)) {
+        if (!class_exists(CustomisationExtension::class)) {
             return;
         }
         $contents = $this->load();
@@ -114,13 +114,13 @@ final class BundleConfigurator
 
         $extensions = MutableBag::from($contents->get('extensions', []));
         foreach ($extensions as $extension) {
-            if (is_a($extension, SiteBundleLoader::class, true)) {
+            if (is_a($extension, CustomisationExtension::class, true)) {
                 // If there is already a valid entry, exit
                 return;
             }
         }
         // Add the extension to the bag
-        $extensions->add(SiteBundleLoader::class);
+        $extensions->add(CustomisationExtension::class);
         $contents->set('extensions', $extensions);
     }
 }
