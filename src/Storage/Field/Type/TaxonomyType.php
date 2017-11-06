@@ -120,7 +120,10 @@ class TaxonomyType extends JoinTypeBase
             $fieldTaxonomy->add($taxEntity);
         }
         $this->set($entity, $fieldTaxonomy);
-        $entity->setGroup($this->getGroup($fieldTaxonomy));
+        $grouping = $this->getGroup($fieldTaxonomy);
+        if ($grouping) {
+            $entity->setGroup($this->getGroup($fieldTaxonomy));
+        }
         $entity->setSortorder($this->getSortorder($fieldTaxonomy));
     }
 
