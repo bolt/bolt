@@ -166,7 +166,7 @@ class GeneralTest extends ControllerUnitTest
         $form = $context['context']['form'];
         /** @var FormErrorIterator $errors */
         $errors = $form->vars['errors'];
-        $this->assertFalse($errors->getForm()->get('contents')->isValid());
+        $this->assertFalse($errors->getForm()->isSubmitted() && $errors->getForm()->get('contents')->isValid());
 
         // Check that YML parse errors get caught
         $this->setRequest(Request::create(
