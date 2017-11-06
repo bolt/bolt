@@ -78,7 +78,7 @@ class Authentication extends BackendBase
             ->handleRequest($request)
         ;
         /** @var Form $form */
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $action = $form->getClickedButton()->getName();
             if ($action === 'login') {
                 $response = $this->handlePostLogin($request, $form);
