@@ -7,7 +7,7 @@
 
 {% block panel_icon 'fa-cog' %}
 
-{% block panel_head __('contenttypes.generic.actions-all', {'%contenttypes%': context.contenttype.slug}) %}
+{% block panel_head __('contenttypes.generic.actions-all', {'%contenttypes%': context.contenttype.name}) %}
 
 {% block panel_body %}
     {% if isallowed('contenttype:' ~ context.contenttype.slug ~ ':create') %}
@@ -60,7 +60,7 @@
     {# Use the `description:` from contenttypes.yml if set, otherwise fall back
        to the (localized) default descriptions that are available for the
        built-in contenttupes like 'pages' and 'blocks'. #}
-    {% set description = context.contenttype.description|default(__(['contenttypes', context.contenttype.slug, 'description'], {DEFAULT: ''})) %}  
+    {% set description = context.contenttype.description|default(__(['contenttypes', context.contenttype.slug, 'description'], {DEFAULT: ''})) %}
     <div class="description">
         {% if description %}
             {{ description|markdown }}
