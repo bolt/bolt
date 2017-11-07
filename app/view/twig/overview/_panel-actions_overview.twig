@@ -7,7 +7,7 @@
 
 {% block panel_icon 'fa-cog' %}
 
-{% block panel_head __('contenttypes.generic.actions-all', {'%contenttypes%': context.contenttype.singular_name}) %}
+{% block panel_head __('contenttypes.generic.actions-all', {'%contenttypes%': context.contenttype.name}) %}
 
 {% block panel_body %}
     {% if isallowed('contenttype:' ~ context.contenttype.slug ~ ':create') %}

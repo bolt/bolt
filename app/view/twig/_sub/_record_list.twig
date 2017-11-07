@@ -57,7 +57,7 @@
                     {% set lastgroup = content.group.name %}
                 {% endif %}
             {% else %}
-                {{ __('contenttypes.generic.none-available', {'%contenttypes%': contenttype.singular_name}) }}
+                {{ __('contenttypes.generic.none-available', {'%contenttypes%': contenttype.name}) }}
             {% endfor %}
         </table>
 
