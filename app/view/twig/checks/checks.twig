@@ -27,7 +27,7 @@
     <div class="panel-group">
         {%- for result in results -%}
             <div class="panel panel-{{ result.optional ? 'warning' : 'danger' }}">
-                <div class="panel-heading"><i class="fa fa-close"></i> {{ result.testMessage }}</div>
+                <div class="panel-heading"><i class="fa fa-info-circle"></i> {{ result.testMessage }}</div>
                 <div class="panel-body">{{ result.helpHtml|raw }}</div>
             </div>
         {%- endfor -%}
@@ -39,11 +39,11 @@
         <h4>System settings</h4>
         {% if fails.system.empty %}
             <div class="panel panel-success">
-                <div class="panel-heading"><i class="fa fa-star"></i> {{ __('page.checks.system-pass') }}</div>
+                <div class="panel-heading"><i class="fa fa-check"></i> {{ __('page.checks.system-pass') }}</div>
             </div>
         {% else %}
             <div class="panel panel-{{ required ? 'danger' : 'warning' }}">
-                <div class="panel-heading"><i class="fa fa-stop"></i> {{ __('page.checks.system-problem') }}</div>
+                <div class="panel-heading"><i class="fa fa-minus-circle"></i> {{ __('page.checks.system-problem') }}</div>
             </div>
             {% with {'results': fails.system} %}{{ block('checks_fail') }}{% endwith %}
         {% endif %}
@@ -56,11 +56,11 @@
         <h4>PHP settings</h4>
         {% if fails.php.empty %}
             <div class="panel panel-success">
-                <div class="panel-heading"><i class="fa fa-star"></i> {{ __('page.checks.php-pass') }}</div>
+                <div class="panel-heading"><i class="fa fa-check"></i> {{ __('page.checks.php-pass') }}</div>
             </div>
         {% else %}
             <div class="panel panel-{{ required ? 'danger' : 'warning' }}">
-                <div class="panel-heading"><i class="fa fa-stop"></i> {{ __('page.checks.php-problem') }}</div>
+                <div class="panel-heading"><i class="fa fa-minus-circle"></i> {{ __('page.checks.php-problem') }}</div>
             </div>
             {% with {'results': fails.php} %}{{ block('checks_fail') }}{% endwith %}
         {% endif %}
@@ -74,8 +74,10 @@
 
     <div class="row">
         <div class="col-md-8">
+
+            <h3>Required settings</h3>
+
             <div class="row">
-                <h3>Required settings</h3>
                 {%  with {
                     'fails': context.checks.requirements.fail,
                     'passes': context.checks.requirements.pass,
@@ -85,8 +87,9 @@
                 {% endwith %}
             </div>
 
+            <h3>Recommended settings</h3>
+
             <div class="row">
-                <h3>Recommended settings</h3>
                 {%  with {
                     'fails': context.checks.recommendations.fail,
                     'passes': context.checks.recommendations.pass,
