@@ -3,7 +3,6 @@
 namespace Bolt\Provider;
 
 use Pimple\Container;
-use Symfony\Bridge\Twig\DataCollector\TwigDataCollector;
 use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
 
 /**
@@ -38,17 +37,6 @@ class WebProfilerServiceProvider extends \Silex\Provider\WebProfilerServiceProvi
             }
 
             return $profiler;
-        });
-
-        // Provided for Symfony 3.4+ support, and can be removed if/when
-        // https://github.com/silexphp/Silex-WebProfiler/pull/126 or similar
-        // fix is implemented for Silex's WebProfilerServiceProvider
-        $app['data_collectors'] = $app->extend('data_collectors', function ($collectors, $app) {
-            $collectors['twig'] = function ($app) {
-                return new TwigDataCollector($app['twig.profiler.profile'], $app['twig']);
-            };
-
-            return $collectors;
         });
     }
 }
