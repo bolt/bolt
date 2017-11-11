@@ -42,7 +42,7 @@ class WidgetRuntime
             throw new \InvalidArgumentException('countwidgets() requires a location, none given');
         }
 
-        return $this->widgetQueue->countItemsInQueue($location, $zone);
+        return $this->widgetQueue->count($location, $zone);
     }
 
     /**
@@ -70,7 +70,7 @@ class WidgetRuntime
             throw new \InvalidArgumentException('haswidgets() requires a location, none given');
         }
 
-        return $this->widgetQueue->hasItemsInQueue($location, $zone);
+        return $this->widgetQueue->has($location, $zone);
     }
 
     /**
