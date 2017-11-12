@@ -46,6 +46,7 @@ class Injector
             Target::AFTER_BODY_CSS   => 'bodyTagEnd',   // same as end of body because we cheat a little
 
             Target::END_OF_HTML      => 'htmlTagEnd',
+            Target::AFTER_HTML       => 'htmlTagEnd',
         ];
     }
 
