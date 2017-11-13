@@ -119,6 +119,13 @@ class Queue implements QueueInterface
         return $this->queue;
     }
 
+    public function hasItemsInQueue($location, $zone = Zone::FRONTEND)
+    {
+        Deprecated::method(3.4, 'Queue::has');
+
+        return $this->has($location, $zone);
+    }
+
     /**
      * Get the number of queued widgets.
      *
@@ -127,9 +134,16 @@ class Queue implements QueueInterface
      *
      * @return boolean
      */
-    public function hasItemsInQueue($location, $zone = Zone::FRONTEND)
+    public function has($location, $zone = Zone::FRONTEND)
     {
-        return (boolean) $this->countItemsInQueue($location, $zone);
+        return (boolean) $this->count($location, $zone);
+    }
+
+    public function countItemsInQueue($location, $zone = Zone::FRONTEND)
+    {
+        Deprecated::method(3.4, 'Queue::count');
+
+        return $this->count($location, $zone);
     }
 
     /**
@@ -140,7 +154,7 @@ class Queue implements QueueInterface
      *
      * @return integer
      */
-    public function countItemsInQueue($location, $zone = Zone::FRONTEND)
+    public function count($location, $zone = Zone::FRONTEND)
     {
         $count = 0;
 

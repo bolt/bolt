@@ -12,35 +12,43 @@
 
     <div class="row">
         {% if context.required %}
-            <div class="panel panel-danger">
-                <div class="panel-heading"><i class="fa fa-close"> </i> Failed System and/or PHP requirements:</div>
-                <div class="panel-body bg-danger">
-                    {% for failed in context.required %}
-                        <p>{{ loop.index }}. {{ failed.testMessage }}</p>
-                        <p>{{ failed.helpHtml|raw }}</p>
+            <div class="alert alert-danger">
+                <strong><i class="fa fa-minus-circle"> </i> Failed System and/or PHP requirements:</strong>
+                <ol>
+                    {% for item in context.required %}
+                        <li>
+                            {{ item.testMessage }}<br>
+                            &rarr; {{ item.helpHtml|raw }}
+                        </li>
                     {% endfor %}
-                </div>
+                </ol>
             </div>
         {% else %}
-            <div class="panel panel-success">
-                <div class="panel-heading"><i class="fa fa-check"> </i> No outstanding system or PHP requirements</div>
+            <div class="alert alert-success">
+                <strong>
+                    <i class="fa fa-check-circle"> </i> No outstanding system or PHP requirements
+                </strong>
             </div>
         {% endif %}
     </div>
     <div class="row">
         {% if context.recommended %}
-            <div class="panel panel-warning">
-                <div class="panel-heading"><i class="fa fa-close"> </i> Recommended updates:</div>
-                <div class="panel-body bg-warning">
-                    {% for failed in context.recommended %}
-                        <p>{{ loop.index }}. {{ failed.testMessage }}</p>
-                        <p>{{ failed.helpHtml|raw }}</p>
+            <div class="alert alert-warning">
+                <strong><i class="fa fa-info-circle"> </i> Recommended updates:</strong>
+                <ol>
+                    {% for item in context.recommended %}
+                        <li>
+                            {{ item.testMessage }}<br>
+                            &rarr; {{ item.helpHtml|raw }}
+                        </li>
                     {% endfor %}
-                </div>
+                </ol>
             </div>
         {% else %}
-            <div class="panel panel-success">
-                <div class="panel-heading"><i class="fa fa-check"> </i> No recommended updates</div>
+            <div class="alert alert-success">
+                <strong>
+                    <i class="fa fa-check"> </i> No recommended updates
+                </strong>
             </div>
         {% endif %}
     </div>
