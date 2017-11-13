@@ -154,6 +154,8 @@ class Listing
             }
             if ($taxGroup !== null) {
                 $grouped[$taxGroup][] = $result;
+            } else {
+                $grouped['ungrouped'][] = $result;
             }
         }
 

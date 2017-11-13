@@ -72,7 +72,7 @@
                 <input{{ macro.attr(attributes.id) }}>
                 {% if context.content.datecreated > '1970-01-01 01:01:01' %}
                     <p class="form-control-static">
-                        {{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.slug}) }}
+                        {{ __('contenttypes.generic.created', {'%contenttype%': context.contenttype.name}) }}
                         {{ buic_moment(context.content.datecreated) }}
                         {{ __('general.phrase.edited') }}
                         {{ buic_moment(context.content.datechanged) }}.

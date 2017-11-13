@@ -6,6 +6,21 @@ Bolt 3.5-dev
 
 -
 
+Bolt 3.4 RC 1
+-------------
+
+Released: 2017-11-07. Notable changes:
+
+ - Changed: Tidying up recommendations on `firstuser.twig`. [#7159](https://github.com/bolt/bolt/pull/7159)
+ - Changed: Tiny change: Make icons on "Set-up Checks" more consistent with "First user". [#7161](https://github.com/bolt/bolt/pull/7161)
+ - Fixed: "Save and return" and "save and new" buttons on edit screens work correctly. [#7153](https://github.com/bolt/bolt/pull/7153)
+ - Fixed: After an 'action' on a record in overview, the ordering gets lost. Enable new group sorting on the equivalent ajax action. [#7157](https://github.com/bolt/bolt/pull/7157) [#7151](https://github.com/bolt/bolt/pull/7151)
+ - Fixed: Allocate the other results to an ungrouped array. Fixes disappearing records when adding "groups" taxonomy. [#7150](https://github.com/bolt/bolt/pull/7150) [#7158](https://github.com/bolt/bolt/pull/7158)
+ - Fixed: Don't break the exception page on early exceptions [#7146](https://github.com/bolt/bolt/pull/7146)
+ - Fixed: Improve content types titles in some templates. [#7160](https://github.com/bolt/bolt/pull/7160)
+ - Fixed: Only set a 'group' when the taxonomy is relevant. [#7155](https://github.com/bolt/bolt/pull/7155)
+ - Fixed: Update namespace for default bundle :koala: [#7147](https://github.com/bolt/bolt/pull/7147)
+
 Bolt 3.4 beta 6
 ---------------
 
