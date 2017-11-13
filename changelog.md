@@ -1,105 +1,12 @@
 Changelog for Bolt 3.x
 ======================
 
-Bolt 3.4 RC 1
--------------
+Bolt 3.4.0
+----------
 
-Released: 2017-11-07. Notable changes:
+See Release Notes on the website for highlights: https://bolt.cm/item/bolt-3-4-0-released
 
- - Changed: Tidying up recommendations on `firstuser.twig`. [#7159](https://github.com/bolt/bolt/pull/7159)
- - Changed: Tiny change: Make icons on "Set-up Checks" more consistent with "First user". [#7161](https://github.com/bolt/bolt/pull/7161)
- - Fixed: "Save and return" and "save and new" buttons on edit screens work correctly. [#7153](https://github.com/bolt/bolt/pull/7153)
- - Fixed: After an 'action' on a record in overview, the ordering gets lost. Enable new group sorting on the equivalent ajax action. [#7157](https://github.com/bolt/bolt/pull/7157) [#7151](https://github.com/bolt/bolt/pull/7151)
- - Fixed: Allocate the other results to an ungrouped array. Fixes disappearing records when adding "groups" taxonomy. [#7150](https://github.com/bolt/bolt/pull/7150) [#7158](https://github.com/bolt/bolt/pull/7158)
- - Fixed: Don't break the exception page on early exceptions [#7146](https://github.com/bolt/bolt/pull/7146)
- - Fixed: Improve content types titles in some templates. [#7160](https://github.com/bolt/bolt/pull/7160)
- - Fixed: Only set a 'group' when the taxonomy is relevant. [#7155](https://github.com/bolt/bolt/pull/7155)
- - Fixed: Update namespace for default bundle :koala: [#7147](https://github.com/bolt/bolt/pull/7147)
-
-Bolt 3.4 beta 6
----------------
-
-Released: 2017-11-03. Notable changes:
-
- - Cleanup: CS clean-up [#7143](https://github.com/bolt/bolt/pull/7143)
- - Cleanup: More Twig namespaces [#7134](https://github.com/bolt/bolt/pull/7134)
- - Cleanup: Updating a few dutch labels and a column width for Block type. [#7142](https://github.com/bolt/bolt/pull/7142)
- - Fixed: Ensure hyphens in urls are replaced with underscores before going into the Query Engine [#7140](https://github.com/bolt/bolt/pull/7140)
- - Fixed: Fix grouping support in backend overview. [#7131](https://github.com/bolt/bolt/pull/7131)
- - Fixed: Fix taxonomy grouping queries with commas. [#7130](https://github.com/bolt/bolt/pull/7130)
- - Fixed: Make the `type: blocks` field work with `{{ block() }}`. [#8](https://github.com/bolt/themes/pull/8)
- - Fixed: Move build logic out of loop, and account for first ContentType being a singleton in menu. [#7135](https://github.com/bolt/bolt/pull/7135)
- - Fixed: On Dashboard listings, use 'key' instead of 'slug' [#7141](https://github.com/bolt/bolt/pull/7141)
- - Fixed: Remove permissions in incoming relationships. [#7144](https://github.com/bolt/bolt/pull/7144)
-
-Bolt 3.4 beta 5
----------------
-
-Released: 2017-10-29. Notable changes:
-
- - Fixed: A handful of HTML/CSS tweaks for Blocks <-> Repeaters consistency [#7114](https://github.com/bolt/bolt/pull/7114)
- - Fixed: Add an empty hidden field to ensure the field is saved [#7117](https://github.com/bolt/bolt/pull/7117)
- - Fixed: Change `bolt/requirements` to a stable constraint (^1.0) [#7112](https://github.com/bolt/bolt/pull/7112)
- - Fixed: Contextual menu in listing should show `singular_name` [#7105](https://github.com/bolt/bolt/pull/7105)
- - Fixed: Edge-case in `title_format` for CT's with no textual fields [#7108](https://github.com/bolt/bolt/pull/7108)
- - Fixed: Handle deletion of field content after a content record is deleted [#7109](https://github.com/bolt/bolt/pull/7109)
- - Fixed: Handle parent URIs with query parameters [#7115](https://github.com/bolt/bolt/pull/7115)
- - Fixed: Hyphenated ContentTypes & validation checks [#7125](https://github.com/bolt/bolt/pull/7125)
- - Fixed: In route generation, lookup parameters from the route defaults [#7106](https://github.com/bolt/bolt/pull/7106)
- - Fixed: In single fetch mode return `false` instead of empty set [#7110](https://github.com/bolt/bolt/pull/7110)
-
-Bolt 3.4 beta 4
----------------
-
-Released: 2017-10-18. Notable changes:
-
- - Change: Allow `group` on named repeater's sets [#7099](https://github.com/bolt/bolt/pull/7099)
- - Change: Composer script logic for default site bundle. [See](https://github.com/bolt/composer-install/pull/28) [#7071](https://github.com/bolt/bolt/pull/7071)
- - Change: Handle separate bundles under src/ [#7087](https://github.com/bolt/bolt/pull/7087)
- - Fixed: `title_format` addition: Only use fields that (still) exist [#7086](https://github.com/bolt/bolt/pull/7086)
- - Fixed: A few minor fileupload tweaks [#7078](https://github.com/bolt/bolt/pull/7078)
- - Fixed: Change `trimtext` to `excerpt` [#7091](https://github.com/bolt/bolt/pull/7091)
- - Fixed: Don't require double confirmation on deleting folders. [#7081](https://github.com/bolt/bolt/pull/7081)
- - Fixed: Don't show empty "Latest changes panel" if the changelog is not enabled. [#7101](https://github.com/bolt/bolt/pull/7101)
- - Fixed: Fix incorrect link to Routing docs. [#7073](https://github.com/bolt/bolt/pull/7073)
- - Fixed: Fix named repeaters during CLI import and export [#7070](https://github.com/bolt/bolt/pull/7070)
- - Fixed: Fix select values in new named repeater blocks [#7082](https://github.com/bolt/bolt/pull/7082)
- - Fixed: Handle images that aren't found a bit more gracefully. [#7084](https://github.com/bolt/bolt/pull/7084)
- - Fixed: Only pass user's ID into `Users::addRole()` [#7092](https://github.com/bolt/bolt/pull/7092)
- - Fixed: Remove `import` for Deprecated in `Arr.php` too [#7097](https://github.com/bolt/bolt/pull/7097)
- - Fixed: Remove import for Bolt\Common\Deprecated [#7094](https://github.com/bolt/bolt/pull/7094)
- - Fixed: Restrict resizing of `<textarea>` to vertical only. [#7100](https://github.com/bolt/bolt/pull/7100)
- - Fixed: Use `icon_one` for Singleton ContentTypes, instead of `icon_many` in menu. [#7098](https://github.com/bolt/bolt/pull/7098)
-
-
-Bolt 3.4 beta 3
----------------
-
-Released: 2017-10-11. Notable changes
-
- - Change: Migrate login forms to Symfony Form [#7056](https://github.com/bolt/bolt/pull/7056)
- - Fixed: BC break on username case handling. Add transformer on username field [#7055](https://github.com/bolt/bolt/pull/7055)
- - Fixed: Files & directories with certain characters can't be deleted - Use JavaScript context escape for file & directory paths in data-action [#7053](https://github.com/bolt/bolt/pull/7053)
- - Fixed: Fixes for `title_format` handling [#7067](https://github.com/bolt/bolt/pull/7067)
- - Fixed: Use 'singular_name' instead of slug in "Edit Content". [#7068](https://github.com/bolt/bolt/pull/7068)
- - Tests: [Tests] Fixes for "not found" assertions [#7049](https://github.com/bolt/bolt/pull/7049)
-
-Bolt 3.4 beta 2
----------------
-
-Released: 2017-10-02. Notable changes
-
- - Change: When prefilling, add only one record to singletons. [#7038](https://github.com/bolt/bolt/pull/7038)
- - Fixed: Catch `TableNotFoundException` for new ContentTypes. [#7041](https://github.com/bolt/bolt/pull/7041)
- - Fixed: Fix taxonomies on `database:import` CLI script [#7039](https://github.com/bolt/bolt/pull/7039)
- - Fixed: Fix thumbnails showing correctly in listing view, if an `imagelist` field is used. [#7044](https://github.com/bolt/bolt/pull/7044)
- - Fixed: Menu drop bear. [#7042](https://github.com/bolt/bolt/pull/7042)
- - Fixed: Reset `ORDER BY` on pager count queries, get "Title Column name" correctly. [#7045](https://github.com/bolt/bolt/pull/7045)
-
-Bolt 3.4 beta 1
----------------
-
-Released: 2017-09-30. Notable changes
+Released: 2017-11-14. Notable changes:
 
  - Added: Add environment support to config variable lookups [#6208](https://github.com/bolt/bolt/pull/6208)
  - Added: Add labels to translations for repeaters / new block fields [#6247](https://github.com/bolt/bolt/pull/6247)
@@ -116,11 +23,16 @@ Released: 2017-09-30. Notable changes
  - Added: Nut Simple Deploy [#6901](https://github.com/bolt/bolt/pull/6901)
  - Added: PHP 7.2 support [#6920](https://github.com/bolt/bolt/pull/6920)
  - Change: Adding codemirror features [#6436](https://github.com/bolt/bolt/pull/6436)
+ - Change: Allow `group` on named repeater's sets [#7099](https://github.com/bolt/bolt/pull/7099)
  - Change: Allow for consecutive prefills. [#6919](https://github.com/bolt/bolt/pull/6919)
  - Change: Allow opt in to new setcontent queries [#6622](https://github.com/bolt/bolt/pull/6622)
  - Change: Backend listing entities [#6669](https://github.com/bolt/bolt/pull/6669)
+ - Change: Composer script logic for default site bundle. [See](https://github.com/bolt/composer-install/pull/28) [#7071](https://github.com/bolt/bolt/pull/7071)
+ - Change: Deprecate overly verbose widget queue method names [#7170](https://github.com/bolt/bolt/pull/7170)
  - Change: Enable no, partial, or full Q&A on Nut `user:add` [#6592](https://github.com/bolt/bolt/pull/6592)
+ - Change: Handle separate bundles under src/ [#7087](https://github.com/bolt/bolt/pull/7087)
  - Change: Inspection clean ups [#6968](https://github.com/bolt/bolt/pull/6968)
+ - Change: Migrate login forms to Symfony Form [#7056](https://github.com/bolt/bolt/pull/7056)
  - Change: Migrate pre-fill service to new storage layer [#6550](https://github.com/bolt/bolt/pull/6550)
  - Change: Modded core's select field to accommodate for multiple contenttypes. [#6270](https://github.com/bolt/bolt/pull/6270) [#6299](https://github.com/bolt/bolt/pull/6299)
  - Change: More Symfony Forms updates [#6766](https://github.com/bolt/bolt/pull/6766)
@@ -141,27 +53,84 @@ Released: 2017-09-30. Notable changes
  - Change: Use class name resolution in Twig tokens tidy & tests [#6478](https://github.com/bolt/bolt/pull/6478)
  - Change: Use class name resolution though code base [#6396](https://github.com/bolt/bolt/pull/6396)
  - Change: Use native JSON handling for Composer CLI [#6948](https://github.com/bolt/bolt/pull/6948)
+ - Change: When prefilling, add only one record to singletons. [#7038](https://github.com/bolt/bolt/pull/7038)
+ - Changed: Re-introduce `implements SanitiserAwareInterface` for `type: text` fields. [#7169](https://github.com/bolt/bolt/pull/7169)
+ - Changed: Tidying up recommendations on `firstuser.twig`. [#7159](https://github.com/bolt/bolt/pull/7159)
+ - Changed: Tiny change: Make icons on "Set-up Checks" more consistent with "First user". [#7161](https://github.com/bolt/bolt/pull/7161)
+ - Cleanup: CS clean-up [#7143](https://github.com/bolt/bolt/pull/7143)
+ - Cleanup: More Twig namespaces [#7134](https://github.com/bolt/bolt/pull/7134)
+ - Cleanup: Updating a few dutch labels and a column width for Block type. [#7142](https://github.com/bolt/bolt/pull/7142)
  - Deprecation: Add migration for `Twig_Simple` [#6596](https://github.com/bolt/bolt/pull/6596)
  - Deprecation: Add missing `$form->isSubmitted()` [#6667](https://github.com/bolt/bolt/pull/6667)
  - Deprecation: Use namespaced Twig [#6742](https://github.com/bolt/bolt/pull/6742)
+ - Fixed: "Save and return" and "save and new" buttons on edit screens work correctly. [#7153](https://github.com/bolt/bolt/pull/7153)
+ - Fixed: `title_format` addition: Only use fields that (still) exist [#7086](https://github.com/bolt/bolt/pull/7086)
+ - Fixed: A few minor fileupload tweaks [#7078](https://github.com/bolt/bolt/pull/7078)
+ - Fixed: A handful of HTML/CSS tweaks for Blocks <-> Repeaters consistency [#7114](https://github.com/bolt/bolt/pull/7114)
+ - Fixed: Add an empty hidden field to ensure the field is saved [#7117](https://github.com/bolt/bolt/pull/7117)
+ - Fixed: After an 'action' on a record in overview, the ordering gets lost. Enable new group sorting on the equivalent ajax action. [#7157](https://github.com/bolt/bolt/pull/7157) [#7151](https://github.com/bolt/bolt/pull/7151)
+ - Fixed: Allocate the other results to an ungrouped array. Fixes disappearing records when adding "groups" taxonomy. [#7150](https://github.com/bolt/bolt/pull/7150) [#7158](https://github.com/bolt/bolt/pull/7158)
+ - Fixed: BC break on username case handling. Add transformer on username field [#7055](https://github.com/bolt/bolt/pull/7055)
  - Fixed: Catch `InvalidFieldNameException` in `revokeSession()` [#6916](https://github.com/bolt/bolt/pull/6916)
+ - Fixed: Catch `TableNotFoundException` for new ContentTypes. [#7041](https://github.com/bolt/bolt/pull/7041)
+ - Fixed: Change `bolt/requirements` to a stable constraint (^1.0) [#7112](https://github.com/bolt/bolt/pull/7112)
+ - Fixed: Change `trimtext` to `excerpt` [#7091](https://github.com/bolt/bolt/pull/7091)
+ - Fixed: Contextual menu in listing should show `singular_name` [#7105](https://github.com/bolt/bolt/pull/7105)
  - Fixed: Correct order parameter to use minus sign [#6924](https://github.com/bolt/bolt/pull/6924)
+ - Fixed: Don't break the exception page on early exceptions [#7146](https://github.com/bolt/bolt/pull/7146)
  - Fixed: Don't check for changes in dynamically inserted elements. Fixes browser naghing about losing form data when saving page [#6991](https://github.com/bolt/bolt/pull/6991) [#6996](https://github.com/bolt/bolt/pull/6996)
+ - Fixed: Don't require double confirmation on deleting folders. [#7081](https://github.com/bolt/bolt/pull/7081)
+ - Fixed: Don't show empty "Latest changes panel" if the changelog is not enabled. [#7101](https://github.com/bolt/bolt/pull/7101)
+ - Fixed: Edge-case in `title_format` for CT's with no textual fields [#7108](https://github.com/bolt/bolt/pull/7108)
+ - Fixed: Ensure hyphens in urls are replaced with underscores before going into the Query Engine [#7140](https://github.com/bolt/bolt/pull/7140)
+ - Fixed: Files & directories with certain characters can't be deleted - Use JavaScript context escape for file & directory paths in data-action [#7053](https://github.com/bolt/bolt/pull/7053)
+ - Fixed: First item in pager should not be canonical for search (because it loses the search term otherwise) [#7165](https://github.com/bolt/bolt/pull/7165)
  - Fixed: Fix crashes on new ContentTypes [#7028](https://github.com/bolt/bolt/pull/7028)
+ - Fixed: Fix grouping support in backend overview. [#7131](https://github.com/bolt/bolt/pull/7131)
+ - Fixed: Fix incorrect link to Routing docs. [#7073](https://github.com/bolt/bolt/pull/7073)
  - Fixed: Fix Javascript Error In Block Field Javascript [#6307](https://github.com/bolt/bolt/pull/6307)
  - Fixed: Fix listing issues [#6900](https://github.com/bolt/bolt/pull/6900)
+ - Fixed: Fix named repeaters during CLI import and export [#7070](https://github.com/bolt/bolt/pull/7070)
+ - Fixed: Fix select values in new named repeater blocks [#7082](https://github.com/bolt/bolt/pull/7082)
  - Fixed: Fix styling for image divs [#6992](https://github.com/bolt/bolt/pull/6992)
+ - Fixed: Fix taxonomies on `database:import` CLI script [#7039](https://github.com/bolt/bolt/pull/7039)
+ - Fixed: Fix taxonomy grouping queries with commas. [#7130](https://github.com/bolt/bolt/pull/7130)
+ - Fixed: Fix thumbnails showing correctly in listing view, if an `imagelist` field is used. [#7044](https://github.com/bolt/bolt/pull/7044)
+ - Fixed: Fixes for `title_format` handling [#7067](https://github.com/bolt/bolt/pull/7067)
+ - Fixed: Handle deletion of field content after a content record is deleted [#7109](https://github.com/bolt/bolt/pull/7109)
+ - Fixed: Handle images that aren't found a bit more gracefully. [#7084](https://github.com/bolt/bolt/pull/7084)
+ - Fixed: Handle parent URIs with query parameters [#7115](https://github.com/bolt/bolt/pull/7115)
+ - Fixed: Hyphenated ContentTypes & validation checks [#7125](https://github.com/bolt/bolt/pull/7125)
+ - Fixed: Improve content types titles in some templates. [#7160](https://github.com/bolt/bolt/pull/7160)
+ - Fixed: In route generation, lookup parameters from the route defaults [#7106](https://github.com/bolt/bolt/pull/7106)
+ - Fixed: In single fetch mode return `false` instead of empty set [#7110](https://github.com/bolt/bolt/pull/7110)
  - Fixed: Incorrect Regex escaping [#6606](https://github.com/bolt/bolt/pull/6606)
  - Fixed: Invert logic so setcontent legacy is on by default [#6923](https://github.com/bolt/bolt/pull/6923)
  - Fixed: JS Linting Errors [#6547](https://github.com/bolt/bolt/pull/6547)
+ - Fixed: Make the `type: blocks` field work with `{{ block() }}`. [#8](https://github.com/bolt/themes/pull/8)
+ - Fixed: Menu drop bear. [#7042](https://github.com/bolt/bolt/pull/7042)
+ - Fixed: Move build logic out of loop, and account for first ContentType being a singleton in menu. [#7135](https://github.com/bolt/bolt/pull/7135)
  - Fixed: Multiple extends tags are forbidden [#6597](https://github.com/bolt/bolt/pull/6597)
  - Fixed: New storage layer fixed pagination handling [#7014](https://github.com/bolt/bolt/pull/7014)
+ - Fixed: On Dashboard listings, use 'key' instead of 'slug' [#7141](https://github.com/bolt/bolt/pull/7141)
+ - Fixed: Only pass user's ID into `Users::addRole()` [#7092](https://github.com/bolt/bolt/pull/7092)
+ - Fixed: Only set a 'group' when the taxonomy is relevant. [#7155](https://github.com/bolt/bolt/pull/7155)
+ - Fixed: Remove `import` for Deprecated in `Arr.php` too [#7097](https://github.com/bolt/bolt/pull/7097)
+ - Fixed: Remove import for Bolt\Common\Deprecated [#7094](https://github.com/bolt/bolt/pull/7094)
+ - Fixed: Remove permissions in incoming relationships. [#7144](https://github.com/bolt/bolt/pull/7144)
+ - Fixed: Reset `ORDER BY` on pager count queries, get "Title Column name" correctly. [#7045](https://github.com/bolt/bolt/pull/7045)
+ - Fixed: Restrict resizing of `<textarea>` to vertical only. [#7100](https://github.com/bolt/bolt/pull/7100)
  - Fixed: Save Errors When Deleting Repeaters [#6314](https://github.com/bolt/bolt/pull/6314)
  - Fixed: Singletons in submenus need to skip "overview" too [#7030](https://github.com/bolt/bolt/pull/7030)
  - Fixed: Strict mode fixes for Repeater Blocks [#6593](https://github.com/bolt/bolt/pull/6593)
  - Fixed: Swap `Bag` for `MutableBag` [#6949](https://github.com/bolt/bolt/pull/6949)
  - Fixed: Taxonomy template tweak [#6987](https://github.com/bolt/bolt/pull/6987)
+ - Fixed: Update namespace for default bundle :koala: [#7147](https://github.com/bolt/bolt/pull/7147)
+ - Fixed: Use 'singular_name' instead of slug in "Edit Content". [#7068](https://github.com/bolt/bolt/pull/7068)
+ - Fixed: Use `icon_one` for Singleton ContentTypes, instead of `icon_many` in menu. [#7098](https://github.com/bolt/bolt/pull/7098)
  - Fixed: When prefilling, add only one record to singletons. [#7038](https://github.com/bolt/bolt/pull/7038)
+ - Tests: [Tests] Fixes for "not found" assertions [#7049](https://github.com/bolt/bolt/pull/7049)
+ - Tests: Coverage for Bolt\Asset [#7172](https://github.com/bolt/bolt/pull/7172)
  - Tests: Deprecation import checks [#6723](https://github.com/bolt/bolt/pull/6723)
  - Tests: Risky Business [#6939](https://github.com/bolt/bolt/pull/6939)
  - Tests: Setcontent [#6872](https://github.com/bolt/bolt/pull/6872)
