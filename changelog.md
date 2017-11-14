@@ -76,6 +76,7 @@ Released: 2017-11-14. Notable changes:
  - Fixed: Change `bolt/requirements` to a stable constraint (^1.0) [#7112](https://github.com/bolt/bolt/pull/7112)
  - Fixed: Change `trimtext` to `excerpt` [#7091](https://github.com/bolt/bolt/pull/7091)
  - Fixed: Contextual menu in listing should show `singular_name` [#7105](https://github.com/bolt/bolt/pull/7105)
+ - Fixed: Correct logic for MIME type detection [#7174](https://github.com/bolt/bolt/pull/7174)
  - Fixed: Correct order parameter to use minus sign [#6924](https://github.com/bolt/bolt/pull/6924)
  - Fixed: Don't break the exception page on early exceptions [#7146](https://github.com/bolt/bolt/pull/7146)
  - Fixed: Don't check for changes in dynamically inserted elements. Fixes browser naghing about losing form data when saving page [#6991](https://github.com/bolt/bolt/pull/6991) [#6996](https://github.com/bolt/bolt/pull/6996)
