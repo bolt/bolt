@@ -25,7 +25,7 @@
 
     {{ files_path(context.directory, pathoptions) }}
 
-    <div class="file-manager">
+    <div class="ck-file-manager">
         {% if context.directories|length > 0 %}
             {{ include('@bolt/files/_folders.twig', {'pathoptions': pathoptions}) }}
         {% endif %}
