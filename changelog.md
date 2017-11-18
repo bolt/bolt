@@ -1,6 +1,15 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.4.1
+----------
+
+Released: 2017-11-18. Notable changes:
+
+ - Fixed: Installing Bolt 3.4 from `composer create-project` fails. Remove recursive `Bag` use from `BundleConfigurator` [#7179](https://github.com/bolt/bolt/pull/7179) [#7178](https://github.com/bolt/bolt/pull/7178)
+ - Fixed: Inserting images from CK's 'browse on server' dialog [#7180](https://github.com/bolt/bolt/pull/7180)
+ - Updated: [Security] Symfony components updated to 2.8.31 [Symfony 2.8.31 released](http://symfony.com/blog/symfony-2-8-31-released)
+
 Bolt 3.4.0
 ----------
 
