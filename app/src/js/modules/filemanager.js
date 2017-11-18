@@ -202,7 +202,7 @@
         Dropzone.autoDiscover = false;
 
         // Bail out if this isn't the filemanager page
-        if(document.querySelector('.file-manager') !== null) {
+        if(document.querySelector('div.file-manager') !== null) {
 
             // Dropzone events
             bindDropzone();
