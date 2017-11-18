@@ -112,7 +112,7 @@ final class BundleConfigurator
             return;
         }
 
-        $extensions = MutableBag::from($contents->get('extensions', []));
+        $extensions = (array) $contents->get('extensions', []);
         foreach ($extensions as $extension) {
             if (is_a($extension, CustomisationExtension::class, true)) {
                 // If there is already a valid entry, exit
@@ -120,7 +120,7 @@ final class BundleConfigurator
             }
         }
         // Add the extension to the bag
-        $extensions->add(CustomisationExtension::class);
+        $extensions[] = CustomisationExtension::class;
         $contents->set('extensions', $extensions);
     }
 }
