@@ -62,7 +62,7 @@ class RoutingRuntime
     /**
      * Check if the page is viewed on a mobile device.
      *
-     * @return boolean
+     * @return bool
      */
     public function isMobileClient()
     {
@@ -94,9 +94,9 @@ class RoutingRuntime
     /**
      * Return the requested parameter from $_REQUEST, $_GET or $_POST.
      *
-     * @param string  $parameter    The parameter to get
-     * @param string  $from         'GET' or 'POST', all the others falls back to REQUEST.
-     * @param boolean $stripSlashes Apply stripslashes. Defaults to false.
+     * @param string $parameter    The parameter to get
+     * @param string $from         'GET' or 'POST', all the others falls back to REQUEST
+     * @param bool   $stripSlashes Apply stripslashes. Defaults to false.
      *
      * @return mixed
      */

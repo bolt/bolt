@@ -67,9 +67,9 @@ class UserRuntime
      * content item).
      *
      * @param string $what    Operation
-     * @param mixed  $content If specified, a Content item.
+     * @param mixed  $content if specified, a Content item
      *
-     * @return boolean True if allowed
+     * @return bool True if allowed
      */
     public function isAllowed($what, $content = null)
     {

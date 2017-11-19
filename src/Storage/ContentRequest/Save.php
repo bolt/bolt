@@ -82,12 +82,12 @@ class Save
     /**
      * Do the save for a POSTed record.
      *
-     * @param array   $formValues
-     * @param array   $contentType  The ContentType data
-     * @param integer $id           The record ID
-     * @param boolean $new          If TRUE this is a new record
-     * @param string  $returnTo
-     * @param string  $editReferrer
+     * @param array  $formValues
+     * @param array  $contentType  The ContentType data
+     * @param int    $id           The record ID
+     * @param bool   $new          If TRUE this is a new record
+     * @param string $returnTo
+     * @param string $editReferrer
      *
      * @throws AccessControlException
      *
@@ -110,7 +110,7 @@ class Save
         }
 
         // Don't allow spoofing the ID.
-        if ($content->getId() !== null && (integer) $id !== $content->getId()) {
+        if ($content->getId() !== null && (int) $id !== $content->getId()) {
             if ($returnTo === 'ajax') {
                 throw new AccessControlException("Don't try to spoof the id!");
             }
@@ -137,7 +137,7 @@ class Save
      *
      * @param Entity\Content $content
      * @param string         $contentTypeSlug
-     * @param integer        $id
+     * @param int            $id
      * @param string         $oldStatus
      */
     private function setTransitionStatus(Entity\Content $content, $contentTypeSlug, $id, $oldStatus)
@@ -167,7 +167,7 @@ class Save
         $user = $this->users->getCurrentUser();
         if ($id = $content->getId()) {
             // Owner is set explicitly, is current user is allowed to do this?
-            if (isset($formValues['ownerid']) && (integer) $formValues['ownerid'] !== $content->getOwnerid()) {
+            if (isset($formValues['ownerid']) && (int) $formValues['ownerid'] !== $content->getOwnerid()) {
                 if (!$this->users->isAllowed("contenttype:{$contentType['slug']}:change-ownership:$id")) {
                     throw new AccessControlException('Changing ownership is not allowed.');
                 }
@@ -247,7 +247,7 @@ class Save
      * @param Entity\Content      $content
      * @param Entity\Content|null $oldContent
      * @param array               $contentType
-     * @param boolean             $new
+     * @param bool                $new
      * @param string              $comment
      * @param string              $returnTo
      * @param string              $editReferrer
@@ -354,7 +354,7 @@ class Save
      * save events.
      *
      * @param Entity\Content $content
-     * @param boolean        $flush
+     * @param bool           $flush
      *
      * @return JsonResponse
      */
@@ -400,7 +400,7 @@ class Save
      * Add a change log entry to track the change.
      *
      * @param string              $contentType
-     * @param integer             $contentId
+     * @param int                 $contentId
      * @param Entity\Content      $newContent
      * @param Entity\Content|null $oldContent
      * @param string|null         $comment

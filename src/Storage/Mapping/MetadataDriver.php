@@ -70,7 +70,7 @@ class MetadataDriver implements MappingDriver
 
     /** @var string A default entity for any table not matched */
     protected $fallbackEntity = Entity\Content::class;
-    /** @var boolean */
+    /** @var bool */
     protected $initialized = false;
 
     /**
@@ -539,7 +539,7 @@ class MetadataDriver implements MappingDriver
     public function loadMetadataForClass($className, ClassMetadata $metadata = null)
     {
         $fullClassName = null;
-        if (null === $metadata) {
+        if ($metadata === null) {
             $fullClassName = $this->resolveClassName($className);
             $metadata = new BoltClassMetadata($fullClassName, $this->namingStrategy);
         }
@@ -683,7 +683,7 @@ class MetadataDriver implements MappingDriver
      *
      * @param string $className
      *
-     * @return ClassMetadata|false The class metadata.
+     * @return ClassMetadata|false the class metadata
      */
     public function getClassMetadata($className)
     {
@@ -717,7 +717,7 @@ class MetadataDriver implements MappingDriver
      *
      * @param string $className
      *
-     * @return boolean
+     * @return bool
      */
     public function isTransient($className)
     {

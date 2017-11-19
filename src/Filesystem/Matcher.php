@@ -40,7 +40,7 @@ class Matcher
      * @param FileInterface|string $path
      * @param bool                 $throwException
      *
-     * @throws FileNotFoundException If file was not found.
+     * @throws FileNotFoundException if file was not found
      *
      * @return FileInterface
      */
@@ -91,7 +91,7 @@ class Matcher
      * @param ImageInterface|string $path
      * @param bool                  $throwException
      *
-     * @throws FileNotFoundException If file was not found.
+     * @throws FileNotFoundException if file was not found
      *
      * @return ImageInterface
      */

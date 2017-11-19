@@ -335,7 +335,7 @@ class ResourceManager
      *
      * @param string $name of path
      *
-     * @return boolean
+     * @return bool
      */
     public function hasPath($name)
     {
@@ -698,7 +698,9 @@ class ResourceManager
 
     private function callerNot(array $files, $index = 1)
     {
-        $files = array_map(function ($file) { return __DIR__ . '/' . $file . '.php'; }, $files);
+        $files = array_map(function ($file) {
+            return __DIR__ . '/' . $file . '.php';
+        }, $files);
 
         $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, $index + 1)[$index];
 

@@ -54,7 +54,7 @@ class Config
         'username',
     ];
 
-    /** @var integer */
+    /** @var int */
     protected $cachetimestamp;
 
     /**
@@ -65,7 +65,7 @@ class Config
      */
     public $fields;
 
-    /** @var boolean @deprecated Deprecated since 3.2, to be removed in 4.0 */
+    /** @var bool @deprecated Deprecated since 3.2, to be removed in 4.0 */
     public $notify_update;
 
     /** @var array */
@@ -177,7 +177,7 @@ class Config
      * @param string $path
      * @param mixed  $value
      *
-     * @return boolean
+     * @return bool
      */
     public function set($path, $value)
     {
@@ -192,8 +192,8 @@ class Config
      * For example:
      * $var = $config->get('general/wysiwyg/ck/contentsCss');
      *
-     * @param string               $path
-     * @param string|array|boolean $default
+     * @param string            $path
+     * @param string|array|bool $default
      *
      * @return mixed
      */
@@ -275,13 +275,13 @@ class Config
     {
         $config = [];
 
-        $config['general']      = $this->parseGeneral();
-        $config['taxonomy']     = $this->parseTaxonomy();
+        $config['general'] = $this->parseGeneral();
+        $config['taxonomy'] = $this->parseTaxonomy();
         $config['contenttypes'] = $this->parseContentTypes($config['general']);
-        $config['menu']         = $this->parseConfigYaml('menu.yml');
-        $config['routing']      = $this->parseConfigYaml('routing.yml');
-        $config['permissions']  = $this->parseConfigYaml('permissions.yml');
-        $config['extensions']   = $this->parseConfigYaml('extensions.yml');
+        $config['menu'] = $this->parseConfigYaml('menu.yml');
+        $config['routing'] = $this->parseConfigYaml('routing.yml');
+        $config['permissions'] = $this->parseConfigYaml('permissions.yml');
+        $config['extensions'] = $this->parseConfigYaml('extensions.yml');
 
         return $config;
     }

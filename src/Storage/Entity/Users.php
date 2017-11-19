@@ -167,7 +167,7 @@ class Users extends Entity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isEnabled()
     {
@@ -177,7 +177,7 @@ class Users extends Entity
     /**
      * Getter for enabled flag.
      *
-     * @return boolean
+     * @return bool
      */
     public function getEnabled()
     {
@@ -185,7 +185,7 @@ class Users extends Entity
     }
 
     /**
-     * @param boolean $enabled
+     * @param bool $enabled
      */
     public function setEnabled($enabled)
     {

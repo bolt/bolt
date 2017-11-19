@@ -19,14 +19,14 @@ interface AssetInterface
     /**
      * Get the priority of the asset used for sorting.
      *
-     * @return integer
+     * @return int
      */
     public function getPriority();
 
     /**
      * Set the asset's priority.
      *
-     * @param integer $priority
+     * @param int $priority
      *
      * @return AssetInterface
      */

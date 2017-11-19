@@ -64,7 +64,7 @@ interface FieldCollectionInterface extends Collection
      * @internal
      *
      * This can be refactored to something better, once the
-     * deprecation of legacy content is complete.
+     * deprecation of legacy content is complete
      *
      * @param string $fieldName
      *

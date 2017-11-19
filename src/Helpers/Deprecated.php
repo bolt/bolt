@@ -15,9 +15,9 @@ class Deprecated extends \Bolt\Common\Deprecated
      * Example:
      *     Deprecated::service('foo', 3.3, 'bar'); // triggers warning: "Accessing $app['foo'] is deprecated since 3.3 and will be removed in 4.0. Use $app['bar'] instead."
      *
-     * @param string     $name    The service that is deprecated.
-     * @param float|null $since   The version it was deprecated in.
-     * @param string     $suggest A service name or suggestion of what to use instead.
+     * @param string     $name    the service that is deprecated
+     * @param float|null $since   the version it was deprecated in
+     * @param string     $suggest a service name or suggestion of what to use instead
      */
     public static function service($name, $since = null, $suggest = '')
     {

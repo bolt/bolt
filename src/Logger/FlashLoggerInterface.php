@@ -10,11 +10,11 @@ namespace Bolt\Logger;
  */
 interface FlashLoggerInterface
 {
-    const DANGER        = 'danger';
-    const ERROR         = 'error';
-    const INFO          = 'info';
-    const SUCCESS       = 'success';
-    const WARNING       = 'warning';
+    const DANGER = 'danger';
+    const ERROR = 'error';
+    const INFO = 'info';
+    const SUCCESS = 'success';
+    const WARNING = 'warning';
     const CONFIGURATION = 'configuration';
 
     /**
@@ -82,7 +82,7 @@ interface FlashLoggerInterface
      *
      * @param string $type
      *
-     * @return boolean
+     * @return bool
      */
     public function has($type);
 

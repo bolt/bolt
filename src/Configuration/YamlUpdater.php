@@ -71,7 +71,7 @@ class YamlUpdater
      * Return a value for a key from the yml file.
      *
      * @param string $key
-     * @param bool   $throwEx Throw exception if key is not found.
+     * @param bool   $throwEx throw exception if key is not found
      *
      * @return mixed|string
      */
@@ -142,7 +142,7 @@ class YamlUpdater
     /**
      * Save our modified .yml file.
      *
-     * @param boolean $backup Back up the file before committing changes to it
+     * @param bool $backup Back up the file before committing changes to it
      *
      * @throws IOException
      * @throws ParseException

@@ -89,7 +89,7 @@ final class ScriptHandler
      *
      * @param Event $event
      */
-    protected static function runUpdateProjectFromAssets(Event $event)
+    private static function runUpdateProjectFromAssets(Event $event)
     {
         if ($event->getName() !== ScriptEvents::POST_UPDATE_CMD) {
             return;

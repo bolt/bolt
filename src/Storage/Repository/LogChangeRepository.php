@@ -52,7 +52,7 @@ class LogChangeRepository extends BaseLogRepository
      *
      * @deprecated since 3.3, will be removed in 4.0
      *
-     * @return integer
+     * @return int
      */
     public function countChangeLog()
     {
@@ -130,7 +130,7 @@ class LogChangeRepository extends BaseLogRepository
      * @param string $contentType
      * @param array  $options
      *
-     * @return integer|false
+     * @return int|false
      */
     public function countChangeLogByContentType($contentType, array $options)
     {
@@ -162,12 +162,12 @@ class LogChangeRepository extends BaseLogRepository
     /**
      * Get one changelog entry from the database.
      *
-     * @param mixed   $contentType ContentType slug
-     * @param integer $contentId   Content record ID
-     * @param integer $id          The content change log ID
-     * @param string  $cmpOp       One of '=', '<', '>'; this parameter is used
-     *                             to select either the ID itself, or the subsequent
-     *                             or preceding entry.
+     * @param mixed  $contentType ContentType slug
+     * @param int    $contentId   Content record ID
+     * @param int    $id          The content change log ID
+     * @param string $cmpOp       one of '=', '<', '>'; this parameter is used
+     *                            to select either the ID itself, or the subsequent
+     *                            or preceding entry
      *
      * @throws \InvalidArgumentException
      *
@@ -190,10 +190,10 @@ class LogChangeRepository extends BaseLogRepository
     /**
      * Build query to get one changelog entry from the database.
      *
-     * @param string  $contentType
-     * @param integer $contentId
-     * @param integer $id
-     * @param string  $cmpOp
+     * @param string $contentType
+     * @param int    $contentId
+     * @param int    $id
+     * @param string $cmpOp
      *
      * @return QueryBuilder
      */

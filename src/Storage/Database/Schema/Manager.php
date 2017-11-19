@@ -33,7 +33,7 @@ class Manager implements SchemaManagerInterface
     private $app;
 
     /** @deprecated Deprecated since 3.0, to be removed in 4.0. */
-    const INTEGRITY_CHECK_INTERVAL    = 1800; // max. validity of a database integrity check, in seconds
+    const INTEGRITY_CHECK_INTERVAL = 1800; // max. validity of a database integrity check, in seconds
     const INTEGRITY_CHECK_TS_FILENAME = 'dbcheck_ts'; // filename for the check timestamp file
 
     /**
@@ -171,7 +171,7 @@ class Manager implements SchemaManagerInterface
     /**
      * Check if just the users table is present.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasUserTable()
     {
@@ -247,9 +247,9 @@ class Manager implements SchemaManagerInterface
     /**
      * This method allows extensions to register their own tables.
      *
-     * @param callable $generator A generator function that takes the Schema
+     * @param callable $generator a generator function that takes the Schema
      *                            instance and returns a table or an array of
-     *                            tables.
+     *                            tables
      */
     public function registerExtensionTable(callable $generator)
     {

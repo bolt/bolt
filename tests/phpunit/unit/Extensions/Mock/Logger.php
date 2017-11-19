@@ -14,7 +14,7 @@ class Logger
 
     public function add($message, $level)
     {
-        $this->logs[] =  $message;
+        $this->logs[] = $message;
     }
 
     public function addRecord($level, $message, array $context = [])

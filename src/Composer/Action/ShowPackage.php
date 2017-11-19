@@ -26,10 +26,10 @@ final class ShowPackage extends BaseAction
     /**
      * Retrieves detailed information about a package, or lists all packages available.
      *
-     * @param string  $type    Repository type, either: 'self', 'platform', 'installed' or 'available'
-     * @param string  $package Package name to show
-     * @param string  $version Package version to show
-     * @param boolean $root    Query the Bolt parent composer install
+     * @param string $type    Repository type, either: 'self', 'platform', 'installed' or 'available'
+     * @param string $package Package name to show
+     * @param string $version Package version to show
+     * @param bool   $root    Query the Bolt parent composer install
      *
      * @return array Array of Composer packages
      */

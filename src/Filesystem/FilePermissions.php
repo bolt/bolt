@@ -22,7 +22,7 @@ class FilePermissions
     protected $allowed = [];
     /** @var array Regex list represented resources forbidden for edition. */
     protected $blocked = [];
-    /** @var double Maximum upload size allowed by PHP, in bytes. */
+    /** @var float Maximum upload size allowed by PHP, in bytes. */
     protected $maxUploadSize;
 
     /**
@@ -122,7 +122,7 @@ class FilePermissions
     /**
      * Get the maximum upload size the server is configured to accept.
      *
-     * @return double
+     * @return float
      */
     public function getMaxUploadSize()
     {

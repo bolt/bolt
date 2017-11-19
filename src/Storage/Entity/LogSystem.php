@@ -7,9 +7,9 @@ namespace Bolt\Storage\Entity;
  */
 class LogSystem extends Entity
 {
-    /** @var integer */
+    /** @var int */
     protected $id;
-    /** @var integer */
+    /** @var int */
     protected $level;
     /** @var \DateTime */
     protected $date;

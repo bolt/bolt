@@ -416,7 +416,7 @@ class RecordContentGenerator
     /**
      * Get an array of random tags
      *
-     * @param integer $count
+     * @param int $count
      *
      * @return string[]
      */

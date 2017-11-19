@@ -33,11 +33,11 @@ class Widget implements WidgetAssetInterface
     protected $prefix;
     /** @var string */
     protected $postfix;
-    /** @var boolean */
+    /** @var bool */
     protected $defer;
-    /** @var integer */
+    /** @var int */
     protected $priority;
-    /** @var integer */
+    /** @var int */
     protected $cacheDuration;
 
     /** @var string */
@@ -252,7 +252,7 @@ class Widget implements WidgetAssetInterface
      */
     public function isDeferred()
     {
-        return (boolean) $this->defer;
+        return (bool) $this->defer;
     }
 
     /**
@@ -260,7 +260,7 @@ class Widget implements WidgetAssetInterface
      */
     public function setDefer($defer)
     {
-        $this->defer = (boolean) $defer;
+        $this->defer = (bool) $defer;
 
         return $this;
     }
@@ -270,7 +270,7 @@ class Widget implements WidgetAssetInterface
      */
     public function getPriority()
     {
-        return (integer) $this->priority;
+        return (int) $this->priority;
     }
 
     /**
@@ -278,7 +278,7 @@ class Widget implements WidgetAssetInterface
      */
     public function setPriority($priority)
     {
-        $this->priority = (integer) $priority;
+        $this->priority = (int) $priority;
 
         return $this;
     }

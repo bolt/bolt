@@ -133,7 +133,7 @@ final class QuestionHelper extends SymfonyQuestionHelper
      */
     private function hasSttyAvailable()
     {
-        if (null !== self::$stty) {
+        if (self::$stty !== null) {
             return self::$stty;
         }
 

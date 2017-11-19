@@ -379,7 +379,7 @@ class FilesystemManager extends AsyncBase
      * @param string $oldName
      * @param string $newName
      *
-     * @return boolean
+     * @return bool
      */
     private function isMatchingExtension($oldName, $newName)
     {
@@ -400,7 +400,7 @@ class FilesystemManager extends AsyncBase
      * @param string     $message   A formatted error message
      * @param \Exception $exception The exception that has been thrown
      *
-     * @return boolean Whether the record has been processed
+     * @return bool Whether the record has been processed
      */
     private function logException($message, $exception)
     {

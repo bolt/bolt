@@ -50,7 +50,7 @@ class LazyEntityManager implements EntityManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @deprecated will be removed when {{ setcontent }} is cut over.
+     * @deprecated will be removed when {{ setcontent }} is cut over
      */
     public function getContent($textQuery, $parameters = [], &$pager = [], $whereParameters = [])
     {

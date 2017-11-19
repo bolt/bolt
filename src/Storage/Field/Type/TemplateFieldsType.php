@@ -84,7 +84,7 @@ class TemplateFieldsType extends FieldTypeBase
 
         $type = $this->getStorageType();
 
-        if (null !== $value) {
+        if ($value !== null) {
             $metadata = $this->buildMetadata($entity);
             $value = $this->serialize($value, $metadata);
             $value = $type->convertToDatabaseValue($value, $this->getPlatform());

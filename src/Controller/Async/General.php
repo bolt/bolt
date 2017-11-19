@@ -97,8 +97,8 @@ class General extends AsyncBase
     /**
      * Generate the change log box for a single record in edit.
      *
-     * @param string  $contenttype
-     * @param integer $contentid
+     * @param string $contenttype
+     * @param int    $contentid
      *
      * @return \Bolt\Response\TemplateResponse
      */
@@ -151,8 +151,8 @@ class General extends AsyncBase
     /**
      * Latest {contenttype} to show a small listing in the sidebars.
      *
-     * @param string       $contenttypeslug
-     * @param integer|null $contentid
+     * @param string   $contenttypeslug
+     * @param int|null $contentid
      *
      * @return \Bolt\Response\TemplateResponse
      */
@@ -456,8 +456,8 @@ class General extends AsyncBase
     /**
      * Get last modified records from the content log.
      *
-     * @param string  $contenttypeslug
-     * @param integer $contentid
+     * @param string $contenttypeslug
+     * @param int    $contentid
      *
      * @return \Bolt\Response\TemplateResponse
      */

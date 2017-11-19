@@ -66,7 +66,7 @@ class RecordRuntime
      *
      * @param \Bolt\Legacy\Content|array $content
      *
-     * @return boolean True if the given content is on the curent page.
+     * @return bool true if the given content is on the curent page
      */
     public function current($content)
     {
@@ -121,7 +121,7 @@ class RecordRuntime
      * Create an excerpt for the given content.
      *
      * @param \Bolt\Legacy\Content|array|string $content
-     * @param integer                           $length  Defaults to 200 characters
+     * @param int                               $length  Defaults to 200 characters
      * @param array|string|null                 $focus
      *
      * @return string Resulting excerpt
@@ -236,7 +236,7 @@ class RecordRuntime
      *
      * @param Environment $env
      * @param string      $pagerName
-     * @param integer     $surr
+     * @param int         $surr
      * @param string      $template  The template to apply
      * @param string      $class
      *
@@ -271,7 +271,7 @@ class RecordRuntime
      *
      * @param array        $content     A Bolt record array
      * @param array|string $fieldName   Name of a field, or array of field names to return from each record
-     * @param boolean      $startempty  Whether or not the array should start with an empty element
+     * @param bool         $startempty  Whether or not the array should start with an empty element
      * @param string       $keyName     Name of the key in the array
      * @param string|null  $contentType ContentType string used by the select field
      *

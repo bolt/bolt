@@ -42,7 +42,7 @@ class IgnoredChange
      * @param string $before
      * @param string $after
      *
-     * @return boolean
+     * @return bool
      */
     public function matches($alteration, $propertyName, $before, $after)
     {

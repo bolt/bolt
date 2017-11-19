@@ -78,8 +78,8 @@ class Log extends BackendBase
      *
      * @param Request $request
      * @param string  $contenttype ContentType slug
-     * @param integer $contentid   Content record ID
-     * @param integer $id          The change log entry ID
+     * @param int     $contentid   Content record ID
+     * @param int     $id          The change log entry ID
      *
      * @return \Bolt\Response\TemplateResponse
      */
@@ -109,7 +109,7 @@ class Log extends BackendBase
      *
      * @param Request $request
      * @param string  $contenttype ContentType slug
-     * @param integer $contentid   Content record ID
+     * @param int     $contentid   Content record ID
      *
      * @return \Bolt\Response\TemplateResponse
      */
@@ -213,7 +213,7 @@ class Log extends BackendBase
     /**
      * Calculate pagination parameters.
      *
-     * @param integer|string|null $page
+     * @param int|string|null $page
      *
      * @return array
      */

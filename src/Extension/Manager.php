@@ -334,7 +334,7 @@ class Manager
     /**
      * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
-     * @internal Do not use! For legacy support only.
+     * @internal do not use! For legacy support only
      */
     protected function getApp()
     {

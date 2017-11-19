@@ -8,8 +8,8 @@ use Twig\RuntimeLoader\RuntimeLoaderInterface;
 /**
  * Twig RuntimeLoader implementation.
  *
- * @internal Based on the similar class from Silex 2 and will probably be
- * replaced when Bolt v4 switches to Silex 2.
+ * @internal based on the similar class from Silex 2 and will probably be
+ * replaced when Bolt v4 switches to Silex 2
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

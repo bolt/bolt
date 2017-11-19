@@ -141,8 +141,8 @@ class FilesystemLoader extends TwigFilesystemLoader
     /**
      * Finds a file given the template name.
      *
-     * @param string $name  The template name.
-     * @param bool   $throw Whether to throw exceptions or return false.
+     * @param string $name  the template name
+     * @param bool   $throw whether to throw exceptions or return false
      *
      * @throws LoaderError
      *

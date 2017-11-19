@@ -8,7 +8,7 @@ use Bolt\Translation\Translator as Trans;
 /**
  * Bolt admin (back-end) area menu builder.
  *
- * @internal Backwards compatibility not guaranteed on this class presently.
+ * @internal backwards compatibility not guaranteed on this class presently
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  * @author Carson Full <carsonfull@gmail.com>

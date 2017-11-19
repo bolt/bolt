@@ -27,7 +27,7 @@ class AdminRuntime
     /** @var \Silex\Application */
     private $app;
 
-    /** @var integer Holds the last used Bolt unique ID. */
+    /** @var int Holds the last used Bolt unique ID. */
     private $buid = 0;
 
     /**
@@ -89,7 +89,7 @@ class AdminRuntime
      *
      * @param FileInterface|string $filename
      *
-     * @return boolean
+     * @return bool
      */
     public function testStackable($filename)
     {
@@ -120,7 +120,7 @@ class AdminRuntime
     /**
      * Convert a Monolog log level to textual equivalent.
      *
-     * @param integer $level
+     * @param int $level
      *
      * @return string
      */
@@ -287,7 +287,7 @@ class AdminRuntime
      * Generates pretty class attributes.
      *
      * @param array|string $classes
-     * @param boolean      $raw
+     * @param bool         $raw
      *
      * @return string Class attribute
      */

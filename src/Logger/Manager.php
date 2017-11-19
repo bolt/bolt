@@ -76,10 +76,10 @@ class Manager
     /**
      * Get a specific activity log.
      *
-     * @param string  $log     The log to query.  Either 'change' or 'system'
-     * @param integer $page
-     * @param integer $amount  Number of results to return
-     * @param array   $options
+     * @param string $log     The log to query.  Either 'change' or 'system'
+     * @param int    $page
+     * @param int    $amount  Number of results to return
+     * @param array  $options
      *
      * @throws \UnexpectedValueException
      *
@@ -119,9 +119,9 @@ class Manager
     /**
      * Get the listing data such as title and count.
      *
-     * @param array   $contenttype  The ContentType
-     * @param integer $contentId    The content ID
-     * @param array   $queryOptions
+     * @param array $contenttype  The ContentType
+     * @param int   $contentId    The content ID
+     * @param array $queryOptions
      *
      * @return array
      */

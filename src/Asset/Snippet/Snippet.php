@@ -14,7 +14,7 @@ use Twig\Markup;
  */
 class Snippet implements SnippetAssetInterface
 {
-    /** @var integer */
+    /** @var int */
     protected $priority;
     /** @var string */
     protected $location;

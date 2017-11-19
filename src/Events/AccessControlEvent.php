@@ -14,15 +14,15 @@ class AccessControlEvent extends Event
 {
     /** @var string */
     private $clientIp;
-    /** @var integer */
+    /** @var int */
     private $dateTime;
     /** @var string */
     private $uri;
     /** @var string */
     private $userName;
-    /** @var integer */
+    /** @var int */
     private $reason;
-    /** @var boolean */
+    /** @var bool */
     private $dispatched = false;
 
     /**
@@ -57,7 +57,7 @@ class AccessControlEvent extends Event
     /**
      * @internal
      *
-     * @param integer $reason
+     * @param int $reason
      *
      * @return AccessControlEvent
      */
@@ -75,7 +75,7 @@ class AccessControlEvent extends Event
     /**
      * Return the failure reason code.
      *
-     * @return integer
+     * @return int
      */
     public function getReason()
     {
@@ -95,7 +95,7 @@ class AccessControlEvent extends Event
     /**
      * Return the timestamp the request occurred.
      *
-     * @return integer
+     * @return int
      */
     public function getDateTime()
     {

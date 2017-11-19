@@ -80,7 +80,7 @@ final class BundleConfigurator
     private function load()
     {
         if (file_exists(static::FILENAME)) {
-            return MutableBag::fromRecursive(Yaml::parse(file_get_contents(static::FILENAME)) ?: []);
+            return MutableBag::from(Yaml::parse(file_get_contents(static::FILENAME)) ?: []);
         }
 
         return MutableBag::of();
@@ -94,7 +94,7 @@ final class BundleConfigurator
     private function save(MutableBag $contents)
     {
         try {
-            $this->filesystem->dumpFile(static::FILENAME, Yaml::dump($contents->toArrayRecursive()));
+            $this->filesystem->dumpFile(static::FILENAME, Yaml::dump($contents->toArray()));
             $this->io->success('Added the site bundle to .bolt.yml');
         } catch (IOException $e) {
             $this->io->error('Unable to add the site bundle to .bolt.yml');
@@ -112,7 +112,7 @@ final class BundleConfigurator
             return;
         }
 
-        $extensions = MutableBag::from($contents->get('extensions', []));
+        $extensions = (array) $contents->get('extensions', []);
         foreach ($extensions as $extension) {
             if (is_a($extension, CustomisationExtension::class, true)) {
                 // If there is already a valid entry, exit
@@ -120,7 +120,7 @@ final class BundleConfigurator
             }
         }
         // Add the extension to the bag
-        $extensions->add(CustomisationExtension::class);
+        $extensions[] = CustomisationExtension::class;
         $contents->set('extensions', $extensions);
     }
 }

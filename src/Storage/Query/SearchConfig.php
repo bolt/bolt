@@ -144,7 +144,7 @@ class SearchConfig
      *
      * @param string $contentType
      *
-     * @return boolean
+     * @return bool
      */
     protected function isInvisible($contentType)
     {

@@ -180,7 +180,7 @@ class ClassMetadata implements ClassMetadataInterface
      *
      * @param string $fieldName
      *
-     * @return boolean
+     * @return bool
      */
     public function isIdentifier($fieldName)
     {
@@ -191,7 +191,7 @@ class ClassMetadata implements ClassMetadataInterface
      *
      * @param string $fieldName
      *
-     * @return boolean
+     * @return bool
      */
     public function hasField($fieldName)
     {

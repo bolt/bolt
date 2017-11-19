@@ -31,7 +31,7 @@ class ExistingEntity extends Constraint
      */
     public function __construct($options = null)
     {
-        if (null !== $options && !is_array($options)) {
+        if ($options !== null && !is_array($options)) {
             $options = [
                 'className'  => $options,
                 'fieldNames' => $options,
