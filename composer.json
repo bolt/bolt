@@ -64,11 +64,10 @@
     },
     "require-dev": {
         "bolt/codingstyle": "^2.0@dev",
-        "codeception/codeception": "^2.3.3",
         "league/flysystem-memory": "^1.0",
         "lstrojny/phpunit-function-mocker": "^1.0",
         "phpunit/dbunit": "^3.0",
-        "phpunit/phpunit": "^6.0",
+        "phpunit/phpunit": "^6.4",
         "psr/cache": "^1.0",
         "psr/simple-cache": "^1.0",
         "roave/security-advisories": "dev-master@dev",
