@@ -443,7 +443,7 @@ abstract class BoltUnitTest extends TestCase
     }
 
     /**
-     * @deprecated Remove in v4 as PHPUnit 5 includes this.
+     * @deprecated remove in v4 as PHPUnit 5 includes this
      *
      * @param mixed $originalClassName
      *

@@ -67,7 +67,7 @@ class UserRuntime
      * content item).
      *
      * @param string $what    Operation
-     * @param mixed  $content If specified, a Content item.
+     * @param mixed  $content if specified, a Content item
      *
      * @return bool True if allowed
      */

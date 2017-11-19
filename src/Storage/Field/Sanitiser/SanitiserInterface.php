@@ -12,9 +12,9 @@ interface SanitiserInterface
     /**
      * Sanitise HTML, by allowing only white-listed tags and attributes.
      *
-     * @param string $value     A string value to sanitize.
-     * @param bool   $isWysiwyg True if the field should allow HTML tags
-     *                          needed for WYSIWYG fields.
+     * @param string $value     a string value to sanitize
+     * @param bool   $isWysiwyg true if the field should allow HTML tags
+     *                          needed for WYSIWYG fields
      *
      * @return string
      */

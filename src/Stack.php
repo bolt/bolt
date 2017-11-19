@@ -50,12 +50,12 @@ class Stack implements \Countable, \IteratorAggregate
     /**
      * Add a file to the stack.
      *
-     * @param FileInterface|string $filename The file to add.
-     * @param FileInterface|null   $removed  Returns the removed file, if one was removed.
+     * @param FileInterface|string $filename the file to add
+     * @param FileInterface|null   $removed  returns the removed file, if one was removed
      *
-     * @throws FileNotStackableException If file is not stackable.
+     * @throws FileNotStackableException if file is not stackable
      *
-     * @return FileInterface If filename cannot be matched to filesystem.
+     * @return FileInterface if filename cannot be matched to filesystem
      */
     public function add($filename, FileInterface &$removed = null)
     {

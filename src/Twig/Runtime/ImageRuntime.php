@@ -227,9 +227,9 @@ class ImageRuntime
      * @param string     $fileName Target filename
      * @param string|int $width    Target width
      * @param string|int $height   Target height
-     * @param string     $crop     Zooming and cropping: Set to 'f(it)', 'b(orders)', 'r(esize)' or 'c(rop)'
+     * @param string     $crop     zooming and cropping: Set to 'f(it)', 'b(orders)', 'r(esize)' or 'c(rop)'
      *                             Set width or height parameter to '0' for proportional scaling
-     *                             Setting them to '' uses default values.
+     *                             Setting them to '' uses default values
      *
      * @return string Relative URL of the thumbnail
      */

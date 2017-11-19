@@ -66,7 +66,7 @@ class RecordRuntime
      *
      * @param \Bolt\Legacy\Content|array $content
      *
-     * @return bool True if the given content is on the curent page.
+     * @return bool true if the given content is on the curent page
      */
     public function current($content)
     {

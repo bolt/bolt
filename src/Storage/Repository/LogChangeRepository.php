@@ -165,9 +165,9 @@ class LogChangeRepository extends BaseLogRepository
      * @param mixed  $contentType ContentType slug
      * @param int    $contentId   Content record ID
      * @param int    $id          The content change log ID
-     * @param string $cmpOp       One of '=', '<', '>'; this parameter is used
+     * @param string $cmpOp       one of '=', '<', '>'; this parameter is used
      *                            to select either the ID itself, or the subsequent
-     *                            or preceding entry.
+     *                            or preceding entry
      *
      * @throws \InvalidArgumentException
      *

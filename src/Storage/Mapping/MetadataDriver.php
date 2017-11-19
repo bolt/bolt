@@ -683,7 +683,7 @@ class MetadataDriver implements MappingDriver
      *
      * @param string $className
      *
-     * @return ClassMetadata|false The class metadata.
+     * @return ClassMetadata|false the class metadata
      */
     public function getClassMetadata($className)
     {

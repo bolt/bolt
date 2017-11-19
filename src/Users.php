@@ -54,7 +54,7 @@ class Users
      *
      * @param Entity\Users|array $user
      *
-     * @return int The number of affected rows.
+     * @return int the number of affected rows
      */
     public function saveUser($user)
     {
@@ -146,7 +146,7 @@ class Users
      *
      * @param int $id
      *
-     * @return int The number of affected rows.
+     * @return int the number of affected rows
      */
     public function deleteUser($id)
     {
@@ -484,11 +484,11 @@ class Users
      * "contenttype:$contenttype:change-ownership:$id" - Change the ownership
      *                                of the specified content type or item.
      *
-     * @param string $what        The desired permission, as elaborated upon above.
+     * @param string $what        the desired permission, as elaborated upon above
      * @param string $contenttype
      * @param int    $contentid
      *
-     * @return bool TRUE if the permission is granted, FALSE if denied.
+     * @return bool TRUE if the permission is granted, FALSE if denied
      */
     public function isAllowed($what, $contenttype = null, $contentid = null)
     {

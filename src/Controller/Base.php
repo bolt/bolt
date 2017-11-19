@@ -266,8 +266,8 @@ abstract class Base implements ControllerProviderInterface
     /**
      * Validates CSRF token and throws HttpException if not.
      *
-     * @param string|null $value The token value or null to use "bolt_csrf_token" parameter from request.
-     * @param string      $id    The token ID.
+     * @param string|null $value the token value or null to use "bolt_csrf_token" parameter from request
+     * @param string      $id    the token ID
      *
      * @throws HttpExceptionInterface
      */
@@ -281,8 +281,8 @@ abstract class Base implements ControllerProviderInterface
     /**
      * Check if csrf token is valid.
      *
-     * @param string|null $value The token value or null to use "bolt_csrf_token" parameter from request.
-     * @param string      $id    The token ID.
+     * @param string|null $value the token value or null to use "bolt_csrf_token" parameter from request
+     * @param string      $id    the token ID
      *
      * @return bool
      */
@@ -369,7 +369,7 @@ abstract class Base implements ControllerProviderInterface
      * Shortcut for {@see \Bolt\AccessControl\Permissions::isAllowed}.
      *
      * @param string      $what
-     * @param mixed       $user        The user to check permissions against.
+     * @param mixed       $user        the user to check permissions against
      * @param string|null $contenttype
      * @param int|null    $contentid
      *

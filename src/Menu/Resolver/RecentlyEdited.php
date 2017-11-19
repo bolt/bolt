@@ -14,7 +14,7 @@ use Parsedown;
 /**
  * Recently edited record resolver.
  *
- * @internal Backwards compatibility not guaranteed on this class presently.
+ * @internal backwards compatibility not guaranteed on this class presently
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

@@ -113,7 +113,7 @@ OUT;
     /**
      * Ask which path to modify.
      *
-     * @return string|null The path name to modify or null to finish.
+     * @return string|null the path name to modify or null to finish
      */
     protected function askPathToModify()
     {

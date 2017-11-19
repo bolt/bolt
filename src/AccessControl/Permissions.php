@@ -221,7 +221,7 @@ class Permissions
      * @param string $type
      * @param mixed  $item
      *
-     * @return bool TRUE if granted, FALSE if not.
+     * @return bool TRUE if granted, FALSE if not
      */
     public function checkPermission($roleNames, $permissionName, $type = null, $item = null)
     {
@@ -466,11 +466,11 @@ class Permissions
      * The effective roles include the roles that were explicitly assigned,
      * as well as the built-in automatic roles.
      *
-     * @param mixed $user An array or array-access object that contains a
+     * @param mixed $user an array or array-access object that contains a
      *                    'roles' key; if no user is given, "guest" access is
-     *                    assumed.
+     *                    assumed
      *
-     * @return array A list of effective role names for this user.
+     * @return array a list of effective role names for this user
      */
     public function getEffectiveRolesForUser($user)
     {
@@ -515,14 +515,14 @@ class Permissions
      *
      * "contenttype:$contenttype:edit or contenttype:$contenttype:view"
      *
-     * @param string               $what      The desired permission, as elaborated upon above.
-     * @param mixed                $user      The user to check permissions against.
+     * @param string               $what      the desired permission, as elaborated upon above
+     * @param mixed                $user      the user to check permissions against
      * @param string|array|Content $content   Optional: Content object/array or ContentType slug.
      *                                        If specified, $what is taken to be a relative permission (e.g. 'edit')
      *                                        rather than an absolute one (e.g. 'contenttype:pages:edit').
-     * @param int                  $contentId Only used if $content is given, to further specifiy the content item.
+     * @param int                  $contentId only used if $content is given, to further specifiy the content item
      *
-     * @return bool TRUE if the permission is granted, FALSE if denied.
+     * @return bool TRUE if the permission is granted, FALSE if denied
      */
     public function isAllowed($what, $user, $content = null, $contentId = null)
     {

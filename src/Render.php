@@ -88,7 +88,7 @@ class Render
      *
      * Check if the template exists.
      *
-     * @param string $template The name of the template.
+     * @param string $template the name of the template
      *
      * @return bool
      */

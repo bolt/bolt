@@ -132,7 +132,7 @@ class Records extends BackendBase
     /**
      * Calculate the parameter used to determine response.
      *
-     * @internal To be removed when forms cut-over is complete.
+     * @internal to be removed when forms cut-over is complete
      *
      * @param Request $request
      * @param Button  $button

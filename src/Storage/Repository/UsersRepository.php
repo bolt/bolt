@@ -16,8 +16,8 @@ class UsersRepository extends Repository
     /**
      * Delete a user.
      *
-     * @param string|int $userId Either the user's ID, username, or email
-     *                           address.
+     * @param string|int $userId either the user's ID, username, or email
+     *                           address
      *
      * @return int
      */
@@ -56,8 +56,8 @@ class UsersRepository extends Repository
     /**
      * Get a user.
      *
-     * @param string|int $userId Either the user's ID, username, or email
-     *                           address.
+     * @param string|int $userId either the user's ID, username, or email
+     *                           address
      *
      * @return Entity\Users|false
      */

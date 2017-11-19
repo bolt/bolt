@@ -247,9 +247,9 @@ class Manager implements SchemaManagerInterface
     /**
      * This method allows extensions to register their own tables.
      *
-     * @param callable $generator A generator function that takes the Schema
+     * @param callable $generator a generator function that takes the Schema
      *                            instance and returns a table or an array of
-     *                            tables.
+     *                            tables
      */
     public function registerExtensionTable(callable $generator)
     {

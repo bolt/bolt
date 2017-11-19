@@ -17,8 +17,8 @@ trait ContentTypeTrait
      *
      * @param string $key
      *
-     * @return array An associative array containing at least the key 'type',
-     *               and, depending on the type, other keys.
+     * @return array an associative array containing at least the key 'type',
+     *               and, depending on the type, other keys
      */
     public function fieldInfo($key)
     {

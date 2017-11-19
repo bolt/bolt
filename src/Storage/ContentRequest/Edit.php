@@ -69,7 +69,7 @@ class Edit
     }
 
     /**
-     * @internal DO NOT USE.
+     * @internal DO NOT USE
      *
      * @deprecated Temporary and to be removed circa 3.5.
      *

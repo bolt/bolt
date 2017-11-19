@@ -95,7 +95,7 @@ class RoutingRuntime
      * Return the requested parameter from $_REQUEST, $_GET or $_POST.
      *
      * @param string $parameter    The parameter to get
-     * @param string $from         'GET' or 'POST', all the others falls back to REQUEST.
+     * @param string $from         'GET' or 'POST', all the others falls back to REQUEST
      * @param bool   $stripSlashes Apply stripslashes. Defaults to false.
      *
      * @return mixed

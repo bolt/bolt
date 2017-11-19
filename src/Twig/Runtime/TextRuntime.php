@@ -36,7 +36,7 @@ class TextRuntime
      * JSON decodes a variable. Twig has a built-in json_encode filter, but no built-in
      * function to JSON decode a string. This functionality remedies that.
      *
-     * @param string $string The string to decode.
+     * @param string $string the string to decode
      *
      * @return array|null The JSON decoded array
      */
@@ -138,7 +138,7 @@ class TextRuntime
     /**
      * Test whether a passed string contains valid JSON.
      *
-     * @param string $string The string to test.
+     * @param string $string the string to test
      *
      * @return bool
      */

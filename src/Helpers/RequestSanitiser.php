@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Exception request sanitiser.
  *
- * @internal Only to be used to sanitise Request objects for Twig exception renders.
+ * @internal only to be used to sanitise Request objects for Twig exception renders
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

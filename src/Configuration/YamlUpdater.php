@@ -71,7 +71,7 @@ class YamlUpdater
      * Return a value for a key from the yml file.
      *
      * @param string $key
-     * @param bool   $throwEx Throw exception if key is not found.
+     * @param bool   $throwEx throw exception if key is not found
      *
      * @return mixed|string
      */
