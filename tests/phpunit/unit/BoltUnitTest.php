@@ -140,7 +140,7 @@ abstract class BoltUnitTest extends TestCase
     {
         // Check if default user exists before adding
         $existingUser = $app['users']->getUser('admin');
-        if (false !== $existingUser) {
+        if ($existingUser !== false) {
             return $existingUser;
         }
 

@@ -539,7 +539,7 @@ class MetadataDriver implements MappingDriver
     public function loadMetadataForClass($className, ClassMetadata $metadata = null)
     {
         $fullClassName = null;
-        if (null === $metadata) {
+        if ($metadata === null) {
             $fullClassName = $this->resolveClassName($className);
             $metadata = new BoltClassMetadata($fullClassName, $this->namingStrategy);
         }

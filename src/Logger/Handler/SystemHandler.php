@@ -59,7 +59,7 @@ class SystemHandler extends AbstractProcessingHandler
             // Nothing.
         }
 
-        return false === $this->bubble;
+        return $this->bubble === false;
     }
 
     protected function write(array $record)

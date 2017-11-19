@@ -55,7 +55,7 @@ class SwitchNode extends Node
             ;
         }
 
-        if ($this->hasNode('default') && null !== $this->getNode('default')) {
+        if ($this->hasNode('default') && $this->getNode('default') !== null) {
             $compiler
                 ->write("default:\n")
                 ->indent()

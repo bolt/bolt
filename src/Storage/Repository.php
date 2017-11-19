@@ -74,7 +74,7 @@ class Repository implements ObjectRepository
      */
     public function createQueryBuilder($alias = null)
     {
-        if (null === $alias) {
+        if ($alias === null) {
             $alias = $this->getAlias();
         }
 
