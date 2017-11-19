@@ -44,7 +44,7 @@ class Timer
         }
 
         if ($this->cacheFile->exists()) {
-            $expiryTimestamp = (integer) $this->cacheFile->read();
+            $expiryTimestamp = (int) $this->cacheFile->read();
         } else {
             $expiryTimestamp = 0;
         }

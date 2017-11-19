@@ -142,7 +142,7 @@ class Queue implements QueueInterface
      */
     public function has($location, $zone = Zone::FRONTEND)
     {
-        return (boolean) $this->count($location, $zone);
+        return (bool) $this->count($location, $zone);
     }
 
     public function countItemsInQueue($location, $zone = Zone::FRONTEND)

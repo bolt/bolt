@@ -110,7 +110,7 @@ class Save
         }
 
         // Don't allow spoofing the ID.
-        if ($content->getId() !== null && (integer) $id !== $content->getId()) {
+        if ($content->getId() !== null && (int) $id !== $content->getId()) {
             if ($returnTo === 'ajax') {
                 throw new AccessControlException("Don't try to spoof the id!");
             }
@@ -167,7 +167,7 @@ class Save
         $user = $this->users->getCurrentUser();
         if ($id = $content->getId()) {
             // Owner is set explicitly, is current user is allowed to do this?
-            if (isset($formValues['ownerid']) && (integer) $formValues['ownerid'] !== $content->getOwnerid()) {
+            if (isset($formValues['ownerid']) && (int) $formValues['ownerid'] !== $content->getOwnerid()) {
                 if (!$this->users->isAllowed("contenttype:{$contentType['slug']}:change-ownership:$id")) {
                     throw new AccessControlException('Changing ownership is not allowed.');
                 }

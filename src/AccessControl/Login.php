@@ -159,7 +159,7 @@ class Login extends AccessChecker
                 return false;
             }
 
-            $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
+            $cookieLifetime = (int) $this->cookieOptions['lifetime'];
             $userTokenEntity->setValidity(Carbon::create()->addSeconds($cookieLifetime));
             $userTokenEntity->setLastseen(Carbon::now());
             $this->getRepositoryAuthtoken()->save($userTokenEntity);
@@ -305,7 +305,7 @@ class Login extends AccessChecker
     protected function updateAuthToken(Entity\Users $userEntity)
     {
         $userName = $userEntity->getUsername();
-        $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
+        $cookieLifetime = (int) $this->cookieOptions['lifetime'];
         $repo = $this->getRepositoryAuthtoken();
         try {
             $tokenEntity = $repo->getUserToken($userEntity->getId(), $this->getClientIp(), $this->getClientUserAgent());

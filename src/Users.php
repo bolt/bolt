@@ -303,7 +303,7 @@ class Users
     {
         $user = $id ? $this->getUser($id) : $this->getCurrentUser();
 
-        return (boolean) $user['enabled'];
+        return (bool) $user['enabled'];
     }
 
     /**
@@ -320,7 +320,7 @@ class Users
             return false;
         }
 
-        $user['enabled'] = (integer) $enabled;
+        $user['enabled'] = (int) $enabled;
 
         return $this->saveUser($user);
     }

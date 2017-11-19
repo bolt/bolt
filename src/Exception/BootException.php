@@ -34,7 +34,7 @@ class BootException extends RuntimeException
      */
     public function hasResponse()
     {
-        return (boolean) $this->response;
+        return (bool) $this->response;
     }
 
     /**

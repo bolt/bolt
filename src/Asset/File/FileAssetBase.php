@@ -144,7 +144,7 @@ abstract class FileAssetBase implements FileAssetInterface
      */
     public function isLate()
     {
-        return (boolean) $this->late;
+        return (bool) $this->late;
     }
 
     /**

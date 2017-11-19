@@ -110,7 +110,7 @@ class ContentTables extends BaseBuilder
     {
         if ($tableObj->isKnownType($values['type'])) {
             // Use loose comparison on true as 'true' in YAML is a string
-            $addIndex = isset($values['index']) && (boolean) $values['index'] === true;
+            $addIndex = isset($values['index']) && (bool) $values['index'] === true;
             // Add the ContentType's specific fields
             $tableObj->addCustomFields($fieldName, $this->getContentTypeTableColumnType($values), $addIndex);
         } elseif ($handler = $fieldManager->getDatabaseField($values['type'])) {
