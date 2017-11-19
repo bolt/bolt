@@ -57,7 +57,7 @@ trait ContentRouteTrait
     /**
      * Checks if the current record is set as the homepage.
      *
-     * @return boolean
+     * @return bool
      */
     public function isHome()
     {
@@ -195,7 +195,7 @@ trait ContentRouteTrait
      *
      * @param array $route
      *
-     * @return boolean
+     * @return bool
      */
     protected function isApplicableRoute(array $route)
     {

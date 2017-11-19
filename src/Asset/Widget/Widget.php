@@ -33,11 +33,11 @@ class Widget implements WidgetAssetInterface
     protected $prefix;
     /** @var string */
     protected $postfix;
-    /** @var boolean */
+    /** @var bool */
     protected $defer;
-    /** @var integer */
+    /** @var int */
     protected $priority;
-    /** @var integer */
+    /** @var int */
     protected $cacheDuration;
 
     /** @var string */

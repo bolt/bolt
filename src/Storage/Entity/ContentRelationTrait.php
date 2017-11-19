@@ -99,7 +99,7 @@ trait ContentRelationTrait
      * Add a relation.
      *
      * @param string|array $contentType
-     * @param integer      $id
+     * @param int          $id
      */
     public function setRelation($contentType, $id)
     {

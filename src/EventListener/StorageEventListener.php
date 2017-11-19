@@ -39,7 +39,7 @@ class StorageEventListener implements EventSubscriberInterface
     protected $loggerFlash;
     /** @var PasswordFactory */
     protected $passwordFactory;
-    /** @var integer */
+    /** @var int */
     protected $hashStrength;
     /** @var bool */
     protected $timedRecordsEnabled;
@@ -53,7 +53,7 @@ class StorageEventListener implements EventSubscriberInterface
      * @param UrlGeneratorInterface         $urlGenerator
      * @param FlashLoggerInterface          $loggerFlash
      * @param PasswordFactory               $passwordFactory
-     * @param integer                       $hashStrength
+     * @param int                           $hashStrength
      * @param bool                          $timedRecordsEnabled
      */
     public function __construct(

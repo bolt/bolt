@@ -197,8 +197,8 @@ class EntityManager implements EntityManagerInterface
      *
      * This is just a convenient shortcut for getRepository($className)->find($id).
      *
-     * @param string         $className Class name of the object to find.
-     * @param integer|string $id        Identity of the object to find.
+     * @param string     $className Class name of the object to find.
+     * @param int|string $id        Identity of the object to find.
      *
      * @return object The found object.
      */
@@ -214,7 +214,7 @@ class EntityManager implements EntityManagerInterface
      *
      * @param object $object The instance to persist to storage.
      *
-     * @return boolean
+     * @return bool
      */
     public function save($object)
     {
@@ -235,7 +235,7 @@ class EntityManager implements EntityManagerInterface
      *
      * @param object $object The object instance to remove.
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($object)
     {

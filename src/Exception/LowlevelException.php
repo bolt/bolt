@@ -71,7 +71,7 @@ HTML;
      * make sure that it contains valid HTML with proper encoding applied.
      *
      * @param string     $message
-     * @param integer    $code
+     * @param int        $code
      * @param \Exception $previous
      */
     public function __construct($message, $code = null, $previous = null)
@@ -116,7 +116,7 @@ HTML;
      * Callback for register_shutdown_function() to handle fatal errors.
      *
      * @param \Silex\Application $app
-     * @param boolean            $flush
+     * @param bool               $flush
      */
     public static function catchFatalErrors(Application $app, $flush = true)
     {

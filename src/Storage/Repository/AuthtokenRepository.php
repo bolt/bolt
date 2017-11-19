@@ -80,7 +80,7 @@ class AuthtokenRepository extends Repository
      *
      * @param int $userId
      *
-     * @return integer
+     * @return int
      */
     public function deleteTokens($userId)
     {
@@ -102,7 +102,7 @@ class AuthtokenRepository extends Repository
     /**
      * Deletes all expired tokens.
      *
-     * @return integer
+     * @return int
      */
     public function deleteExpiredTokens()
     {

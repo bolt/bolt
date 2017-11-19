@@ -70,7 +70,7 @@ class Cron extends Event
      *
      * @param array $param
      *
-     * @return boolean
+     * @return bool
      */
     public function execute($param = [])
     {
@@ -122,7 +122,7 @@ class Cron extends Event
      *
      * @param string $interimName The cron event name
      *
-     * @return boolean Dispatch event or not
+     * @return bool Dispatch event or not
      */
     private function isExecutable($interimName)
     {

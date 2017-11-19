@@ -68,7 +68,7 @@ class Html
      *
      * @param string $str
      *
-     * @return boolean
+     * @return bool
      */
     public static function isURL($str)
     {

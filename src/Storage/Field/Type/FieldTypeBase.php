@@ -245,7 +245,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      *
      * @param string $value
      *
-     * @return boolean
+     * @return bool
      */
     protected function isJson($value)
     {

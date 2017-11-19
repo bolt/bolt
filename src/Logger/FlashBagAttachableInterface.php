@@ -19,7 +19,7 @@ interface FlashBagAttachableInterface
     /**
      * Returns whether a FlashBag has been attached.
      *
-     * @return boolean
+     * @return bool
      */
     public function isFlashBagAttached();
 }

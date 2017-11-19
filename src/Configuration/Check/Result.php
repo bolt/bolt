@@ -13,7 +13,7 @@ use Bolt\Common\Deprecated;
  */
 class Result implements \JsonSerializable
 {
-    /** @var boolean */
+    /** @var bool */
     protected $pass;
     /** @var string */
     protected $message;
@@ -28,7 +28,7 @@ class Result implements \JsonSerializable
     /**
      * Check if the result is a pass or fail.
      *
-     * @return boolean
+     * @return bool
      */
     public function isPass()
     {
@@ -62,7 +62,7 @@ class Result implements \JsonSerializable
     /**
      * Check if the result contains an exception.
      *
-     * @return boolean
+     * @return bool
      */
     public function isException()
     {

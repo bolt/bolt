@@ -32,10 +32,10 @@ trait ContentTaxonomyTrait
     /**
      * Set the 'group', 'groupname' and 'sortorder' properties of the current object.
      *
-     * @param string  $group
-     * @param string  $name
-     * @param string  $taxonomytype
-     * @param integer $sortorder
+     * @param string $group
+     * @param string $name
+     * @param string $taxonomytype
+     * @param int    $sortorder
      */
     public function setGroup($group, $name, $taxonomytype, $sortorder = 0)
     {
@@ -67,9 +67,9 @@ trait ContentTaxonomyTrait
      * @param string       $taxonomyType
      * @param string|array $slug
      * @param string       $name
-     * @param integer      $sortorder
+     * @param int          $sortorder
      *
-     * @return boolean
+     * @return bool
      */
     public function setTaxonomy($taxonomyType, $slug, $name = '', $sortorder = 0)
     {

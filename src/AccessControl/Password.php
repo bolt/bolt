@@ -35,7 +35,7 @@ class Password
      *
      * @param string $username User specified by ID, username or email address.
      *
-     * @return string|boolean New password or FALSE when no match for username.
+     * @return string|bool New password or FALSE when no match for username.
      */
     public function setRandomPassword($username)
     {

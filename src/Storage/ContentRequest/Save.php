@@ -82,12 +82,12 @@ class Save
     /**
      * Do the save for a POSTed record.
      *
-     * @param array   $formValues
-     * @param array   $contentType  The ContentType data
-     * @param integer $id           The record ID
-     * @param boolean $new          If TRUE this is a new record
-     * @param string  $returnTo
-     * @param string  $editReferrer
+     * @param array  $formValues
+     * @param array  $contentType  The ContentType data
+     * @param int    $id           The record ID
+     * @param bool   $new          If TRUE this is a new record
+     * @param string $returnTo
+     * @param string $editReferrer
      *
      * @throws AccessControlException
      *
@@ -137,7 +137,7 @@ class Save
      *
      * @param Entity\Content $content
      * @param string         $contentTypeSlug
-     * @param integer        $id
+     * @param int            $id
      * @param string         $oldStatus
      */
     private function setTransitionStatus(Entity\Content $content, $contentTypeSlug, $id, $oldStatus)
@@ -247,7 +247,7 @@ class Save
      * @param Entity\Content      $content
      * @param Entity\Content|null $oldContent
      * @param array               $contentType
-     * @param boolean             $new
+     * @param bool                $new
      * @param string              $comment
      * @param string              $returnTo
      * @param string              $editReferrer
@@ -354,7 +354,7 @@ class Save
      * save events.
      *
      * @param Entity\Content $content
-     * @param boolean        $flush
+     * @param bool           $flush
      *
      * @return JsonResponse
      */
@@ -400,7 +400,7 @@ class Save
      * Add a change log entry to track the change.
      *
      * @param string              $contentType
-     * @param integer             $contentId
+     * @param int                 $contentId
      * @param Entity\Content      $newContent
      * @param Entity\Content|null $oldContent
      * @param string|null         $comment

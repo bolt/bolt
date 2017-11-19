@@ -15,7 +15,7 @@ class Token
     protected $user;
     /** @var Entity\Authtoken */
     protected $token;
-    /** @var integer */
+    /** @var int */
     protected $checked;
 
     /**
@@ -43,7 +43,7 @@ class Token
     /**
      * Check if stored user object is enabled.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function isEnabled()
     {
@@ -93,7 +93,7 @@ class Token
     /**
      * Get time of last check against database.
      *
-     * @return integer
+     * @return int
      */
     public function getChecked()
     {

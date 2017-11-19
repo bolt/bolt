@@ -171,7 +171,7 @@ class Manager implements SchemaManagerInterface
     /**
      * Check if just the users table is present.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasUserTable()
     {

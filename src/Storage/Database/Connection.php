@@ -68,7 +68,7 @@ class Connection extends \Doctrine\DBAL\Connection
      *
      * @throws \Doctrine\DBAL\DBALException
      *
-     * @return integer The number of affected rows.
+     * @return int The number of affected rows.
      */
     public function executeUpdate($query, array $params = [], array $types = [])
     {

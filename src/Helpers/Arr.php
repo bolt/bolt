@@ -74,7 +74,7 @@ class Arr extends Collection\Arr
      *
      * @param array $arr
      *
-     * @return boolean True if indexed, false if associative
+     * @return bool True if indexed, false if associative
      *
      * @deprecated since 3.3, to be removed in 4.0.
      */

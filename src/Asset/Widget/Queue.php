@@ -36,7 +36,7 @@ class Queue implements QueueInterface
     /** @var Environment */
     protected $render;
 
-    /** @var boolean */
+    /** @var bool */
     private $deferAdded;
 
     /**
@@ -138,7 +138,7 @@ class Queue implements QueueInterface
      * @param string $location Location (e.g. 'dashboard_aside_top')
      * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
      *
-     * @return boolean
+     * @return bool
      */
     public function has($location, $zone = Zone::FRONTEND)
     {
@@ -158,7 +158,7 @@ class Queue implements QueueInterface
      * @param string $location Location (e.g. 'dashboard_aside_top')
      * @param string $zone     Either Zone::FRONTEND or Zone::BACKEND
      *
-     * @return integer
+     * @return int
      */
     public function count($location, $zone = Zone::FRONTEND)
     {

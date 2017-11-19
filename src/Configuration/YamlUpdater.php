@@ -142,7 +142,7 @@ class YamlUpdater
     /**
      * Save our modified .yml file.
      *
-     * @param boolean $backup Back up the file before committing changes to it
+     * @param bool $backup Back up the file before committing changes to it
      *
      * @throws IOException
      * @throws ParseException

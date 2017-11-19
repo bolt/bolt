@@ -52,11 +52,11 @@ class ImageRuntime
     /**
      * Helper function to make a path to an image.
      *
-     * @param Environment    $env
-     * @param string|array   $fileName Target filename
-     * @param string|integer $width    Target width
-     * @param string|integer $height   Target height
-     * @param string         $crop     String identifier for cropped images
+     * @param Environment  $env
+     * @param string|array $fileName Target filename
+     * @param string|int   $width    Target width
+     * @param string|int   $height   Target height
+     * @param string       $crop     String identifier for cropped images
      *
      * @return string Image path
      */
@@ -126,8 +126,8 @@ class ImageRuntime
      * deprecated in favour of the Magnific Popup library.
      *
      * @param string|array $fileName Image file name
-     * @param integer      $width    Image width
-     * @param integer      $height   Image height
+     * @param int          $width    Image width
+     * @param int          $height   Image height
      * @param string       $crop     Crop image string identifier
      * @param string       $title    Display title for image
      *
@@ -177,10 +177,10 @@ class ImageRuntime
      * Example: {{ content.image|showimage(320, 240) }}
      * Example: {{ showimage(content.image, 320, 240) }}
      *
-     * @param string  $fileName Image filename
-     * @param integer $width    Image width
-     * @param integer $height   Image height
-     * @param string  $crop     Crop image string identifier
+     * @param string $fileName Image filename
+     * @param int    $width    Image width
+     * @param int    $height   Image height
+     * @param string $crop     Crop image string identifier
      *
      * @return string HTML output
      */
@@ -249,8 +249,8 @@ class ImageRuntime
      * Get a thumbnail object.
      *
      * @param string|array $fileName
-     * @param integer      $width
-     * @param integer      $height
+     * @param int          $width
+     * @param int          $height
      * @param string       $scale
      *
      * @return Thumbnail

@@ -18,9 +18,9 @@ class PackageManager
 {
     /** @var Application */
     protected $app;
-    /** @var boolean */
+    /** @var bool */
     protected $started = false;
-    /** @var boolean */
+    /** @var bool */
     protected $useSsl;
 
     /** @var array|null */
@@ -141,7 +141,7 @@ class PackageManager
     /**
      * Dump fresh autoloader.
      *
-     * @return integer 0 on success or a positive error code on failure
+     * @return int 0 on success or a positive error code on failure
      */
     public function dumpAutoload()
     {
@@ -151,7 +151,7 @@ class PackageManager
     /**
      * Install configured packages.
      *
-     * @return integer 0 on success or a positive error code on failure
+     * @return int 0 on success or a positive error code on failure
      */
     public function installPackages()
     {
@@ -176,7 +176,7 @@ class PackageManager
      *
      * @param $packages array Indexed array of package names to remove
      *
-     * @return integer 0 on success or a positive error code on failure
+     * @return int 0 on success or a positive error code on failure
      */
     public function removePackage(array $packages)
     {
@@ -189,7 +189,7 @@ class PackageManager
      * @param $packages array Associative array of package names/versions to remove
      *                        Format: ['name' => '', 'version' => '']
      *
-     * @return integer 0 on success or a positive error code on failure
+     * @return int 0 on success or a positive error code on failure
      */
     public function requirePackage(array $packages)
     {
@@ -228,7 +228,7 @@ class PackageManager
      *
      * @param  $packages array Indexed array of package names to update
      *
-     * @return integer 0 on success or a positive error code on failure
+     * @return int 0 on success or a positive error code on failure
      */
     public function updatePackage(array $packages)
     {
@@ -361,7 +361,7 @@ class PackageManager
     /**
      * Ping site to see if we have a valid connection and it is responding correctly.
      *
-     * @param boolean $addQuery
+     * @param bool $addQuery
      */
     private function ping($addQuery = false)
     {

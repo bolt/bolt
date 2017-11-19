@@ -54,7 +54,7 @@ class Users
      *
      * @param Entity\Users|array $user
      *
-     * @return integer The number of affected rows.
+     * @return int The number of affected rows.
      */
     public function saveUser($user)
     {
@@ -144,9 +144,9 @@ class Users
     /**
      * Remove a user from the database.
      *
-     * @param integer $id
+     * @param int $id
      *
-     * @return integer The number of affected rows.
+     * @return int The number of affected rows.
      */
     public function deleteUser($id)
     {
@@ -211,7 +211,7 @@ class Users
     /**
      * Test to see if there are users in the user table.
      *
-     * @return integer
+     * @return int
      */
     public function hasUsers()
     {
@@ -221,7 +221,7 @@ class Users
     /**
      * Get a user, specified by ID, username or email address.
      *
-     * @param integer|string $userId
+     * @param int|string $userId
      *
      * @return array|false
      */
@@ -295,9 +295,9 @@ class Users
     /**
      * Check a user's enable status.
      *
-     * @param integer|boolean $id User ID, or false for current user
+     * @param int|bool $id User ID, or false for current user
      *
-     * @return boolean
+     * @return bool
      */
     public function isEnabled($id = false)
     {
@@ -309,10 +309,10 @@ class Users
     /**
      * Enable or disable a user, specified by id.
      *
-     * @param integer|string  $id
-     * @param boolean|integer $enabled
+     * @param int|string $id
+     * @param bool|int   $enabled
      *
-     * @return integer
+     * @return int
      */
     public function setEnabled($id, $enabled = true)
     {
@@ -328,10 +328,10 @@ class Users
     /**
      * Check if a certain user has a specific role.
      *
-     * @param string|integer $id
-     * @param string         $role
+     * @param string|int $id
+     * @param string     $role
      *
-     * @return boolean
+     * @return bool
      */
     public function hasRole($id, $role)
     {
@@ -345,10 +345,10 @@ class Users
     /**
      * Add a certain role from a specific user.
      *
-     * @param string|integer $id
-     * @param string         $role
+     * @param string|int $id
+     * @param string     $role
      *
-     * @return boolean
+     * @return bool
      */
     public function addRole($id, $role)
     {
@@ -365,10 +365,10 @@ class Users
     /**
      * Remove a certain role from a specific user.
      *
-     * @param string|integer $id
-     * @param string         $role
+     * @param string|int $id
+     * @param string     $role
      *
-     * @return boolean
+     * @return bool
      */
     public function removeRole($id, $role)
     {
@@ -388,8 +388,8 @@ class Users
      * Ensure changes to the user's roles match what the current user has
      * permissions to manipulate.
      *
-     * @param string|integer $id       User ID
-     * @param array          $newRoles Roles from form submission
+     * @param string|int $id       User ID
+     * @param array      $newRoles Roles from form submission
      *
      * @return string[] The user's roles with the allowed changes
      */
@@ -428,7 +428,7 @@ class Users
      * There should always be at least one If there isn't we promote the current
      * user.
      *
-     * @return boolean
+     * @return bool
      */
     public function checkForRoot()
     {
@@ -505,7 +505,7 @@ class Users
      * @param string $contenttype
      * @param string $contentid
      *
-     * @return boolean
+     * @return bool
      */
     public function isContentStatusTransitionAllowed($fromStatus, $toStatus, $contenttype, $contentid = null)
     {
@@ -542,11 +542,11 @@ class Users
      * values are applied, because what constitutes 'equal' for the purpose
      * of this filtering depends on the field type.
      *
-     * @param string  $fieldname
-     * @param string  $value
-     * @param integer $currentid
+     * @param string $fieldname
+     * @param string $value
+     * @param int    $currentid
      *
-     * @return boolean
+     * @return bool
      */
     public function checkAvailability($fieldname, $value, $currentid = 0)
     {

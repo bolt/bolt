@@ -205,7 +205,7 @@ class Login extends AccessChecker
      *
      * @param Entity\Users $userEntity
      *
-     * @return boolean
+     * @return bool
      */
     protected function loginFinish(Entity\Users $userEntity)
     {
@@ -248,7 +248,7 @@ class Login extends AccessChecker
      *
      * @param Entity\Users $userEntity
      *
-     * @return boolean
+     * @return bool
      */
     protected function updateUserLogin(Entity\Users $userEntity)
     {
@@ -358,7 +358,7 @@ class Login extends AccessChecker
      * Note: I just realized this is conceptually wrong: we should throttle
      * based on remote_addr, not username. So, this isn't used, yet.
      *
-     * @param integer $attempts
+     * @param int $attempts
      *
      * @return \DateTime
      */

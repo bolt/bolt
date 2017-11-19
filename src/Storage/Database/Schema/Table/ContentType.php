@@ -90,7 +90,7 @@ class ContentType extends BaseTable
      *
      * @param string $type
      *
-     * @return boolean
+     * @return bool
      */
     public function isKnownType($type)
     {
@@ -100,9 +100,9 @@ class ContentType extends BaseTable
     /**
      * Add the contenttype's specific fields.
      *
-     * @param string  $fieldName
-     * @param string  $type
-     * @param boolean $addIndex
+     * @param string $fieldName
+     * @param string $type
+     * @param bool   $addIndex
      */
     public function addCustomFields($fieldName, $type, $addIndex)
     {

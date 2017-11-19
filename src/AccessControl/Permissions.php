@@ -307,7 +307,7 @@ class Permissions
      * @param string $roleName
      * @param string $permissionName
      *
-     * @return boolean
+     * @return bool
      */
     private function checkRoleGlobalPermission($roleName, $permissionName)
     {
@@ -334,7 +334,7 @@ class Permissions
      * @param string       $permissionName
      * @param string|array $role
      *
-     * @return boolean
+     * @return bool
      */
     private function checkRoleHierarchyPermission($roleName, $permissionName, $role)
     {
@@ -364,7 +364,7 @@ class Permissions
      * @param string $permissionName
      * @param string $contenttype
      *
-     * @return boolean
+     * @return bool
      */
     private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype)
     {
@@ -381,7 +381,7 @@ class Permissions
     /**
      * Get the list of ContentType permissions available.
      *
-     * @return boolean[]
+     * @return bool[]
      */
     public function getContentTypePermissions()
     {
@@ -394,7 +394,7 @@ class Permissions
      * @param string             $contentTypeSlug
      * @param array|Entity\Users $user
      *
-     * @return boolean[]
+     * @return bool[]
      */
     public function getContentTypeUserPermissions($contentTypeSlug, $user)
     {
@@ -520,9 +520,9 @@ class Permissions
      * @param string|array|Content $content   Optional: Content object/array or ContentType slug.
      *                                        If specified, $what is taken to be a relative permission (e.g. 'edit')
      *                                        rather than an absolute one (e.g. 'contenttype:pages:edit').
-     * @param integer              $contentId Only used if $content is given, to further specifiy the content item.
+     * @param int                  $contentId Only used if $content is given, to further specifiy the content item.
      *
-     * @return boolean TRUE if the permission is granted, FALSE if denied.
+     * @return bool TRUE if the permission is granted, FALSE if denied.
      */
     public function isAllowed($what, $user, $content = null, $contentId = null)
     {
@@ -575,11 +575,11 @@ class Permissions
      * @param array                $userRoles
      * @param string|array|Content $content
      * @param string               $contenttypeSlug
-     * @param integer              $contentid
+     * @param int                  $contentid
      *
      * @throws AccessControlException
      *
-     * @return boolean
+     * @return bool
      */
     private function isAllowedRule($rule, $user, $userRoles, $content, $contenttypeSlug, $contentid)
     {
@@ -619,9 +619,9 @@ class Permissions
      * @param array                $userRoles
      * @param string|array|Content $content
      * @param string               $contenttypeSlug
-     * @param integer              $contentId
+     * @param int                  $contentId
      *
-     * @return boolean
+     * @return bool
      */
     private function isAllowedSingle($what, $user, $userRoles, $content = null, $contenttypeSlug = null, $contentId = null)
     {
@@ -757,13 +757,13 @@ class Permissions
      * Check to see if a user is allowed to change that status of a Contenttype
      * record to a target status.
      *
-     * @param string  $fromStatus
-     * @param string  $toStatus
-     * @param array   $user
-     * @param string  $contenttype
-     * @param integer $contentid
+     * @param string $fromStatus
+     * @param string $toStatus
+     * @param array  $user
+     * @param string $contenttype
+     * @param int    $contentid
      *
-     * @return boolean
+     * @return bool
      */
     public function isContentStatusTransitionAllowed($fromStatus, $toStatus, $user, $contenttype, $contentid = null)
     {

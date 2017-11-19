@@ -16,7 +16,7 @@ interface ValidatorInterface
      *
      * @param string                     $checkName Name for the check
      * @param string|ValidationInterface $className Class name, or instance of a ValidationInterface class
-     * @param boolean                    $prepend   Prepend to the execution list
+     * @param bool                       $prepend   Prepend to the execution list
      */
     public function add($checkName, $className, $prepend = false);
 

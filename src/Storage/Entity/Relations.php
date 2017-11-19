@@ -105,7 +105,7 @@ class Relations extends Entity
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isInvert()
     {
@@ -113,7 +113,7 @@ class Relations extends Entity
     }
 
     /**
-     * @param boolean $invert
+     * @param bool $invert
      */
     public function setInvert($invert)
     {

@@ -365,7 +365,7 @@ class YamlHelper extends \Codeception\Module
      * Get the YAML in a string.
      *
      * @param array   $input  The PHP value
-     * @param integer $inline The level where you switch to inline YAML
+     * @param int $inline The level where you switch to inline YAML
      * @param mixed   $depth
      *
      * @return string

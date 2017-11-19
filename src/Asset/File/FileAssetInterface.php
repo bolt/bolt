@@ -69,14 +69,14 @@ interface FileAssetInterface extends AssetInterface
     /**
      * Check if the asset is set to load late.
      *
-     * @return boolean
+     * @return bool
      */
     public function isLate();
 
     /**
      * Set the asset to load late.
      *
-     * @param boolean $late
+     * @param bool $late
      *
      * @return FileAssetInterface
      */
@@ -85,7 +85,7 @@ interface FileAssetInterface extends AssetInterface
     /**
      * Get the asset's attributes.
      *
-     * @param boolean $raw
+     * @param bool $raw
      *
      * @return string|array
      */

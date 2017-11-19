@@ -85,7 +85,7 @@ class Edit
      *
      * @param Content     $content     A content record
      * @param ContentType $contentType The ContentType data
-     * @param boolean     $duplicate   If TRUE create a duplicate record
+     * @param bool        $duplicate   If TRUE create a duplicate record
      *
      * @return array
      */

@@ -28,7 +28,7 @@ class Stack implements \Countable, \IteratorAggregate
 
     /** @var FileInterface[] */
     private $files;
-    /** @var boolean */
+    /** @var bool */
     private $initialized;
 
     /**
@@ -139,7 +139,7 @@ class Stack implements \Countable, \IteratorAggregate
      *
      * @param FileInterface|string $filename
      *
-     * @return boolean
+     * @return bool
      */
     public function isStackable($filename)
     {

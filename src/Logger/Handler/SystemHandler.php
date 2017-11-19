@@ -18,7 +18,7 @@ class SystemHandler extends AbstractProcessingHandler
     /** @var Application */
     private $app;
 
-    /** @var boolean */
+    /** @var bool */
     private $initialized = false;
 
     /** @var string */
@@ -42,7 +42,7 @@ class SystemHandler extends AbstractProcessingHandler
      *
      * @param array $record
      *
-     * @return boolean
+     * @return bool
      */
     public function handle(array $record)
     {

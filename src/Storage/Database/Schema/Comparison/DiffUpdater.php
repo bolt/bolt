@@ -94,7 +94,7 @@ class DiffUpdater
      * @param Column        $column
      * @param IgnoredChange $ignoredChange
      *
-     * @return boolean
+     * @return bool
      */
     protected function checkColumn(Column $column, IgnoredChange $ignoredChange)
     {
@@ -112,7 +112,7 @@ class DiffUpdater
      * @param ColumnDiff    $columnDiff
      * @param IgnoredChange $ignoredChange
      *
-     * @return boolean
+     * @return bool
      */
     protected function checkColumnDiff(ColumnDiff $columnDiff, IgnoredChange $ignoredChange)
     {
@@ -136,7 +136,7 @@ class DiffUpdater
      * @param Index         $index
      * @param IgnoredChange $ignoredChange
      *
-     * @return boolean
+     * @return bool
      */
     protected function checkIndex(Index $index, IgnoredChange $ignoredChange)
     {
@@ -154,7 +154,7 @@ class DiffUpdater
      * @param ForeignKeyConstraint $foreignKeyConstraint
      * @param IgnoredChange        $ignoredChange
      *
-     * @return boolean
+     * @return bool
      */
     protected function checkForeignKeyConstraint(ForeignKeyConstraint $foreignKeyConstraint, IgnoredChange $ignoredChange)
     {

@@ -82,7 +82,7 @@ interface FlashLoggerInterface
      *
      * @param string $type
      *
-     * @return boolean
+     * @return bool
      */
     public function has($type);
 
