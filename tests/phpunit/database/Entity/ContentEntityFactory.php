@@ -12,7 +12,7 @@ use Carbon\Carbon;
  */
 class ContentEntityFactory
 {
-    protected static $_html  = <<<EOL
+    protected static $_html = <<<EOL
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla erit controversia. <i>Quae sequuntur igitur?</i></p>
 <ol>
 <li>Itaque rursus eadem ratione, qua sum paulo ante usus, haerebitis.</li>

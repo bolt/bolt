@@ -7,7 +7,7 @@ use Bolt\Common\Deprecated;
 class ContentType extends BaseTable
 {
     /** @var array Mapping of field type to column type function */
-    protected $typeMap =  [
+    protected $typeMap = [
         // Boolean
         'checkbox'       => 'columnBoolean',
         // Date

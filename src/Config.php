@@ -275,13 +275,13 @@ class Config
     {
         $config = [];
 
-        $config['general']      = $this->parseGeneral();
-        $config['taxonomy']     = $this->parseTaxonomy();
+        $config['general'] = $this->parseGeneral();
+        $config['taxonomy'] = $this->parseTaxonomy();
         $config['contenttypes'] = $this->parseContentTypes($config['general']);
-        $config['menu']         = $this->parseConfigYaml('menu.yml');
-        $config['routing']      = $this->parseConfigYaml('routing.yml');
-        $config['permissions']  = $this->parseConfigYaml('permissions.yml');
-        $config['extensions']   = $this->parseConfigYaml('extensions.yml');
+        $config['menu'] = $this->parseConfigYaml('menu.yml');
+        $config['routing'] = $this->parseConfigYaml('routing.yml');
+        $config['permissions'] = $this->parseConfigYaml('permissions.yml');
+        $config['extensions'] = $this->parseConfigYaml('extensions.yml');
 
         return $config;
     }

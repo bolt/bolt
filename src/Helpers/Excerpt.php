@@ -232,7 +232,7 @@ class Excerpt
         }
 
         $locations = $this->extractLocations($words, $fulltext);
-        $startPos  = $this->determineSnipLocation($locations, $prevCount);
+        $startPos = $this->determineSnipLocation($locations, $prevCount);
 
         // if we are going to snip too much...
         if ($textlength - $startPos < $relLength) {

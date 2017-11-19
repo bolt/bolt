@@ -282,7 +282,7 @@ abstract class BoltUnitTest extends TestCase
             $app['randomgenerator'],
             $app['access_control.cookie.options'],
         ];
-        $accessCheckerMock =  $this->getMockBuilder(AccessChecker::class)
+        $accessCheckerMock = $this->getMockBuilder(AccessChecker::class)
             ->setMethods($methods)
             ->setConstructorArgs($parameters)
             ->getMock()

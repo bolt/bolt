@@ -283,7 +283,7 @@ class General extends BackendBase
      */
     private function getLatest($limit = null)
     {
-        $total  = 0;
+        $total = 0;
         $latest = [];
         $permissions = [];
         $user = $this->users()->getCurrentUser();

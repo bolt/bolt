@@ -44,7 +44,7 @@ class YamlHelper extends \Codeception\Module
         $config = $this->readYaml('app/config/config.yml');
 
         $config['canonical'] = 'example.org';
-        $config['notfound']  = 'resources/not-found';
+        $config['notfound'] = 'resources/not-found';
         $config['changelog'] = ['enabled' => true];
 
         return $this->getYamlString($config, 5);
@@ -273,7 +273,7 @@ class YamlHelper extends \Codeception\Module
          */
         unset($theme['templatefields']['extrafields.twig']);
 
-        $theme['templatefields']['page.twig'] =   [
+        $theme['templatefields']['page.twig'] = [
             'text'        => ['type' => 'text'],
             'html'        => ['type' => 'html'],
             'textarea'    => ['type' => 'textarea'],

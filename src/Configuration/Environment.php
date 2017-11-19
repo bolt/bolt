@@ -137,7 +137,7 @@ class Environment
         }
 
         $version = md5($this->boltVersion);
-        $cached  = file_get_contents($fileName);
+        $cached = file_get_contents($fileName);
 
         if ($version === $cached) {
             return true;

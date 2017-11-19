@@ -66,10 +66,10 @@ class EntityManager implements EntityManagerInterface
      */
     public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MetadataDriver $mapping, LoggerInterface $logger = null)
     {
-        $this->conn         = $conn;
+        $this->conn = $conn;
         $this->eventManager = $eventManager;
-        $this->mapping      = $mapping;
-        $this->logger       = $logger ?: new NullLogger();
+        $this->mapping = $mapping;
+        $this->logger = $logger ?: new NullLogger();
     }
 
     /**

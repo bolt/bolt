@@ -271,7 +271,7 @@ class LogChange extends Entity
     private function fieldGeolocation($key, $value, array $fields)
     {
         $before = Json::parse($value[0]);
-        $after  = Json::parse($value[1]);
+        $after = Json::parse($value[1]);
 
         return [
             'type'   => $fields[$key]['type'],
@@ -306,7 +306,7 @@ class LogChange extends Entity
     private function fieldImage($key, $value, array $fields)
     {
         $before = Json::parse($value[0]);
-        $after  = Json::parse($value[1]);
+        $after = Json::parse($value[1]);
 
         return [
             'type'   => $fields[$key]['type'],
@@ -338,10 +338,10 @@ class LogChange extends Entity
     {
         if (isset($fields[$key]['multiple']) && $fields[$key]['multiple']) {
             $before = $value[0];
-            $after  = $value[1];
+            $after = $value[1];
         } else {
             $before = $value[0];
-            $after  = $value[1];
+            $after = $value[1];
         }
 
         return [
@@ -363,7 +363,7 @@ class LogChange extends Entity
     private function fieldVideo($key, $value, array $fields)
     {
         $before = Json::parse($value[0]);
-        $after  = Json::parse($value[1]);
+        $after = Json::parse($value[1]);
 
         return [
             'type'   => $fields[$key]['type'],

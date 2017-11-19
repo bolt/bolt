@@ -32,8 +32,8 @@ class QueryService
     public function __construct(Client $client, $site, $urls = [])
     {
         $this->client = $client;
-        $this->site   = $site;
-        $this->urls   = $urls;
+        $this->site = $site;
+        $this->urls = $urls;
     }
 
     public function all()

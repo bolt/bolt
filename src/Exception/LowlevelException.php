@@ -143,12 +143,12 @@ HTML;
             }
 
             // Detect if we're being called from a core, an extension or vendor
-            $isBoltCoreError  = strpos($error['file'], $app['resources']->getPath('rootpath/src'));
-            $isVendorError    = strpos($error['file'], $app['resources']->getPath('rootpath/vendor'));
+            $isBoltCoreError = strpos($error['file'], $app['resources']->getPath('rootpath/src'));
+            $isVendorError = strpos($error['file'], $app['resources']->getPath('rootpath/vendor'));
             $isExtensionError = strpos($error['file'], $app['resources']->getPath('extensions'));
 
             // Assemble error trace
-            $errorblock  = '<code style="display:block; white-space: pre-wrap;">Error: ' . $error['message'] . '</code><br>';
+            $errorblock = '<code style="display:block; white-space: pre-wrap;">Error: ' . $error['message'] . '</code><br>';
             $errorblock .= '<code>File:  ' . $error['file'] . '</code><br>';
             $errorblock .= '<code>Line:  ' . $error['line'] . '</code><br><br>';
 
@@ -173,7 +173,7 @@ HTML;
                     '&nbsp;&nbsp;&nbsp;&nbsp;' . $parts[2] . ': false</code></p>',
                     $html
                 );
-                $message  = '<h4>There is a fatal error in the \'' . $package . '\' extension ' .
+                $message = '<h4>There is a fatal error in the \'' . $package . '\' extension ' .
                     'loaded on your Bolt Installation.<h4>';
                 $message .= $errorblock;
             } else {
