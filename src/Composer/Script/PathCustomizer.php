@@ -75,7 +75,7 @@ OUT;
     /**
      * Render paths table.
      */
-    protected function renderPaths()
+    private function renderPaths()
     {
         if (!$this->pathsTable) {
             $this->pathsTable = new Table($this->io);
@@ -115,7 +115,7 @@ OUT;
      *
      * @return string|null the path name to modify or null to finish
      */
-    protected function askPathToModify()
+    private function askPathToModify()
     {
         $names = $this->resolver->names();
         $count = count($names);
@@ -144,7 +144,7 @@ OUT;
      *
      * @param string $name
      */
-    protected function askAndSetNewPathValue($name)
+    private function askAndSetNewPathValue($name)
     {
         $previous = $this->resolver->raw($name);
         $question = new Question('Enter new value for ' . $name, $previous);

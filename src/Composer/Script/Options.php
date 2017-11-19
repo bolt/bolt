@@ -82,7 +82,7 @@ final class Options
      *
      * @return array|false|string
      */
-    protected function getEnv($key)
+    private function getEnv($key)
     {
         $key = strtoupper(str_replace('-', '_', $key));
 
