@@ -149,7 +149,7 @@ abstract class BaseAction
     /**
      * Set repos to allow HTTP instead of HTTPS.
      *
-     * @param boolean $choice
+     * @param bool $choice
      */
     private function setAllowSslDowngrade($choice)
     {

@@ -19,9 +19,9 @@ abstract class FileAssetBase implements FileAssetInterface
     protected $packageName;
     /** @var string */
     protected $url;
-    /** @var boolean */
+    /** @var bool */
     protected $late;
-    /** @var integer */
+    /** @var int */
     protected $priority;
     /** @var string */
     protected $location;
@@ -144,7 +144,7 @@ abstract class FileAssetBase implements FileAssetInterface
      */
     public function isLate()
     {
-        return (boolean) $this->late;
+        return (bool) $this->late;
     }
 
     /**

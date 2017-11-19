@@ -77,7 +77,7 @@ class Users extends BackendBase
      * User edit route.
      *
      * @param Request $request The Symfony Request
-     * @param integer $id      The user ID
+     * @param int     $id      The user ID
      *
      * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -215,8 +215,8 @@ class Users extends BackendBase
     /**
      * Perform modification actions on users.
      *
-     * @param string  $action The action
-     * @param integer $id     The user ID
+     * @param string $action The action
+     * @param int    $id     The user ID
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -357,7 +357,7 @@ class Users extends BackendBase
     /**
      * Get the user we want to edit, or a new entity object if null.
      *
-     * @param integer $id
+     * @param int $id
      *
      * @return Entity\Users|false
      */
@@ -415,7 +415,6 @@ class Users extends BackendBase
                 ->setBody($mailHtml, 'text/html')
                 ->addPart(preg_replace('/^[\t ]+|[\t ]+$/m', '', strip_tags($mailHtml)), 'text/plain')
                 ->setPriority(Message::PRIORITY_HIGH);
-            ;
         } catch (RfcComplianceException $e) {
             // Sending message failed. What else can we do, send via snailmail?
             $logger->critical("The email address set in 'mailoptions/senderMail' is not a valid email address.", ['event' => 'exception', 'exception' => $e]);

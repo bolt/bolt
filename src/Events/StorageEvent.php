@@ -56,7 +56,7 @@ class StorageEvent extends GenericEvent
     /**
      * Return the record id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {

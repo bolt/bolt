@@ -29,7 +29,7 @@ abstract class AbstractDependencyAction extends BaseAction
     /**
      * Execute.
      *
-     * @param string $packageName    Package to inspect.
+     * @param string $packageName    package to inspect
      * @param string $textConstraint Optional version constraint
      * @param bool   $onlyLocal
      *
@@ -75,7 +75,7 @@ abstract class AbstractDependencyAction extends BaseAction
      * This is needed for why-not to resolve conflicts from an uninstalled
      * version against installed packages.
      *
-     * @param string $packageName    Package to inspect.
+     * @param string $packageName    package to inspect
      * @param string $textConstraint Optional version constraint
      * @param bool   $onlyLocal
      *

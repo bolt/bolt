@@ -20,21 +20,21 @@ class Omnisearch
 {
     const OMNISEARCH_LANDINGPAGE = 99999;
     const OMNISEARCH_CONTENTTYPE = 9999;
-    const OMNISEARCH_MENUITEM    = 5000;
-    const OMNISEARCH_EXTENSION   = 3000;
-    const OMNISEARCH_CONTENT     = 2000;
-    const OMNISEARCH_FILE        = 1000;
+    const OMNISEARCH_MENUITEM = 5000;
+    const OMNISEARCH_EXTENSION = 3000;
+    const OMNISEARCH_CONTENT = 2000;
+    const OMNISEARCH_FILE = 1000;
 
-    private $showNewContentType  = true;
+    private $showNewContentType = true;
     private $showViewContentType = true;
-    private $showConfiguration   = true;
-    private $showMaintenance     = true;
-    private $showExtensions      = true;
-    private $showFiles           = true;
-    private $showRecords         = true;
+    private $showConfiguration = true;
+    private $showMaintenance = true;
+    private $showExtensions = true;
+    private $showFiles = true;
+    private $showRecords = true;
 
     // Show the option to the landing page for search results.
-    private $showLandingpage     = true;
+    private $showLandingpage = true;
 
     private $app;
     private $data;
@@ -58,10 +58,10 @@ class Omnisearch
         $contenttypes = $this->app['config']->get('contenttypes');
 
         foreach ($contenttypes as $key => $value) {
-            $pluralName   = $value['name'];
+            $pluralName = $value['name'];
             $singularName = $value['singular_name'];
-            $slug         = $value['slug'];
-            $keywords     = [
+            $slug = $value['slug'];
+            $keywords = [
                 $pluralName,
                 $singularName,
                 $slug,
@@ -69,10 +69,10 @@ class Omnisearch
             ];
 
             $viewContentType = Trans::__('contenttypes.generic.view', ['%contenttypes%' => $pluralName]);
-            $newContentType  = Trans::__('contenttypes.generic.new', ['%contenttype%' => $singularName]);
+            $newContentType = Trans::__('contenttypes.generic.new', ['%contenttype%' => $singularName]);
 
             if ($this->showViewContentType) {
-                $viewKeywords   = $keywords;
+                $viewKeywords = $keywords;
                 $viewKeywords[] = $viewContentType;
                 $viewKeywords[] = 'View ' . $pluralName;
 
@@ -88,9 +88,9 @@ class Omnisearch
             }
 
             if ($this->showNewContentType) {
-                $newKeywords    = $keywords;
-                $newKeywords[]  = $newContentType;
-                $newKeywords[]  = 'New ' . $singularName;
+                $newKeywords = $keywords;
+                $newKeywords[] = $newContentType;
+                $newKeywords[] = 'New ' . $singularName;
 
                 $this->register(
                     [
@@ -339,7 +339,7 @@ class Omnisearch
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($finder as $file) {
             $relativePathname = $file->getRelativePathname();
-            $filename         = $file->getFilename();
+            $filename = $file->getFilename();
 
             $this->register(
                 [

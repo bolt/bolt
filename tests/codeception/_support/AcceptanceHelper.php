@@ -12,7 +12,7 @@ class AcceptanceHelper extends \Codeception\Module
     /**
      * Makes sure that WebTester is logged in.
      *
-     * @param array $user An associative array containing keys 'username' and 'password'.
+     * @param array $user an associative array containing keys 'username' and 'password'
      */
     public function loginAs($user)
     {
@@ -22,7 +22,7 @@ class AcceptanceHelper extends \Codeception\Module
     /**
      * Makes sure that WebTester is logged in using email.
      *
-     * @param array $user An associative array containing keys 'username' and 'password'.
+     * @param array $user an associative array containing keys 'username' and 'password'
      */
     public function loginWithEmailAs($user)
     {

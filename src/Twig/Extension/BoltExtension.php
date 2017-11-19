@@ -62,7 +62,7 @@ class BoltExtension extends AbstractExtension implements GlobalsInterface
      */
     public function getFunctions()
     {
-        $env  = ['needs_environment' => true];
+        $env = ['needs_environment' => true];
         $deprecated = ['deprecated' => true];
 
         return [
@@ -78,7 +78,7 @@ class BoltExtension extends AbstractExtension implements GlobalsInterface
      */
     public function getFilters()
     {
-        $env  = ['needs_environment' => true];
+        $env = ['needs_environment' => true];
         $deprecated = ['deprecated' => true];
 
         return [

@@ -71,7 +71,7 @@ HTML;
      * make sure that it contains valid HTML with proper encoding applied.
      *
      * @param string     $message
-     * @param integer    $code
+     * @param int        $code
      * @param \Exception $previous
      */
     public function __construct($message, $code = null, $previous = null)
@@ -116,7 +116,7 @@ HTML;
      * Callback for register_shutdown_function() to handle fatal errors.
      *
      * @param \Silex\Application $app
-     * @param boolean            $flush
+     * @param bool               $flush
      */
     public static function catchFatalErrors(Application $app, $flush = true)
     {
@@ -143,12 +143,12 @@ HTML;
             }
 
             // Detect if we're being called from a core, an extension or vendor
-            $isBoltCoreError  = strpos($error['file'], $app['resources']->getPath('rootpath/src'));
-            $isVendorError    = strpos($error['file'], $app['resources']->getPath('rootpath/vendor'));
+            $isBoltCoreError = strpos($error['file'], $app['resources']->getPath('rootpath/src'));
+            $isVendorError = strpos($error['file'], $app['resources']->getPath('rootpath/vendor'));
             $isExtensionError = strpos($error['file'], $app['resources']->getPath('extensions'));
 
             // Assemble error trace
-            $errorblock  = '<code style="display:block; white-space: pre-wrap;">Error: ' . $error['message'] . '</code><br>';
+            $errorblock = '<code style="display:block; white-space: pre-wrap;">Error: ' . $error['message'] . '</code><br>';
             $errorblock .= '<code>File:  ' . $error['file'] . '</code><br>';
             $errorblock .= '<code>Line:  ' . $error['line'] . '</code><br><br>';
 
@@ -173,7 +173,7 @@ HTML;
                     '&nbsp;&nbsp;&nbsp;&nbsp;' . $parts[2] . ': false</code></p>',
                     $html
                 );
-                $message  = '<h4>There is a fatal error in the \'' . $package . '\' extension ' .
+                $message = '<h4>There is a fatal error in the \'' . $package . '\' extension ' .
                     'loaded on your Bolt Installation.<h4>';
                 $message .= $errorblock;
             } else {

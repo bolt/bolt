@@ -328,7 +328,7 @@ class Application extends Silex\Application
      *
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
     public function __isset($name)
     {

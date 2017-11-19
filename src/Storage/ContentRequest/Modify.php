@@ -78,7 +78,7 @@ class Modify
      * @param string     $action
      * @param array|null $fieldData
      *
-     * @return boolean
+     * @return bool
      */
     protected function modifyContentTypeRecord(Repository $repo, Content $entity, $action, $fieldData)
     {
@@ -100,7 +100,7 @@ class Modify
      * @param Repository $repo
      * @param Content    $entity
      *
-     * @return boolean
+     * @return bool
      */
     protected function deleteRecord(Repository $repo, Content $entity)
     {
@@ -192,7 +192,7 @@ class Modify
      * Transition a record's owner if permitted.
      *
      * @param Content $entity
-     * @param integer $ownerId
+     * @param int     $ownerId
      */
     protected function transistionRecordOwner(Content $entity, $ownerId)
     {

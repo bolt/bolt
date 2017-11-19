@@ -35,10 +35,10 @@ trait ContentRelationTrait
      * Gets one or more related records.
      *
      * @param string $filterContentType ContentType to filter returned results on
-     * @param array  $options           A set of 'WHERE' options to apply to the filter
+     * @param array  $options           a set of 'WHERE' options to apply to the filter
      *
      * Backward compatibility note:
-     * The $options parameter used to be $filterid, an integer.
+     * The $options parameter used to be $filterid, an integer
      *
      * @return \Bolt\Legacy\Content[]
      */
@@ -99,7 +99,7 @@ trait ContentRelationTrait
      * Add a relation.
      *
      * @param string|array $contentType
-     * @param integer      $id
+     * @param int          $id
      */
     public function setRelation($contentType, $id)
     {

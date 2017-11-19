@@ -36,9 +36,9 @@ class Canonical implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param UrlGeneratorInterface    $urlGenerator   The url generator.
-     * @param bool                     $forceSsl       Whether to force SSL on relative override urls (generated urls get this applied elsewhere).
-     * @param UriInterface|string|null $globalOverride An optional scheme and/or host override to apply to all urls.
+     * @param UrlGeneratorInterface    $urlGenerator   the url generator
+     * @param bool                     $forceSsl       whether to force SSL on relative override urls (generated urls get this applied elsewhere)
+     * @param UriInterface|string|null $globalOverride an optional scheme and/or host override to apply to all urls
      */
     public function __construct(UrlGeneratorInterface $urlGenerator, $forceSsl = false, $globalOverride = null)
     {

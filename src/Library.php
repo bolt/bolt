@@ -23,7 +23,7 @@ class Library
     /**
      * Format a filesize like '10.3 KiB' or '2.5 MiB'.
      *
-     * @param integer $size
+     * @param int $size
      *
      * @return string
      */
@@ -43,7 +43,7 @@ class Library
      *
      * @param string $size
      *
-     * @return double
+     * @return float
      */
     public static function filesizeToBytes($size)
     {

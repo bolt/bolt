@@ -32,8 +32,8 @@ class Repository implements ObjectRepository
     /**
      * Initializes a new Repository.
      *
-     * @param EntityManager $em            The EntityManager to use.
-     * @param ClassMetadata $classMetadata The class descriptor.
+     * @param EntityManager $em            the EntityManager to use
+     * @param ClassMetadata $classMetadata the class descriptor
      */
     public function __construct($em, ClassMetadata $classMetadata)
     {
@@ -74,7 +74,7 @@ class Repository implements ObjectRepository
      */
     public function createQueryBuilder($alias = null)
     {
-        if (null === $alias) {
+        if ($alias === null) {
             $alias = $this->getAlias();
         }
 
@@ -150,10 +150,10 @@ class Repository implements ObjectRepository
     /**
      * Finds a single object by a set of criteria.
      *
-     * @param array $criteria The criteria.
+     * @param array $criteria the criteria
      * @param array $orderBy
      *
-     * @return object|false The object.
+     * @return object|false the object
      */
     public function findOneBy(array $criteria, array $orderBy = null)
     {
@@ -341,7 +341,7 @@ class Repository implements ObjectRepository
     /**
      * Deletes a single object.
      *
-     * @param object $entity The entity to delete.
+     * @param object $entity the entity to delete
      *
      * @return bool
      */
@@ -364,7 +364,7 @@ class Repository implements ObjectRepository
     /**
      * Saves a single object.
      *
-     * @param object $entity The entity to save.
+     * @param object $entity the entity to save
      * @param bool   $silent Suppress events
      *
      * @return bool
@@ -402,7 +402,7 @@ class Repository implements ObjectRepository
     /**
      * Saves a new object into the database.
      *
-     * @param object $entity The entity to insert.
+     * @param object $entity the entity to insert
      *
      * @return bool
      */
@@ -428,7 +428,7 @@ class Repository implements ObjectRepository
     /**
      * Updates an object into the database.
      *
-     * @param object   $entity     The entity to update.
+     * @param object   $entity     the entity to update
      * @param string[] $exclusions Ignore updates to these fields
      *
      * @return bool

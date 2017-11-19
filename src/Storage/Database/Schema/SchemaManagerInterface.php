@@ -12,7 +12,7 @@ interface SchemaManagerInterface
     /**
      * Check to see if we have past the time to re-check our schema.
      *
-     * @return boolean
+     * @return bool
      */
     public function isCheckRequired();
 
@@ -20,7 +20,7 @@ interface SchemaManagerInterface
      * Check to see if there is a mismatch in installed versus configured
      * schemas.
      *
-     * @return boolean
+     * @return bool
      */
     public function isUpdateRequired();
 }

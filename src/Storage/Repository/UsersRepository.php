@@ -16,10 +16,10 @@ class UsersRepository extends Repository
     /**
      * Delete a user.
      *
-     * @param string|integer $userId Either the user's ID, username, or email
-     *                               address.
+     * @param string|int $userId either the user's ID, username, or email
+     *                           address
      *
-     * @return integer
+     * @return int
      */
     public function deleteUser($userId)
     {
@@ -34,7 +34,7 @@ class UsersRepository extends Repository
     /**
      * Get the user deletion query.
      *
-     * @param string|integer $userId
+     * @param string|int $userId
      *
      * @return QueryBuilder
      */
@@ -56,8 +56,8 @@ class UsersRepository extends Repository
     /**
      * Get a user.
      *
-     * @param string|integer $userId Either the user's ID, username, or email
-     *                               address.
+     * @param string|int $userId either the user's ID, username, or email
+     *                           address
      *
      * @return Entity\Users|false
      */
@@ -83,7 +83,7 @@ class UsersRepository extends Repository
     /**
      * Get the user fetch query.
      *
-     * @param string|integer $userId
+     * @param string|int $userId
      *
      * @return QueryBuilder
      */
@@ -108,7 +108,7 @@ class UsersRepository extends Repository
     /**
      * Get a user's authentication data.
      *
-     * @param string|integer $userId
+     * @param string|int $userId
      *
      * @return Entity\Users|false
      */
@@ -122,7 +122,7 @@ class UsersRepository extends Repository
     /**
      * Get the user fetch query.
      *
-     * @param string|integer $userId
+     * @param string|int $userId
      *
      * @return QueryBuilder
      */
@@ -160,7 +160,7 @@ class UsersRepository extends Repository
      *
      * @deprecated Deprecated since 3.3. To be removed in v4.0.
      *
-     * @return integer
+     * @return int
      */
     public function hasUsers()
     {

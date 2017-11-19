@@ -145,7 +145,7 @@ class PermissionParser
      * @throws PermissionLexerException
      * @throws PermissionParserException
      *
-     * @return array A parse tree.
+     * @return array a parse tree
      */
     public static function run($what)
     {
@@ -242,8 +242,8 @@ class PermissionParser
      * Assert that the given $token's 'type' key is in the list of $expected
      * token types.
      *
-     * @param array $expected List of token types (T_XXXX constants).
-     * @param array $token    A lexer token, associative array.
+     * @param array $expected list of token types (T_XXXX constants)
+     * @param array $token    a lexer token, associative array
      *
      * @throws PermissionParserException
      */
@@ -271,8 +271,8 @@ class PermissionParser
      * @param array $tokens An array or iterable of lexer tokens. The output of
      *                      `lex()` is suitable here.
      *
-     * @return array A nested associative array representing the resulting
-     *               parse tree.
+     * @return array a nested associative array representing the resulting
+     *               parse tree
      */
     public static function parse($tokens)
     {

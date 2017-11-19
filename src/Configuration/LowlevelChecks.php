@@ -83,8 +83,8 @@ class LowlevelChecks
     /**
      * Add a check.
      *
-     * @param string  $check
-     * @param boolean $top
+     * @param string $check
+     * @param bool   $top
      */
     public function addCheck($check, $top = false)
     {

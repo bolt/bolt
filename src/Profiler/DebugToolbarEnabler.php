@@ -21,7 +21,7 @@ class DebugToolbarEnabler implements ServiceProviderInterface, EventSubscriberIn
     protected $listener;
     /** @var EventDispatcherInterface */
     protected $dispatcher;
-    /** @var boolean */
+    /** @var bool */
     protected $debugLoggedOff;
 
     /**

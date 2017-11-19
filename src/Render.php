@@ -24,7 +24,7 @@ use Twig\Loader\ExistsLoaderInterface;
 class Render
 {
     private $app;
-    /** @var boolean */
+    /** @var bool */
     private $safe;
 
     /**
@@ -88,7 +88,7 @@ class Render
      *
      * Check if the template exists.
      *
-     * @param string $template The name of the template.
+     * @param string $template the name of the template
      *
      * @return bool
      */
@@ -121,7 +121,7 @@ class Render
      *
      * @deprecated Deprecated since 3.1, to be removed in 4.0. @see \Silex\HttpCache
      *
-     * @return \Symfony\Component\HttpFoundation\Response|boolean
+     * @return \Symfony\Component\HttpFoundation\Response|bool
      */
     public function fetchCachedRequest()
     {
@@ -179,7 +179,7 @@ class Render
      *
      * @deprecated Deprecated since 3.1, to be removed in 4.0. @see \Silex\HttpCache
      *
-     * @return integer
+     * @return int
      */
     public function cacheDuration()
     {

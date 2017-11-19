@@ -91,7 +91,7 @@ final class DirectoryConfigurator
     /**
      * Configure dirs from env, composer extra values, and via user input.
      */
-    protected function configureDirs()
+    private function configureDirs()
     {
         // Configure dirs from environment variables and composer extra values.
         foreach ($this->resolver->names() as $name) {
@@ -115,7 +115,7 @@ final class DirectoryConfigurator
     /**
      * Writes the .bolt.yml file if paths are not the default.
      */
-    protected function writeYamlConfig()
+    private function writeYamlConfig()
     {
         $customized = [];
 
@@ -142,7 +142,7 @@ final class DirectoryConfigurator
     /**
      * Move dirs from skeleton to match given paths.
      */
-    protected function moveSkeletonDirs()
+    private function moveSkeletonDirs()
     {
         // Sort paths based on their dependencies
         $pathNames = (new PathDependencySorter($this->resolver))->getSortedNames();
@@ -157,7 +157,7 @@ final class DirectoryConfigurator
      *
      * @param string $name
      */
-    protected function moveSkeletonDir($name)
+    private function moveSkeletonDir($name)
     {
         $root = $this->resolver->resolve('root');
         $target = $this->resolver->resolve($name);
@@ -196,7 +196,7 @@ final class DirectoryConfigurator
     /**
      * Update all path resolver directories permissions.
      */
-    protected function updatePermissions()
+    private function updatePermissions()
     {
         $pathNames = $this->resolver->names();
         // These should be moved to PathResolver paths eventually.
@@ -216,7 +216,7 @@ final class DirectoryConfigurator
     /**
      * @param string|string[] $messages
      */
-    protected function verbose($messages)
+    private function verbose($messages)
     {
         $this->io->writeln($messages, OutputInterface::VERBOSITY_VERBOSE);
     }

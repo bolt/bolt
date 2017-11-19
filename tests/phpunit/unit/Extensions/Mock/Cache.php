@@ -14,7 +14,7 @@ class Cache
 
     public function add($log, $level)
     {
-        $this->logs[] =  $log;
+        $this->logs[] = $log;
     }
 
     public function save($key, $value)

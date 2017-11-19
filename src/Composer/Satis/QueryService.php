@@ -19,7 +19,7 @@ class QueryService
 
     /** @var \GuzzleHttp\Client */
     private $client;
-    /** @var boolean */
+    /** @var bool */
     private $isRetry;
 
     /**
@@ -32,8 +32,8 @@ class QueryService
     public function __construct(Client $client, $site, $urls = [])
     {
         $this->client = $client;
-        $this->site   = $site;
-        $this->urls   = $urls;
+        $this->site = $site;
+        $this->urls = $urls;
     }
 
     public function all()
@@ -49,7 +49,7 @@ class QueryService
      * @param string $package Composer package name 'author/extension'
      * @param string $bolt    Bolt version number
      *
-     * @return string|boolean|object
+     * @return string|bool|object
      */
     public function info($package, $bolt)
     {
@@ -72,7 +72,7 @@ class QueryService
      *
      * @throws SatisQueryException
      *
-     * @return string|boolean|object
+     * @return string|bool|object
      */
     public function execute($url, $params = [])
     {

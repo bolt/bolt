@@ -56,7 +56,7 @@ class SchemaCheck
     /**
      * Check is there are pending hints.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasHints()
     {
@@ -108,7 +108,7 @@ class SchemaCheck
     /**
      * Check is there are pending responses.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasResponses()
     {

@@ -169,8 +169,8 @@ class Excerpt
      * The only exception is where we have only two matches in which case we just take the
      * first as will be equally distant.
      *
-     * @param array   $locations
-     * @param integer $prevCount
+     * @param array $locations
+     * @param int   $prevCount
      *
      * @return int
      */
@@ -210,7 +210,7 @@ class Excerpt
      *
      * @param string|array $words
      * @param string       $fulltext
-     * @param integer      $relLength
+     * @param int          $relLength
      *
      * @return string
      */
@@ -232,7 +232,7 @@ class Excerpt
         }
 
         $locations = $this->extractLocations($words, $fulltext);
-        $startPos  = $this->determineSnipLocation($locations, $prevCount);
+        $startPos = $this->determineSnipLocation($locations, $prevCount);
 
         // if we are going to snip too much...
         if ($textlength - $startPos < $relLength) {

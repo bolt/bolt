@@ -18,7 +18,7 @@ class FlashLoggerListener implements EventSubscriberInterface
 {
     /** @var FlashBagAttachableInterface */
     protected $flashLogger;
-    /** @var boolean */
+    /** @var bool */
     protected $debug;
     /** @var string */
     protected $profilerMountPrefix;
@@ -27,7 +27,7 @@ class FlashLoggerListener implements EventSubscriberInterface
      * Constructor.
      *
      * @param FlashBagAttachableInterface $flashLogger
-     * @param boolean                     $debug
+     * @param bool                        $debug
      * @param string                      $profilerMountPrefix
      */
     public function __construct(FlashBagAttachableInterface $flashLogger, $debug, $profilerMountPrefix)

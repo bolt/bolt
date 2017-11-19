@@ -19,7 +19,7 @@ abstract class BaseLogRepository extends Repository
      *
      * @param \DateTime $period
      *
-     * @return boolean
+     * @return bool
      */
     public function trimLog($period)
     {
@@ -48,7 +48,7 @@ abstract class BaseLogRepository extends Repository
     /**
      * Clear the log table.
      *
-     * @return boolean
+     * @return bool
      */
     public function clearLog()
     {
@@ -63,9 +63,9 @@ abstract class BaseLogRepository extends Repository
     /**
      * Get content log's activity entries.
      *
-     * @param integer $page
-     * @param integer $amount
-     * @param array   $options
+     * @param int   $page
+     * @param int   $amount
+     * @param array $options
      *
      * @return Entity\LogChange[]
      */
@@ -79,9 +79,9 @@ abstract class BaseLogRepository extends Repository
     /**
      * Build the query to get the log entries.
      *
-     * @param integer $page
-     * @param integer $amount
-     * @param array   $options
+     * @param int   $page
+     * @param int   $amount
+     * @param array $options
      *
      * @return QueryBuilder
      */
@@ -104,7 +104,7 @@ abstract class BaseLogRepository extends Repository
      *
      * @param array $options
      *
-     * @return integer|false
+     * @return int|false
      */
     public function getActivityCount(array $options = [])
     {
@@ -186,7 +186,7 @@ abstract class BaseLogRepository extends Repository
      *
      * @param array|false $result
      *
-     * @return integer|false
+     * @return int|false
      */
     protected function getCount($result)
     {

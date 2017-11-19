@@ -40,7 +40,7 @@ class Records extends BackendBase
      *
      * @param Request $request         The Symfony Request
      * @param string  $contenttypeslug The content type slug
-     * @param integer $id              The content ID
+     * @param int     $id              The content ID
      *
      * @return \Bolt\Response\TemplateResponse|\Symfony\Component\HttpFoundation\Response
      */
@@ -132,7 +132,7 @@ class Records extends BackendBase
     /**
      * Calculate the parameter used to determine response.
      *
-     * @internal To be removed when forms cut-over is complete.
+     * @internal to be removed when forms cut-over is complete
      *
      * @param Request $request
      * @param Button  $button
@@ -199,8 +199,8 @@ class Records extends BackendBase
     /**
      * Check that the user is allowed to edit the record.
      *
-     * @param string  $contenttypeslug
-     * @param integer $id
+     * @param string $contenttypeslug
+     * @param int    $id
      *
      * @return bool|\Symfony\Component\HttpFoundation\RedirectResponse
      */

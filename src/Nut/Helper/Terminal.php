@@ -71,7 +71,7 @@ final class Terminal
     /**
      * Initializes and checks if we have received a SIGWINCH signal.
      *
-     * @return bool Whether dimensions should be fetched.
+     * @return bool whether dimensions should be fetched
      */
     private static function checkPcntl()
     {

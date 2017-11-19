@@ -145,8 +145,8 @@ class HtmlRuntime
      *
      * @param Environment $env
      * @param string      $identifier Identifier for a particular menu
-     * @param string      $template   The template to use.
-     * @param array       $params     Extra parameters to pass on to the menu template.
+     * @param string      $template   the template to use
+     * @param array       $params     extra parameters to pass on to the menu template
      *
      * @return string|null
      */
