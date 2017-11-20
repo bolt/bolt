@@ -1,6 +1,6 @@
 <?php
 
-namespace Bolt\Form\Validator\Constraints;
+namespace Bolt\Validator\Constraints;
 
 use Bolt\Storage\Entity\Entity;
 use Bolt\Storage\EntityManager;

@@ -1,18 +1,19 @@
 <?php
 
-namespace Bolt\Form\Validator\Constraints;
+namespace Bolt\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Field containing a value subset validation constraint.
+ * Equivalent field value validation constraint.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class FieldContains extends Constraint
+class FieldEquals extends Constraint
 {
-    public $message = 'This value does not contain the {{ field }} field value.';
+    public $message = 'This value does not equal the {{ field }} field value.';
     public $field;
+    public $loose = false;
     public $insensitive = false;
 
     /**

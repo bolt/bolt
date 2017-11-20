@@ -3,9 +3,9 @@
 namespace Bolt\Form\FormType;
 
 use Bolt\Form\FieldType\UserRoleType;
-use Bolt\Form\Validator\Constraints as UsersAssert;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
+use Bolt\Validator\Constraints as UsersAssert;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

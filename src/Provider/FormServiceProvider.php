@@ -3,7 +3,7 @@
 namespace Bolt\Provider;
 
 use Bolt\Form;
-use Bolt\Form\Validator\Constraints\ExistingEntityValidator;
+use Bolt\Validator\Constraints\ExistingEntityValidator;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Silex\Provider\FormServiceProvider as SilexFormServiceProvider;
