@@ -20,11 +20,12 @@ class Sqlite extends BaseComparator
      */
     protected function setIgnoredChanges()
     {
-        if (DBAL\Version::compare('2.6.0') >= 0) {
+        if (DBAL\Version::compare('2.7.0') >= 0) {
             /** @deprecated Drop when minimum PHP version is 7.1 or greater. */
             $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'text', 'json');
             $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'text', 'json_array');
             $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'string', 'guid');
+            $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'json', 'string');
         }
     }
 
