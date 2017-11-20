@@ -7,7 +7,7 @@ use Bolt\Configuration\PathResolver;
 /**
  * Interface for validation checks that require ResourceManager.
  *
- * @internal Do not use.
+ * @internal do not use
  *
  * @deprecated Deprecated since 3.1, to be removed in 4.0.
  *

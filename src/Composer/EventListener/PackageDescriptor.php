@@ -89,7 +89,7 @@ final class PackageDescriptor implements JsonSerializable
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isValid()
     {

@@ -26,7 +26,7 @@ class MenuServiceProvider implements ServiceProviderInterface
         };
 
         /**
-         * @internal Backwards compatibility not guaranteed on this provider presently.
+         * @internal backwards compatibility not guaranteed on this provider presently
          */
         $app['menu.admin_builder'] = function ($app) {
             $baseUrl = '';
@@ -48,7 +48,7 @@ class MenuServiceProvider implements ServiceProviderInterface
         };
 
         /**
-         * @internal Backwards compatibility not guaranteed on this provider presently.
+         * @internal backwards compatibility not guaranteed on this provider presently
          */
         $app['menu.admin'] = function ($app) {
             $token = $app['session']->get('authentication');

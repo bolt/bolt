@@ -31,7 +31,7 @@ abstract class BaseComparator
     protected $tablesAlter;
     /** @var IgnoredChange[] */
     protected $ignoredChanges = [];
-    /** @var boolean */
+    /** @var bool */
     protected $pending;
     /** @var \Bolt\Storage\Database\Schema\SchemaCheck */
     protected $response;

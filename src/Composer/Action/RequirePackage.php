@@ -108,7 +108,7 @@ final class RequirePackage extends BaseAction
      *
      * @param JsonFile $jsonFile
      * @param array    $package
-     * @param boolean  $isPostInstall
+     * @param bool     $isPostInstall
      */
     private function updateComposerJson(JsonFile $jsonFile, array $package, $isPostInstall)
     {
@@ -140,8 +140,8 @@ final class RequirePackage extends BaseAction
      * @param array    $new
      * @param string   $requireKey
      * @param string   $removeKey
-     * @param boolean  $sortPackages
-     * @param boolean  $isPostInstall
+     * @param bool     $sortPackages
+     * @param bool     $isPostInstall
      *
      * @return bool
      */

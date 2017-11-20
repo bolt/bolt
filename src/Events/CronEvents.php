@@ -13,9 +13,9 @@ final class CronEvents
     {
     }
 
-    const CRON_HOURLY   = 'cron.Hourly';
-    const CRON_DAILY    = 'cron.Daily';
-    const CRON_WEEKLY   = 'cron.Weekly';
-    const CRON_MONTHLY  = 'cron.Monthly';
-    const CRON_YEARLY   = 'cron.Yearly';
+    const CRON_HOURLY = 'cron.Hourly';
+    const CRON_DAILY = 'cron.Daily';
+    const CRON_WEEKLY = 'cron.Weekly';
+    const CRON_MONTHLY = 'cron.Monthly';
+    const CRON_YEARLY = 'cron.Yearly';
 }

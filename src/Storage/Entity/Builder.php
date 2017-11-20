@@ -118,7 +118,7 @@ class Builder
     /**
      * Creates a new entity object.
      *
-     * @param array|object $data   Data to load into the entity.
+     * @param array|object $data   data to load into the entity
      * @param object|null  $entity
      *
      * @return object $entity

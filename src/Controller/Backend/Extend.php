@@ -273,7 +273,7 @@ class Extend extends BackendBase
     {
         $package = $request->query->get('package');
         if ($package === null) {
-            $message  = 'Extension browser request query was missing or invalid, check your web server configuration.';
+            $message = 'Extension browser request query was missing or invalid, check your web server configuration.';
 
             return $this->getJsonException(new \Exception($message));
         }

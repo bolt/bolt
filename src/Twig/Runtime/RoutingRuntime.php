@@ -61,7 +61,7 @@ class RoutingRuntime
     /**
      * Check if the page is viewed on a mobile device.
      *
-     * @return boolean
+     * @return bool
      */
     public function isMobileClient()
     {

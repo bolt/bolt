@@ -36,7 +36,7 @@ class TextRuntime
      * JSON decodes a variable. Twig has a built-in json_encode filter, but no built-in
      * function to JSON decode a string. This functionality remedies that.
      *
-     * @param string $string The string to decode.
+     * @param string $string the string to decode
      *
      * @return array|null The JSON decoded array
      */
@@ -91,10 +91,10 @@ class TextRuntime
     /**
      * Perform a regular expression search and replace on the given string.
      *
-     * @param string  $str
-     * @param string  $pattern
-     * @param string  $replacement
-     * @param integer $limit
+     * @param string $str
+     * @param string $pattern
+     * @param string $replacement
+     * @param int    $limit
      *
      * @return string Same string where first character is in upper case
      */
@@ -108,9 +108,9 @@ class TextRuntime
      *
      * @see function Bolt\Library::safeString()
      *
-     * @param string  $str
-     * @param boolean $strict
-     * @param string  $extrachars
+     * @param string $str
+     * @param bool   $strict
+     * @param string $extrachars
      *
      * @return string
      */
@@ -138,9 +138,9 @@ class TextRuntime
     /**
      * Test whether a passed string contains valid JSON.
      *
-     * @param string $string The string to test.
+     * @param string $string the string to test
      *
-     * @return boolean
+     * @return bool
      */
     public function testJson($string)
     {

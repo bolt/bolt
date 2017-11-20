@@ -52,11 +52,11 @@ class ImageRuntime
     /**
      * Helper function to make a path to an image.
      *
-     * @param Environment    $env
-     * @param string|array   $fileName Target filename
-     * @param string|integer $width    Target width
-     * @param string|integer $height   Target height
-     * @param string         $crop     String identifier for cropped images
+     * @param Environment  $env
+     * @param string|array $fileName Target filename
+     * @param string|int   $width    Target width
+     * @param string|int   $height   Target height
+     * @param string       $crop     String identifier for cropped images
      *
      * @return string Image path
      */
@@ -123,8 +123,8 @@ class ImageRuntime
      * example: {{ content.image|popup(width=320, height=240, title="My Image") }}
      *
      * @param string|array $fileName Image file name
-     * @param integer      $width    Image width
-     * @param integer      $height   Image height
+     * @param int          $width    Image width
+     * @param int          $height   Image height
      * @param string       $crop     Crop image string identifier
      * @param string       $title    Display title for image
      *
@@ -174,10 +174,10 @@ class ImageRuntime
      * Example: {{ content.image|showimage(320, 240) }}
      * Example: {{ showimage(content.image, 320, 240) }}
      *
-     * @param string  $fileName Image filename
-     * @param integer $width    Image width
-     * @param integer $height   Image height
-     * @param string  $crop     Crop image string identifier
+     * @param string $fileName Image filename
+     * @param int    $width    Image width
+     * @param int    $height   Image height
+     * @param string $crop     Crop image string identifier
      *
      * @return string HTML output
      */
@@ -224,9 +224,9 @@ class ImageRuntime
      * @param string     $fileName Target filename
      * @param string|int $width    Target width
      * @param string|int $height   Target height
-     * @param string     $crop     Zooming and cropping: Set to 'f(it)', 'b(orders)', 'r(esize)' or 'c(rop)'
+     * @param string     $crop     zooming and cropping: Set to 'f(it)', 'b(orders)', 'r(esize)' or 'c(rop)'
      *                             Set width or height parameter to '0' for proportional scaling
-     *                             Setting them to '' uses default values.
+     *                             Setting them to '' uses default values
      *
      * @return string Relative URL of the thumbnail
      */
@@ -246,8 +246,8 @@ class ImageRuntime
      * Get a thumbnail object.
      *
      * @param string|array $fileName
-     * @param integer      $width
-     * @param integer      $height
+     * @param int          $width
+     * @param int          $height
      * @param string       $scale
      *
      * @return Thumbnail

@@ -7,7 +7,7 @@ namespace Bolt\Storage\Entity;
  */
 class Cron extends Entity
 {
-    /** @var integer */
+    /** @var int */
     protected $id;
     /** @var string */
     protected $interim;

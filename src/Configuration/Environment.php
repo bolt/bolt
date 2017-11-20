@@ -59,7 +59,7 @@ class Environment
     /**
      * Has a Bolt version change been detected.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasVersionChange()
     {
@@ -125,8 +125,8 @@ class Environment
     /**
      * Check if the cache version matches Bolt's current version.
      *
-     * @return boolean TRUE  - versions match
-     *                 FALSE - versions don't match
+     * @return bool TRUE  - versions match
+     *              FALSE - versions don't match
      */
     protected function checkCacheVersion()
     {
@@ -137,7 +137,7 @@ class Environment
         }
 
         $version = md5($this->boltVersion);
-        $cached  = file_get_contents($fileName);
+        $cached = file_get_contents($fileName);
 
         if ($version === $cached) {
             return true;

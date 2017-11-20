@@ -48,8 +48,8 @@ class PathResolver
     /**
      * Constructor.
      *
-     * @param string $root  The root path which must be absolute.
-     * @param array  $paths Initial path definitions.
+     * @param string $root  the root path which must be absolute
+     * @param array  $paths initial path definitions
      */
     public function __construct($root, $paths = [])
     {
@@ -92,8 +92,8 @@ class PathResolver
      *  - `foo/bar` - A relative path that will be resolved against the root path.
      *  - `/tmp` - An absolute path will be returned as is.
      *
-     * @param string $path     The path.
-     * @param bool   $absolute If the path is relative, resolve it against the root path.
+     * @param string $path     the path
+     * @param bool   $absolute if the path is relative, resolve it against the root path
      *
      * @return string
      */

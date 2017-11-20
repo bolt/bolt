@@ -27,7 +27,7 @@ use Twig\Markup;
  */
 trait ContentValuesTrait
 {
-    /** @var boolean Whether this is a "real" ContentType or an embedded ones */
+    /** @var bool Whether this is a "real" ContentType or an embedded ones */
     protected $isRootType;
 
     /**
@@ -58,8 +58,8 @@ trait ContentValuesTrait
     /**
      * Alias for getExcerpt().
      *
-     * @param integer      $length
-     * @param boolean      $includeTitle
+     * @param int          $length
+     * @param bool         $includeTitle
      * @param string|array $focus
      *
      * @return Markup
@@ -72,8 +72,8 @@ trait ContentValuesTrait
     /**
      * Create an excerpt for the content.
      *
-     * @param integer      $length
-     * @param boolean      $includeTitle
+     * @param int          $length
+     * @param bool         $includeTitle
      * @param string|array $focus
      *
      * @return Markup
@@ -108,8 +108,8 @@ trait ContentValuesTrait
     /**
      * Return a content objects values.
      *
-     * @param boolean $json     Set to TRUE to return JSON encoded values for arrays
-     * @param boolean $stripped Set to true to strip all of the base fields
+     * @param bool $json     Set to TRUE to return JSON encoded values for arrays
+     * @param bool $stripped Set to true to strip all of the base fields
      *
      * @return array
      */
@@ -650,7 +650,7 @@ trait ContentValuesTrait
     /**
      * Check if a ContentType field has a template set.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasTemplateFields()
     {

@@ -41,9 +41,9 @@ class Connection extends \Doctrine\DBAL\Connection
      * the existence of a cache profile will result in the executeQueryCache() method being called.
      *
      *
-     * @param string $sql    The SQL query.
-     * @param array  $params The query parameters.
-     * @param array  $types  The query parameter types.
+     * @param string $sql    the SQL query
+     * @param array  $params the query parameters
+     * @param array  $types  the query parameter types
      *
      * @return array
      */
@@ -62,13 +62,13 @@ class Connection extends \Doctrine\DBAL\Connection
      *
      * This method supports PDO binding types as well as DBAL mapping types.
      *
-     * @param string $query  The SQL query.
-     * @param array  $params The query parameters.
-     * @param array  $types  The parameter types.
+     * @param string $query  the SQL query
+     * @param array  $params the query parameters
+     * @param array  $types  the parameter types
      *
      * @throws \Doctrine\DBAL\DBALException
      *
-     * @return integer The number of affected rows.
+     * @return int the number of affected rows
      */
     public function executeUpdate($query, array $params = [], array $types = [])
     {

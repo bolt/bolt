@@ -8,9 +8,9 @@ use Bolt\Storage\Repository;
 class FieldValueRepository extends Repository
 {
     /**
-     * @param integer $id
-     * @param string  $contentType
-     * @param string  $field
+     * @param int    $id
+     * @param string $contentType
+     * @param string $field
      *
      * @return \Doctrine\DBAL\Query\QueryBuilder
      */
@@ -32,9 +32,9 @@ class FieldValueRepository extends Repository
     }
 
     /**
-     * @param integer $id
-     * @param string  $contentType
-     * @param string  $field
+     * @param int    $id
+     * @param string $contentType
+     * @param string $field
      *
      * @return Entity[]
      */

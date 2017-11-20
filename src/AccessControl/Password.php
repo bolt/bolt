@@ -33,9 +33,9 @@ class Password
     /**
      * Set a random password for user.
      *
-     * @param string $username User specified by ID, username or email address.
+     * @param string $username user specified by ID, username or email address
      *
-     * @return string|boolean New password or FALSE when no match for username.
+     * @return string|bool new password or FALSE when no match for username
      */
     public function setRandomPassword($username)
     {

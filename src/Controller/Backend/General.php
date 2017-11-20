@@ -278,13 +278,13 @@ class General extends BackendBase
      * When there are no ContentType records we will suggest to create some
      * dummy content.
      *
-     * @param integer $limit
+     * @param int $limit
      *
      * @return array
      */
     private function getLatest($limit = null)
     {
-        $total  = 0;
+        $total = 0;
         $latest = [];
         $permissions = [];
         $user = $this->users()->getCurrentUser();
@@ -342,7 +342,7 @@ class General extends BackendBase
      * @param string     $contents
      * @param MutableBag $tr
      *
-     * @return boolean|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return bool|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     private function saveTranslationFile($contents, MutableBag $tr)
     {

@@ -10,9 +10,9 @@ class Str extends \Bolt\Common\Str
      * Returns a "safe" version of the given string - basically only US-ASCII and
      * numbers. Needed because filenames and titles and such, can't use all characters.
      *
-     * @param string  $str
-     * @param boolean $strict
-     * @param string  $extrachars
+     * @param string $str
+     * @param bool   $strict
+     * @param string $extrachars
      *
      * @return string
      */

@@ -7,7 +7,7 @@ use Bolt\Logger\FlashLoggerInterface;
 /**
  * Interface for validation checks that require FlashLoggerInterface.
  *
- * @internal Do not use.
+ * @internal do not use
  *
  * @deprecated Deprecated since 3.2, to be removed in 4.0.
  *

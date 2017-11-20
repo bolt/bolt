@@ -18,8 +18,8 @@ final class SearchPackage extends BaseAction
     /**
      * Search for packages.
      *
-     * @param array   $packages Indexed array of package names to search for
-     * @param boolean $onlyname True for name only search, false for full text
+     * @param array $packages Indexed array of package names to search for
+     * @param bool  $onlyname True for name only search, false for full text
      *
      * @throws PackageManagerException
      *

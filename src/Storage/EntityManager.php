@@ -66,10 +66,10 @@ class EntityManager implements EntityManagerInterface
      */
     public function __construct(Connection $conn, EventDispatcherInterface $eventManager, MetadataDriver $mapping, LoggerInterface $logger = null)
     {
-        $this->conn         = $conn;
+        $this->conn = $conn;
         $this->eventManager = $eventManager;
-        $this->mapping      = $mapping;
-        $this->logger       = $logger ?: new NullLogger();
+        $this->mapping = $mapping;
+        $this->logger = $logger ?: new NullLogger();
     }
 
     /**
@@ -197,10 +197,10 @@ class EntityManager implements EntityManagerInterface
      *
      * This is just a convenient shortcut for getRepository($className)->find($id).
      *
-     * @param string         $className Class name of the object to find.
-     * @param integer|string $id        Identity of the object to find.
+     * @param string     $className class name of the object to find
+     * @param int|string $id        identity of the object to find
      *
-     * @return object The found object.
+     * @return object the found object
      */
     public function find($className, $id)
     {
@@ -212,9 +212,9 @@ class EntityManager implements EntityManagerInterface
     /**
      * The object will be entered into the database as a result of this operation.
      *
-     * @param object $object The instance to persist to storage.
+     * @param object $object the instance to persist to storage
      *
-     * @return boolean
+     * @return bool
      */
     public function save($object)
     {
@@ -233,9 +233,9 @@ class EntityManager implements EntityManagerInterface
      *
      * Passed in object will be removed from the database as a result of this operation.
      *
-     * @param object $object The object instance to remove.
+     * @param object $object the object instance to remove
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($object)
     {

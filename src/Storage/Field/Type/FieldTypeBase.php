@@ -102,7 +102,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
 
         $type = $this->getStorageTypeObject();
 
-        if (null !== $value) {
+        if ($value !== null) {
             $value = $type->convertToDatabaseValue($value, $this->getPlatform());
         } elseif (isset($this->mapping['default'])) {
             $value = $this->mapping['default'];
@@ -245,7 +245,7 @@ abstract class FieldTypeBase implements FieldTypeInterface, FieldInterface
      *
      * @param string $value
      *
-     * @return boolean
+     * @return bool
      */
     protected function isJson($value)
     {

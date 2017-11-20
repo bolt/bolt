@@ -21,7 +21,7 @@ use Twig\Environment;
  * This is a temporary solution to remove the configuration checks from
  * pre-request, until such time as configuration can be refactored.
  *
- * @internal Do not extend/call.
+ * @internal do not extend/call
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

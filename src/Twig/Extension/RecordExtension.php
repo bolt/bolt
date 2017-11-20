@@ -22,7 +22,7 @@ class RecordExtension extends AbstractExtension
     public function getFunctions()
     {
         $safe = ['is_safe' => ['html']];
-        $env  = ['needs_environment' => true];
+        $env = ['needs_environment' => true];
         $deprecated = ['deprecated' => true];
 
         return [

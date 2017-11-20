@@ -159,7 +159,7 @@ class Login extends AccessChecker
                 return false;
             }
 
-            $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
+            $cookieLifetime = (int) $this->cookieOptions['lifetime'];
             $userTokenEntity->setValidity(Carbon::create()->addSeconds($cookieLifetime));
             $userTokenEntity->setLastseen(Carbon::now());
             $this->getRepositoryAuthtoken()->save($userTokenEntity);
@@ -205,7 +205,7 @@ class Login extends AccessChecker
      *
      * @param Entity\Users $userEntity
      *
-     * @return boolean
+     * @return bool
      */
     protected function loginFinish(Entity\Users $userEntity)
     {
@@ -248,7 +248,7 @@ class Login extends AccessChecker
      *
      * @param Entity\Users $userEntity
      *
-     * @return boolean
+     * @return bool
      */
     protected function updateUserLogin(Entity\Users $userEntity)
     {
@@ -305,7 +305,7 @@ class Login extends AccessChecker
     protected function updateAuthToken(Entity\Users $userEntity)
     {
         $userName = $userEntity->getUsername();
-        $cookieLifetime = (integer) $this->cookieOptions['lifetime'];
+        $cookieLifetime = (int) $this->cookieOptions['lifetime'];
         $repo = $this->getRepositoryAuthtoken();
         $tokenEntity = $repo->getUserToken($userEntity->getId(), $this->getClientIp(), $this->getClientUserAgent());
 
@@ -342,7 +342,7 @@ class Login extends AccessChecker
      * Note: I just realized this is conceptually wrong: we should throttle
      * based on remote_addr, not username. So, this isn't used, yet.
      *
-     * @param integer $attempts
+     * @param int $attempts
      *
      * @return \DateTime
      */

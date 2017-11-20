@@ -152,7 +152,7 @@ class BackendEditorCest extends AbstractAcceptanceTest
         $I->click('New Page');
 
         $teaser = file_get_contents(CODECEPTION_DATA . '/about.teaser.html');
-        $body   = file_get_contents(CODECEPTION_DATA . '/about.body.html');
+        $body = file_get_contents(CODECEPTION_DATA . '/about.body.html');
 
         $I->fillField('#title',  'About');
         $I->fillField('#slug',   'about');

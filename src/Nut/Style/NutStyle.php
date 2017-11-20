@@ -117,7 +117,7 @@ class NutStyle extends SymfonyStyle implements NutStyleInterface
      */
     public function choiceThenRemove($question, array $choices, $default = null)
     {
-        if (null !== $default) {
+        if ($default !== null) {
             $values = array_flip($choices);
             $default = $values[$default];
         }
@@ -166,7 +166,7 @@ class NutStyle extends SymfonyStyle implements NutStyleInterface
      */
     public function isQuiet()
     {
-        return self::VERBOSITY_QUIET === $this->getVerbosity();
+        return $this->getVerbosity() === self::VERBOSITY_QUIET;
     }
 
     /**

@@ -74,7 +74,7 @@ class DoctrineListener implements EventSubscriber
             $platform->registerDoctrineTypeMapping('enum', 'string');
 
             // Set database character set & collation as configured
-            $charset   = $this->config->get('general/database/charset');
+            $charset = $this->config->get('general/database/charset');
             $collation = $this->config->get('general/database/collate');
             $db->executeQuery('SET NAMES ? COLLATE ?', [$charset, $collation], [PDO::PARAM_STR]);
 

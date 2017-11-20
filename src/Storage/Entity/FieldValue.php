@@ -31,11 +31,11 @@ class FieldValue extends Entity
     protected $value_string;
     /** @var string @internal Use $value instead */
     protected $value_text;
-    /** @var integer @internal Use $value instead */
+    /** @var int @internal Use $value instead */
     protected $value_integer;
-    /** @var double @internal Use $value instead */
+    /** @var float @internal Use $value instead */
     protected $value_float;
-    /** @var integer @internal Use $value instead */
+    /** @var int @internal Use $value instead */
     protected $value_decimal;
     /** @var \DateTime @internal Use $value instead */
     protected $value_date;

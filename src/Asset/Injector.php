@@ -253,7 +253,7 @@ class Injector
      *
      * @param AssetInterface $asset
      * @param string         $rawHtml
-     * @param boolean        $insidehead
+     * @param bool           $insidehead
      *
      * @return string
      */
@@ -284,10 +284,10 @@ class Injector
     /**
      * Get a set of matches.
      *
-     * @param string  $rawHtml        The original HTML
-     * @param string  $htmlTag        HTML tag fragment we're matching, e.g. '<head' or '</head'
-     * @param boolean $matchRemainder TRUE matches the remainder of the line, not just the tag - (.*)
-     * @param boolean $matchAll       TRUE returns all matched instances - preg_match_all()
+     * @param string $rawHtml        The original HTML
+     * @param string $htmlTag        HTML tag fragment we're matching, e.g. '<head' or '</head'
+     * @param bool   $matchRemainder TRUE matches the remainder of the line, not just the tag - (.*)
+     * @param bool   $matchAll       TRUE returns all matched instances - preg_match_all()
      *
      * @return string[]|false
      */

@@ -2,7 +2,6 @@
 
 namespace Bolt\Storage\Database\Schema;
 
-use Bolt\Common\Deprecated;
 use Bolt\Events\SchemaEvent;
 use Bolt\Events\SchemaEvents;
 use Bolt\Storage\Database\Schema\Table\BaseTable;
@@ -146,7 +145,7 @@ class Manager implements SchemaManagerInterface
     /**
      * Check if just the users table is present.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasUserTable()
     {
@@ -222,9 +221,9 @@ class Manager implements SchemaManagerInterface
     /**
      * This method allows extensions to register their own tables.
      *
-     * @param callable $generator A generator function that takes the Schema
+     * @param callable $generator a generator function that takes the Schema
      *                            instance and returns a table or an array of
-     *                            tables.
+     *                            tables
      */
     public function registerExtensionTable(callable $generator)
     {

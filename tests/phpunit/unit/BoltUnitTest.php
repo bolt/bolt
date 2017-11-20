@@ -139,7 +139,7 @@ abstract class BoltUnitTest extends TestCase
     {
         // Check if default user exists before adding
         $existingUser = $app['users']->getUser('admin');
-        if (false !== $existingUser) {
+        if ($existingUser !== false) {
             return $existingUser;
         }
 
@@ -281,7 +281,7 @@ abstract class BoltUnitTest extends TestCase
             $app['randomgenerator'],
             $app['access_control.cookie.options'],
         ];
-        $accessCheckerMock =  $this->getMockBuilder(AccessChecker::class)
+        $accessCheckerMock = $this->getMockBuilder(AccessChecker::class)
             ->setMethods($methods)
             ->setConstructorArgs($parameters)
             ->getMock()

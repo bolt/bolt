@@ -41,7 +41,7 @@ class QueryTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addSomeContent();
 
-        $mockScope =  $this->getMockBuilder(QueryScopeInterface::class)
+        $mockScope = $this->getMockBuilder(QueryScopeInterface::class)
             ->setMethods(['onQueryExecute'])
             ->getMock()
         ;
@@ -57,7 +57,7 @@ class QueryTest extends BoltUnitTest
         $app = $this->getApp();
         $this->addSomeContent();
 
-        $mockScope =  $this->getMockBuilder(QueryScopeInterface::class)
+        $mockScope = $this->getMockBuilder(QueryScopeInterface::class)
             ->setMethods(['onQueryExecute'])
             ->getMock()
         ;

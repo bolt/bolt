@@ -320,7 +320,7 @@ class Frontend extends ConfigurableBase
      * @param string      $slug
      * @param array       $taxonomy
      *
-     * @return boolean
+     * @return bool
      */
     protected function isTaxonomyValid($content, $slug, array $taxonomy)
     {

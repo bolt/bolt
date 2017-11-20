@@ -97,7 +97,7 @@ class ArrayExtension extends AbstractExtension
      * @param \Bolt\Legacy\Content|array $a
      * @param \Bolt\Legacy\Content|array $b
      *
-     * @return boolean
+     * @return bool
      */
     private function orderHelper($a, $b)
     {

@@ -40,7 +40,7 @@ interface ExtensionInterface
     /**
      * Returns the root directory for the extension.
      *
-     * @throws \LogicException If the extension has not been registered with a base directory.
+     * @throws \LogicException if the extension has not been registered with a base directory
      *
      * @return DirectoryInterface
      */
@@ -51,7 +51,7 @@ interface ExtensionInterface
      *
      * The extension's assets should be installed in this folder.
      *
-     * @throws \LogicException If the extension has not been registered with a web directory.
+     * @throws \LogicException if the extension has not been registered with a web directory
      *
      * @return DirectoryInterface
      */

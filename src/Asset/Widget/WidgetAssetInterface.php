@@ -126,14 +126,14 @@ interface WidgetAssetInterface extends AssetInterface, \ArrayAccess
     /**
      * Check if the widget is set to be lazy loaded.
      *
-     * @return boolean
+     * @return bool
      */
     public function isDeferred();
 
     /**
      * Set/unset the lazy loading flag fo the widget content.
      *
-     * @param boolean $defer
+     * @param bool $defer
      *
      * @return WidgetAssetInterface
      */
@@ -142,14 +142,14 @@ interface WidgetAssetInterface extends AssetInterface, \ArrayAccess
     /**
      * Get the widget's render priroity in the target position.
      *
-     * @return integer
+     * @return int
      */
     public function getPriority();
 
     /**
      * Set the widget's render priroity in the target position.
      *
-     * @param integer $priority
+     * @param int $priority
      *
      * @return WidgetAssetInterface
      */
@@ -158,14 +158,14 @@ interface WidgetAssetInterface extends AssetInterface, \ArrayAccess
     /**
      * Get the number of seconds to cache the widgets content.
      *
-     * @return integer
+     * @return int
      */
     public function getCacheDuration();
 
     /**
      * Set the number of seconds to cache the widgets content.
      *
-     * @param integer $cacheDuration
+     * @param int $cacheDuration
      *
      * @return WidgetAssetInterface
      */

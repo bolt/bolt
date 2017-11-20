@@ -18,7 +18,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
 {
     /** @var Application */
     private $app;
-    /** @var boolean */
+    /** @var bool */
     private $initialized = false;
     /** @var string */
     private $tablename;
@@ -43,7 +43,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
      *
      * @param array $record
      *
-     * @return boolean
+     * @return bool
      */
     public function handle(array $record)
     {
@@ -60,7 +60,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
             // Nothing.
         }
 
-        return false === $this->bubble;
+        return $this->bubble === false;
     }
 
     protected function write(array $record)

@@ -27,8 +27,8 @@ class PagerManagerUnitTest extends PagerManagerTestBase
     /**
      * @dataProvider makeParameterIdProvider
      *
-     * @param string         $expected
-     * @param string|integer $suffix
+     * @param string     $expected
+     * @param string|int $suffix
      */
     public function testMakeParameterId($expected, $suffix)
     {

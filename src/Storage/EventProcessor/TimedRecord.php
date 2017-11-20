@@ -37,7 +37,7 @@ class TimedRecord
     protected $dispatcher;
     /** @var LoggerInterface */
     protected $systemLogger;
-    /** @var integer */
+    /** @var int */
     protected $interval;
 
     /**
@@ -48,7 +48,7 @@ class TimedRecord
      * @param CacheProvider            $cache
      * @param EventDispatcherInterface $dispatcher
      * @param LoggerInterface          $systemLogger
-     * @param integer                  $interval
+     * @param int                      $interval
      */
     public function __construct(
         array $contentTypeNames,

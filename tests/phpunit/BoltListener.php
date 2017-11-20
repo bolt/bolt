@@ -30,13 +30,13 @@ class BoltListener extends BaseTestListener
     protected $theme;
     /** @var string */
     protected $boltdb;
-    /** @var boolean */
+    /** @var bool */
     protected $timer;
     /** @var array */
     protected $tracker = [];
     /** @var string[] */
     protected $currentSuite = [];
-    /** @var boolean */
+    /** @var bool */
     protected $reset;
 
     /**
@@ -44,11 +44,11 @@ class BoltListener extends BaseTestListener
      *
      * @see \PHPUnit_Util_Configuration
      *
-     * @param array   $configs Location of configuration files
-     * @param bool    $theme   Location of the theme
-     * @param bool    $boltDb  Location of Sqlite database
-     * @param boolean $reset   Reset test environment after run
-     * @param boolean $timer   Create test execution timer output
+     * @param array $configs Location of configuration files
+     * @param bool  $theme   Location of the theme
+     * @param bool  $boltDb  Location of Sqlite database
+     * @param bool  $reset   Reset test environment after run
+     * @param bool  $timer   Create test execution timer output
      */
     public function __construct($configs = [], $theme = false, $boltDb = false, $reset = true, $timer = true)
     {

@@ -302,8 +302,8 @@ class ContentQueryParser
     /**
      * Sets a directive for the named key.
      *
-     * @param string         $key
-     * @param string|boolean $value
+     * @param string      $key
+     * @param string|bool $value
      */
     public function setDirective($key, $value)
     {

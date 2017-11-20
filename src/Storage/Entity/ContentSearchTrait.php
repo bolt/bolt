@@ -18,13 +18,13 @@ namespace Bolt\Storage\Entity;
  */
 trait ContentSearchTrait
 {
-    /** @var integer The last time we weight a searchresult */
+    /** @var int The last time we weight a searchresult */
     protected $lastWeight = 0;
 
     /**
      * Get the content's query weight… and something to eat… it looks hungry.
      *
-     * @return integer
+     * @return int
      */
     public function getSearchResultWeight()
     {
@@ -132,12 +132,12 @@ trait ContentSearchTrait
     /**
      * Weight a text part relative to some other part.
      *
-     * @param string  $subject  The subject to search in.
-     * @param string  $complete The complete search term (lowercased).
-     * @param array   $words    All the individual search terms (lowercased).
-     * @param integer $max      Maximum number of points to return.
+     * @param string $subject  the subject to search in
+     * @param string $complete the complete search term (lowercased)
+     * @param array  $words    all the individual search terms (lowercased)
+     * @param int    $max      maximum number of points to return
      *
-     * @return integer The weight
+     * @return int The weight
      */
     private function weighQueryText($subject, $complete, array $words, $max)
     {

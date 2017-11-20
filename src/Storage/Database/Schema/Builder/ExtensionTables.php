@@ -69,9 +69,9 @@ class ExtensionTables extends BaseBuilder
      *
      * @deprecated Deprecated since 3.0, to be removed in 4.0.
      *
-     * @param callable $generator A generator function that takes the Schema
+     * @param callable $generator a generator function that takes the Schema
      *                            instance and returns a table or an array of
-     *                            tables.
+     *                            tables
      */
     public function addTable(callable $generator)
     {

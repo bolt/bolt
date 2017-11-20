@@ -32,7 +32,7 @@ class DumpRuntime
      * @param ClonerInterface $cloner
      * @param HtmlDumper      $dumper
      * @param Users           $users
-     * @param boolean         $debugShowLoggedoff
+     * @param bool            $debugShowLoggedoff
      */
     public function __construct(ClonerInterface $cloner, HtmlDumper $dumper, Users $users, $debugShowLoggedoff)
     {

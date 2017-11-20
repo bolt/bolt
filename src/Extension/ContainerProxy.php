@@ -19,8 +19,8 @@ class ContainerProxy extends Container
     /**
      * Constructor.
      *
-     * @param Container $container        The real container.
-     * @param string[]  $serviceWhiteList A list of services that can be invoked.
+     * @param Container $container        the real container
+     * @param string[]  $serviceWhiteList a list of services that can be invoked
      */
     public function __construct(Container $container, array $serviceWhiteList = [])
     {

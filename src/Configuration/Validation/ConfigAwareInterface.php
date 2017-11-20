@@ -7,7 +7,7 @@ use Bolt\Config;
 /**
  * Interface for validation checks that require Config.
  *
- * @internal Do not use.
+ * @internal do not use
  *
  * @deprecated Deprecated since 3.1, to be removed in 4.0.
  *

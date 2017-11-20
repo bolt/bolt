@@ -5,7 +5,7 @@ namespace Bolt\Storage\Database\Schema\Table;
 class ContentType extends BaseTable
 {
     /** @var array Mapping of field type to column type function */
-    protected $typeMap =  [
+    protected $typeMap = [
         // Boolean
         'checkbox'       => 'columnBoolean',
         // Date
@@ -86,7 +86,7 @@ class ContentType extends BaseTable
      *
      * @param string $type
      *
-     * @return boolean
+     * @return bool
      */
     public function isKnownType($type)
     {
@@ -96,9 +96,9 @@ class ContentType extends BaseTable
     /**
      * Add the contenttype's specific fields.
      *
-     * @param string  $fieldName
-     * @param string  $type
-     * @param boolean $addIndex
+     * @param string $fieldName
+     * @param string $type
+     * @param bool   $addIndex
      */
     public function addCustomFields($fieldName, $type, $addIndex)
     {
