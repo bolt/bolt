@@ -189,9 +189,9 @@ class QueueTest extends TestCase
 
     protected function setUp()
     {
-        $this->injector = $this->getMockBuilder(Injector::class)->getMock();
-        $this->cache = $this->getMockBuilder(CacheProvider::class)->getMock();
-        $this->twig = $this->getMockBuilder(Environment::class)->getMock();
+        $this->injector = $this->createMock(Injector::class);
+        $this->cache = $this->createMock(CacheProvider::class);
+        $this->twig = $this->createMock(Environment::class);
     }
 
     protected function tearDown()

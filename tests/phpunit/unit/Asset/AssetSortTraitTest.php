@@ -16,8 +16,8 @@ class AssetSortTraitTest extends TestCase
     const FIRST = 0;
     const LAST = 1;
 
-    const PRIORITY_LOW = 2;
-    const PRIORITY_HIGH = 1;
+    const PRIORITY_LOW = 1;
+    const PRIORITY_HIGH = 2;
 
     public function providerSort()
     {
