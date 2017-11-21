@@ -267,7 +267,7 @@ abstract class Base implements ControllerProviderInterface
      */
     protected function isCsrfTokenValid($value = null, $id = 'bolt')
     {
-        $token = new CsrfToken($id, $value ?: $this->app['request_stack']->getCurrentRequest()->get('bolt_csrf_token'));
+        $token = new CsrfToken($id, $value ?: $this->app['request_stack']->getCurrentRequest()->get('bolt_csrf_token', ''));
 
         return $this->app['csrf.token_manager']->isTokenValid($token);
     }

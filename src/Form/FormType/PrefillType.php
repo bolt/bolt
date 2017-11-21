@@ -28,8 +28,6 @@ class PrefillType extends AbstractType
                     'choices'  => $options['contenttypes'],
                     'multiple' => true,
                     'expanded' => true,
-                    // Can be removed when symfony/form:^3.0 is the minimum
-                    'choices_as_values' => true,
                 ]
             )
             ->add('check_all', ButtonType::class)
