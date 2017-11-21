@@ -95,7 +95,7 @@ class Users extends BackendBase
             ->handleRequest($request)
         ;
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
             $saved = $this->getRepository(Entity\Users::class)->save($userEntity);
             if ($saved) {
@@ -168,7 +168,7 @@ class Users extends BackendBase
             ->handleRequest($request)
         ;
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
             $saved = $this->getRepository(Entity\Users::class)->save($userEntity);
             if ($saved) {
