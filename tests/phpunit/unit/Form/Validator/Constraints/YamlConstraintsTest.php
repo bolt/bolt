@@ -1,17 +1,17 @@
 <?php
 
-namespace Bolt\Tests\Form\Validator\Constraints;
+namespace Bolt\Tests\Validator\Constraints;
 
-use Bolt\Form\Validator\Constraints\Yaml;
-use Bolt\Form\Validator\Constraints\YamlValidator;
+use Bolt\Validator\Constraints\Yaml;
+use Bolt\Validator\Constraints\YamlValidator;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilder;
 
 /**
- * @covers \Bolt\Form\Validator\Constraints\YamlValidator
- * @covers \Bolt\Form\Validator\Constraints\Yaml
+ * @covers \Bolt\Validator\Constraints\YamlValidator
+ * @covers \Bolt\Validator\Constraints\Yaml
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

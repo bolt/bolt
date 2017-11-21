@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 7.0.8
   - 7.1
   - 7.2
   - nightly
@@ -41,9 +40,6 @@ script:
   # Database platform
   - ./tests/scripts/dbsetup.sh
   - $PHPUNIT_CMD tests/phpunit/database/
-  # Codeception
-  - ./vendor/codeception/codeception/codecept build -vvv > /dev/null
-  - ./vendor/codeception/codeception/codecept run --ext DotReporter
   # Deprecation checks
   - ./tests/scripts/deprecation-check.sh
 

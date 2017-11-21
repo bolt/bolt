@@ -1,19 +1,18 @@
 <?php
 
-namespace Bolt\Form\Validator\Constraints;
+namespace Bolt\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 /**
- * Field containing a value subset validator.
+ * Equivalent field value validator.
  *
- * Validates that a non-NULL value does not match part of the value of another
- * field.
+ * Validates that a non-NULL value does not match the value of another field.
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class FieldContainsValidator extends ConstraintValidator
+class FieldEqualsValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint)
     {
@@ -32,7 +31,11 @@ class FieldContainsValidator extends ConstraintValidator
             $otherValue = strtolower($otherValue);
         }
 
-        if (strrpos($otherValue, $value) !== false) {
+        if ($value === $otherValue) {
+            return $this->addViolation($value, $constraint);
+        }
+
+        if ($constraint->loose && $value == $otherValue) {
             return $this->addViolation($value, $constraint);
         }
 
