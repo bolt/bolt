@@ -155,9 +155,10 @@ recordsperpage: 10
 #                  By default this is handled by Syfmony HTTP Cache.
 #
 # - duration:      The duration (in minutes) for the 'templates' and 'request'
-#                  options. default is 10 minutes. Note that the duration is set
-#                  on storing the cache. By lowering this value you will not
-#                  invalidate currently cached items.
+#                  options and as interval to check for timed records. default 
+#                  is 10 minutes. Note that the duration is set on storing the 
+#                  cache. By lowering this value you will not invalidate 
+#                  currently cached items.
 #
 # - authenticated: Cache 'templates' and 'request' for logged-on users. In most
 #                  cases you should *NOT* enable this, because it will cause
