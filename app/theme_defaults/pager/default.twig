@@ -1,7 +1,7 @@
 {% extends 'pager/_base.twig' %}
 
 {% block list %}
-    <div class="pagination pagination-centered {{ class|default }}">
+    <div class="pagination pagination-centered {{ class|default }}" role="navigation" aria-label="Pagination Navigation">
         <ul class="pagination">
             {{ block('items') }}
         </ul>
@@ -14,7 +14,7 @@
 {% block last_label page ~ ' »' %}
 
 {%- block item -%}
-    <li{% if active %} class="active"{% endif %}>
+    <li{% if active %} class="active" aria-current="true"{% endif %}>
         <a
             {%- if not active %} href="{{ link }}"{% endif -%}
             {%- if not first %} rel="noindex, follow"{% endif -%}
