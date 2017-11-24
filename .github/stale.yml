@@ -18,7 +18,7 @@ markComment: >
   issue queue concise and actual.
 
   If you think this issue is still relevant, please let us know. Especially if
-  you’d like to help fix the issue, either by helping us pinpointing the cause
-  of a bug, or in implementing a fix or new feature.
+  you’d like to help resolve the issue, either by helping us pinpointing the 
+  cause of a bug, or in implementing a fix or new feature.
 # Comment to post when closing a stale issue. Set to `false` to disable
 closeComment: false
