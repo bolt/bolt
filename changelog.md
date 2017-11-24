@@ -1,6 +1,17 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.4.2
+----------
+
+Released: 2017-11-24. Notable changes:
+
+ - Fixed: Cope with more DBAL breakage #7187
+ - Added: [Meta] We've added Github Stale bot, to help us prune the list of open issues.
+ - Fixed: Check form has submitted before valid #7193
+ - Changed: Basic accessibility in pagination #7191
+ - Fixed: Use "first_image" to return the first image, for display in overview listings. #7197
+
 Bolt 3.4.1
 ----------
 
