@@ -64,6 +64,13 @@ class Listing
             'filter'  => $options->getFilter(),
         ];
 
+        // If we have a text filter we switch the query into search mode
+        if ($options->getFilter()) {
+            $textQuery = $contentTypeSlug . '/search';
+        } else {
+            $textQuery = $contentTypeSlug;
+        }
+
         // Set the amount of items to show per page
         if (!empty($contentType['recordsperpage'])) {
             $contentParameters['limit'] = $contentType['recordsperpage'];
@@ -78,7 +85,7 @@ class Listing
             }
         }
 
-        return $this->getContent($contentTypeSlug, $contentParameters, $options);
+        return $this->getContent($textQuery, $contentParameters, $options);
     }
 
     /**
