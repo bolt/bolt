@@ -51,6 +51,9 @@ class FrontendTest extends ControllerUnitTest
         $this->assertSame('index.twig', $response->getTemplate());
     }
 
+    /**
+     * @group legacy
+     */
     public function testLegacyDefaultHomepage()
     {
         $this->setRequest(Request::create('/'));
@@ -119,6 +122,9 @@ class FrontendTest extends ControllerUnitTest
         $this->assertSame('page.twig', $response->getTemplate());
     }
 
+    /**
+     * @group legacy
+     */
     public function testLegacyRecord()
     {
         $this->getService('config')->set('general/compatibility/template_view', false);
@@ -335,6 +341,9 @@ class FrontendTest extends ControllerUnitTest
         $this->assertTrue($response instanceof TemplateView);
     }
 
+    /**
+     * @group legacy
+     */
     public function testLegacyListing()
     {
         $this->getService('config')->set('general/compatibility/template_view', false);
@@ -401,6 +410,9 @@ class FrontendTest extends ControllerUnitTest
         $this->assertSame('listing.twig', $response->getTemplate());
     }
 
+    /**
+     * @group legacy
+     */
     public function testLegacyTaxonomyListing()
     {
         $this->getService('config')->set('general/compatibility/template_view', false);
@@ -423,6 +435,9 @@ class FrontendTest extends ControllerUnitTest
         $this->assertSame('index.twig', $response->getTemplate());
     }
 
+    /**
+     * @group legacy
+     */
     public function testLegacyTemplate()
     {
         $this->getService('config')->set('general/compatibility/template_view', false);
@@ -453,6 +468,9 @@ class FrontendTest extends ControllerUnitTest
         $this->assertSame('search.twig', $response->getTemplate());
     }
 
+    /**
+     * @group legacy
+     */
     public function testLegacySearch()
     {
         $this->getService('config')->set('general/compatibility/template_view', false);

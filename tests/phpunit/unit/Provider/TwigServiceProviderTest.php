@@ -27,6 +27,9 @@ class TwigServiceProviderTest extends BoltUnitTest
         $this->assertContains('bolt', $app['twig.loader.bolt_filesystem']->getNamespaces(), 'bolt namespace was not added to filesystem loader');
     }
 
+    /**
+     * @group legacy
+     */
     public function testLegacyProvider()
     {
         $app = $this->getApp();
