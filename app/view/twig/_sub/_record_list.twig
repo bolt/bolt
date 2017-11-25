@@ -57,7 +57,17 @@
                     {% set lastgroup = content.group.name %}
                 {% endif %}
             {% else %}
-                {{ __('contenttypes.generic.none-available', {'%contenttypes%': contenttype.name}) }}
+                <p>
+                    {{ __('contenttypes.generic.none-available', {'%contenttypes%': contenttype.name}) }}
+                </p>
+
+                {% if isallowed('contenttype:' ~ contenttype.slug ~ ':create') %}
+                    <p class="btn-group">
+                        <a class="btn btn-primary" href="{{ path('editcontent', {'contenttypeslug': contenttype.slug}) }}">
+                            <i class="fa fa-plus"></i> {{ __('contenttypes.generic.new', {'%contenttype%': contenttype.singular_name}) }}
+                        </a>
+                    </p>
+                {% endif %}
             {% endfor %}
         </table>
 
