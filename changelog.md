@@ -4,13 +4,17 @@ Changelog for Bolt 3.x
 Bolt 3.4.2
 ----------
 
-Released: 2017-11-24. Notable changes:
+Released: 2017-11-25. Notable changes:
 
- - Fixed: Cope with more DBAL breakage #7187
- - Added: [Meta] We've added Github Stale bot, to help us prune the list of open issues.
- - Fixed: Check form has submitted before valid #7193
- - Changed: Basic accessibility in pagination #7191
- - Fixed: Use "first_image" to return the first image, for display in overview listings. #7197
+ - Added: "create new" button in content edit screen, if no content is present. [#7202](https://github.com/bolt/bolt/pull/7202)
+ - Added: [Meta] We've added Github Stale bot, to help us prune the list of open issues. [#7190](https://github.com/bolt/bolt/pull/7190)
+ - Added: Clarify how `allowed_tags` uses implicit settings from `wysiwyg:`. [#7205](https://github.com/bolt/bolt/pull/7205)
+ - Changed: Basic accessibility in pagination. [#7191](https://github.com/bolt/bolt/pull/7191)
+ - Fixed: Check form has submitted before valid. [#7193](https://github.com/bolt/bolt/pull/7193)
+ - Fixed: Cope with more DBAL breakage [#7187](https://github.com/bolt/bolt/pull/7187)
+ - Fixed: Switch to search mode if a text filter is passed into the overview filter. [#7203](https://github.com/bolt/bolt/pull/7203)
+ - Fixed: Use "first_image" to return the first image, for display in overview listings. [#7197](https://github.com/bolt/bolt/pull/7197)
+ - Tests: Use `@legacy` annotation to mark tests as "legacy group" [#7206](https://github.com/bolt/bolt/pull/7206)
 
 Bolt 3.4.1
 ----------
