@@ -1,9 +1,0 @@
-{% import '@bolt/_nav/_macros.twig' as nav %}
-{% spaceless %}
-    {% set menu = menus.get('translations') %}
-    {% set sub = [] %}
-
-    {% if menu.has('tr_messages') %}{% set sub = sub|merge([menu.get('tr_messages')]) %}{% endif %}
-    {% if menu.has('tr_long_messages') %}{% set sub = sub|merge([menu.get('tr_long_messages')]) %}{% endif %}
-{% endspaceless %}
-{{ nav.submenu('fa:flag', __('general.phrase.translations'), sub, (page_nav == 'Settings/Translations')) }}
