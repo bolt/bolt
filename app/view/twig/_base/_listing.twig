@@ -166,7 +166,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
 
         {# COLUMN: Thumbnail #}
         <td class="listthumb">
-            {% set listimage = content.getImage %}
+            {% set listimage = content|first_image %}
             {% if listimage is not empty %}
                 {% if listimage is iterable and listimage['file'] is not defined %}
                     {% set listimage = listimage|first %}

@@ -219,6 +219,9 @@ thumbnails:
 # is used for sanitizing HTML, to make sure there are no undesirable elements
 # left in the content that is shown to users. For example, tags like `<script>`
 # or `onclick`-attributes.
+# Note: enabling options in the `wysiwyg` settings will implicitly add items to
+# the allowed tags. For example, if you set `images: true`, the `<img>` tag
+# will be allowed, regardless of it being in the `allowed_tags` setting.
 htmlcleaner:
     allowed_tags: [ div, span, p, br, hr, s, u, strong, em, i, b, li, ul, ol, mark, blockquote, pre, code, tt, h1, h2, h3, h4, h5, h6, dd, dl, dt, table, tbody, thead, tfoot, th, td, tr, a, img, address, abbr, iframe, caption, sub, super, figure, figcaption ]
     allowed_attributes: [ id, class, style, name, value, href, src, alt, title, width, height, frameborder, allowfullscreen, scrolling, target, colspan, rowspan ]

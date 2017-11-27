@@ -13,7 +13,10 @@ use Bolt\Tests\BoltUnitTest;
  */
 class ArrTest extends BoltUnitTest
 {
-    public function testLegacyMakeValuePairs()
+    /**
+     * @group legacy
+     */
+    public function testMakeValuePairs()
     {
         $test = [
             ['id' => 1, 'value' => 1],
@@ -23,7 +26,10 @@ class ArrTest extends BoltUnitTest
         $this->assertEquals([0 => 1, 1 => 2], Arr::makeValuePairs($test, '', 'value'));
     }
 
-    public function testLegacyMergeRecursiveDistinct()
+    /**
+     * @group legacy
+     */
+    public function testMergeRecursiveDistinct()
     {
         $arr1 = ['key' => 'orig value'];
         $arr2 = ['key' => 'new value'];
