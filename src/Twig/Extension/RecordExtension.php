@@ -23,7 +23,6 @@ class RecordExtension extends AbstractExtension
     {
         $safe = ['is_safe' => ['html']];
         $env = ['needs_environment' => true];
-        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
@@ -42,6 +41,7 @@ class RecordExtension extends AbstractExtension
     public function getFilters()
     {
         $safe = ['is_safe' => ['html']];
+        $deprecated = ['deprecated' => true];
 
         return [
             // @codingStandardsIgnoreStart
