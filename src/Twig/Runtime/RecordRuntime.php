@@ -135,6 +135,35 @@ class RecordRuntime
     }
 
     /**
+     * Gets the first image from the given content record.
+     *
+     * This method is deprecated. In Bolt 3.5 it'll be replaced / removed to
+     * fall in line with the work done for #6985
+     *
+     * @param \Bolt\Storage\Entity\Content $content
+     *
+     * @return array|null image
+     */
+    public function getFirstImage($content)
+    {
+        Deprecated::method('3.4');
+
+        if (!is_array($content->contenttype['fields'])) {
+            return null;
+        }
+
+        // Grab the first field of type 'image', and return that.
+        foreach ($content->contenttype['fields'] as $key => $field) {
+            if ($field['type'] === 'image' && is_array($content->get($key))) {
+                return $content->get($key);
+            }
+        }
+
+        // otherwise, no image.
+        return null;
+    }
+
+    /**
      * Output all (relevant) fields to the browser. Convenient for dumping the
      * content in order in, say, a `record.twig` template, without having to
      * iterate over them in the browser.
@@ -149,7 +178,7 @@ class RecordRuntime
      * @param string|array         $exclude
      * @param bool                 $skip_uses
      *
-     * @return string
+     * @return string|null
      */
     public function fields(
         Environment $env,

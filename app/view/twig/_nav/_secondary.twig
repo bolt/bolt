@@ -35,7 +35,6 @@
         {% endif %}
         {% if menus.has('config') %}{{ include('@bolt/_nav/_secondary-configuration.twig') }}{% endif %}
         {% if menus.has('files') %}{{ include('@bolt/_nav/_secondary-filemanagement.twig') }}{% endif %}
-        {% if menus.has('translations') %}{{ include('@bolt/_nav/_secondary-translations.twig') }}{% endif %}
         {% if menus.has('extensions') %}{{ include('@bolt/_nav/_secondary-extensions.twig') }}{% endif %}
         {% if menus.has('custom') %}
             {% for menu in menus.get('custom').children %}{{ nav.submenu(null, null, [menu]) }}{% endfor %}

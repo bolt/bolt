@@ -12,9 +12,11 @@ use Bolt\Tests\BoltUnitTest;
  */
 class SnippetLocationTest extends BoltUnitTest
 {
-    public function testLegacyListAll()
+    /**
+     * @group legacy
+     */
+    public function testListAll()
     {
-        $app = $this->getApp();
         $location = new Location();
         $this->assertGreaterThan(1, $location->listAll());
     }
