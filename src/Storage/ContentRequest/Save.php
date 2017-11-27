@@ -307,8 +307,6 @@ class Save
                 }
 
                 return new RedirectResponse($this->generateUrl('overview', ['contenttypeslug' => $contentType['slug']]));
-            } elseif ($returnTo === 'save_return') {
-                return new RedirectResponse($this->generateUrl('editcontent', ['contenttypeslug' => $contentType['slug']]));
             } elseif ($returnTo === 'test') {
                 return $this->createJsonUpdate($content, false);
             }
