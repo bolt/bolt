@@ -2,6 +2,7 @@
 
 namespace Bolt\Twig\Runtime;
 
+use Bolt\Common\Deprecated;
 use Bolt\Common\Str;
 use Bolt\Filesystem\Handler\DirectoryInterface;
 use Bolt\Filesystem\Handler\FileInterface;
@@ -131,6 +132,35 @@ class RecordRuntime
         $excerpt = $excerpter->getExcerpt($length, false, $focus);
 
         return $excerpt;
+    }
+
+    /**
+     * Gets the first image from the given content record.
+     *
+     * This method is deprecated. In Bolt 3.5 it'll be replaced / removed to
+     * fall in line with the work done for #6985
+     *
+     * @param \Bolt\Storage\Entity\Content $content
+     *
+     * @return array|null image
+     */
+    public function getFirstImage($content)
+    {
+        Deprecated::method('3.4');
+
+        if (!is_array($content->contenttype['fields'])) {
+            return null;
+        }
+
+        // Grab the first field of type 'image', and return that.
+        foreach ($content->contenttype['fields'] as $key => $field) {
+            if ($field['type'] === 'image' && is_array($content->get($key))) {
+                return $content->get($key);
+            }
+        }
+
+        // otherwise, no image.
+        return null;
     }
 
     /**

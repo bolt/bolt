@@ -49,6 +49,7 @@ class RecordExtension extends AbstractExtension
             new TwigFilter('excerpt',     [Runtime\RecordRuntime::class, 'excerpt'], $safe),
             new TwigFilter('selectfield', [Runtime\RecordRuntime::class, 'selectField']),
             new TwigFilter('taxonomy',    [Runtime\RecordRuntime::class, 'taxonomy']),
+            new TwigFilter('first_image', [Runtime\RecordRuntime::class, 'getFirstImage'], $safe + $deprecated),
             // @codingStandardsIgnoreEnd
         ];
     }
