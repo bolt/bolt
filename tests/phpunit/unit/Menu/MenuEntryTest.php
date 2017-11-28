@@ -49,6 +49,17 @@ class MenuEntryTest extends BoltUnitTest
         $this->assertSame($extendEntry, $rootEntry->children()['dropbear']);
     }
 
+    public function testCreateGroup()
+    {
+        $rootEntry = $this->createRoot();
+        
+        $this->assertSame(false, $rootEntry->isGroup());
+        
+        $rootEntry->setGroup(true);
+        
+        $this->assertSame(true, $rootEntry->isGroup());
+    }
+
     public function testRoute()
     {
         /** @var UrlGeneratorInterface|MockObject $urlGenerator */
