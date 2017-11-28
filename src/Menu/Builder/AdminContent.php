@@ -49,16 +49,15 @@ final class AdminContent
                 ->setPermission('dashboard')
         );
 
-        // ContentTypes, where show_in_menu is set true
-        $contentTypes = $this->contentTypes->filter(function ($k, $v) {
-            return $v['show_in_menu'] === true;
-        });
-        foreach ($contentTypes as $name => $contentType) {
-            $this->addContentType($mainContentRoot, $name, $contentType);
+        foreach ($this->contentTypes as $name => $contentType) {
+            if ($contentType->get('show_in_menu') !== true) {
+                $this->addGroupedMenu($mainContentRoot, $contentType);
+            } else {
+                $this->addContentType($mainContentRoot, $name, $contentType);
+            }
         }
 
-        // ContentTypes, where show_in_menu is set to a custom value or false
-        $this->addGroupedMenus($contentRoot);
+        $this->fillGroupedMenus($mainContentRoot);
 
         return $root;
     }
@@ -104,8 +103,29 @@ final class AdminContent
      * Add the "Other content" & similar menu/sub menus.
      *
      * @param MenuEntry $contentRoot
+     * @param Bag       $contentType
      */
-    private function addGroupedMenus(MenuEntry $contentRoot)
+    private function addGroupedMenu(MenuEntry $contentRoot, Bag $contentType)
+    {
+        $key = $contentType->get('show_in_menu') ?: 'other';
+
+        $label = $key === 'other' ? Trans::__('general.phrase.other-content') : ucwords($key);
+
+        $contentRoot->add(
+            MenuEntry::create(strtolower($key))
+                ->setLabel($label)
+                ->setIcon('fa:th-list')
+                ->setGroup(true)
+                ->setPermission('dashboard')
+        );
+    }
+
+    /**
+     * Fill the "Other content" & similar menu/sub menus with entries.
+     *
+     * @param MenuEntry $contentRoot
+     */
+    private function fillGroupedMenus(MenuEntry $contentRoot)
     {
         $groups = $this->contentTypes->call(function ($a) {
             $arr = [];
@@ -113,7 +133,7 @@ final class AdminContent
                 if ($v['show_in_menu'] === true) {
                     continue;
                 }
-                $group = $v['show_in_menu'] ?: 'other';
+                $group = $v['show_in_menu'] ? strtolower($v['show_in_menu']) : 'other';
                 $arr[$group][$k] = $v;
             }
 
@@ -123,39 +143,22 @@ final class AdminContent
             return;
         }
 
-        // Create a master node for these groups
-        $groupedMenusRoot = $contentRoot->add(
-            MenuEntry::create('grouped')
-                ->setPermission('dashboard')
-        );
-
-        foreach ($groups as $key => $contentTypes) {
-            $label = $key === 'other' ? Trans::__('general.phrase.other-content') : ucwords($key);
-
-            // Other content root
-            $otherEntry = $groupedMenusRoot->add(
-                MenuEntry::create(strtolower($key))
-                    ->setLabel($label)
-                    ->setIcon('fa:th-list')
-                    ->setPermission('dashboard')
-            );
-            $groupedMenusRoot->add($otherEntry);
-
-            $this->addGroupedContentTypes($otherEntry, $contentTypes);
+        foreach ($groups as $key => $groupContentTypes) {
+            $this->addGroupedContentTypes($contentRoot->get($key), $groupContentTypes);
         }
     }
 
     /**
      * Add a group's children.
      *
-     * @param MenuEntry $otherEntry
+     * @param MenuEntry $groupEntry
      * @param array     $contentTypes
      */
-    private function addGroupedContentTypes(MenuEntry $otherEntry, array $contentTypes)
+    private function addGroupedContentTypes(MenuEntry $groupEntry, array $contentTypes)
     {
         foreach ($contentTypes as $contentTypeKey => $contentType) {
             /** @var Bag $contentType */
-            $otherEntry->add(
+            $groupEntry->add(
                 MenuEntry::create($contentTypeKey)
                     ->setRoute('overview', ['contenttypeslug' => $contentTypeKey])
                     ->setLabel($contentType->get('name'))
