@@ -83,7 +83,13 @@ final class Choice
      */
     private function getValues(array $field)
     {
-        if ($field['type'] !== 'select') {
+        $include = [
+            'select',
+            'hierarchical',
+            'parentid',
+        ];
+
+        if (!in_array($field['type'], $include)) {
             return null;
         }
         $field = Bag::from($field);

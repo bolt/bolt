@@ -1,5 +1,6 @@
 {% import '@bolt/_macro/_macro.twig' as macro %}
 {% from '@bolt/_buic/_moment.twig' import buic_moment %}
+{% from '@bolt/_sub/_sub-items.twig' import sub_items_list %}
 {% from _self import tbody_beg, tbody_end %}
 
 {% macro tbody_beg(local, modifiable) %}
@@ -129,7 +130,13 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
 {#
  # DATA ROW
  #}
-<tr {% if content.status!='published' %}class="dim"{% endif %}{% if modifiable %} id="item_{{ content.id }}"{% endif %}>
+{% if content.parentid is empty or content.parentid == 0 %}
+    {% if counter is not defined %}
+        {% set counter = 0 %}
+    {% endif %}
+
+    {% set colour = cycle(['odd', 'even'], counter) %}
+    <tr class="{{ colour }}{% if content.status!='published' %}dim{% endif %}"{% if modifiable %} id="item_{{ content.id }}"{% endif %}>
 
     {### BLOCK: ID ###}
     {% block listing_id %}
@@ -323,6 +330,9 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
         </td>
     {% endblock %}
 </tr>
+
+    {{ sub_items_list(content, permissions, '-', colour, compact, thumbsize, excerptlength) }}
+{% endif %}
 
 {% if prop.last %}
     {{ tbody_end(internal.selection_toolbar|default()) }}

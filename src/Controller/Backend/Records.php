@@ -2,6 +2,11 @@
 
 namespace Bolt\Controller\Backend;
 
+use Bolt\Asset\File\JavaScript;
+use Bolt\Asset\Snippet\Snippet;
+use Bolt\Asset\Target;
+use Bolt\Common\Json;
+use Bolt\Controller\Zone;
 use Bolt\Exception\InvalidRepositoryException;
 use Bolt\Form\FormType\ContentEditType;
 use Bolt\Storage\ContentRequest\ListingOptions;
@@ -124,6 +129,35 @@ class Records extends BackendBase
         $referrer = $this->getEditReferrer($request);
         if ($referrer) {
             $content['editreferrer'] = $referrer;
+        }
+
+        // SBTODO: What to do with this?
+        if (isset($contentType['hierarchical']) && $contentType['hierarchical'] === true) {
+            // SBTODO: Move this JS file into core JS?
+            $jsFile = JavaScript::create('js/parent-change.js', 'bolt')
+                ->setLate(true)
+                ->setZone(Zone::BACKEND)
+            ;
+
+            $json = Json::dump(
+                $this->app['storage.hierarchy']->getAllHierarchies($contenttypeslug, false),
+                Json::UNESCAPED | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+            );
+            $callback = sprintf("<script>var hierarchies = JSON.parse('%s');</script>", $json);
+            $snippet = Snippet::create()
+                ->setCallback($callback)
+                ->setZone(Zone::BACKEND)
+                ->setLocation(Target::BEFORE_HEAD_JS);
+
+            $this->app['asset.queue.file']->add($jsFile);
+            $this->app['asset.queue.snippet']->add($snippet);
+        }
+
+        // Lets delete the hierarchies cache if we're saving this record
+        $cacheKey = '_hierarchies_' . $contenttypeslug;
+
+        if ($request->query->has('returnto') && $this->app['cache']->contains($cacheKey)) {
+            $this->app['cache']->delete($cacheKey);
         }
 
         return $this->render('@bolt/editcontent/editcontent.twig', $context);
