@@ -10,6 +10,7 @@ use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\ContentRequest;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Hierarchy;
 use Bolt\Storage\EventProcessor;
 use Bolt\Storage\Field;
 use Bolt\Storage\FieldManager;
@@ -107,7 +108,7 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         // This uses a class name as the field types can optionally be injected
         // as services but the field manager only knows the class name, so we
-        // use this to look up if there ss a service registered
+        // use this to look up if there's a service registered
         $app[Field\Type\TemplateFieldsType::class] = $app->protect(
             function ($mapping) use ($app) {
                 $field = new Field\Type\TemplateFieldsType(
@@ -115,6 +116,21 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['storage'],
                     $app['templatechooser'],
                     $app['twig']
+                );
+
+                return $field;
+            }
+        );
+
+        // This uses a class name as the field types can optionally be injected
+        // as services but the field manager only knows the class name, so we
+        // use this to look up if there's a service registered
+        $app[Field\Type\HierarchicalType::class] = $app->protect(
+            function ($mapping) use ($app) {
+                $field = new Field\Type\HierarchicalType(
+                    $mapping,
+                    $app['storage'],
+                    $app['storage.hierarchy']
                 );
 
                 return $field;
@@ -147,6 +163,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'float'                        => Field\Type\FloatType::class,
             'geolocation'                  => Field\Type\GeolocationType::class,
             'hidden'                       => Field\Type\HiddenType::class,
+            'hierarchical'                 => Field\Type\HierarchicalType::class,
             'html'                         => Field\Type\HtmlType::class,
             'image'                        => Field\Type\ImageType::class,
             'imagelist'                    => Field\Type\ImageListType::class,
@@ -174,6 +191,12 @@ class StorageServiceProvider implements ServiceProviderInterface
             Entity\LogSystem::class  => Repository\LogSystemRepository::class,
             Entity\Users::class      => Repository\UsersRepository::class,
         ];
+
+        $app['storage.hierarchy'] = $app->share(
+            function ($app) {
+                return new Hierarchy($app);
+            }
+        );
 
         $app['storage.metadata'] = $app->share(
             function ($app) {

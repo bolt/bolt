@@ -241,6 +241,10 @@ class MetadataDriver implements MappingDriver
             $this->setTaxonomies($contentKey, $className);
             $this->setTemplatefields($contentKey, $className);
             $this->setRepeaters($contentKey, $className);
+
+            if (isset($this->contenttypes[$contentKey]['hierarchical']) && $this->contenttypes[$contentKey]['hierarchical'] === true) {
+                $this->setHierarchyField($contentKey, $className);
+            }
         }
 
         foreach ($this->getAliases() as $alias => $table) {
@@ -527,6 +531,35 @@ class MetadataDriver implements MappingDriver
         ];
 
         $this->metadata[$className]['fields']['templatefields'] = $mapping;
+    }
+
+    /**
+     * Setup a hierarchy field if needed.
+     *
+     * @param string $contentKey
+     * @param string $className
+     */
+    public function setHierarchyField($contentKey, $className)
+    {
+        if (!isset($this->contenttypes[$contentKey]['hierarchical'])) {
+            return;
+        }
+
+        $config = $this->contenttypes[$contentKey];
+
+        $data = [
+            'label'  => $config['singular_name'] . ' hierarchy',
+            'type'   => 'hierarchical',
+        ];
+
+        $mapping = [
+            'fieldname' => 'hierarchy',
+            'type'      => 'hierarchical',
+            'fieldtype' => $this->typemap['hierarchical'],
+            'data'      => $data,
+        ];
+
+        $this->metadata[$className]['fields']['hierarchy'] = $mapping;
     }
 
     public function setContentFields($contentKey, $className, $table)
