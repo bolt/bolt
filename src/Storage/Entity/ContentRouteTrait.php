@@ -31,6 +31,10 @@ trait ContentRouteTrait
     {
         $perm = 'contenttype:' . $this->contenttype['slug'] . ':edit:' . $this->id;
 
+        if (empty($this->app)) {
+            $this->app = AppSingleton::get();
+        }
+
         if ($this->app['users']->isAllowed($perm)) {
             return $this->app['url_generator']->generate('editcontent', ['contenttypeslug' => $this->contenttype['slug'], 'id' => $this->id]);
         }
@@ -48,10 +52,38 @@ trait ContentRouteTrait
     public function link($referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         list($name, $params) = $this->getRouteNameAndParams();
+
+        if (empty($this->app)) {
+            $this->app = AppSingleton::get();
+        }
+
         /** @var UrlGeneratorInterface $urlGenerator */
         $urlGenerator = $this->app['url_generator'];
 
-        return $name ? $urlGenerator->generate($name, $params, $referenceType) : null;
+        $link = null;
+
+        if ($name) {
+            $link = $urlGenerator->generate($name, $params, $referenceType);
+        }
+
+        $contentType = $this->contenttype;
+
+        if (isset($contentType['hierarchical']) && $contentType['hierarchical'] === true && !is_null($link)) {
+            if ($this->getParent() instanceof Hierarchical) {
+                $hierarchy = $this->getParent()->getHierarchy();
+            } else {
+                $hierarchy = $this->app['storage.hierarchy'];
+            }
+
+            if (isset($hierarchy) && !is_null($hierarchy)) {
+                $new_link = $hierarchy->getHierarchicalPath($contentType['slug'], $this->get('id'));
+                $replace  = '/' . $this->get('slug');
+
+                return str_replace($replace, $new_link, $link);
+            }
+        }
+
+        return $link;
     }
 
     /**
@@ -61,6 +93,10 @@ trait ContentRouteTrait
      */
     public function isHome()
     {
+        if (empty($this->app)) {
+            $this->app = AppSingleton::get();
+        }
+
         $config = $this->app['config'];
         $homepage = $config->get('theme/homepage') ?: $config->get('general/homepage');
         $uriID = $this->contenttype['singular_slug'] . '/' . $this->get('id');
@@ -133,10 +169,26 @@ trait ContentRouteTrait
      */
     protected function getRouteConfig()
     {
+        if (empty($this->app)) {
+            $this->app = AppSingleton::get();
+        }
+
         $allroutes = $this->app['config']->get('routing');
 
         // First, try to find a custom route that's applicable
         foreach ($allroutes as $binding => $config) {
+            if ($this->isExplicitRoute($config)) {
+                return [$binding, $config];
+            }
+
+            if (isset($config['exact']) && $config['exact'] === true) {
+                continue;
+            }
+
+            if ($this->isTaxonomyRoute($config)) {
+                return [$binding, $config];
+            }
+
             if ($this->isApplicableRoute($config)) {
                 return [$binding, $config];
             }
@@ -188,6 +240,42 @@ trait ContentRouteTrait
         }
 
         return $params;
+    }
+
+    /**
+     * Check if a route is explicitly for this record.
+     *
+     * @param array $route
+     *
+     * @return boolean
+     */
+    protected function isExplicitRoute(array $route)
+    {
+        $contentTypeMatches = (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug'])
+            || (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug'])
+            || (isset($route['recordslug']) && $route['recordslug'] === $this->getReference());
+
+        $contentTypePath = (isset($route['path']) && strpos($route['path'], '/' . $this->get('slug')) !== false);
+
+        return $contentTypeMatches && $contentTypePath;
+    }
+
+    /**
+     * Check if a route matches up to the taxonomies and contenttype for this record.
+     *
+     * @param array $route
+     *
+     * @return bool
+     */
+    protected function isTaxonomyRoute(array $route)
+    {
+        $contentTypeMatches = (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['singular_slug'])
+            || (isset($route['contenttype']) && $route['contenttype'] === $this->contenttype['slug'])
+            || (isset($route['recordslug']) && $route['recordslug'] === $this->getReference());
+
+        $params = array_filter($this->getRouteRequirementParams($route));
+
+        return $contentTypeMatches && is_array($params) && count($params);
     }
 
     /**
