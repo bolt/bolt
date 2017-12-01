@@ -101,15 +101,17 @@ class RelationType extends JoinTypeBase
 
         $fieldRels = $this->em->createCollection(Entity\Relations::class);
         foreach ($data as $relData) {
-            $rel = [];
-            $rel['id'] = $relData['id'];
-            $rel['from_id'] = $entity->getId();
-            $rel['from_contenttype'] = (string) $entity->getContenttype();
-            $rel['to_contenttype'] = $field;
-            $rel['to_id'] = $relData['toid'];
-            $relEntity = new Entity\Relations($rel);
-            $entity->getRelation()->add($relEntity);
-            $fieldRels->add($relEntity);
+            if (isset($relData['id'])) {
+                $rel = [];
+                $rel['id'] = $relData['id'];
+                $rel['from_id'] = $entity->getId();
+                $rel['from_contenttype'] = (string) $entity->getContenttype();
+                $rel['to_contenttype'] = $field;
+                $rel['to_id'] = $relData['toid'];
+                $relEntity = new Entity\Relations($rel);
+                $entity->getRelation()->add($relEntity);
+                $fieldRels->add($relEntity);
+            }
         }
         $this->set($entity, $fieldRels[$field]);
     }
