@@ -137,6 +137,20 @@ class StorageServiceProvider implements ServiceProviderInterface
             }
         );
 
+        // This uses a class name as the field types can optionally be injected
+        // as services but the field manager only knows the class name, so we
+        // use this to look up if there's a service registered
+        $app[Field\Type\ParentIdType::class] = $app->protect(
+            function ($mapping) use ($app) {
+                $field = new Field\Type\ParentIdType(
+                    $mapping,
+                    $app['storage']
+                );
+
+                return $field;
+            }
+        );
+
         $app['storage.entity_builder'] = $app->share(
             function ($app) {
                 $builder = new Entity\Builder($app['storage.metadata'], $app['storage.field_manager']);
@@ -170,6 +184,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'incomingrelation'             => Field\Type\IncomingRelationType::class,
             'integer'                      => Field\Type\IntegerType::class,
             'markdown'                     => Field\Type\MarkdownType::class,
+            'parentid'                     => Field\Type\ParentIdType::class,
             'relation'                     => Field\Type\RelationType::class,
             'repeater'                     => Field\Type\RepeaterType::class,
             'select'                       => Field\Type\SelectType::class,

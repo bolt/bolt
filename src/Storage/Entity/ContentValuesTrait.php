@@ -370,6 +370,7 @@ trait ContentValuesTrait
             'filelist',
             'video',
             'select',
+            'parentid',
             'templateselect',
             'checkbox',
             'repeater',

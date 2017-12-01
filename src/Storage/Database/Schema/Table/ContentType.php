@@ -20,6 +20,7 @@ class ContentType extends BaseTable
         'number'         => 'columnDecimal',
         // Integer
         'integer'        => 'columnInteger',
+        'parentid'       => 'columnInteger',
         // String, 256, empty default
         'text'           => 'columnStringNormal',
         'templateselect' => 'columnStringNormal',

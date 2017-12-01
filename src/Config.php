@@ -52,6 +52,7 @@ class Config
         'status',
         'templatefields',
         'username',
+        'parentid'
     ];
 
     /** @var int */
@@ -554,6 +555,29 @@ class Config
             $contentType['singleton'] = false;
         }
 
+        // Set the parentid field if hierarchical is set to true
+        if (isset($contentType['hierarchical']) && $contentType['hierarchical'] === true && !isset($contentType['fields']['parentid'])) {
+            $parent = [
+                'parentid' => [
+                    'label' => ucfirst($contentType['singular_name']) . ' parent',
+                    'type' => 'parentid',
+                    'sort' => 'parentid',
+                    'values' => $contentType['slug'] . '/title',
+                    'index' => true
+                ]
+            ];
+
+            // Get the position of the slug field so parentid can go after, if it doesn't exist then fallback and put it at the end of the fields array
+            if (isset($contentType['fields']['slug'])) {
+                $slugPos = array_search('slug', array_keys($contentType['fields'])) + 1;
+            } else {
+                $slugPos = count($contentType['fields']);
+            }
+
+            // Insert the parentid field into the $slugPos
+            $contentType['fields'] = array_merge(array_slice($contentType['fields'], 0, $slugPos), $parent, array_slice($contentType['fields'], $slugPos));
+        }
+
         list($fields, $groups) = $this->parseFieldsAndGroups($contentType['fields'], $generalConfig);
         $contentType['fields'] = $fields;
         $contentType['groups'] = $groups;
@@ -919,7 +943,7 @@ class Config
              */
             foreach ($ct['fields'] as $fieldname => $field) {
                 // Verify that the contenttype doesn't try to add fields that are reserved.
-                if ($fieldname != 'slug' && in_array($fieldname, $this->reservedFieldNames)) {
+                if ($fieldname != 'slug' && $fieldname != 'parentid' && in_array($fieldname, $this->reservedFieldNames)) {
                     $error = Trans::__(
                         'contenttypes.generic.reserved-name',
                         ['%contenttype%' => $key, '%field%' => $fieldname]
