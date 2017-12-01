@@ -9,7 +9,6 @@
         "Symfony"
     ],
     "license": "MIT",
-    "minimum-stability": "beta",
     "require": {
         "bolt/collection": "^1.1",
         "bolt/common": "^1.0",
@@ -61,7 +60,7 @@
         "symfony/yaml": "^3.4 || ^4.0",
         "tdammers/htmlmaid": "~0.7",
         "twig/twig": "^2.0",
-        "ua-parser/uap-php": "^3.4 || ^4.0"
+        "ua-parser/uap-php": "dev-master@dev"
     },
     "require-dev": {
         "bolt/codingstyle": "^2.0@dev",
