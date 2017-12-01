@@ -52,7 +52,7 @@
 "Unable to duplicate file: %FILE%": "Niet mogelijk om file te dupliceren: %FILE%"
 "Unable to rename directory: %DIR%": "Directory %DIR% kan niet worden aangemaakt"
 "Unable to rename file: %FILE%": "De naam van het bestand %FILE% kon niet worden gewijzigd"
-"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Helaas, er werd geen content gevonden. Probeer een andere pagina, of ga naar de <a href=\\\"%paths_root%\\\">homepage</a>.\""
+"Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": "Helaas, er werd geen content gevonden. Probeer een andere pagina, of ga naar de <a href=\"%paths_root%\">homepage</a>."
 "View (saved version) on site": "Bekijk (opgeslagen versie) op de website"
 "You've been logged on successfully.": "Je bent succesvol ingelogd."
 
