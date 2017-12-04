@@ -102,6 +102,11 @@ Bolt 4.0-dev
   - Removed: `$app['safe_twig']` (use `$app['twig']` with sandbox enabled)
 - Updated: Symfony Components to v3. [#6079](https://github.com/bolt/bolt/pull/6079)
 
+Bolt 3.6-dev
+------------
+
+-
+
 Bolt 3.5-dev
 -----------
 
