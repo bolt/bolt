@@ -9,7 +9,7 @@ use Bolt\Tests\BoltUnitTest;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class to test src/Helper/MenuBuilder.
+ * Class to test src/Menu/MenuBuilder.
  *
  * @author Sufijen Bani <bolt@sbani.net>
  */
