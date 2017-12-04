@@ -62,6 +62,7 @@ class Listing
             'order'   => $options->getOrder() ?: $contentType['sort'],
             'page'    => $options->getPage(),
             'filter'  => $options->getFilter(),
+            'invisible' => true,
         ];
 
         // If we have a text filter we switch the query into search mode

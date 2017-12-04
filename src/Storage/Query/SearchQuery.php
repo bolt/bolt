@@ -95,15 +95,21 @@ class SearchQuery extends SelectQuery
      */
     protected function processFilters()
     {
+        $params = $this->params;
+
         if (!$this->contentType) {
             throw new QueryParseException('You have attempted to run a search query without specifying a ContentType', 1);
         }
 
-        if (!$config = $this->config->getConfig($this->contentType)) {
-            throw new QueryParseException('You have attempted to run a search query on an unknown ContentType or one that is not searchable', 1);
+        if (isset($params['invisible']) && $params['invisible'] === true) {
+            dump("lalalalalalalal");
+            $config = $this->config->getConfigForAll($this->contentType);
+        } else {
+            if (!$config = $this->config->getConfig($this->contentType)) {
+                throw new QueryParseException('You have attempted to run a search query on an unknown ContentType or one that is not searchable', 1);
+            }
         }
 
-        $params = $this->params;
         unset($params['filter']);
 
         foreach ($config as $field => $options) {

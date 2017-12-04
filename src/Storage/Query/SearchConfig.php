@@ -17,6 +17,10 @@ class SearchConfig
     protected $config = [];
     /** @var array */
     protected $searchableTypes = [];
+
+    /** @var array */
+    protected $invisibleTypes = [];
+
     /** @var array */
     protected $joins = [];
 
@@ -37,6 +41,27 @@ class SearchConfig
     {
         if (array_key_exists($contentType, $this->searchableTypes)) {
             return $this->searchableTypes[$contentType];
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the config of all fields for a given content type including those markes
+     * as invisible..
+     *
+     * @param string $contentType
+     *
+     * @return array|false
+     */
+    public function getConfigForAll($contentType)
+    {
+        if (array_key_exists($contentType, $this->searchableTypes)) {
+            return $this->searchableTypes[$contentType];
+        }
+
+        if (array_key_exists($contentType, $this->invisibleTypes)) {
+            return $this->invisibleTypes[$contentType];
         }
 
         return false;
@@ -68,11 +93,9 @@ class SearchConfig
         $contentTypes = $this->config->get('contenttypes');
 
         foreach ($contentTypes as $type => $values) {
-            if (!$this->isInvisible($type)) {
-                $this->getSearchableColumns($type);
-                if (isset($values['taxonomy'])) {
-                    $this->parseTaxonomies($type, $values['taxonomy']);
-                }
+            $this->getSearchableColumns($type);
+            if (isset($values['taxonomy'])) {
+                $this->parseTaxonomies($type, $values['taxonomy']);
             }
         }
     }
@@ -95,7 +118,11 @@ class SearchConfig
             } else {
                 $weight = 50;
             }
-            $this->searchableTypes[$contentType][$taxonomy] = ['weight' => $weight];
+            if (!$this->isInvisible($contentType)) {
+                $this->searchableTypes[$contentType][$taxonomy] = ['weight' => $weight];
+            } else {
+                $this->invisibleTypes[$contentType][$taxonomy] = ['weight' => $weight];
+            }
             $this->joins[$contentType][] = $taxonomy;
         }
     }
@@ -133,7 +160,11 @@ class SearchConfig
                     $weight = 50;
                 }
 
-                $this->searchableTypes[$type][$field] = ['weight' => $weight];
+                if (!$this->isInvisible($type)) {
+                    $this->searchableTypes[$type][$field] = ['weight' => $weight];
+                } else {
+                    $this->invisibleTypes[$type][$field] = ['weight' => $weight];
+                }
             }
         }
     }
