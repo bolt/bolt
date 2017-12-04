@@ -369,11 +369,11 @@ var init = {
 
         $(".togglepass").on('click', function () {
             if ($(this).hasClass('show-password')) {
-                $('input[name="password"]').attr('type', 'text');
+                $('input[name="user_login[password]"]').attr('type', 'text');
                 $('.togglepass.show-password').hide();
                 $('.togglepass.hide-password').show();
             } else {
-                $('input[name="password"]').attr('type', 'password');
+                $('input[name="user_login[password]"]').attr('type', 'password');
                 $('.togglepass.show-password').show();
                 $('.togglepass.hide-password').hide();
             }

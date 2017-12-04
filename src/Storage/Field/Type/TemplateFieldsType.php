@@ -11,6 +11,7 @@ use Bolt\Storage\QuerySet;
 use Bolt\TemplateChooser;
 use Doctrine\DBAL\Types\Type;
 use Twig\Environment;
+use Twig\Error\LoaderError;
 
 /**
  * This is one of a suite of basic Bolt field transformers that handles
@@ -132,12 +133,16 @@ class TemplateFieldsType extends FieldTypeBase
      */
     protected function buildMetadata($entity, $rawData = null)
     {
-        $template = $this->chooser->record($entity, $rawData);
-        $template = $this->twig->resolveTemplate($template)->getSourceContext()->getName();
-
         $metadata = new ClassMetadata(get_class($entity));
 
-        if (isset($this->mapping['config'][$template])) {
+        try {
+            $template = $this->chooser->record($entity, $rawData);
+            $template = $this->twig->resolveTemplate($template)->getSourceContext()->getName();
+        } catch (LoaderError $e) {
+            $template = null;
+        }
+
+        if ($template && isset($this->mapping['config'][$template])) {
             $mappings = $this->em->getMapper()->loadMetadataForFields($this->mapping['config'][$template]['fields']);
             $metadata->setFieldMappings((array) $mappings);
         }

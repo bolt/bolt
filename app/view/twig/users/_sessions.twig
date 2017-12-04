@@ -14,8 +14,15 @@
 
         <tbody>
             {% for session in context.sessions %}
+            {% if users[session.user_id] is defined %}
+                {% set user = users[session.user_id] %}
+            {% else %}
+                {% set user = { 'displayname': '<em>unknown</em> '} %}
+            {% endif %}
                 <tr>
-                    <td>{{ session.username }}</td>
+                    <td>
+                        <strong>{{ user.displayname|raw }}</strong>
+                    </td>
                     <td>
                         {{ buic_moment(session.lastseen) }}
                     </td>
