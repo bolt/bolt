@@ -3,6 +3,8 @@
 namespace Bolt\Controller\Async;
 
 use Bolt;
+use Bolt\Common\Exception\ParseException;
+use Bolt\Common\Json;
 use Bolt\Extension\ExtensionInterface;
 use Bolt\Filesystem;
 use Bolt\Storage\Entity;
@@ -393,17 +395,19 @@ class General extends AsyncBase
             ];
         }
 
-        $fetchedNewsItems = json_decode($fetchedNewsData);
-        if ($newsVariable = $this->getOption('general/branding/news_variable')) {
-            $fetchedNewsItems = $fetchedNewsItems->$newsVariable;
+        try {
+            $fetchedNewsItems = Json::parse($fetchedNewsData);
+        } catch (ParseException $e) {
+            // Just move on, a user-friendly notice is returned below.
+            $fetchedNewsItems = [];
+        }
+
+        $newsVariable = $this->getOption('general/branding/news_variable');
+        if ($newsVariable && array_key_exists($newsVariable, $fetchedNewsItems)) {
+            $fetchedNewsItems = $fetchedNewsItems[$newsVariable];
         }
 
         $news = [];
-        if (!$fetchedNewsItems) {
-            $this->app['logger.system']->error('Invalid JSON feed returned', ['event' => 'news']);
-
-            return $news;
-        }
 
         // Iterate over the items, pick the first news-item that
         // applies and the first alert we need to show
@@ -416,7 +420,18 @@ class General extends AsyncBase
             }
         }
 
-        return $news;
+        if ($news) {
+            return $news;
+        }
+        $this->app['logger.system']->error('Invalid JSON feed returned', ['event' => 'news']);
+
+        return [
+            'error' => [
+                'type'   => 'error',
+                'title'  => 'Unable to fetch news!',
+                'teaser' => "<p>Invalid JSON feed returned by $source</p>",
+            ],
+        ];
     }
 
     /**
