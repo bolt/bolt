@@ -24,6 +24,8 @@ class SearchConfig
     /** @var array */
     protected $joins = [];
 
+    protected $searchInvisible = false;
+
     public function __construct(Config $config)
     {
         $this->config = $config;
@@ -43,29 +45,13 @@ class SearchConfig
             return $this->searchableTypes[$contentType];
         }
 
-        return false;
-    }
-
-    /**
-     * Get the config of all fields for a given content type including those markes
-     * as invisible..
-     *
-     * @param string $contentType
-     *
-     * @return array|false
-     */
-    public function getConfigForAll($contentType)
-    {
-        if (array_key_exists($contentType, $this->searchableTypes)) {
-            return $this->searchableTypes[$contentType];
-        }
-
-        if (array_key_exists($contentType, $this->invisibleTypes)) {
+        if ($this->canSearchInvisible() && array_key_exists($contentType, $this->invisibleTypes)) {
             return $this->invisibleTypes[$contentType];
         }
 
         return false;
     }
+
 
     /**
      * Get the config of one given field for a given content type.
@@ -79,6 +65,10 @@ class SearchConfig
     {
         if (isset($this->searchableTypes[$contentType][$field])) {
             return $this->searchableTypes[$contentType][$field];
+        }
+
+        if ($this->canSearchInvisible() && isset($this->invisibleTypes[$contentType][$field])) {
+            return $this->invisibleTypes[$contentType][$field];
         }
 
         return false;
@@ -190,5 +180,21 @@ class SearchConfig
         }
 
         return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canSearchInvisible()
+    {
+        return $this->searchInvisible;
+    }
+
+    /**
+     * @param bool $searchInvisible
+     */
+    public function enableSearchInvisible($searchInvisible)
+    {
+        $this->searchInvisible = $searchInvisible;
     }
 }

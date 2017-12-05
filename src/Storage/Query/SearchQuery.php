@@ -110,7 +110,7 @@ class SearchQuery extends SelectQuery
             }
         }
 
-        unset($params['filter']);
+        unset($params['filter'], $params['invisible']);
 
         foreach ($config as $field => $options) {
             $params[$field] = $this->getSearchParameter();
