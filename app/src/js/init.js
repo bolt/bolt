@@ -381,11 +381,13 @@ var init = {
 
         $('.login-forgot').bind('click', function () {
             $('.login-group, .password-group').hide();
+            $('#user_login_password').attr('required', false);
             $('.reset-group').show();
         });
 
         $('.login-remembered').bind('click', function () {
             $('.login-group, .password-group').show();
+            $('#user_login_password').attr('required', true);
             $('.reset-group').hide();
         });
     },
