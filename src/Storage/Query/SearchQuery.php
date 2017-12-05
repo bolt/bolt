@@ -102,12 +102,11 @@ class SearchQuery extends SelectQuery
         }
 
         if (isset($params['invisible']) && $params['invisible'] === true) {
-            dump("lalalalalalalal");
-            $config = $this->config->getConfigForAll($this->contentType);
-        } else {
-            if (!$config = $this->config->getConfig($this->contentType)) {
-                throw new QueryParseException('You have attempted to run a search query on an unknown ContentType or one that is not searchable', 1);
-            }
+            $this->config->enableSearchInvisible(true);
+        }
+
+        if (!$config = $this->config->getConfig($this->contentType)) {
+            throw new QueryParseException('You have attempted to run a search query on an unknown ContentType or one that is not searchable', 1);
         }
 
         unset($params['filter'], $params['invisible']);
