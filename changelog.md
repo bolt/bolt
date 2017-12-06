@@ -1,6 +1,23 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.4.3
+----------
+
+Released: 2017-12-06. Notable changes:
+
+ - Fixed: "Show" / "Hide" password toggle on log in screen works again. [#7215](https://github.com/bolt/bolt/pull/7215)
+ - Fixed: Allow backend filtering of unsearchable contenttypes [#7239](https://github.com/bolt/bolt/pull/7239)
+ - Fixed: ContextErrorException in RelationType.php, on sites with "missing" relationships. [#7218](https://github.com/bolt/bolt/pull/7218)
+ - Fixed: Display username from users, instead of from sessions. [#7216](https://github.com/bolt/bolt/pull/7216)
+ - Fixed: Don't break the backend if a file with templatefields has gone missing [#7223](https://github.com/bolt/bolt/pull/7223)
+ - Fixed: Don't rely on magic methods for a protected property value. 🐨 [#7212](https://github.com/bolt/bolt/pull/7212)
+ - Fixed: Fixed: On log in page, prevents 'An invalid form control is not focusable' on hidden form field [#7238](https://github.com/bolt/bolt/pull/7238)
+ - Fixed: Only use `news_variable` from `config.yml`, if it's actually present in the news feed. [#7230](https://github.com/bolt/bolt/pull/7230)
+ - Fixed: Prevent "Notice: Undefined index" when doing database:import [#7240](https://github.com/bolt/bolt/pull/7240)
+ - Fixed: Stop tab jumping when hovering bottom border of tabs. [#7211](https://github.com/bolt/bolt/pull/7211)
+ - Security: Moment JS rebuild - Covers the latest [ReDoS problem in Moment.js](https://github.com/moment/moment/issues/4163). [#7233](https://github.com/bolt/bolt/pull/7233)
+
 Bolt 3.4.2
 ----------
 
