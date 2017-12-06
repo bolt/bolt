@@ -2,9 +2,14 @@
 
 namespace Bolt\Storage;
 
+use Bolt\Config;
 use Bolt\Legacy\Content as LegacyContent;
+use Bolt\Pager\PagerManager;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Query\Query;
+use Cocur\Slugify\SlugifyInterface;
+use Doctrine\Common\Cache\FilesystemCache;
 
 /**
  * Hierarchy provider class to handle the traversing and retrieving of hierarchical entities.
@@ -14,21 +19,60 @@ use Bolt\Storage\Mapping\ClassMetadata;
 class Hierarchy
 {
 
+    /**
+     * @var \Bolt\Config
+     */
+    private $config;
+    /**
+     * @var \Bolt\Storage\EntityManagerInterface
+     */
+    private $entityManager;
+    /**
+     * @var \Bolt\Storage\Query\Query
+     */
+    private $query;
+    /**
+     * @var \Bolt\Pager\PagerManager
+     */
+    private $pagerManager;
+    /**
+     * @var \Cocur\Slugify\SlugifyInterface
+     */
+    private $slugify;
+    /**
+     * @var \Doctrine\Common\Cache\FilesystemCache
+     */
+    private $filesystemCache;
+
     protected $parent = null;
     protected $children = null;
-    private $app;
     private $isLegacy = true;
     private $pathPieces = [];
     private $parentTree = [];
     private $lastResult;
     private $routePrefix = '/';
 
-    public function __construct($app)
+    /**
+     * Hierarchy constructor.
+     *
+     * @param \Bolt\Config                           $config
+     * @param \Bolt\Storage\EntityManagerInterface   $entityManager
+     * @param \Bolt\Storage\Query\Query              $query
+     * @param \Bolt\Pager\PagerManager               $pagerManager
+     * @param \Cocur\Slugify\SlugifyInterface        $slugify
+     * @param \Doctrine\Common\Cache\FilesystemCache $filesystemCache
+     */
+    public function __construct(Config $config, EntityManagerInterface $entityManager, Query $query, PagerManager $pagerManager, SlugifyInterface $slugify, FilesystemCache $filesystemCache)
     {
 
-        $this->app = $app;
+        $this->config          = $config;
+        $this->entityManager   = $entityManager;
+        $this->query           = $query;
+        $this->pagerManager    = $pagerManager;
+        $this->slugify         = $slugify;
+        $this->filesystemCache = $filesystemCache;
 
-        $this->isLegacy = $this->app['config']->get('general/compatibility/setcontent_legacy', true);
+        $this->isLegacy = $this->config->get('general/compatibility/setcontent_legacy', true);
     }
 
     /**
@@ -60,9 +104,9 @@ class Hierarchy
     {
 
         if ($this->isLegacy) {
-            $result = $this->app['storage']->getContent($contentType, $params, $this->app['pager'], $additionalParams);
+            $result = $this->entityManager->getContent($contentType, $params, $this->pagerManager, $additionalParams);
         } else {
-            $result = $this->app['query']->getContent($contentType, array_merge($params, $additionalParams));
+            $result = $this->query->getContent($contentType, array_merge($params, $additionalParams));
         }
 
         if (isset($params['returnsingle']) && $params['returnsingle'] !== true && !is_array($result)) {
@@ -85,7 +129,7 @@ class Hierarchy
     private function getContentByIdAndParent($contentType, $id, $parentId = 0, $hydrate = false)
     {
 
-        $id = $this->app['slugify']->slugify($id);
+        $id = $this->slugify->slugify($id);
 
         if (is_null($parentId) || $parentId === '') {
             $parentId = 0;
@@ -111,7 +155,7 @@ class Hierarchy
     private function getContentBySlugAndParent($contentType, $slug, $parentId = 0, $hydrate = false)
     {
 
-        $slug = $this->app['slugify']->slugify($slug);
+        $slug = $this->slugify->slugify($slug);
 
         if (is_null($parentId) || $parentId === '') {
             $parentId = 0;
@@ -136,7 +180,7 @@ class Hierarchy
     public function getContentById($contentType, $id, $hydrate = false)
     {
 
-        $id = $this->app['slugify']->slugify($id);
+        $id = $this->slugify->slugify($id);
 
         return $this->getContentWrapper($contentType, [
             'id'           => $id,
@@ -157,7 +201,7 @@ class Hierarchy
     public function getContentBySlug($contentType, $slug, $hydrate = false)
     {
 
-        $slug = $this->app['slugify']->slugify($slug);
+        $slug = $this->slugify->slugify($slug);
 
         return $this->getContentWrapper($contentType, [
             'slug'         => $slug,
@@ -482,14 +526,14 @@ class Hierarchy
 
         $cacheKey = '_hierarchies_' . $contentType;
 
-        if ($this->app['cache']->contains($cacheKey)) {
-            $contents = json_decode($this->app['cache']->fetch($cacheKey), true);
+        if ($this->filesystemCache->contains($cacheKey)) {
+            $contents = json_decode($this->filesystemCache->fetch($cacheKey), true);
         } else {
             $contents = $this->getContentWrapper($contentType, [
                 'returnsingle' => false,
                 'hydrate'      => $hydrate
             ]);
-            $this->app['cache']->save($cacheKey, json_encode($contents));
+            $this->filesystemCache->save($cacheKey, json_encode($contents));
         }
 
         $hierarchy = [];
@@ -511,7 +555,7 @@ class Hierarchy
                 $hierarchy[$key] = [
                     'key'    => $key,
                     'path'   => $path,
-                    'prefix' => $prefix = $this->app['config']->get('contenttypes/' . $contentType . '/fields/slug/route_prefix')
+                    'prefix' => $prefix = $this->config->get('contenttypes/' . $contentType . '/fields/slug/route_prefix')
                 ];
             }
         }
@@ -547,6 +591,6 @@ class Hierarchy
 
         $metadata = new ClassMetadata(Content::class);
 
-        return $this->app['storage']->create($contentType, $content, $metadata);
+        return $this->entityManager->create($contentType, $content, $metadata);
     }
 }

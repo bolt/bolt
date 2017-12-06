@@ -209,7 +209,14 @@ class StorageServiceProvider implements ServiceProviderInterface
 
         $app['storage.hierarchy'] = $app->share(
             function ($app) {
-                return new Hierarchy($app);
+                return new Hierarchy(
+                    $app['config'],
+                    $app['storage'],
+                    $app['query'],
+                    $app['pager'],
+                    $app['slugify'],
+                    $app['cache']
+                );
             }
         );
 
