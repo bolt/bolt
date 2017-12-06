@@ -11,6 +11,7 @@ use Bolt\Legacy;
 use Bolt\Pager\PagerManager;
 use Bolt\Storage\Collection\Taxonomy;
 use Bolt\Storage\Entity;
+use Bolt\Storage\Mapping\ContentType;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\HttpFoundation\Request;
@@ -148,12 +149,17 @@ class RecordRuntime
     {
         Deprecated::method('3.4');
 
-        if (!is_array($content->contenttype['fields'])) {
+        $contentType = $content->getContenttype();
+        if (!$contentType instanceof ContentType) {
+            return null;
+        }
+        $fields = $contentType->getFields();
+        if (!is_array($fields)) {
             return null;
         }
 
         // Grab the first field of type 'image', and return that.
-        foreach ($content->contenttype['fields'] as $key => $field) {
+        foreach ($fields as $key => $field) {
             if ($field['type'] === 'image' && is_array($content->get($key))) {
                 return $content->get($key);
             }

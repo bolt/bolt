@@ -63,14 +63,16 @@ class IncomingRelationType extends RelationType
         }
 
         foreach ($data as $relData) {
-            $rel = [];
-            $rel['id'] = $relData['id'];
-            $rel['from_id'] = $relData['fromid'];
-            $rel['from_contenttype'] = $relData['fromcontenttype'];
-            $rel['to_contenttype'] = (string) $entity->getContenttype();
-            $rel['to_id'] = $entity->getId();
-            $relEntity = new Entity\Relations($rel);
-            $entity->getRelation()->add($relEntity);
+            if (isset($relData['fromcontenttype'])) {
+                $rel = [];
+                $rel['id'] = $relData['id'];
+                $rel['from_id'] = $relData['fromid'];
+                $rel['from_contenttype'] = $relData['fromcontenttype'];
+                $rel['to_contenttype'] = (string) $entity->getContenttype();
+                $rel['to_id'] = $entity->getId();
+                $relEntity = new Entity\Relations($rel);
+                $entity->getRelation()->add($relEntity);
+            }
         }
     }
 
