@@ -19,12 +19,12 @@ class UploadServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app)
     {
-        $app['upload.sanitizer'] = $app->share(function ($app) {
+        $app['upload.sanitizer'] = function ($app) {
             $pattern = $app['config']->get('general/upload/pattern', '[^A-Za-z0-9\.]+');
             $lowercase = $app['config']->get('general/upload/lowercase', true);
 
             return new Slugify("/$pattern/", ['lowercase' => $lowercase]);
-        });
+        };
 
         // This exposes the main upload object as a service
         $app['upload'] = function () use ($app) {
