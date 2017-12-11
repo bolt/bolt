@@ -61,6 +61,7 @@
 contenttypes.generic.actions-all: "Handelingen voor %contenttypes%"
 contenttypes.generic.actions-one: "Handelingen voor deze %contenttype%"
 contenttypes.generic.created: "Deze %contenttype% is aangemaakt."
+contenttypes.generic.consecutive-underscores: "In het contenttype voor '%contenttype%' heeft het veld '%field%' opeenvolgende underscores, wat niet ondersteund wordt. Pas contenttypes.yml aan en gebruik één enkele underscore."
 contenttypes.generic.delete: "Verwijder %contenttype%"
 contenttypes.generic.duplicate: "Dupliceer %contenttype%"
 contenttypes.generic.duplicated-finalize: "Inhoud is gedupliceerd. Klik op 'Sla %contenttype% op' om af te ronden."

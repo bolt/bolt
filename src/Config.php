@@ -960,6 +960,22 @@ class Config
                     unset($ct['fields'][$fieldname]);
                     $this->passed = false;
                 }
+
+                // Make sure that there are no consecutive underscores in field names
+                if (strpos($fieldname, '__') !== false) {
+                    $error = Trans::__(
+                        'contenttypes.generic.consecutive-underscores',
+                        [
+                            '%contenttype%' => $key,
+                            '%field%'       => $fieldname,
+                            '%type%'        => $field['type'],
+                        ]
+                    );
+                    $this->app['logger.flash']->warning($error);
+
+                    unset($ct['fields'][$fieldname]);
+                    $this->passed = false;
+                }
             }
 
             /**
