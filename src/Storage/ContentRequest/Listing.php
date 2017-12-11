@@ -67,6 +67,7 @@ class Listing
         // If we have a text filter we switch the query into search mode
         if ($options->getFilter()) {
             $textQuery = $contentTypeSlug . '/search';
+            $contentParameters['invisible'] = true;
         } else {
             $textQuery = $contentTypeSlug;
         }

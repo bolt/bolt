@@ -30,6 +30,8 @@ class MenuEntry implements Serializable
     protected $icon;
     /** @var string */
     protected $permission;
+    /** @var bool */
+    protected $group = false;
 
     /** @var string */
     protected $uri;
@@ -207,6 +209,30 @@ class MenuEntry implements Serializable
     public function setPermission($permission)
     {
         $this->permission = $permission;
+
+        return $this;
+    }
+
+    /**
+     * Check if menu entry is a group.
+     *
+     * @return bool
+     */
+    public function isGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * Set if the menu entry is a group.
+     *
+     * @param bool $group
+     *
+     * @return MenuEntry
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
 
         return $this;
     }
