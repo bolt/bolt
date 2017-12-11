@@ -23,7 +23,7 @@ class UploadServiceProvider implements ServiceProviderInterface
             $pattern = $app['config']->get('general/upload/pattern', '[^A-Za-z0-9\.]+');
             $lowercase = $app['config']->get('general/upload/lowercase', true);
 
-            return new Slugify("/$pattern/", ['lowercase' => $lowercase]);
+            return new Slugify(['regexp' => "/$pattern/", 'lowercase' => $lowercase]);
         };
 
         // This exposes the main upload object as a service
