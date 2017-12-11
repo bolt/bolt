@@ -106,13 +106,15 @@ trait MagicAttributeTrait
         $fields = [];
 
         foreach ($this as $k => $v) {
-            if (strpos($k, '_') !== 0) {
+            if (is_string($k) && strpos($k, '_') !== 0) {
                 $fields[] = $k;
             }
         }
 
         foreach ($this->_fields as $k => $v) {
-            $fields[] = $k;
+            if (is_string($k)) {
+                $fields[] = $k;
+            }
         }
 
         return $fields;

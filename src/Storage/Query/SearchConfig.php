@@ -17,8 +17,14 @@ class SearchConfig
     protected $config = [];
     /** @var array */
     protected $searchableTypes = [];
+
+    /** @var array */
+    protected $invisibleTypes = [];
+
     /** @var array */
     protected $joins = [];
+
+    protected $searchInvisible = false;
 
     public function __construct(Config $config)
     {
@@ -39,8 +45,13 @@ class SearchConfig
             return $this->searchableTypes[$contentType];
         }
 
+        if ($this->canSearchInvisible() && array_key_exists($contentType, $this->invisibleTypes)) {
+            return $this->invisibleTypes[$contentType];
+        }
+
         return false;
     }
+
 
     /**
      * Get the config of one given field for a given content type.
@@ -56,6 +67,10 @@ class SearchConfig
             return $this->searchableTypes[$contentType][$field];
         }
 
+        if ($this->canSearchInvisible() && isset($this->invisibleTypes[$contentType][$field])) {
+            return $this->invisibleTypes[$contentType][$field];
+        }
+
         return false;
     }
 
@@ -68,11 +83,9 @@ class SearchConfig
         $contentTypes = $this->config->get('contenttypes');
 
         foreach ($contentTypes as $type => $values) {
-            if (!$this->isInvisible($type)) {
-                $this->getSearchableColumns($type);
-                if (isset($values['taxonomy'])) {
-                    $this->parseTaxonomies($type, $values['taxonomy']);
-                }
+            $this->getSearchableColumns($type);
+            if (isset($values['taxonomy'])) {
+                $this->parseTaxonomies($type, $values['taxonomy']);
             }
         }
     }
@@ -95,7 +108,11 @@ class SearchConfig
             } else {
                 $weight = 50;
             }
-            $this->searchableTypes[$contentType][$taxonomy] = ['weight' => $weight];
+            if (!$this->isInvisible($contentType)) {
+                $this->searchableTypes[$contentType][$taxonomy] = ['weight' => $weight];
+            } else {
+                $this->invisibleTypes[$contentType][$taxonomy] = ['weight' => $weight];
+            }
             $this->joins[$contentType][] = $taxonomy;
         }
     }
@@ -133,7 +150,11 @@ class SearchConfig
                     $weight = 50;
                 }
 
-                $this->searchableTypes[$type][$field] = ['weight' => $weight];
+                if (!$this->isInvisible($type)) {
+                    $this->searchableTypes[$type][$field] = ['weight' => $weight];
+                } else {
+                    $this->invisibleTypes[$type][$field] = ['weight' => $weight];
+                }
             }
         }
     }
@@ -159,5 +180,21 @@ class SearchConfig
         }
 
         return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canSearchInvisible()
+    {
+        return $this->searchInvisible;
+    }
+
+    /**
+     * @param bool $searchInvisible
+     */
+    public function enableSearchInvisible($searchInvisible)
+    {
+        $this->searchInvisible = $searchInvisible;
     }
 }
