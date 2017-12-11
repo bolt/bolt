@@ -250,7 +250,7 @@ class RecordContentGenerator
             $contentEntity->set($fieldName, $value);
 
             return;
-        } elseif ($type === 'file' || $type === 'select') {
+        } elseif (in_array($type, ['file', 'select', 'templateselect'])) {
             $contentEntity->set($fieldName, null);
 
             return;
