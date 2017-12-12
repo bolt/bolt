@@ -132,6 +132,7 @@ class RepeaterType extends FieldTypeBase
         }
 
         if (isset($values[$key]) && count($values[$key])) {
+            ksort($values[$key]);
             foreach ($values[$key] as $group => $refs) {
                 $collection->addFromReferences($refs, $group);
             }
