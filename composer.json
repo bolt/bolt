@@ -90,6 +90,7 @@
         "roave/security-advisories": "dev-master@dev",
         "sebastian/phpcpd": "^2.0",
         "sorien/silex-pimple-dumper": "^1.0",
+        "symfony/browser-kit": "^2.8 || ^3.3",
         "symfony/phpunit-bridge": "^2.8 || ^3.3.2"
     },
     "scripts": {
