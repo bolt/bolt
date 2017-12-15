@@ -14,6 +14,8 @@ Released: 2017-12-15. Notable changes:
  - Fixed: Add extra check to test block exists and matches. [#7242](https://github.com/bolt/bolt/pull/7242)
  - Fixed: Don't prefill a field with `type: templateselect` [#7244](https://github.com/bolt/bolt/pull/7244)
  - Fixed: Replace `slug` with `singular_name` on "Delete"-button. [#7243](https://github.com/bolt/bolt/pull/7243)
+ - Change: Disable check for proper field types in `contenttypes.yml`, b/c load order [#7260](https://github.com/bolt/bolt/pull/7260)
+
 
 Bolt 3.4.3
 ----------
