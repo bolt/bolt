@@ -25,6 +25,12 @@ info:
                 from your desktop or from a different browser window.<br>
                 Alternatively, you can use a previously uploaded image.<br>
                 You can rearrange the images using drag'n'drop, and change the descriptions of the images.
+        oembed: |
+            Use this field to embed content inside a page on the website. Just copy/paste the
+                  URL of a page on Twitter, Facebook, Soundcloud, or almost any other website that supports embeds.<br>
+                  Bolt will automatically fetch the &lt;embed&gt;-code, with the correct width, height and the original
+                  title. If you change the width or height, the other value will change accordingly, to maintain the
+                  aspect ratio.
         video: |
             Use this field to embed a video inside a page on the website. Just copy/paste the
                   URL of a video-page on Youtube, Vimeo or almost any other video sharing website.<br>
