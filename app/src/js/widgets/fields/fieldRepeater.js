@@ -91,8 +91,15 @@
 
                 // Copy values from source to new set.
                 $(setToDuplicate).find(":input").each(function (index) {
-                    var val = $(this).val();
-                    if (val) {
+                    var $input = $(this),
+                        inputId = $input.attr('id'),
+                        val = $input.val(),
+                        isCke = $input.hasClass('ckeditor');
+
+                    // Check for a loaded ckeditor first, as data may have changed since the input loaded
+                    if (isCke && typeof CKEDITOR.instances[inputId] !== 'undefined') {
+                        $(newSet).find(':input').eq(index).val(CKEDITOR.instances[inputId].getData());
+                    } else if (val) {
                         $(newSet).find(':input').eq(index).val(val);
                     }
                 });
