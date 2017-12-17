@@ -59,7 +59,7 @@
                 provider_name:  fieldset.find('input.provider_name'),
                 thumbnailUrl:   fieldset.find('input.thumbnail_url'),
                 preview:        fieldset.find('img'),
-                play:           fieldset.find('.imageholder button'),
+                play:           fieldset.find('button.preview'),
                 refresh:        fieldset.find('button.refresh'),
                 spinner:        fieldset.find('button.refresh i')
             };
@@ -153,12 +153,6 @@
             this._ui.authorUrl.val(data.author_url || '');
             this._ui.provider_name.val(data.provider_name || '');
             this._ui.thumbnailUrl.val(data.thumbnail_url || '');
-            this._ui.preview.attr('src', thumbnailUrl);
-            if (data.html) {
-                this._ui.play.removeClass('hidden');
-            } else {
-                this._ui.play.addClass('hidden');
-            }
             this._ui.refresh.prop('disabled', this._ui.url.val().length <= 2 || this._ui.html.val().length > 0);
         }
     });
