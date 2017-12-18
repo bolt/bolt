@@ -11,6 +11,22 @@ Bolt 3.5-dev
 
 -
 
+Bolt 3.4.4
+----------
+
+Released: 2017-12-15. Notable changes:
+
+ - Fixed: If taxonomy has sortorder then use that in the Backend Overview. [#7257](https://github.com/bolt/bolt/pull/7257)
+ - Fixed: `ksort` the repeater hydrate to ensure grouping order is maintained. [#7253](https://github.com/bolt/bolt/pull/7253)
+ - Tests: Require `symfony/browser-kit` to keep CodeCeption running. [#7254](https://github.com/bolt/bolt/pull/7254)
+ - Fixed: Missing flashbags of type 'danger' and 'warning'. Pass in `user` in `flashbag()` macro. [#7249](https://github.com/bolt/bolt/pull/7249)
+ - Change: Show a friendly warning if fields with consecutive underscores are found. [#7250](https://github.com/bolt/bolt/pull/7250)
+ - Fixed: Add extra check to test block exists and matches. [#7242](https://github.com/bolt/bolt/pull/7242)
+ - Fixed: Don't prefill a field with `type: templateselect` [#7244](https://github.com/bolt/bolt/pull/7244)
+ - Fixed: Replace `slug` with `singular_name` on "Delete"-button. [#7243](https://github.com/bolt/bolt/pull/7243)
+ - Change: Disable check for proper field types in `contenttypes.yml`, b/c load order [#7260](https://github.com/bolt/bolt/pull/7260)
+
+
 Bolt 3.4.3
 ----------
 
