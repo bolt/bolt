@@ -69,6 +69,7 @@ general.phrase.login-password-legacy: #
 contenttypes.generic.actions-all: "Actions for %contenttypes%"
 contenttypes.generic.actions-one: "Actions for this %contenttype%"
 contenttypes.generic.created: "This %contenttype% was created"
+contenttypes.generic.consecutive-underscores: "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
 contenttypes.generic.delete: "Delete %contenttype%"
 contenttypes.generic.duplicate: "Duplicate %contenttype%"
 contenttypes.generic.duplicated-finalize: "Content was duplicated. Click 'Save %contenttype%' to finalize."

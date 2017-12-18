@@ -46,4 +46,4 @@ script:
 # Cache directories
 cache:
   directories:
-    - $COMPOSER_CACHE_DIR
+    - $HOME/.composer/cache/files

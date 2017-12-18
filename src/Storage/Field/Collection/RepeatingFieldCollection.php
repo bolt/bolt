@@ -122,7 +122,8 @@ class RepeatingFieldCollection extends ArrayCollection
             if (
                 $existing->getName() == $entity->getName() &&
                 $existing->getGrouping() == $entity->getGrouping() &&
-                $existing->getFieldname() == $entity->getFieldname()
+                $existing->getFieldname() == $entity->getFieldname() &&
+                (!$existing->getBlock() || $existing->getBlock() == $entity->getBlock())
             ) {
                 return $existing;
             }

@@ -946,10 +946,31 @@ class Config
                     }
                 }
 
-                // Make sure that there are no hyphens in the field names, advise to change to underscores
+                // Check if all the used fields are existing field types.
+                // Note: Check is disabled for now, because of the load order. At this point
+                // in the execution, field types added by extensions are not yet initialised,
+                // giving "false positives". See https://github.com/bolt/bolt/pull/7260
+                /*
                 if (!isset($field['type']) || !$this->fields->has($field['type'])) {
                     $error = Trans::__(
                         'contenttypes.generic.no-proper-type',
+                        [
+                            '%contenttype%' => $key,
+                            '%field%'       => $fieldname,
+                            '%type%'        => $field['type'],
+                        ]
+                    );
+                    $this->app['logger.flash']->warning($error);
+
+                    unset($ct['fields'][$fieldname]);
+                    $this->passed = false;
+                }
+                */
+
+                // Make sure that there are no consecutive underscores in field names
+                if (strpos($fieldname, '__') !== false) {
+                    $error = Trans::__(
+                        'contenttypes.generic.consecutive-underscores',
                         [
                             '%contenttype%' => $key,
                             '%field%'       => $fieldname,
