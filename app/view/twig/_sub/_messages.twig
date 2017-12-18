@@ -29,11 +29,11 @@
 {% if wrapper is defined and wrapper and app['logger.flash'].keys() is not empty %}
     <div class="row">
         <div class="col-md-8">
-            {{ self.flashbag() }}
+            {{ self.flashbag(user) }}
         </div>
     </div>
 {% else %}
-    {{ self.flashbag() }}
+    {{ self.flashbag(user) }}
 {% endif %}
 
 {# No Javascript #}

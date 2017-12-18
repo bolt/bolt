@@ -145,7 +145,7 @@ class Listing
     /**
      * @param $results
      *
-     * @return array
+     * @return QueryResultset|array
      */
     protected function runGroupSort($results)
     {
@@ -158,10 +158,11 @@ class Listing
             foreach ($result->getTaxonomy() as $taxonomy) {
                 if ($taxonomy->getTaxonomytype() == $result->getTaxonomy()->getGroupingTaxonomy()) {
                     $taxGroup = $taxonomy->getSlug();
+                    $taxOrder = $taxonomy->getSortorder();
                 }
             }
             if ($taxGroup !== null) {
-                $grouped[$taxGroup][] = $result;
+                $grouped[$taxGroup][$taxOrder] = $result;
             } else {
                 $grouped['ungrouped'][] = $result;
             }
@@ -169,6 +170,9 @@ class Listing
 
         if (!count($grouped)) {
             return $results;
+        }
+        if (isset($taxGroup) && $taxGroup !== null) {
+            ksort($grouped[$taxGroup]);
         }
 
         return call_user_func_array('array_merge', $grouped);

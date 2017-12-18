@@ -40,7 +40,7 @@ class ResolverTest extends TestCase
             'html'             => '<iframe width="480" height="270" src="https://www.youtube.com/embed/x4IDM3ltTYo?feature=oembed" frameborder="0" allowfullscreen></iframe>',
         ];
 
-        $factory = function ($url, $options = []) use ($requestUrl, $content) {
+        $factory = function ($url, $options = []) use ($content) {
             $mock = new MockHandler([
                 new Psr7\Response(200),
                 new Psr7\Response(200, ['Content-Type' => 'application/json'], Json::dump($content)),
