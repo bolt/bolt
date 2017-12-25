@@ -3,12 +3,14 @@
 namespace Bolt\EventListener;
 
 use Bolt\Common\Str;
+use Bolt\Configuration\PathResolver;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Webmozart\PathUtil\Path;
 
 /**
  * Converts HTTP exceptions to JSON responses.
@@ -17,6 +19,19 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class ExceptionToJsonListener implements EventSubscriberInterface
 {
+    /** @var PathResolver */
+    private $pathResolver;
+
+    /**
+     * Constructor.
+     *
+     * @param PathResolver $pathResolver
+     */
+    public function __construct(PathResolver $pathResolver)
+    {
+        $this->pathResolver = $pathResolver;
+    }
+
     /**
      * Listen for exceptions and convert them to JSON responses if necessary.
      *
@@ -42,7 +57,7 @@ class ExceptionToJsonListener implements EventSubscriberInterface
      */
     protected function isApplicable(Request $request)
     {
-        return strpos($request->headers->get('Content-Type'), 'application/json') === 0;
+        return $request->isXmlHttpRequest() || strpos($request->headers->get('Content-Type'), 'application/json') === 0;
     }
 
     /**
@@ -55,17 +70,18 @@ class ExceptionToJsonListener implements EventSubscriberInterface
     protected function convert(\Exception $exception)
     {
         $statusCode = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
+        $file = Path::makeRelative($exception->getFile(), $this->pathResolver->resolve('root'));
 
-        $errorType = $this->getErrorType($exception);
-
-        $response = new JsonResponse(
-            [
-                'success'   => false,
-                'errorType' => $errorType,
-                'code'      => $statusCode,
-                'message'   => $exception->getMessage(),
-            ]
-        );
+        $response = new JsonResponse([
+            'success'   => false,
+            'code'      => $statusCode,
+            'error'     => [
+                'type'    => $this->getErrorType($exception),
+                'file'    => $file,
+                'line'    => $exception->getLine(),
+                'message' => $exception->getMessage(),
+            ],
+        ]);
         $response->setStatusCode($statusCode);
 
         return $response;
@@ -102,7 +118,7 @@ class ExceptionToJsonListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::EXCEPTION => ['onException', -7],
+            KernelEvents::EXCEPTION => ['onException', -5],
         ];
     }
 }

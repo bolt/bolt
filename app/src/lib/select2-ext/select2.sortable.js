@@ -8,13 +8,13 @@
                     return undefined;
                 }
             });
-            var ul = $(select).next('.select2-container').first('ul.select2-selection__rendered');
+            var ul = $(select).next('.select2-container').find('ul.select2-selection__rendered').first();
             ul.sortable({
                 items       : 'li:not(.select2-search)',
                 tolerance   : 'pointer',
                 stop: function() {
                     $($(ul).find('.select2-selection__choice').get().reverse()).each(function() {
-                        var id = $(this).data('data').id;
+                        var id = $(this).attr('title');
                         var option = select.find('option[value="' + id + '"]')[0];
                         $(select).prepend(option);
                     });

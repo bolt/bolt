@@ -11,6 +11,15 @@ Bolt 3.5-dev
 
 -
 
+Bolt 3.4.5
+----------
+
+Released: 2017-12-18. Notable changes:
+
+ - Fixed: Check for CKE changes on repeater duplication [#7261](https://github.com/bolt/bolt/pull/7261)
+ - Fixed: Proper sortorders for groupings. (Additional fix to [#7257](https://github.com/bolt/bolt/pull/7257)) [#7263](https://github.com/bolt/bolt/pull/7263)
+ - CI: [Travis] Adjust Composer cache directories [#7259](https://github.com/bolt/bolt/pull/7259)
+
 Bolt 3.4.4
 ----------
 
