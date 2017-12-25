@@ -114,6 +114,10 @@ class Edit
             $content->setUsername('');
             $content->setOwnerid('');
 
+            if (isset($contentType['hierarchical']) && $contentType['hierarchical'] === true) {
+                $content->setParentId(0);
+            }
+
             $this->loggerFlash->info(Trans::__('contenttypes.generic.duplicated-finalize', ['%contenttype%' => $contentTypeSlug]));
         }
 
@@ -178,6 +182,7 @@ class Edit
             'tabs'               => $contentType['groups'] !== [],
             'taxonomy'           => $existingTaxonomies !== [],
             'templatefields'     => count($templateFields) > 0,
+            'hierarchy'          => isset($contentType['hierarchical']) && $contentType['hierarchical'] === true,
         ];
         $contextValues = [
             'datepublish'        => $this->getPublishingDate($content->getDatepublish(), true),
@@ -424,6 +429,11 @@ class Edit
 
         if ($has['templatefields'] || (is_array($contentType['groups']) && in_array('template', $contentType['groups']))) {
             $fieldtypes['template'] = true;
+        }
+
+        if ($has['hierarchy'] && !isset($fieldtypes['hierarchy'])) {
+            $fieldtypes['hierarchical'] = true;
+            $fieldtypes['parentid'] = true;
         }
 
         return array_keys($fieldtypes);

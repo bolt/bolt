@@ -145,10 +145,15 @@ class Frontend extends ConfigurableBase
             $slug = $request->get('id');
         }
 
-        $slug = $this->app['slugify']->slugify($slug);
+        // Is this a hierarchical contentType?
+        if (isset($contenttype['hierarchical']) && $contenttype['hierarchical'] === true) {
+            $content = $this->app['storage.hierarchy']->getContentFromHierarchy($contenttype['slug'], $slug, true);
+        } else {
+            $slug = $this->app['slugify']->slugify($slug);
 
-        // First, try to get it by slug.
-        $content = $this->getContent($contenttype['slug'], ['slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)]);
+            // First, try to get it by slug.
+            $content = $this->getContent($contenttype['slug'], ['slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)]);
+        }
 
         if (is_numeric($slug) && (!$content || count($content) === 0)) {
             // And otherwise try getting it by ID

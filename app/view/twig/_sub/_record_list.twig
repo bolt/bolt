@@ -28,7 +28,11 @@
         >
     {% endif %}
         <table class="{{ extra_classes }} dashboardlisting listing">
+            {% set counter = 0 %}
             {% for content in multiplecontent %}
+                {% if content.parentid is empty or content.parentid == 0 %}
+                    {% set counter = counter + 1 %}
+                {% endif %}
                 {% set editable = permissions.edit %}
                 {% if editable %}
                     {% set any_editable = true %}
@@ -49,7 +53,8 @@
                     'internal': {
                         'selection_toolbar': selection_toolbar
                     },
-                    'filter':        filter
+                    'filter':        filter,
+                    'counter': counter
                 } %}
                 {{ include(includes, listing_vars) }}
 

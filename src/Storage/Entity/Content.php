@@ -48,6 +48,8 @@ class Content extends Entity
     protected $group;
     /** @var int */
     protected $sortorder;
+    /** @var null|int */
+    protected $parentid;
 
     /**
      * {@inheritdoc}
@@ -386,6 +388,26 @@ class Content extends Entity
             $value = [];
         }
         $this->templatefields = $value;
+    }
+
+    /**
+     * @return null|int
+     */
+    public function getParentid()
+    {
+        return $this->parentid;
+    }
+
+    /**
+     * @param null|int $value
+     */
+    public function setParentid($value)
+    {
+        if (!is_null($value)) {
+            $value = intval($value, 10);
+        }
+
+        $this->parentid = $value;
     }
 
     /**
