@@ -153,16 +153,18 @@ class Listing
             return $results;
         }
         $grouped = [];
+        $resultTaxOrders = [];
         foreach ($results as $result) {
             $taxGroup = null;
             foreach ($result->getTaxonomy() as $taxonomy) {
                 if ($taxonomy->getTaxonomytype() == $result->getTaxonomy()->getGroupingTaxonomy()) {
                     $taxGroup = $taxonomy->getSlug();
                     $taxOrder = $taxonomy->getSortorder();
+                    $resultTaxOrders[$result->getId()] = $taxOrder;
                 }
             }
             if ($taxGroup !== null) {
-                $grouped[$taxGroup][$taxOrder] = $result;
+                $grouped[$taxGroup][] = $result;
             } else {
                 $grouped['ungrouped'][] = $result;
             }
@@ -172,7 +174,11 @@ class Listing
             return $results;
         }
         if (isset($taxGroup) && $taxGroup !== null) {
-            ksort($grouped[$taxGroup]);
+            foreach ($grouped as &$group) {
+                usort($group, function ($a, $b) use ($resultTaxOrders) {
+                    return $resultTaxOrders[$a->getId()] - $resultTaxOrders[$b->getId()];
+                });
+            }
         }
 
         return call_user_func_array('array_merge', $grouped);

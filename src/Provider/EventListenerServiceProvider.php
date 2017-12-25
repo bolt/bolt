@@ -54,8 +54,8 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         );
 
         $app['listener.exception_json'] = $app->share(
-            function () {
-                return new Listener\ExceptionToJsonListener();
+            function ($app) {
+                return new Listener\ExceptionToJsonListener($app['path_resolver']);
             }
         );
 
