@@ -14,6 +14,7 @@ use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Webmozart\PathUtil\Path;
 
 class Extend extends BackendBase
 {
@@ -484,10 +485,7 @@ class Extend extends BackendBase
      */
     private function getJsonException(\Exception $e)
     {
-        // Make file path relative to not leak system info
-        $file = $e->getFile();
-        $base = realpath(__DIR__ . '/../../..');
-        $file = str_replace($base . '/', '', $file);
+        $file = Path::makeRelative($e->getFile(), $this->app['path_resolver']->resolve('root'));
 
         $error = [
             'error' => [

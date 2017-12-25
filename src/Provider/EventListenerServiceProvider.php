@@ -29,6 +29,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface, Bootable
             'preview',
             'fileedit',
         ];
+
         $app['listener.disable_xss_protection'] = function ($app) {
             return new Listener\DisableXssProtectionListener($app['disable_xss_protection_routes']);
         };
@@ -47,8 +48,8 @@ class EventListenerServiceProvider implements ServiceProviderInterface, Bootable
             );
         };
 
-        $app['listener.exception_json'] = function () {
-            return new Listener\ExceptionToJsonListener();
+        $app['listener.exception_json'] = function ($app) {
+            return new Listener\ExceptionToJsonListener($app['path_resolver']);
         };
 
         $app['listener.not_found'] = function ($app) {
