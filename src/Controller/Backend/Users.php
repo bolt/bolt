@@ -89,8 +89,12 @@ class Users extends BackendBase
             return $this->redirectToRoute('users');
         }
 
+        $formOptions = [
+            'require_password' => !$userEntity->getId(),
+        ];
+
         // Generate the form
-        $form = $this->createFormBuilder(FormType\UserEditType::class, $userEntity)
+        $form = $this->createFormBuilder(FormType\UserEditType::class, $userEntity, $formOptions)
             ->getForm()
             ->handleRequest($request)
         ;
