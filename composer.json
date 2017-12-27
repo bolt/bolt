@@ -53,7 +53,7 @@
         "symfony/security": "^3.4 || ^4.0",
         "symfony/security-bundle": "^3.4 || ^4.0",
         "symfony/stopwatch": "^3.4 || ^4.0",
-        "symfony/translation": "^3.4 || ^4.0",
+        "symfony/translation": "^3.4",
         "symfony/validator": "^3.4 || ^4.0",
         "symfony/var-dumper": "^3.4 || ^4.0",
         "symfony/web-link": "^3.4 || ^4.0",
