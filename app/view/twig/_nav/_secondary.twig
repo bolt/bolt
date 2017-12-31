@@ -37,7 +37,13 @@
         {% if menus.has('files') %}{{ include('@bolt/_nav/_secondary-filemanagement.twig') }}{% endif %}
         {% if menus.has('extensions') %}{{ include('@bolt/_nav/_secondary-extensions.twig') }}{% endif %}
         {% if menus.has('custom') %}
-            {% for menu in menus.get('custom').children %}{{ nav.submenu(null, null, [menu]) }}{% endfor %}
+            {% for menu in menus.get('custom').children %}
+                {% if menu.children != null %}
+                    {{ nav.submenu(menu.icon, menu.label, menu.children) }}
+                {% else %}
+                    {{ nav.submenu(null, null, [menu]) }}
+                {% endif %}
+            {% endfor %}
         {% endif %}
 
         {# Collapse/expand sidebar #}
