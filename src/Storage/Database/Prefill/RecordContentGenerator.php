@@ -85,6 +85,7 @@ class RecordContentGenerator
         'geolocation'    => 'addJson',
         'image'          => 'addJson',
         'imagelist'      => 'addJson',
+        'oembed'         => 'addJson',
         'selectmultiple' => 'addJson',
         'templatefields' => 'addJson',
         'video'          => 'addJson',

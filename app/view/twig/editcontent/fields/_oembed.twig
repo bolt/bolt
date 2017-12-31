@@ -2,7 +2,7 @@
 
 {% set option = {
     label:  field.label,
-    info:   field.info|default('info.upload.video'),
+    info:   field.info|default('info.upload.oembed'),
 } %}
 
 {#=== INIT ===========================================================================================================#}
@@ -10,16 +10,16 @@
 {% set preview_w = 200 %}
 {% set preview_h = 150 %}
 
-{% set video = context.content.get(contentkey) %}
+{% set oembed = context.content.get(contentkey) %}
 
 {% set attributes = {
     url: {
         class:        'form-control url',
         id:           buid(),
         name:         name ~ '[url]',
-        placeholder:  __('field.video.placeholder.url') ~ ' …',
+        placeholder:  __('field.oembed.placeholder.url') ~ ' …',
         type:         'url',
-        value:        video.url|default('')
+        value:        oembed.url|default('')
     },
 
     width: {
@@ -27,7 +27,7 @@
         id:         buid(),
         name:       name ~ '[width]',
         type:       'number',
-        value:      video.width|default('')
+        value:      oembed.width|default('')
     },
 
     height: {
@@ -35,73 +35,67 @@
         id:         buid(),
         name:       name ~ '[height]',
         type:       'number',
-        value:      video.height|default('')
+        value:      oembed.height|default('')
     },
 
-    hid_ratio: {
-        class:      'ratio',
-        name:       name ~ '[ratio]',
-        type:       'hidden',
-        value:      video.ratio|default('')
-    },
-
-    hid_title: {
-        class:      'form-control title',
-        name:       name ~ '[title]',
+    hid_provider_name: {
+        class:      'form-control provider_name',
+        name:       name ~ '[provider_name]',
         readonly:   true,
-        title:      __('Title'),
+        title:      __('field.oembed.provider_name'),
         type:       'text',
-        value:      video.title|default('')
+        value:      oembed.provider_name|default('')
     },
 
-    hid_authorname: {
+    hid_author_name: {
         class:      'form-control author_name',
-        name:       name ~ '[authorname]',
+        name:       name ~ '[author_name]',
         readonly:   true,
         title:      __('general.phrase.author'),
         type:       'text',
-        value:      video.authorname|default(''),
+        value:      oembed.author_name|default(''),
     },
 
-    hid_authorurl: {
-        class:      'authorurl',
-        name:       name ~ '[authorurl]',
+    hid_author_url: {
+        class:      'author_url',
+        name:       name ~ '[author_url]',
         type:       'hidden',
-        value:      video.authorurl|default(''),
+        value:      oembed.author_url|default(''),
     },
 
     hid_html: {
         class:      'html',
         name:       name ~ '[html]',
         type:       'hidden',
-        value:      (video.html is defined ? video.html|replace({'"': '\''}) : '')
+        value:      (oembed.html is defined ? oembed.html|replace({'"': '\''}) : '')
     },
 
     hid_thumbnail: {
-        class:      'thumbnailurl',
+        class:      'thumbnail_url',
         name:       name ~ '[thumbnail]',
         type:       'hidden',
-        value:      video.thumbnail|default(''),
+        value:      oembed.thumbnail|default(''),
     },
 
     preview: {
-        alt:       __('field.video.label.preview'),
+        alt:       __('field.oembed.label.preview'),
         'data-default-url': asset('img/default_empty_4x3.png', 'bolt'),
         height:    preview_h,
-        src:       video.thumbnail|default(asset('img/default_empty_4x3.png', 'bolt')),
+        src:       oembed.html|default(asset('img/default_empty_4x3.png', 'bolt')),
         width:     preview_w,
     },
 
     play: {
-        class:     video.html|default() ? '' : 'hidden',
+        class:     'btn btn-default preview',
         type:      'button',
         role:      'button',
+        value: 'Preview',
     },
 
     refresh: {
         class:     'btn btn-default refresh',
         type:      'button',
-        disabled:  video.url|default('')|length <= 2 or video.html|default() ? true : false,
+        disabled:  oembed.url|default('')|length <= 2 or oembed.html|default() ? true : false,
     },
 } %}
 
@@ -109,18 +103,18 @@
 
 {% extends '@bolt/_base/_fieldset.twig' %}
 
-{% block fieldset_type 'video' %}
-{% block fieldset_widget 'fieldVideo' %}
+{% block fieldset_type 'oembed' %}
+{% block fieldset_widget 'fieldEmbed' %}
 
 {% block fieldset_label_text  labelkey %}
 {% block fieldset_label_info  option.info %}
 {% block fieldset_label_class 'col-xs-12' %}
 
 {% block fieldset_controls %}
-    <div class="col-sm-8">
+    <div class="col-sm-12">
         <div class="form-group">
-            <div class="col-sm-12">
-                <label for="{{ attributes.url.id }}">{{ __('field.video.label.url') }}</label>
+            <div class="col-sm-8">
+                <label for="{{ attributes.url.id }}">{{ __('field.oembed.label.url') }}</label>
                 <div class="input-group">
                     <input{{ hattr(attributes.url) }}>
                     <span class="input-group-btn">
@@ -128,40 +122,35 @@
                     </span>
                 </div>
             </div>
+            <div class="col-sm-4">
+                <label for="{{ attributes.url.id }}">{{ __('field.oembed.label.preview') }}</label>
+                <button{{ hattr(attributes.play) }}>{{ __('field.oembed.label.preview') }}</button>
+            </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-sm-2">{{ __('field.video.label.size') }}</label>
-            <div class="col-sm-10 form-inline">
-                <label for="{{ attributes.width.id }}" class="sr-only">{{ __('field.video.width') }}</label>
+            <label class="control-label col-sm-2">{{ __('field.oembed.label.size') }}</label>
+            <div class="col-sm-8 form-inline">
+                <label for="{{ attributes.width.id }}" class="sr-only">{{ __('field.oembed.width') }}</label>
                 <input{{ hattr(attributes.width) }}> ×
-                <label for="{{ attributes.height.id }}" class="sr-only">{{ __('field.video.height') }}</label>
+                <label for="{{ attributes.height.id }}" class="sr-only">{{ __('field.oembed.height') }}</label>
                 <input{{ hattr(attributes.height) }}>
-                <label class="label-pixels">{{ __('field.video.pixel') }}</label>
+                <label class="label-pixels">{{ __('field.oembed.pixel') }}</label>
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-sm-12">
-                <label>{{ __('field.video.matched-video') }}</label>
-                <input{{ hattr(attributes.hid_title) }}>
-                <input{{ hattr(attributes.hid_authorname) }}>
+            <div class="col-sm-8">
+                <label>{{ __('field.oembed.matched-oembed') }}</label>
+                <input{{ hattr(attributes.hid_provider_name) }}>
+                <input{{ hattr(attributes.hid_author_name) }}>
             </div>
 
-            <input{{ hattr(attributes.hid_ratio) }}>
-            <input{{ hattr(attributes.hid_authorurl) }}>
+            <input{{ hattr(attributes.hid_author_url) }}>
             <input{{ hattr(attributes.hid_html) }}>
             <input{{ hattr(attributes.hid_thumbnail) }}>
         </div>
     </div>
 
-    <div class="col-sm-4">
-        <div class="right-on-large">
-            <label>{{ __('field.video.label.preview') }}</label>
-            <div class="imageholder">
-                <img{{ hattr(attributes.preview) }}>
-                <button{{ hattr(attributes.play) }}></button>
-            </div>
-        </div>
-    </div>
+
 {% endblock fieldset_controls %}

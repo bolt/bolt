@@ -193,6 +193,7 @@ class LogChange extends Entity
             'imagelist'   => 'fieldList',
             'geolocation' => 'fieldGeolocation',
             'image'       => 'fieldImage',
+            'oembed'      => 'fieldVideo',
             'select'      => 'fieldSelect',
             'video'       => 'fieldVideo',
         ];
@@ -320,6 +321,51 @@ class LogChange extends Entity
                 'render' => [
                     'file'  => $after['file'],
                     'title' => $after['title'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Compile changes for oembed field types.
+     *
+     * @param string $key
+     * @param string $value
+     * @param array  $fields
+     *
+     * @return array
+     */
+    private function fieldOembed($key, $value, array $fields)
+    {
+        $before = Json::parse($value[0]);
+        $after = Json::parse($value[1]);
+
+        return [
+            'type'   => $fields[$key]['type'],
+            'before' => [
+                'render' => [
+                    'url'           => $before['url'],
+                    'type'          => $before['type'],
+                    'author_name'   => $before['author_name'],
+                    'author_url'    => $before['author_url'],
+                    'provider_name' => $before['provider_name'],
+                    'provider_url'  => $before['provider_url'],
+                    'height'        => $before['height'],
+                    'width'         => $before['width'],
+                    'html'          => $before['html'],
+                ],
+            ],
+            'after'  => [
+                'render' => [
+                    'url'           => $after['url'],
+                    'type'          => $after['type'],
+                    'author_name'   => $after['author_name'],
+                    'author_url'    => $after['author_url'],
+                    'provider_name' => $after['provider_name'],
+                    'provider_url'  => $after['provider_url'],
+                    'height'        => $after['height'],
+                    'width'         => $after['width'],
+                    'html'          => $after['html'],
                 ],
             ],
         ];

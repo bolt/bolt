@@ -1,6 +1,7 @@
-/*** Fieldset: Video ***/
+/*** Fieldset: Video & OEmbed ***/
 
-fieldset.bolt-field-video {
+fieldset.bolt-field-video,
+fieldset.bolt-field-oembed  {
 
     input[type=number] {
         width: 30% !important;      // Reset from _editcontent.scss
@@ -18,7 +19,7 @@ fieldset.bolt-field-video {
         display: inline;
     }
 
-    .title, .authorname {
+    .title, .author_name, .provider_name {
         box-shadow: none;
         font-size: 13px !important;
         line-height: 13px !important;
@@ -28,7 +29,7 @@ fieldset.bolt-field-video {
         text-overflow: ellipsis;
     }
 
-    .authorname {
+    .author_name {
         margin-top: 4px;
     }
 
