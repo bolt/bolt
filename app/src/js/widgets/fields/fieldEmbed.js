@@ -144,15 +144,13 @@
          * @param {Object} data
          */
         _set: function (data) {
-            var thumbnailUrl = data.thumbnail_url || this._ui.preview.data('defaultUrl');
-
             this._ui.html.val(data.html || '');
             this._ui.width.val(data.width || '');
             this._ui.height.val(data.height || '');
             this._ui.authorName.val(data.author_name || '');
             this._ui.authorUrl.val(data.author_url || '');
             this._ui.provider_name.val(data.provider_name || '');
-            this._ui.thumbnailUrl.val(data.thumbnail_url || '');
+            this._ui.thumbnailUrl.val(data.thumbnail_url || this._ui.preview.data('defaultUrl'));
             this._ui.refresh.prop('disabled', this._ui.url.val().length <= 2 || this._ui.html.val().length > 0);
         }
     });
