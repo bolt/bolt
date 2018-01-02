@@ -121,6 +121,15 @@ field.image.label.alt: "Alt"
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Preview"
 
+field.oembed.height: "Height"
+field.oembed.label.preview: "Preview"
+field.oembed.label.size: "Size"
+field.oembed.label.url: "URL of content to embed"
+field.oembed.matched-oembed: "Matched Embed"
+field.oembed.pixel: "pixel"
+field.oembed.placeholder.url: "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.oembed.width: "Width"
+
 field.repeater.label.add-set: "Add new %label% set"
 
 field.slug.button.edit: "Edit"

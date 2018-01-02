@@ -4,6 +4,7 @@ namespace Bolt\Form\FormType;
 
 use Bolt\Translation\Translator as Trans;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Bolt user editing form type.
@@ -19,7 +20,7 @@ class UserEditType extends AbstractUserType
     {
         $this
             ->addUserName($builder)
-            ->addPassword($builder, ['required' => false])
+            ->addPassword($builder, ['required' => $options['require_password']])
             ->addEmail($builder)
             ->addDisplayName($builder)
             ->addEnabled($builder)
@@ -28,5 +29,15 @@ class UserEditType extends AbstractUserType
             ->addLastIp($builder)
             ->addSave($builder, ['label' => Trans::__('page.edit-users.button.save')])
         ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'require_password' => false,
+        ]);
     }
 }
