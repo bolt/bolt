@@ -123,6 +123,15 @@ field.image.label.alt: "Alt."
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Voorvertoning"
 
+field.oembed.height: "Hoogte"
+field.oembed.label.preview: "Voorbeeld"
+field.oembed.label.size: "Grootte"
+field.oembed.label.url: "Url naar embedde content"
+field.oembed.matched-video: "Gevonden embed"
+field.oembed.pixel: "pixels"
+field.oembed.placeholder.url: "Url van de content op Facebook, Twitter, Soundcloud, etc."
+field.oembed.width: "Breedte"
+
 field.repeater.label.add-set: "Voeg nieuwe set %label% toe"
 
 field.slug.button.edit: "Bewerk"

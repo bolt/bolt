@@ -118,6 +118,8 @@ showcases:
         geolocation:
             type: geolocation
             group: Media
+        oembed:
+            type: oembed
         video:
             type: video
         image:

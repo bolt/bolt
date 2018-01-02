@@ -27,6 +27,12 @@ info:
       Als je een recente versie van Chrome of Firefox gebruikt, is het ook mogelijk om het bestand vanaf uw computer naar de knop te slepen<br/>
       Je kunt ook een afbeelding kiezen die eerder geüpload is. <br>
       Ook kan je omschrijving van de afbeelding aanpassen en de afbeeldingen met drag'n'drop herschikken .
+    oembed: |
+      Gebruik dit veld voor het embedden van content op een pagina in de website. Kopieer en plak
+      de URL van Twitter, Facebook, Soundcloud of bijna elke andere sites die embeds ondersteunt. <br>
+      De &lt;embed&gt; code wordt dan automatisch opgehaald, met de correcte breedte, hoogte
+      en de originele titel. Wanneer u de hoogte of de breedte wijzig, wordt de andere waarde
+      aangepast, zodat de verhouding gelijk blijft.
     video: |
       Gebruik dit veld voor het embedden van een video op een pagina in de website. Kopieer en plak
       de URL van de YouTube, Vimeo of bijna elke andere video sites. <br>

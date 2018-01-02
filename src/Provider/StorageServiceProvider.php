@@ -141,6 +141,7 @@ class StorageServiceProvider implements ServiceProviderInterface, BootableProvid
             'incomingrelation'             => Field\Type\IncomingRelationType::class,
             'integer'                      => Field\Type\IntegerType::class,
             'markdown'                     => Field\Type\MarkdownType::class,
+            'oembed'                       => Field\Type\OembedType::class,
             'relation'                     => Field\Type\RelationType::class,
             'repeater'                     => Field\Type\RepeaterType::class,
             'select'                       => Field\Type\SelectType::class,

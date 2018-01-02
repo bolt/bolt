@@ -22,7 +22,7 @@
         "composer/composer": "^1.2",
         "doctrine/cache": "^1.5",
         "doctrine/dbal": "^2.5",
-        "embed/embed": "^3.0",
+        "embed/embed": "^3.2",
         "erusev/parsedown-extra": "~0.7",
         "ext-curl": "*",
         "ext-exif": "*",
