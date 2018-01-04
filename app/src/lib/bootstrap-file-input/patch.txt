@@ -1,1 +1,4 @@
-Patched version of: http://gregpike.net/demos/bootstrap-file-input/demo.html
+Patched version 1.1 of "Twitter Bootstrap File Input", from
+
+ - http://gregpike.net/demos/bootstrap-file-input/demo.html
+ - https://github.com/grevory/bootstrap-file-input
