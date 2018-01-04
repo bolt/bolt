@@ -23,8 +23,13 @@ CodeMirror.defineMode("yaml", function() {
       state.escaped = false;
       /* comments */
       if (ch == "#" && (stream.pos == 0 || /\s/.test(stream.string.charAt(stream.pos - 1)))) {
-        stream.skipToEnd(); return "comment";
+        stream.skipToEnd();
+        return "comment";
       }
+
+      if (stream.match(/^('([^']|\\.)*'?|"([^"]|\\.)*"?)/))
+        return "string";
+
       if (state.literal && stream.indentation() > state.keyCol) {
         stream.skipToEnd(); return "string";
       } else if (state.literal) { state.literal = false; }
@@ -80,7 +85,7 @@ CodeMirror.defineMode("yaml", function() {
       }
 
       /* pairs (associative arrays) -> key */
-      if (!state.pair && stream.match(/^\s*\S+(?=\s*:($|\s))/i)) {
+      if (!state.pair && stream.match(/^\s*(?:[,\[\]{}&*!|>'"%@`][^\s'":]|[^,\[\]{}#&*!|>'"%@`])[^#]*?(?=\s*:($|\s))/)) {
         state.pair = true;
         state.keyCol = stream.indentation();
         return "atom";
@@ -108,5 +113,6 @@ CodeMirror.defineMode("yaml", function() {
 });
 
 CodeMirror.defineMIME("text/x-yaml", "yaml");
+CodeMirror.defineMIME("text/yaml", "yaml");
 
 });
