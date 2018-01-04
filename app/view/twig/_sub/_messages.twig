@@ -26,15 +26,15 @@
 {% endmacro %}
 
 {% import _self as self %}
-{% if wrapper is defined and wrapper and app['logger.flash'].keys() is not empty %}
-    <div class="row">
+<div class="row">
+    {% if wrapper is defined and wrapper and app['logger.flash'].keys() is not empty %}
         <div class="col-md-8">
             {{ self.flashbag(user) }}
         </div>
-    </div>
-{% else %}
-    {{ self.flashbag(user) }}
-{% endif %}
+    {% else %}
+        {{ self.flashbag(user) }}
+    {% endif %}
+</div>
 
 {# No Javascript #}
 <noscript>
