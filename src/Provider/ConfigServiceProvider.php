@@ -7,6 +7,7 @@ use Bolt\Config;
 use Bolt\Configuration\Environment;
 use Bolt\Configuration\Validation\Validator as ConfigValidator;
 use Bolt\EventListener\ConfigListener;
+use Bolt\Requirement\BoltRequirements;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -62,6 +63,14 @@ class ConfigServiceProvider implements ServiceProviderInterface
         $app['config.listener'] = $app->share(
             function ($app) {
                 return new ConfigListener($app);
+            }
+        );
+
+        $app['requirements'] = $app->share(
+            function ($app) {
+                $resolver = $app['path_resolver'];
+
+                return new BoltRequirements($resolver->resolve('root'), null, $resolver);
             }
         );
     }
