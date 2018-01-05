@@ -11,6 +11,21 @@ Bolt 3.5-dev
 
 -
 
+Bolt 3.4.6
+----------
+
+Released: 2017-01-05. Notable changes:
+
+ - Change: `BoltRequirements` DI and pass in `PathResolver`. [#7285](https://github.com/bolt/bolt/pull/7285)
+ - Change: Change Carbon upstream to `CarbonDate/Carbon`, because original seems abandoned. [#7273](https://github.com/bolt/bolt/pull/7273)
+ - Fixed: [UI] Fix flash message margins. [#7282](https://github.com/bolt/bolt/pull/7282)
+ - Fixed: Edge-case fix for old, missing relations. [#7268](https://github.com/bolt/bolt/pull/7268)
+ - Fixed: Get fields from Block, even if Block isn't last. [#7277](https://github.com/bolt/bolt/pull/7277)
+ - Fixed: Improve upon the dreaded `unexpected token <` in Extensions screen. [#7267](https://github.com/bolt/bolt/pull/7267)
+ - Fixed: Require password for new users from admin [#7274](https://github.com/bolt/bolt/pull/7274) [#7266](https://github.com/bolt/bolt/pull/7266)
+ - Fixed: Update sortable plugin to work with latest version of Select2. [#7272](https://github.com/bolt/bolt/pull/7272)
+ - Fixed: Use PathResolver to make path relative in Extend controller [#7269](https://github.com/bolt/bolt/pull/7269)
+
 Bolt 3.4.5
 ----------
 
