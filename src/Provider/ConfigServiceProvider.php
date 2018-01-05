@@ -68,7 +68,9 @@ class ConfigServiceProvider implements ServiceProviderInterface
 
         $app['requirements'] = $app->share(
             function ($app) {
-                return new BoltRequirements($app['path_resolver']->resolve('%root%'));
+                $resolver = $app['path_resolver'];
+
+                return new BoltRequirements($resolver->resolve('root'), null, $resolver);
             }
         );
     }
