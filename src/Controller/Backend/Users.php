@@ -5,7 +5,6 @@ namespace Bolt\Controller\Backend;
 use Bolt\AccessControl\Permissions;
 use Bolt\Events\AccessControlEvent;
 use Bolt\Form\FormType;
-use Bolt\Requirement\BoltRequirements;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -14,6 +13,7 @@ use Swift_RfcComplianceException as RfcComplianceException;
 use Swift_TransportException as TransportException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Requirements\RequirementCollection;
 
 /**
  * Backend controller for user maintenance routes.
@@ -202,7 +202,8 @@ class Users extends BackendBase
             }
         }
 
-        $requirements = new BoltRequirements($this->app['path_resolver']->resolve('%root%'));
+        /** @var RequirementCollection $requirements */
+        $requirements = $this->app['requirements'];
         $context = [
             'required'    => $requirements->getFailedRequirements() ?: null,
             'recommended' => $requirements->getFailedRecommendations() ?: null,

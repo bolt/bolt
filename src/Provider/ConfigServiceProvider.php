@@ -7,6 +7,7 @@ use Bolt\Config;
 use Bolt\Configuration\Environment;
 use Bolt\Configuration\Validation\Validator as ConfigValidator;
 use Bolt\EventListener\ConfigListener;
+use Bolt\Requirement\BoltRequirements;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Silex\Api\BootableProviderInterface;
@@ -57,6 +58,12 @@ class ConfigServiceProvider implements ServiceProviderInterface, BootableProvide
 
         $app['config.listener'] = function ($app) {
             return new ConfigListener($app);
+        };
+
+        $app['requirements'] = function ($app) {
+            $resolver = $app['path_resolver'];
+
+            return new BoltRequirements($resolver->resolve('root'), null, $resolver);
         };
     }
 

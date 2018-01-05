@@ -13,7 +13,7 @@
         "bolt/collection": "^1.1",
         "bolt/common": "^1.0",
         "bolt/filesystem": "^2.3.1",
-        "bolt/requirements": "^1.0",
+        "bolt/requirements": "^1.0.2",
         "bolt/session": "^1.0",
         "bolt/themes": "^1.0",
         "bolt/thumbs": "^4.0@dev",

@@ -8,7 +8,6 @@ use Bolt\Form\FormType\FileEditType;
 use Bolt\Form\FormType\PrefillType;
 use Bolt\Helpers\Input;
 use Bolt\Omnisearch;
-use Bolt\Requirement\BoltRequirements;
 use Bolt\Translation\TranslationFile;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Validator\Constraints;
@@ -16,6 +15,7 @@ use Doctrine\DBAL\Exception\TableNotFoundException;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Requirements\PhpConfigRequirement;
+use Symfony\Requirements\RequirementCollection;
 
 /**
  * General controller for basic backend routes.
@@ -81,7 +81,8 @@ class General extends BackendBase
             'requirements'    => $defaults,
             'recommendations' => $defaults,
         ]);
-        $baseReqs = new BoltRequirements($this->app['path_resolver']->resolve('%root%'));
+        /** @var RequirementCollection $baseReqs */
+        $baseReqs = $this->app['requirements'];
 
         foreach ($baseReqs->getRequirements() as $requirement) {
             $result = $requirement->isFulfilled() ? 'pass' : 'fail';
