@@ -113,7 +113,7 @@
                 set = bolt.conf('ckeditor');
 
             config.language = bolt.conf('ckeditor.lang');
-            config.skin = 'boltcke';
+            config.skin = 'moono-lisa';
             config.resize_enabled = true;
             config.entities = false;
             config.fillEmptyBlocks = false;

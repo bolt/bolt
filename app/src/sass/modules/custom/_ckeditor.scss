@@ -10,11 +10,6 @@
     padding: 0;
 }
 
-.cke_top {
-    background-color: #EEE !important;
-    padding-bottom: 4px;
-}
-
 .cke_bottom {
     display: block !important;
     float: right;
@@ -27,6 +22,10 @@
 
 .cke_top {
     padding: 0 !important;
+}
+
+.cke_combo {
+    margin-bottom: inherit;
 }
 
 .cke_toolgroup, .cke_combo_button {
