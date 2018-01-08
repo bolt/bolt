@@ -5,7 +5,7 @@ namespace Bolt\Twig\Runtime;
 use Bolt\Common\Exception\ParseException;
 use Bolt\Common\Json;
 use Bolt\Helpers\Str;
-use Cocur\Slugify\Slugify;
+use Cocur\Slugify\SlugifyInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -17,16 +17,16 @@ class TextRuntime
 {
     /** @var LoggerInterface */
     private $systemLogger;
-    /** @var Slugify */
+    /** @var SlugifyInterface */
     private $slugify;
 
     /**
      * Constructor.
      *
-     * @param LoggerInterface $systemLogger
-     * @param Slugify         $slugify
+     * @param LoggerInterface  $systemLogger
+     * @param SlugifyInterface $slugify
      */
-    public function __construct(LoggerInterface $systemLogger, Slugify $slugify)
+    public function __construct(LoggerInterface $systemLogger, SlugifyInterface $slugify)
     {
         $this->systemLogger = $systemLogger;
         $this->slugify = $slugify;
