@@ -42,4 +42,14 @@ trait ContentTypeTrait
 
         return $field['type'];
     }
+
+    public function next($field, $where)
+    {
+        return $this->app['twig.runtime.bolt_record']->next($this, $field, $where);
+    }
+
+    public function previous($field, $where)
+    {
+        return $this->app['twig.runtime.bolt_record']->previous($this, $field, $where);
+    }
 }

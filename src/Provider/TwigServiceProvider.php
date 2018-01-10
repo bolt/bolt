@@ -65,7 +65,8 @@ class TwigServiceProvider implements ServiceProviderInterface
                 $app['pager'],
                 $app['filesystem']->getDir('theme://' . $app['config']->get('theme/template_directory')),
                 $app['config']->get('theme/templateselect/templates', []),
-                $app['config']->get('general/compatibility/twig_globals', true)
+                $app['config']->get('general/compatibility/twig_globals', true),
+                $app['query']
             );
         };
         $app['twig.runtime.bolt_routing'] = function ($app) {
