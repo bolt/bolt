@@ -141,7 +141,9 @@ class RoutingRuntimeTest extends BoltUnitTest
         return new RoutingRuntime(
             $app['canonical'],
             $app['request_stack'],
-            $app['locale']
+            $app['locale'],
+            $app['url_generator'],
+            $app['users']
         );
     }
 }
