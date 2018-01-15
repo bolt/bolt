@@ -66,7 +66,7 @@ contentlisting:
 #         _controller: controller.frontend:record
 #         contenttypeslug: page
 #     requirements:
-#         slug: [a-z0-9-_]+
+#         slug: '[a-z0-9-_]+'
 
 
 # Example route with a host requirement
