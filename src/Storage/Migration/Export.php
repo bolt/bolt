@@ -2,9 +2,11 @@
 
 namespace Bolt\Storage\Migration;
 
+use Bolt\Collection\Bag;
 use Bolt\Collection\MutableBag;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Entity\Entity;
+use Bolt\Storage\Entity\Users;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\Query;
@@ -43,15 +45,21 @@ final class Export
      *
      * @param array      $exportContentTypes
      * @param MutableBag $responseBag
+     * @param bool       $includeUsers
+     *
+     * @throws \Bolt\Exception\InvalidRepositoryException
      *
      * @return MutableBag
      */
-    public function run(array $exportContentTypes, MutableBag $responseBag)
+    public function run(array $exportContentTypes, MutableBag $responseBag, $includeUsers = false)
     {
         // Get initial data object
         $exportData = MutableBag::from([]);
         // Add the meta header
         $this->addExportMeta($exportData);
+        if ($includeUsers) {
+            $this->addExportUsers($exportData);
+        }
 
         // Add records for each ContentType
         foreach ($exportContentTypes as $contentTypeName) {
@@ -77,11 +85,36 @@ final class Export
     }
 
     /**
+     * Add the user table to the export.
+     *
+     * @param MutableBag $exportData
+     *
+     * @throws \Bolt\Exception\InvalidRepositoryException
+     */
+    private function addExportUsers(MutableBag $exportData)
+    {
+        $repo = $this->em->getRepository(Users::class);
+        $users = $repo->findAll();
+        $export = [];
+        /** @var Entity $user */
+        foreach ($users as $user) {
+            $export[] = Bag::from($user->toArray())
+                ->filter(function ($k) {
+                    return \in_array($k, ['id', 'username', 'displayname', 'password', 'email', 'enabled', 'roles']);
+                }
+            );
+        }
+        $exportData->set('__users', $export);
+    }
+
+    /**
      * Get the records for a given ContentType.
      *
      * @param string     $contentTypeName
      * @param MutableBag $exportData
      * @param MutableBag $responseBag
+     *
+     * @throws \Bolt\Exception\InvalidRepositoryException
      */
     private function getRecords($contentTypeName, MutableBag $exportData, MutableBag $responseBag)
     {
