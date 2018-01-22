@@ -4,7 +4,7 @@ namespace Bolt\Twig\Runtime;
 
 use Bolt\Users;
 use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 /**
  * Bolt specific Twig functions and filters that provide user functionality.
@@ -15,16 +15,16 @@ class UserRuntime
 {
     /** @var Users */
     private $users;
-    /** @var CsrfTokenManager */
+    /** @var CsrfTokenManagerInterface */
     private $csrfTokenManager;
 
     /**
      * Constructor.
      *
-     * @param Users            $users
-     * @param CsrfTokenManager $csrfTokenManager
+     * @param Users                     $users
+     * @param CsrfTokenManagerInterface $csrfTokenManager
      */
-    public function __construct(Users $users, CsrfTokenManager $csrfTokenManager)
+    public function __construct(Users $users, CsrfTokenManagerInterface $csrfTokenManager)
     {
         $this->users = $users;
         $this->csrfTokenManager = $csrfTokenManager;
