@@ -13,6 +13,7 @@ use Bolt\Translation\Translator as Trans;
 use Bolt\Users;
 use Carbon\Carbon;
 use Cocur\Slugify\Slugify;
+use Cocur\Slugify\SlugifyInterface;
 use Psr\Log\LoggerInterface;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
@@ -44,7 +45,7 @@ class Save
     protected $loggerFlash;
     /** @var UrlGeneratorInterface */
     protected $urlGenerator;
-    /** @var Slugify */
+    /** @var SlugifyInterface */
     private $slugify;
 
     /**
@@ -57,7 +58,7 @@ class Save
      * @param LoggerInterface       $loggerSystem
      * @param FlashLoggerInterface  $loggerFlash
      * @param UrlGeneratorInterface $urlGenerator
-     * @param Slugify               $slugify
+     * @param SlugifyInterface      $slugify
      */
     public function __construct(
         EntityManager $em,
@@ -67,7 +68,7 @@ class Save
         LoggerInterface $loggerSystem,
         FlashLoggerInterface $loggerFlash,
         UrlGeneratorInterface $urlGenerator,
-        Slugify $slugify = null
+        SlugifyInterface $slugify = null
     ) {
         $this->em = $em;
         $this->config = $config;

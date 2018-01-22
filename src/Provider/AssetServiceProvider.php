@@ -55,10 +55,17 @@ class AssetServiceProvider implements ServiceProviderInterface
 
         $app['asset.version_strategy'] = $app->protect(
             function ($nameOrDir) use ($app) {
-                $dir = $nameOrDir instanceof DirectoryInterface ? $nameOrDir :
-                    $app['filesystem']->getFilesystem($nameOrDir)->getDir('');
+                $dir = $nameOrDir instanceof DirectoryInterface
+                    ? $nameOrDir
+                    : $app['filesystem']->getFilesystem($nameOrDir)->getDir('');
+                $mount = $dir->getMountPoint();
+                $manifest = $app['config']->get("general/assets/$mount/json_manifest_path");
 
-                return new Asset\BoltVersionStrategy($dir, $app['asset.salt']);
+                if ($manifest === null) {
+                    return new Asset\BoltVersionStrategy($dir, $app['asset.salt']);
+                }
+
+                return new Asset\JsonManifestVersionStrategy($dir->getFile($manifest));
             }
         );
 
