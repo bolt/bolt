@@ -11,6 +11,8 @@ use Doctrine\DBAL\Schema\TableDiff;
 /**
  * Processor for \Doctrine\DBAL\Schema\TableDiff objects.
  *
+ * @internal
+ *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class DiffUpdater

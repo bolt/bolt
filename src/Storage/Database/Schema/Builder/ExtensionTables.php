@@ -9,6 +9,8 @@ use Doctrine\DBAL\Schema\Table;
 /**
  * Builder for Bolt extension tables.
  *
+ * @internal
+ *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class ExtensionTables extends BaseBuilder
