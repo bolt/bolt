@@ -57,6 +57,7 @@ class DatabaseImport extends BaseCommand
         $responseBag = MutableBag::fromRecursive(['error' => [], 'warning' => [], 'success' => []]);
 
         $importData = [];
+        $importUsers = MutableBag::of();
         foreach ($fileNames as $fileName) {
             /** @var JsonFile|YamlFile $file */
             $file = $filesystem->getFile($fileName);
@@ -78,14 +79,18 @@ class DatabaseImport extends BaseCommand
                 throw new \RuntimeException('Provided data version not supported');
             }
 
+            // Users if exists/supported
+            $users = $bag->remove('__users', Bag::of());
+
             // Merge file data and unset
             $importData = array_merge_recursive($importData, $bag->toArray());
+            $importUsers = $importUsers->merge($users);
             unset($bag);
         }
 
         // Perform the import
         $importData = Bag::fromRecursive($importData);
-        $migration->run($importData, $responseBag, $input->getOption('overwrite'));
+        $migration->run($importData, $responseBag, $input->getOption('overwrite'), $importUsers);
 
         if ($responseBag->get('error')->count() > 0) {
             $this->io->error($responseBag->get('error')->toArray());
