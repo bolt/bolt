@@ -17,6 +17,8 @@ class UserNewType extends AbstractUserType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
+
         $this
             ->addUserName($builder)
             ->addPassword($builder, ['required' => true])
