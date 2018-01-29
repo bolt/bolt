@@ -337,13 +337,12 @@ abstract class AbstractUserType extends AbstractType
                 'roles',
                 ChoiceType::class,
                 [
-                    'label'             => Trans::__('page.edit-users.label.assigned-roles'),
-                    'multiple'          => true,
-                    'required'          => false,
-                    'expanded'          => true,
-                    'choices_as_values' => true,
-                    'choices'           => $options['choices'],
-                    'choice_attr'       => function ($val) use ($options) {
+                    'label'       => Trans::__('page.edit-users.label.assigned-roles'),
+                    'multiple'    => true,
+                    'required'    => false,
+                    'expanded'    => true,
+                    'choices'     => $options['choices'],
+                    'choice_attr' => function ($val) use ($options) {
                         return Bag::from($options['mutable'])->hasItem($val) ? [] : ['disabled' => 'disabled'];
                     },
                 ]
