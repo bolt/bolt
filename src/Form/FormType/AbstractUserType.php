@@ -2,9 +2,7 @@
 
 namespace Bolt\Form\FormType;
 
-use Bolt\Form\FieldType\UserRoleType;
 use Bolt\Collection\Bag;
-use Bolt\Form\Validator\Constraints as UsersAssert;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Validator\Constraints as UsersAssert;
