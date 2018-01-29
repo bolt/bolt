@@ -12,6 +12,8 @@ use Psr\Log\LoggerInterface;
 /**
  * Base class for handling table comparison.
  *
+ * @internal
+ *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 abstract class BaseComparator

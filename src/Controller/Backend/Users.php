@@ -5,6 +5,7 @@ namespace Bolt\Controller\Backend;
 use Bolt\AccessControl\Permissions;
 use Bolt\Events\AccessControlEvent;
 use Bolt\Form\FormType;
+use Bolt\Helpers\ListMutator;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -88,9 +89,24 @@ class Users extends BackendBase
         if ($userEntity === false) {
             return $this->redirectToRoute('users');
         }
+        /** @var Permissions $permissions */
+        $permissions = $this->app['permissions'];
+        $availableRoles = array_flip(array_map(
+            function ($role) {
+                return $role['label'];
+            },
+            $permissions->getDefinedRoles()
+        ));
+        $mutableRoles = $permissions->getManipulatableRoles($currentUser->toArray());
 
         $formOptions = [
-            'require_password' => !$userEntity->getId(),
+            'password' => [
+                'required' => !$userEntity->getId()
+            ],
+            'roles'    => [
+                'choices' => $availableRoles,
+                'mutable' => $mutableRoles,
+            ],
         ];
 
         // Generate the form
@@ -100,7 +116,11 @@ class Users extends BackendBase
         ;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userEntity = $form->getData();
+            /** @var \Bolt\Form\FormType\UserData $data */
+            $data = $form->getData();
+            $roleMutator = new ListMutator($availableRoles, $mutableRoles);
+            $data->applyToEntity($userEntity, $roleMutator);
+
             $saved = $this->getRepository(Entity\Users::class)->save($userEntity);
             if ($saved) {
                 $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $userEntity->getDisplayname()]));
@@ -173,7 +193,9 @@ class Users extends BackendBase
         ;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userEntity = $form->getData();
+            /** @var \Bolt\Form\FormType\UserData $data */
+            $data = $form->getData();
+            $data->applyToEntity($userEntity);
             $saved = $this->getRepository(Entity\Users::class)->save($userEntity);
             if ($saved) {
                 $this->app['logger.system']->info(
@@ -312,7 +334,10 @@ class Users extends BackendBase
         ;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userEntity = $form->getData();
+            /** @var \Bolt\Form\FormType\UserData $data */
+            $data = $form->getData();
+            $data->applyToEntity($userEntity);
+
             $this->app['logger.system']->info(Trans::__('page.edit-users.log.user-updated', ['%user%' => $userEntity->getDisplayname()]), ['event' => 'security']);
             if ($this->getRepository(Entity\Users::class)->save($userEntity)) {
                 $this->flashes()->success(Trans::__('page.edit-users.message.user-saved', ['%user%' => $userEntity->getDisplayname()]));

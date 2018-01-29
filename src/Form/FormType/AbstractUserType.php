@@ -3,6 +3,8 @@
 namespace Bolt\Form\FormType;
 
 use Bolt\Form\FieldType\UserRoleType;
+use Bolt\Collection\Bag;
+use Bolt\Form\Validator\Constraints as UsersAssert;
 use Bolt\Storage\Entity;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Validator\Constraints as UsersAssert;
@@ -17,6 +19,9 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -26,6 +31,40 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 abstract class AbstractUserType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefined(['roles', 'mutable']);
+        $resolver->setDefaults([
+            'data_class' => UserData::class,
+            'empty_data' => null,
+            'mutable'    => [],
+        ]);
+        $resolver->setDefined([
+            'id',
+            'username',
+            'displayname',
+            'email',
+            'password',
+            'enabled',
+            'lastseen',
+            'lastip',
+            'roles',
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $event->setData(UserData::createFromEntity($event->getData()));
+        });
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -70,7 +109,9 @@ abstract class AbstractUserType extends AbstractType
                 ] + $options
             )
         ;
-        $transformer = function ($username) { return mb_strtolower($username); };
+        $transformer = function ($username) {
+            return mb_strtolower($username);
+        };
         $builder->get('username')->addModelTransformer(new CallbackTransformer($transformer, $transformer));
 
         return $this;
@@ -294,7 +335,21 @@ abstract class AbstractUserType extends AbstractType
     protected function addRoles(FormBuilderInterface $builder, array $options = [])
     {
         $builder
-            ->add('roles', UserRoleType::class, $options)
+            ->add(
+                'roles',
+                ChoiceType::class,
+                [
+                    'label'             => Trans::__('page.edit-users.label.assigned-roles'),
+                    'multiple'          => true,
+                    'required'          => false,
+                    'expanded'          => true,
+                    'choices_as_values' => true,
+                    'choices'           => $options['choices'],
+                    'choice_attr'       => function ($val) use ($options) {
+                        return Bag::from($options['mutable'])->hasItem($val) ? [] : ['disabled' => 'disabled'];
+                    },
+                ]
+            )
         ;
 
         return $this;

@@ -29,7 +29,7 @@ Installation
 Detailed instructions can be found in the [official documentation][docs].
 
 **NOTE:** Cloning the repository directly is only supported for development of
-the core of Bolt, see the link above for various supported options to suite
+the core of Bolt, see the link above for various supported options to suit
 your needs.
 
 

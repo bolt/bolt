@@ -4,6 +4,7 @@ namespace Bolt\Form\FieldType;
 
 use Bolt\AccessControl\Permissions;
 use Bolt\AccessControl\Token\Token;
+use Bolt\Common\Deprecated;
 use Bolt\Translation\Translator as Trans;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -12,6 +13,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * User permission/role type.
+ *
+ * @deprecated Since 3.4. Do not use
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
@@ -47,6 +50,8 @@ class UserRoleType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        Deprecated::cls(3.4);
+
         $roles = array_flip(array_map(
             function ($role) {
                 return $role['label'];

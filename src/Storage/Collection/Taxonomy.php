@@ -2,6 +2,7 @@
 
 namespace Bolt\Storage\Collection;
 
+use Bolt\Common\Deprecated;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\MetadataDriver;
 use Closure;
@@ -256,6 +257,8 @@ class Taxonomy extends ArrayCollection
      */
     public function getGroupingTaxonomy()
     {
+        Deprecated::method(3.4, 'getGroupingTaxonomies');
+
         foreach ($this->config->getData() as $taxKey => $taxonomy) {
             if ($taxonomy['behaves_like'] === 'grouping') {
                 return $taxKey;
@@ -263,5 +266,21 @@ class Taxonomy extends ArrayCollection
         }
 
         return null;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGroupingTaxonomies()
+    {
+        $result = [];
+
+        foreach ($this->config->getData() as $taxKey => $taxonomy) {
+            if ($taxonomy['behaves_like'] === 'grouping') {
+                $result[] = $taxKey;
+            }
+        }
+
+        return $result;
     }
 }
