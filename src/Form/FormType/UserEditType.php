@@ -18,13 +18,15 @@ class UserEditType extends AbstractUserType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
+
         $this
             ->addUserName($builder)
-            ->addPassword($builder, ['required' => $options['require_password']])
+            ->addPassword($builder, $options['password'])
             ->addEmail($builder)
             ->addDisplayName($builder)
             ->addEnabled($builder)
-            ->addRoles($builder)
+            ->addRoles($builder, $options['roles'])
             ->addLastSeen($builder)
             ->addLastIp($builder)
             ->addSave($builder, ['label' => Trans::__('page.edit-users.button.save')])
@@ -36,8 +38,10 @@ class UserEditType extends AbstractUserType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver->setDefaults([
-            'require_password' => false,
+            'password' => ['required' => false],
         ]);
     }
 }
