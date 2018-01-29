@@ -24,9 +24,9 @@ final class UserData
     /** @var string */
     private $displayName;
     /** @var \DateTime */
-    protected $lastSeen;
+    private $lastSeen;
     /** @var string */
-    protected $lastIp;
+    private $lastIp;
     /** @var array */
     private $stack = [];
     /** @var bool */
@@ -77,6 +77,7 @@ final class UserData
             $entity->setRoles($mutator($entity->getRoles(), $this->roles));
         }
     }
+
     /**
      * @return int
      */
