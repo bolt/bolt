@@ -41,7 +41,7 @@ class TwigServiceProvider implements ServiceProviderInterface
             return new Twig\Runtime\AdminRuntime($app['config'], $app['stack'], $app['url_generator'], $app);
         };
         $app['twig.runtime.bolt'] = function ($app) {
-            return new Twig\Runtime\BoltRuntime($app['query']);
+            return new Twig\Runtime\BoltRuntime($app['query'], $app['storage.metadata']);
         };
         $app['twig.runtime.bolt_html'] = function ($app) {
             return new Twig\Runtime\HtmlRuntime(
