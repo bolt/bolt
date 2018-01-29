@@ -157,7 +157,7 @@ class Listing
         foreach ($results as $result) {
             $taxGroup = null;
             foreach ($result->getTaxonomy() as $taxonomy) {
-                if ($taxonomy->getTaxonomytype() == $result->getTaxonomy()->getGroupingTaxonomy()) {
+                if (in_array($taxonomy->getTaxonomytype(), $result->getTaxonomy()->getGroupingTaxonomies())) {
                     $taxGroup = $taxonomy->getSlug();
                     $taxOrder = $taxonomy->getSortorder();
                     $resultTaxOrders[$result->getId()] = $taxOrder;

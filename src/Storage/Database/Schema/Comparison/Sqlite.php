@@ -8,6 +8,8 @@ use Doctrine\DBAL\Schema\TableDiff;
 /**
  * Comparison handling for Sqlite platforms.
  *
+ * @internal
+ *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class Sqlite extends BaseComparator

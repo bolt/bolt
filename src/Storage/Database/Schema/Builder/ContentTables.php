@@ -12,6 +12,8 @@ use Doctrine\DBAL\Types\Type;
 /**
  * Builder for Bolt content tables.
  *
+ * @internal
+ *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class ContentTables extends BaseBuilder

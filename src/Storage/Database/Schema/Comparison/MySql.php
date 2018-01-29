@@ -7,6 +7,8 @@ use Doctrine\DBAL\Schema\TableDiff;
 /**
  * Comparison handling for MySQL/MariaDB platforms.
  *
+ * @internal
+ *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class MySql extends BaseComparator
