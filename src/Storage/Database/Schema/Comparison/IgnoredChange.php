@@ -3,7 +3,7 @@
 namespace Bolt\Storage\Database\Schema\Comparison;
 
 /**
- * .
+ * @internal
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */

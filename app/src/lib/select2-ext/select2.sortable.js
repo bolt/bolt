@@ -15,7 +15,7 @@
                 stop: function() {
                     $($(ul).find('.select2-selection__choice').get().reverse()).each(function() {
                         var id = $(this).attr('title');
-                        var option = select.find('option[value="' + id + '"]')[0];
+                        var option = select.find('option:contains("'+id+'")')[0];
                         $(select).prepend(option);
                     });
                 }

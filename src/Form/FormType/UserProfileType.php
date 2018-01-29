@@ -17,6 +17,8 @@ class UserProfileType extends AbstractUserType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
+
         $this
             ->addPassword($builder, ['required' => false])
             ->addEmail($builder)

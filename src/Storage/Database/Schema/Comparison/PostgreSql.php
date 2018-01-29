@@ -7,6 +7,8 @@ use Doctrine\DBAL\Schema\TableDiff;
 /**
  * Comparison handling for PostgreSQL platforms.
  *
+ * @internal
+ *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
 class PostgreSql extends BaseComparator
