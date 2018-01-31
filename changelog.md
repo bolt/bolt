@@ -1,6 +1,23 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.4.7
+----------
+
+Released: 2017-01-31. Notable changes:
+
+ - Added: Add missing `@internal` PHPDoc tags. [#7308](https://github.com/bolt/bolt/pull/7308)
+ - Added: Add missing repeater search to query parser. [#7311](https://github.com/bolt/bolt/pull/7311)
+ - Fixed: Allow grouping for other taxonomies than only the first one that has `behaves_like: grouping`. [#7314](https://github.com/bolt/bolt/pull/7314)
+ - Fixed: Fix reference to concrete `CsrfTokenManager` instead of its interface [#7288](https://github.com/bolt/bolt/pull/7288)
+ - Fixed: Fix reference to concrete `Slugify` instead of its interface [#7290](https://github.com/bolt/bolt/pull/7290)
+ - Fixed: Fix translation parameter name. [#7298](https://github.com/bolt/bolt/pull/7298)
+ - Fixed: Quote value to be interpreted as string literal. [#7297](https://github.com/bolt/bolt/pull/7297)
+ - Fixed: Update `select2sortable` plugin to sort on the full text value of element. [[#7312](https://github.com/bolt/bolt/pull/7312)](https://github.com/bolt/bolt/pull/7312)
+ - Fixed: Use `path` instead of `url` for the Video embed endpoint. [#7299](https://github.com/bolt/bolt/pull/7299)
+ - Fixed: User level is changed when admin-level user edits own password. [#7309](https://github.com/bolt/bolt/pull/7309)
+ - Security: Update handling of user form data. [#7315](https://github.com/bolt/bolt/pull/7315)
+
 Bolt 3.4.6
 ----------
 
