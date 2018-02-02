@@ -102,6 +102,9 @@ class QuerySet extends \ArrayIterator
                     break;
                 }
             }
+            if ($seq === null) {
+                return;
+            }
         }
         $this->lastInsertId = $query->getConnection()->lastInsertId($seq);
     }
