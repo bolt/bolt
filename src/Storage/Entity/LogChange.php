@@ -193,7 +193,7 @@ class LogChange extends Entity
             'imagelist'   => 'fieldList',
             'geolocation' => 'fieldGeolocation',
             'image'       => 'fieldImage',
-            'oembed'      => 'fieldVideo',
+            'embed'       => 'fieldVideo',
             'select'      => 'fieldSelect',
             'video'       => 'fieldVideo',
         ];
@@ -327,7 +327,7 @@ class LogChange extends Entity
     }
 
     /**
-     * Compile changes for oembed field types.
+     * Compile changes for embed field types.
      *
      * @param string $key
      * @param string $value

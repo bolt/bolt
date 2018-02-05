@@ -10,14 +10,14 @@ use Doctrine\DBAL\Types\Type;
  *
  * @author Gawain Lynch <gawain.lynch@gmail.com>
  */
-class OembedType extends FieldTypeBase
+class EmbedType extends FieldTypeBase
 {
     /**
      * {@inheritdoc}
      */
     public function getName()
     {
-        return 'oembed';
+        return 'embed';
     }
 
     /**
