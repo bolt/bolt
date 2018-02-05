@@ -14,7 +14,7 @@ class Manager
     protected $fields = [];
 
     protected $defaults = [
-        'text', 'integer', 'float', 'geolocation', 'imagelist', 'image', 'file', 'filelist', 'oembed', 'video', 'hidden',
+        'text', 'integer', 'float', 'geolocation', 'imagelist', 'image', 'file', 'filelist', 'embed', 'video', 'hidden',
         'html', 'textarea', 'datetime', 'date', 'select', 'templateselect', 'templatefields', 'markdown', 'checkbox',
         'slug', 'repeater', 'block',
     ];

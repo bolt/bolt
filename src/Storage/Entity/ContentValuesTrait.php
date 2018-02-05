@@ -198,7 +198,7 @@ trait ContentValuesTrait
                         $newvalue[$field] = round($this->values[$field]);
                         break;
 
-                    case 'oembed':
+                    case 'embed':
                     case 'select':
                         if (is_array($this->values[$field])) {
                             $newvalue[$field] = Json::dump($this->values[$field]);
