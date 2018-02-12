@@ -5,6 +5,8 @@ namespace Bolt\Logger\Handler;
 use Bolt\Common\Json;
 use Bolt\Exception\StorageException;
 use Bolt\Legacy\Content;
+use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
+use Carbon\Carbon;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 use Silex\Application;
@@ -150,9 +152,7 @@ class RecordChangeHandler extends AbstractProcessingHandler
                 $diff = $this->diff($context['old'], $context['new']);
                 foreach ($diff as $item) {
                     list($k, $old, $new) = $item;
-                    if (isset($context['new'][$k])) {
-                        $data[$k] = [$old, $new];
-                    }
+                    $data[$k] = [$old, $new];
                 }
                 break;
             case 'INSERT':
@@ -242,11 +242,84 @@ class RecordChangeHandler extends AbstractProcessingHandler
             } else {
                 $r = $b[$k];
             }
-            if ($l != $r) {
+
+            // If the values are strings, compare them by (naievely) ignoring whitespace
+            if (is_string($l) && is_string($r)) {
+                if (preg_replace('/\s+/', '', $l) != preg_replace('/\s+/', '', $r)) {
+                    $result[] = [$k, $l, $r];
+                }
+            } elseif ($l instanceof Carbon) {
+                if ($diff = $this->diffCarbon($l, $r)) {
+                    $result[] = [$k, $diff[0], $diff[1]];
+                }
+            } elseif ($l instanceof RepeatingFieldCollection) {
+                $diff = $this->diffRepeater($l, $r);
+                foreach ($diff as $key => $values) {
+                    $result[] = [$key, $values[0], $values[1]];
+                }
+            } elseif ($l != $r) {
                 $result[] = [$k, $l, $r];
             }
         }
 
         return $result;
     }
+
+    /**
+     * @param Carbon $l
+     * @param Carbon $r
+     *
+     * @return array [left, right][]
+     */
+    private function diffCarbon(Carbon $l, Carbon $r)
+    {
+        $lstring = $l->toDateTimeString();
+        $rstring = $r->toDateTimeString();
+
+        if ($lstring != $rstring) {
+            return [$lstring, $rstring];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @param Carbon $l
+     * @param Carbon $r
+     *
+     * @return array [key, left, right][]
+     */
+    private function diffRepeater(RepeatingFieldCollection $l, RepeatingFieldCollection $r)
+    {
+        $lser = $this->serializeRepeater($l);
+        $rser = $this->serializeRepeater($r);
+
+        $combinedkeys = array_keys($lser + $rser);
+
+        $result = [];
+
+        foreach ($combinedkeys as $key) {
+            $lvalue = isset($lser[$key]) ? $lser[$key] : '';
+            $rvalue = isset($rser[$key]) ? $rser[$key] : '';
+
+            $result[$key] = [$lvalue, $rvalue];
+        }
+
+        return $result;
+    }
+
+    private function serializeRepeater(RepeatingFieldCollection $repeatergroup)
+    {
+        $result = [];
+
+        foreach ($repeatergroup as $repeater) {
+            foreach ($repeater as $field) {
+                $key = $field['name'] . '_' . $field['grouping'] . '_' .  $field['fieldname'];
+                $result[$key] = $field['value'];
+            }
+        }
+
+        return $result;
+    }
+
 }
