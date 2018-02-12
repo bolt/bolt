@@ -1,6 +1,16 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.4.8
+----------
+
+Released: 2017-02-15. Notable changes:
+
+ - Fixed: Add return early for Postgres sequence look up failures. [#7321](https://github.com/bolt/bolt/pull/7321)
+ - Fixed: Fix for reset of WHERE conditions in times queries. [#7326](https://github.com/bolt/bolt/pull/7326)
+ - Fixed: Remove outdated cookie clearing logic. Fixes redirect-loop on expired sessions. [#7333](https://github.com/bolt/bolt/pull/7333)
+ - Fixed: Update link to "View on site" after save. [#7340](https://github.com/bolt/bolt/pull/7340)
+
 Bolt 3.4.7
 ----------
 
