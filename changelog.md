@@ -14,7 +14,7 @@ Released: 2017-02-15. Notable changes:
 Bolt 3.4.7
 ----------
 
-Released: 2017-01-31. Notable changes:
+Released: 2018-01-31. Notable changes:
 
  - Added: Add missing `@internal` PHPDoc tags. [#7308](https://github.com/bolt/bolt/pull/7308)
  - Added: Add missing repeater search to query parser. [#7311](https://github.com/bolt/bolt/pull/7311)
@@ -31,7 +31,7 @@ Released: 2017-01-31. Notable changes:
 Bolt 3.4.6
 ----------
 
-Released: 2017-01-05. Notable changes:
+Released: 2018-01-05. Notable changes:
 
  - Change: `BoltRequirements` DI and pass in `PathResolver`. [#7285](https://github.com/bolt/bolt/pull/7285)
  - Change: Change Carbon upstream to `CarbonDate/Carbon`, because original seems abandoned. [#7273](https://github.com/bolt/bolt/pull/7273)
