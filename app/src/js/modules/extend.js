@@ -56,7 +56,9 @@
                     '%ERROR_LOCATION%': ''
                 }
             );
+            /* eslint-disable no-console */
             console.log(data);
+            /* eslint-enable no-console */
         } else if (errObj.error.type === 'Bolt\\Exception\\PackageManagerException') {
             // Clean up Composer messages.
             msg = errObj.error.message.replace(/(<http)/g, '<a href="http').replace(/(\w+>)/g, '">this link<\/a>');
