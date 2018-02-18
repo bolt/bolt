@@ -70,6 +70,7 @@ class NutServiceProvider implements ServiceProviderInterface
                     new Nut\UserResetPassword(),
                     new Nut\UserRoleAdd(),
                     new Nut\UserRoleRemove(),
+                    new Nut\UsersList(),
                     new Nut\DebugEvents(),
                     new Nut\DebugServiceProviders(),
                     new Nut\DebugRouter(),
