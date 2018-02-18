@@ -5,7 +5,6 @@ namespace Bolt\Tests\Controller\Backend;
 use Bolt\Common\Json;
 use Bolt\Storage\Entity;
 use Bolt\Tests\Controller\ControllerUnitTest;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -172,10 +171,6 @@ class RecordsTest extends ControllerUnitTest
         // Save a test record
         $response = $this->controller()->edit($this->getRequest(), 'showcases', null);
         $this->assertInstanceOf(RedirectResponse::class, $response);
-        $parts = explode('/', $response->getTargetUrl());
-        $newId = array_pop($parts);
-
-        $response = $this->controller()->edit($this->getRequest(), 'showcases', $newId);
         $this->assertEquals('/bolt/overview/showcases', $response->getTargetUrl());
     }
 
@@ -203,12 +198,6 @@ class RecordsTest extends ControllerUnitTest
 
         // Save a test record
         $response = $this->controller()->edit($request, 'pages', null);
-        $this->assertInstanceOf(RedirectResponse::class, $response);
-        $parts = explode('/', $response->getTargetUrl());
-        $newId = array_pop($parts);
-
-        $response = $this->controller()->edit($request, 'pages', $newId);
-        $this->assertInstanceOf(JsonResponse::class, $response);
 
         $returned = Json::parse($response->getContent());
         $this->assertEquals('Koala Country', $returned['title']);
