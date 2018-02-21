@@ -331,7 +331,7 @@ class ChoiceTest extends TestCase
     }
 
     /**
-     * @return Content[]
+     * @return QueryResultset
      */
     private function getEntities()
     {
