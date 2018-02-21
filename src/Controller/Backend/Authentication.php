@@ -32,9 +32,6 @@ class Authentication extends BackendBase
             ->bind('login')
             ->after(function (Request $request, Response $response) {
                 $response->setVary('Cookies', false)->setMaxAge(0)->setPrivate();
-                if ($response->isRedirection()) {
-                    $response->headers->clearCookie($this->app['token.authentication.name']);
-                }
             })
         ;
 

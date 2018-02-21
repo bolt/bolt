@@ -7,6 +7,10 @@ use Bolt\Exception\FieldConfigurationException;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Field\Collection\RepeatingFieldCollection;
 use Bolt\Storage\Mapping\ClassMetadata;
+use Bolt\Storage\Query\Filter;
+use Bolt\Storage\Query\QueryInterface;
+use Bolt\Storage\Query\QueryParameterParser;
+use Bolt\Storage\Query\SelectQuery;
 use Bolt\Storage\QuerySet;
 use Bolt\Storage\Repository\FieldValueRepository;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -21,8 +25,92 @@ use Doctrine\DBAL\Types\Type;
 class RepeaterType extends FieldTypeBase
 {
     /**
-     * For repeating fields, the load method adds extra joins and selects to the query that
-     * fetches the related records from the field and field value tables in the same query as the content fetch.
+     * Repeater fields can allow filters on the value of a sub-field
+     *
+     * For example the following queries:
+     *     'repeatfield', {'repeatstatus=1'}
+     *     'repeatfield', {'repeattitle=%Test%'}.
+     *
+     * Because the search is actually on the join table, we replace the
+     * expression to filter the join side rather than on the main side.
+     *
+     * @param QueryInterface $query
+     * @param ClassMetadata  $metadata
+     *
+     * @return QueryBuilder|null
+     */
+    public function query(QueryInterface $query, ClassMetadata $metadata)
+    {
+        $field = $this->mapping['fieldname'];
+
+        /** @var SelectQuery $query */
+        foreach ($query->getFilters() as $filter) {
+            /** @var Filter $filter */
+            if ($filter->getKey() == $field) {
+                $this->rewriteQueryFilterParameters($filter, $query, $field);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * This method does an in-place modification of a generic ContentType.field
+     * query to the format actually used in the raw SQL. For instance a simple
+     * query might say `entries.repeater = 'title=%Test%'` but now we are in
+     * the context of entries the actual SQL fragment needs to do a sub-select
+     * on the bolt_field_value table and only return the content_ids where this
+     * query matches so this method rewrites the SQL fragment just before the
+     * query gets sent.
+     *
+     * @param Filter      $filter
+     * @param SelectQuery $query
+     * @param string      $field
+     */
+    protected function rewriteQueryFilterParameters(Filter $filter, SelectQuery $query, $field)
+    {
+        $boltName = $query->getContentType();
+
+        $newExpression = $this->em->createExpressionBuilder();
+        $count = 0;
+        foreach ($query->getWhereParametersFor($field) as $paramKey => $paramValue) {
+            $parameterParts = explode('_', $paramKey);
+            array_pop($parameterParts);
+            array_shift($parameterParts);
+            $subkey = join('_', $parameterParts);
+
+            $parser = new QueryParameterParser($newExpression);
+            $parsed = $parser->parseValue($paramValue);
+            $placeholder = $paramKey;
+            $q = $this->em->createQueryBuilder();
+            $q->addSelect('content_id')
+                ->from($this->mapping['tables']['field_value'], 'f')
+                ->andWhere("f.content_id = _$boltName.id")
+                ->andWhere("f.contenttype = '$boltName'")
+                ->andWhere("f.name = '$field'")
+                ->andWhere("f.fieldname = '" . $subkey . "'")
+                ->andWhere(
+                    $q->expr()
+                        ->orX()
+                        ->add(
+                            $q->expr()->{$parsed['operator']}('f.value_text', ':' . $placeholder)
+                        )
+                        ->add(
+                            $q->expr()->{$parsed['operator']}('f.value_string', ':' . $placeholder)
+                        )
+                );
+            $filter->setParameter($placeholder, $parsed['value']);
+            $count++;
+        }
+        $comp = $newExpression->andX($newExpression->in('_' . $boltName . '.id', $q->getSQL()));
+        $filter->setKey('_' . $boltName . '.id');
+        $filter->setExpression($comp);
+    }
+
+    /**
+     * For repeating fields, the load method adds extra joins and selects to
+     * the query that fetches the related records from the field and field
+     * value tables in the same query as the content fetch.
      *
      * @param QueryBuilder  $query
      * @param ClassMetadata $metadata
