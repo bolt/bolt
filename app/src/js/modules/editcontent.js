@@ -408,7 +408,7 @@
                             .removeClass('fa-flag fa-spin fa-spinner fa-exclamation-triangle')
                             .addClass('fa-check');
 
-                        // Update anything changed by POST_SAVE handlers
+                        // Update anything changed by POST_SAVE handlers, as well as the 'view saved version on site' link
                         if ($.type(data) === 'object') {
                             $.each(data, function (index, item) {
 
@@ -446,6 +446,12 @@
                                         );
                                     }
                                 }
+                            });
+
+                            // Update the "View saved version on site" link.
+                            $("a[data-href-placeholder]").each(function () {
+                                var link = $(this).data('href-placeholder').replace('__replaceme', data['slug']);
+                                $(this).attr('href', link);
                             });
                         }
                         // Update dates and times from new values

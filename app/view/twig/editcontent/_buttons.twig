@@ -57,7 +57,8 @@
                     </button>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a href="{{ context.content.link }}" target="_blank">
+                            {% set placeholder = path('contentlink', {'contenttypeslug': context.contenttype.singular_slug, 'slug': '__replaceme'}) %}
+                            <a href="{{ context.content.link }}" data-href-placeholder="{{ placeholder }}" target="_blank">
                                 <i class="fa fa-external-link-square"> </i>{{ __('View (saved version) on site') }}
                             </a>
                         </li>

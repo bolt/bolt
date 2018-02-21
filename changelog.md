@@ -5,11 +5,37 @@ Bolt 3.5-dev
 -----------
 
 -
+Bolt 3.4.8
+----------
+
+Released: 2018-02-15. Notable changes:
+
+ - Fixed: Add return early for Postgres sequence look up failures. [#7321](https://github.com/bolt/bolt/pull/7321)
+ - Fixed: Fix for reset of WHERE conditions in times queries. [#7326](https://github.com/bolt/bolt/pull/7326)
+ - Fixed: Remove outdated cookie clearing logic. Fixes redirect-loop on expired sessions. [#7333](https://github.com/bolt/bolt/pull/7333)
+ - Fixed: Update link to "View on site" after save. [#7340](https://github.com/bolt/bolt/pull/7340)
+
+Bolt 3.4.7
+----------
+
+Released: 2018-01-31. Notable changes:
+
+ - Added: Add missing `@internal` PHPDoc tags. [#7308](https://github.com/bolt/bolt/pull/7308)
+ - Added: Add missing repeater search to query parser. [#7311](https://github.com/bolt/bolt/pull/7311)
+ - Fixed: Allow grouping for other taxonomies than only the first one that has `behaves_like: grouping`. [#7314](https://github.com/bolt/bolt/pull/7314)
+ - Fixed: Fix reference to concrete `CsrfTokenManager` instead of its interface [#7288](https://github.com/bolt/bolt/pull/7288)
+ - Fixed: Fix reference to concrete `Slugify` instead of its interface [#7290](https://github.com/bolt/bolt/pull/7290)
+ - Fixed: Fix translation parameter name. [#7298](https://github.com/bolt/bolt/pull/7298)
+ - Fixed: Quote value to be interpreted as string literal. [#7297](https://github.com/bolt/bolt/pull/7297)
+ - Fixed: Update `select2sortable` plugin to sort on the full text value of element. [[#7312](https://github.com/bolt/bolt/pull/7312)](https://github.com/bolt/bolt/pull/7312)
+ - Fixed: Use `path` instead of `url` for the Video embed endpoint. [#7299](https://github.com/bolt/bolt/pull/7299)
+ - Fixed: User level is changed when admin-level user edits own password. [#7309](https://github.com/bolt/bolt/pull/7309)
+ - Security: Update handling of user form data. [#7315](https://github.com/bolt/bolt/pull/7315)
 
 Bolt 3.4.6
 ----------
 
-Released: 2017-01-05. Notable changes:
+Released: 2018-01-05. Notable changes:
 
  - Change: `BoltRequirements` DI and pass in `PathResolver`. [#7285](https://github.com/bolt/bolt/pull/7285)
  - Change: Change Carbon upstream to `CarbonDate/Carbon`, because original seems abandoned. [#7273](https://github.com/bolt/bolt/pull/7273)

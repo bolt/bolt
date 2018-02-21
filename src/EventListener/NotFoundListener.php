@@ -11,6 +11,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -79,6 +80,9 @@ class NotFoundListener implements EventSubscriberInterface
 
         $content = $this->storage->getContent($this->notFoundPage, ['returnsingle' => true]);
         if (!$content instanceof Content || empty($content->id)) {
+            $msg = sprintf('No page could be shown, because the "notfound" setting "%s" in config.yml or theme.yml is not valid.', $this->notFoundPage);
+            $event->setException(new NotFoundHttpException($msg, $e));
+
             return;
         }
 

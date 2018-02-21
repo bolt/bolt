@@ -105,9 +105,14 @@ class QueryParameterParser
      * @param ExpressionBuilder $expr
      *
      * @throws QueryParseException
+     *
+     * @return null
      */
     public function incorrectQueryHandler($key, $value, $expr)
     {
+        if (!is_string($value)) {
+            return null;
+        }
         if (strpos($value, '&&') && strpos($value, '||')) {
             throw new QueryParseException('Mixed && and || operators are not supported', 1);
         }
@@ -180,6 +185,9 @@ class QueryParameterParser
      */
     public function multipleValueHandler($key, $value, $expr)
     {
+        if (!is_string($value)) {
+            return null;
+        }
         if (strpos($value, '&&') === false && strpos($value, '||') === false) {
             return null;
         }
@@ -220,23 +228,43 @@ class QueryParameterParser
      * The default handler is the last to be run and handler simple value parsing.
      *
      * @param string            $key
-     * @param string            $value
+     * @param string|array      $value
      * @param ExpressionBuilder $expr
      *
      * @return Filter
      */
     public function defaultFilterHandler($key, $value, $expr)
     {
-        $val = $this->parseValue($value);
-        $placeholder = $key . '_1';
-        $exprMethod = $val['operator'];
-
         $filter = new Filter();
         $filter->setKey($key);
-        $filter->setExpression($expr->andX($expr->$exprMethod($this->alias . $key, ':' . $placeholder)));
-        $filter->setParameters([$placeholder => $val['value']]);
 
-        return $filter;
+        if (is_array($value)) {
+            $count = 1;
+
+            $composite = $expr->andX();
+
+            foreach ($value as $paramName => $valueItem) {
+                $val = $this->parseValue($valueItem);
+                $placeholder = sprintf('%s_%s_%s', $key, $paramName, $count);
+                $exprMethod = $val['operator'];
+                $composite->add($expr->$exprMethod($this->alias . $key, ':' . $placeholder));
+                $filter->setParameter($placeholder, $val['value']);
+
+                $count ++;
+            }
+            $filter->setExpression($composite);
+
+            return $filter;
+        } else {
+            $val = $this->parseValue($value);
+            $placeholder = $key . '_1';
+            $exprMethod = $val['operator'];
+
+            $filter->setExpression($expr->andX($expr->$exprMethod($this->alias . $key, ':' . $placeholder)));
+            $filter->setParameters([$placeholder => $val['value']]);
+
+            return $filter;
+        }
     }
 
     /**
