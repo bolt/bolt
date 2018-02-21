@@ -6,6 +6,7 @@ use Bolt\Form\Resolver\Choice;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\Query\Query;
+use Bolt\Storage\Query\QueryResultset;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
@@ -334,12 +335,17 @@ class ChoiceTest extends TestCase
      */
     private function getEntities()
     {
-        return [
+        $set = new QueryResultset();
+
+        $results = [
             new Content(['id' => 10, 'field_1' => 'Foo Magoo', 'field_2' => 'Magoo Foo']),
             new Content(['id' => 22, 'field_1' => 'Iron Bar', 'field_2' => 'Bar Iron']),
             new Content(['id' => 33, 'field_1' => 'Kenny Koala', 'field_2' => 'Koala Kenny']),
             new Content(['id' => 42, 'field_1' => 'Drop Bear', 'field_2' => 'Danger Danger']),
         ];
+        $set->add($results, 'pages');
+
+        return $set;
     }
 
     /**
