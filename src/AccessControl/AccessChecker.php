@@ -174,7 +174,7 @@ class AccessChecker
         }
 
         $this->session->remove('authentication');
-        $this->session->migrate(true);
+        $this->session->migrate(true, 0);
 
         return false;
     }
@@ -207,10 +207,11 @@ class AccessChecker
      */
     protected function checkSessionDatabase($authCookie)
     {
+        $userIp = $this->cookieOptions['remoteaddr'] ? $this->getClientIp() : null;
         $userAgent = $this->cookieOptions['browseragent'] ? $this->getClientUserAgent() : null;
 
         try {
-            if (!$authTokenEntity = $this->getRepositoryAuthtoken()->getToken($authCookie, $this->getClientIp(), $userAgent)) {
+            if (!$authTokenEntity = $this->getRepositoryAuthtoken()->getToken($authCookie, $userIp, $userAgent)) {
                 return false;
             }
 
