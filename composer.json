@@ -61,7 +61,7 @@
         "symfony/yaml": "^3.4 || ^4.0",
         "tdammers/htmlmaid": "~0.7",
         "twig/twig": "^2.0",
-        "ua-parser/uap-php": "dev-master@dev"
+        "ua-parser/uap-php": "^3.5"
     },
     "require-dev": {
         "bolt/codingstyle": "^2.0@dev",
