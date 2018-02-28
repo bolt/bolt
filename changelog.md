@@ -7,7 +7,7 @@ Bolt 3.4.9
 Released: 2018-03-01. Notable changes:
 
  - Added: Nut command to list all users. [#7348](https://github.com/bolt/bolt/pull/7348)
- - Change: Bump version of `paragonie/random_compat` to `^2.0`. [#7359](https://github.com/bolt/bolt/pull/7359)
+ - Change: Remove v1 version-lock on `paragonie/random_compat`. [#7359](https://github.com/bolt/bolt/pull/7359)
  - Change: Update exception handling in NotFoundListener. [#7346](https://github.com/bolt/bolt/pull/7346)
  - Fixed: Be consistent with session & IP address handling. Fixes IP address still used with `cookies_use_remoteaddr: false`. [#7356](https://github.com/bolt/bolt/pull/7356) [#7355](https://github.com/bolt/bolt/pull/7355)
  - Fixed: Correct redirect after saving "new" record. [#7349](https://github.com/bolt/bolt/pull/7349)
