@@ -71,7 +71,7 @@ ansi-styles@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-2.2.1.tgz#b432dd3358b634cf75e1e4664368240533c1ddbe"
 
-ansi-styles@^3.1.0:
+ansi-styles@^3.1.0, ansi-styles@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.0.tgz#c159b8d5be0f9e5a6f346dab94f16ce022161b88"
   dependencies:
@@ -175,15 +175,15 @@ autolinker@~0.15.0:
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/autolinker/-/autolinker-0.15.3.tgz#342417d8f2f3461b14cf09088d5edf8791dc9832"
 
-autoprefixer@~7.2.4:
-  version "7.2.4"
-  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-7.2.4.tgz#29b367c03876a29bfd3721260d945e3545666c8d"
+autoprefixer@~8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-8.0.0.tgz#c19e480f061013127c373df0b01cf46919943f74"
   dependencies:
-    browserslist "^2.10.2"
-    caniuse-lite "^1.0.30000784"
+    browserslist "^3.0.0"
+    caniuse-lite "^1.0.30000808"
     normalize-range "^0.1.2"
     num2fraction "^1.2.2"
-    postcss "^6.0.15"
+    postcss "^6.0.17"
     postcss-value-parser "^3.2.3"
 
 aws-sign2@~0.6.0:
@@ -254,9 +254,9 @@ blueimp-canvas-to-blob@3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.5.0.tgz#5679ac32f6a2835821f0c3ad661719ff85a9236b"
 
-blueimp-file-upload@9.19.2:
-  version "9.19.2"
-  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.19.2.tgz#323ae462a3927cc307ab279fab6c83bd51fd4f1c"
+blueimp-file-upload@9.21.0:
+  version "9.21.0"
+  resolved "https://registry.yarnpkg.com/blueimp-file-upload/-/blueimp-file-upload-9.21.0.tgz#bf7bfc3e28970e8be0f8789f68026e0dca98f6e0"
   optionalDependencies:
     blueimp-canvas-to-blob "3.5.0"
     blueimp-load-image "2.12.2"
@@ -368,12 +368,12 @@ browserify-zlib@^0.1.4:
   dependencies:
     pako "~0.2.0"
 
-browserslist@^2.10.2:
-  version "2.11.0"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-2.11.0.tgz#50350d6873a82ebe0f3ae5483658c571ae5f9d7d"
+browserslist@^3.0.0:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-3.1.1.tgz#d380fc048bc3a33e60fb87dc135110ebaaa6320a"
   dependencies:
-    caniuse-lite "^1.0.30000784"
-    electron-to-chromium "^1.3.30"
+    caniuse-lite "^1.0.30000809"
+    electron-to-chromium "^1.3.33"
 
 buffer-crc32@~0.2.3:
   version "0.2.13"
@@ -428,9 +428,9 @@ camelcase@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-3.0.0.tgz#32fc4b9fcdaf845fcdf7e73bb97cac2261f0ab0a"
 
-caniuse-lite@^1.0.30000784:
-  version "1.0.30000787"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000787.tgz#a76c4fa1d6ac00640447ec83c1e7c6b33dd615c5"
+caniuse-lite@^1.0.30000808, caniuse-lite@^1.0.30000809:
+  version "1.0.30000810"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000810.tgz#47585fffce0e9f3593a6feea4673b945424351d9"
 
 caseless@~0.11.0:
   version "0.11.0"
@@ -472,6 +472,14 @@ chalk@^2.1.0, chalk@^2.3.0:
     ansi-styles "^3.1.0"
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
+
+chalk@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.3.1.tgz#523fe2678aec7b04e8041909292fe8b17059b796"
+  dependencies:
+    ansi-styles "^3.2.0"
+    escape-string-regexp "^1.0.5"
+    supports-color "^5.2.0"
 
 cheerio@^0.19.0:
   version "0.19.0"
@@ -517,9 +525,9 @@ coffee-script@^1.10.0, coffee-script@^1.9.0:
   version "1.12.7"
   resolved "https://registry.yarnpkg.com/coffee-script/-/coffee-script-1.12.7.tgz#c05dae0cb79591d05b3070a8433a98c9a89ccc53"
 
-coffee-script@~1.10.0:
+coffeescript@~1.10.0:
   version "1.10.0"
-  resolved "https://registry.yarnpkg.com/coffee-script/-/coffee-script-1.10.0.tgz#12938bcf9be1948fa006f92e0c4c9e81705108c0"
+  resolved "https://registry.yarnpkg.com/coffeescript/-/coffeescript-1.10.0.tgz#e7aa8301917ef621b35d8a39f348dcdd1db7e33e"
 
 color-convert@^1.9.0:
   version "1.9.1"
@@ -541,9 +549,13 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.9.0, commander@~2.12.1:
-  version "2.12.2"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.12.2.tgz#0f5946c427ed9ec0d91a46bb9def53e54650e555"
+commander@^2.9.0:
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
+
+commander@~2.14.1:
+  version "2.14.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.14.1.tgz#2235123e37af8ca3c65df45b026dbd357b01b9aa"
 
 commander@~2.8.1:
   version "2.8.1"
@@ -649,13 +661,13 @@ css-what@1.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/css-what/-/css-what-1.0.0.tgz#d7cc2df45180666f99d2b14462639469e00f736c"
 
-csswring@~6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/csswring/-/csswring-6.0.2.tgz#3c2ede6a0570613bec6d0921280de4adf971c868"
+csswring@~6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/csswring/-/csswring-6.0.3.tgz#0bff02451fae33ac70d6379ae13d1cc791b7f96f"
   dependencies:
     minimist "^1.2.0"
-    onecolor "^3.0.4"
-    postcss "^6.0.9"
+    onecolor "^3.0.5"
+    postcss "^6.0.17"
 
 currently-unhandled@^0.4.1:
   version "0.4.1"
@@ -888,15 +900,9 @@ ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
-electron-releases@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/electron-releases/-/electron-releases-2.1.0.tgz#c5614bf811f176ce3c836e368a0625782341fd4e"
-
-electron-to-chromium@^1.3.30:
-  version "1.3.30"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.30.tgz#9666f532a64586651fc56a72513692e820d06a80"
-  dependencies:
-    electron-releases "^2.1.0"
+electron-to-chromium@^1.3.33:
+  version "1.3.34"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.34.tgz#d93498f40391bb0c16a603d8241b9951404157ed"
 
 encodeurl@~1.0.1:
   version "1.0.1"
@@ -1662,11 +1668,11 @@ grunt-remove@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/grunt-remove/-/grunt-remove-0.1.0.tgz#3943b642176dad04a06c0dc5602eb3b3df4fbd4a"
 
-grunt@~1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/grunt/-/grunt-1.0.1.tgz#e8778764e944b18f32bb0f10b9078475c9dfb56b"
+grunt@~1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/grunt/-/grunt-1.0.2.tgz#4e6a5e695b70472fd5304f5fa9e34236836a73bc"
   dependencies:
-    coffee-script "~1.10.0"
+    coffeescript "~1.10.0"
     dateformat "~1.0.12"
     eventemitter2 "~0.4.13"
     exit "~0.1.1"
@@ -1678,7 +1684,7 @@ grunt@~1.0.1:
     grunt-legacy-util "~1.0.0"
     iconv-lite "~0.4.13"
     js-yaml "~3.5.2"
-    minimatch "~3.0.0"
+    minimatch "~3.0.2"
     nopt "~3.0.6"
     path-is-absolute "~1.0.0"
     rimraf "~2.2.8"
@@ -1719,6 +1725,10 @@ has-ansi@^2.0.0:
 has-flag@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-2.0.0.tgz#e8207af1cc7b30d446cc70b734b5e8be18f88d51"
+
+has-flag@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"
 
 has-symbol-support-x@^1.4.1:
   version "1.4.1"
@@ -2387,7 +2397,7 @@ mimic-response@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-1.0.0.tgz#df3d3652a73fded6b9b0b24146e6fd052353458e"
 
-"minimatch@2 || 3", minimatch@^3.0.0, minimatch@^3.0.2, minimatch@^3.0.4, minimatch@~3.0.0, minimatch@~3.0.2:
+"minimatch@2 || 3", minimatch@^3.0.0, minimatch@^3.0.2, minimatch@^3.0.4, minimatch@~3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
   dependencies:
@@ -2614,7 +2624,7 @@ once@^1.3.0, once@^1.3.3, once@^1.4.0:
   dependencies:
     wrappy "1"
 
-onecolor@^3.0.4:
+onecolor@^3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/onecolor/-/onecolor-3.0.5.tgz#36eff32201379efdf1180fb445e51a8e2425f9f6"
 
@@ -2773,21 +2783,21 @@ postcss-value-parser@^3.2.3:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-3.3.0.tgz#87f38f9f18f774a4ab4c8a232f5c5ce8872a9d15"
 
-postcss@^6.0.0, postcss@^6.0.11, postcss@^6.0.9:
-  version "6.0.14"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.14.tgz#5534c72114739e75d0afcf017db853099f562885"
+postcss@^6.0.0, postcss@^6.0.11:
+  version "6.0.16"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.16.tgz#112e2fe2a6d2109be0957687243170ea5589e146"
   dependencies:
     chalk "^2.3.0"
     source-map "^0.6.1"
     supports-color "^5.1.0"
 
-postcss@^6.0.15:
-  version "6.0.15"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.15.tgz#f460cd6269fede0d1bf6defff0b934a9845d974d"
+postcss@^6.0.17:
+  version "6.0.19"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.19.tgz#76a78386f670b9d9494a655bf23ac012effd1555"
   dependencies:
-    chalk "^2.3.0"
+    chalk "^2.3.1"
     source-map "^0.6.1"
-    supports-color "^5.1.0"
+    supports-color "^5.2.0"
 
 prelude-ls@~1.1.2:
   version "1.1.2"
@@ -3383,6 +3393,12 @@ supports-color@^5.1.0:
   dependencies:
     has-flag "^2.0.0"
 
+supports-color@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.2.0.tgz#b0d5333b1184dd3666cbe5aa0b45c5ac7ac17a4a"
+  dependencies:
+    has-flag "^3.0.0"
+
 table@^3.7.8:
   version "3.8.3"
   resolved "https://registry.yarnpkg.com/table/-/table-3.8.3.tgz#2bbc542f0fda9861a755d3947fefd8b3f513855f"
@@ -3511,10 +3527,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
 uglify-js@~3.3.0:
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.3.4.tgz#d8ebb76f201a3798ac2f0b6519642fcca4a99834"
+  version "3.3.12"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.3.12.tgz#efd87c16a1f4c674a8a5ede571001ef634dcc883"
   dependencies:
-    commander "~2.12.1"
+    commander "~2.14.1"
     source-map "~0.6.1"
 
 uid-number@^0.0.6:

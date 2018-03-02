@@ -12,7 +12,7 @@
         "npm": ">=3.0.0"
     },
     "dependencies": {
-        "blueimp-file-upload": "9.19.2",
+        "blueimp-file-upload": "9.21.0",
         "bootbox": "~4.4.0",
         "bootstrap-sass": "~3.3.7",
         "dropzone": "^5.1.1",
@@ -26,11 +26,11 @@
         "select2": "4.0.6-rc.1"
     },
     "devDependencies": {
-        "autoprefixer": "~7.2.4",
+        "autoprefixer": "~8.0.0",
         "css-mqpacker": "~6.0.1",
-        "csswring": "~6.0.2",
+        "csswring": "~6.0.3",
         "deep-extend": "~0.5.0",
-        "grunt": "~1.0.1",
+        "grunt": "~1.0.2",
         "grunt-bom-removal": "~1.0.1",
         "grunt-bootlint": "~0.10.2",
         "grunt-contrib-concat": "~1.0.1",

@@ -10,6 +10,20 @@ Bolt 3.5-dev
 -----------
 
 -
+
+Bolt 3.4.9
+----------
+
+Released: 2018-03-01. Notable changes:
+
+ - Added: Nut command to list all users. [#7348](https://github.com/bolt/bolt/pull/7348)
+ - Change: Remove v1 version-lock on `paragonie/random_compat`. [#7359](https://github.com/bolt/bolt/pull/7359)
+ - Change: Update exception handling in NotFoundListener. [#7346](https://github.com/bolt/bolt/pull/7346)
+ - Fixed: Be consistent with session & IP address handling. Fixes IP address still used with `cookies_use_remoteaddr: false`. [#7356](https://github.com/bolt/bolt/pull/7356) [#7355](https://github.com/bolt/bolt/pull/7355)
+ - Fixed: Correct redirect after saving "new" record. [#7349](https://github.com/bolt/bolt/pull/7349)
+ - Fixed: Fix to support multiple contenttypes. Select Field - Using multiple ContentTypes doesn't store `contenttype/id`. [#7339](https://github.com/bolt/bolt/pull/7339) [#7352](https://github.com/bolt/bolt/pull/7352)
+ - Fixed: If there's no route for 'contentlink', don't show the "save on site" button. [#7354](https://github.com/bolt/bolt/pull/7354)
+
 Bolt 3.4.8
 ----------
 

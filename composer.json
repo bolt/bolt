@@ -40,7 +40,6 @@
         "ircmaxell/random-lib": "^1.1",
         "jdorn/sql-formatter": "^1.2",
         "monolog/monolog": "^1.12",
-        "paragonie/random_compat": "^1.4",
         "passwordlib/passwordlib": "^1.0@beta",
         "php": "^5.5.9 || ^7.0",
         "silex/silex": "^1.3",

@@ -50,7 +50,7 @@
                 {% endif %}
 
                 {# Dropdown #}
-                {% if context.content.status == "published" and context.content.link is defined %}
+                {% if context.content.status == "published" and context.content.link is defined and 'contentlink' in config.get('routing')|keys %}
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
