@@ -40,7 +40,7 @@ class QueryParameterParser
 
     public function setupDefaults()
     {
-        $word = "[\p{L]\p{N}_]+";
+        $word = "[\p{L}\p{N}_]+";
 
         // @codingStandardsIgnoreStart
         $this->addValueMatcher("<($word)",                  ['value' => '$1', 'operator' => 'lt']);
