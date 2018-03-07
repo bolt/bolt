@@ -502,7 +502,7 @@
     function initKeyboardShortcuts() {
         if ($('#content_edit_save').is('*')) {
             // Bind ctrl-s and meta-s for saving..
-            $('body, input').bind('keydown.ctrl_s keydown.meta_s', function (event) {
+            $('body, input').bind('keydown', 'ctrl+s meta+s', function (event) {
                 event.preventDefault();
                 watchChanges();
                 $('#content_edit_save').trigger('click');
