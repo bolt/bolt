@@ -176,7 +176,10 @@ class Listing
         if (isset($taxGroup) && $taxGroup !== null) {
             foreach ($grouped as &$group) {
                 usort($group, function ($a, $b) use ($resultTaxOrders) {
-                    return $resultTaxOrders[$a->getId()] - $resultTaxOrders[$b->getId()];
+                    $aOrder = isset($resultTaxOrders[$a->getId()]) ? $resultTaxOrders[$a->getId()] : 0;
+                    $bOrder = isset($resultTaxOrders[$b->getId()]) ? $resultTaxOrders[$b->getId()] : 0;
+
+                    return $aOrder - $bOrder;
                 });
             }
         }
