@@ -208,7 +208,7 @@ class TaxonomyType extends JoinTypeBase
         $group = null;
         $taxData = $this->mapping['data'];
         foreach ($taxonomy as $tax) {
-            if ($taxData['has_sortorder']) {
+            if ($taxData['behaves_like'] === 'grouping') {
                 // Previously we only cared about the last one… so yeah
                 $needle = $tax->getSlug();
                 $index = array_search($needle, array_keys($taxData['options']));
