@@ -25,13 +25,21 @@
 
 {% set modifiable = permissions.create or permissions.edit or permissions.delete or permissions.publish or permissions.depublish %}
 
+{% if content.taxonomy.grouped|default() %}
+    {% set orderbycontenttype = content.taxonomy.grouped|keys|first %}
+    {% set showorder = app.config.get('taxonomy')[orderbycontenttype].has_sortorder %}
+{% else %}
+    {% set showorder = false %}
+{% endif %}
+
 {% set prop = {
 extended:       not compact,
 has_groupname:  content.group.name is defined,
 nextgroup:      new_group|default(false),
 unordered:      global.request.get('order') == '',
 first:          loop.first,
-last:           loop.last
+last:           loop.last,
+showorder:      showorder
 }%}
 
 {% set local = {
@@ -199,7 +207,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                 {% else %}
                     <i class="fa fa-circle status-{{ content.status }} fa-fw"></i> {{ content.datepublish|localedatetime('%x') }}<br>
                 {% endif %}
-                {% if content.sortorder|default() is not empty %}
+                {% if prop.showorder %}
                     <i class="fa fa-align-left fa-fw"></i>
                     <a href="{{ path('editcontent', {'contenttypeslug': content.contenttype.slug, 'id': content.id}) }}#taxonomy" >
                         {{ __('general.phrase.order-colon-sort',{'%sort%': content.sortorder}) }}
