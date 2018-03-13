@@ -101,7 +101,7 @@ class Frontend extends ConfigurableBase
     public function homepage(Request $request)
     {
         $homepage = $this->getOption('theme/homepage') ?: $this->getOption('general/homepage');
-        $listingParameters = $this->getListingParameters($homepage);
+        $listingParameters = $this->getListingParameters($homepage, true);
         $content = $this->getContent($homepage, $listingParameters);
 
         $template = $this->templateChooser()->homepage($content);
@@ -437,10 +437,11 @@ class Frontend extends ConfigurableBase
      * Returns an array of the parameters used in getContent for listing pages.
      *
      * @param string $contentTypeSlug The content type slug
+     * @param bool   $allowViewless   Allow viewless contenttype
      *
      * @return array Parameters to use in getContent
      */
-    private function getListingParameters($contentTypeSlug)
+    private function getListingParameters($contentTypeSlug, $allowViewless = false)
     {
         $contentType = $this->getContentType(current(explode('/', $contentTypeSlug)));
 
@@ -450,7 +451,7 @@ class Frontend extends ConfigurableBase
         }
 
         // If the ContentType is 'viewless', don't show the listing / record page.
-        if ($contentType['viewless']) {
+        if ($contentType['viewless'] && !$allowViewless) {
             $this->abort(Response::HTTP_NOT_FOUND, 'Page ' . $contentType['slug'] . ' not found.');
         }
 
