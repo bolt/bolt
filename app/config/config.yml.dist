@@ -13,17 +13,16 @@ database:
 sitename: A sample site
 payoff: The amazing payoff goes here
 
-# The theme to use. Be sure to copy the {theme_path}/base-2016 folder, and
-# change the name here accordingly.
+# The theme to use.
 #
-# Don't edit the templates in theme/base-2016, because they _will_ get updated
-# in next releases
-theme: base-2016
+# Don't edit the provided templates directly, because they _will_ get updated
+# in next releases. If you wish to modify a default theme, copy its folder, and
+# change the name here accordingly.
+theme: base-2018
 
 # The locale that'll be used by the application. If no locale is set the
 # fallback locale is 'en_GB'. For available options, see:
 # https://docs.bolt.cm/other/locales
-
 #
 # In some cases it may be needed to specify (non-standard) variations of the
 # locale to get everything to work as desired.
@@ -80,7 +79,7 @@ cron_hour: 3
 # Note: If you've changed the filename, and your changes do not show up on
 #       the website, be sure to check for a theme.yml file in your theme's
 #       folder. If a template is set there, it will override the setting here.
-homepage: page/1
+homepage: homepage/1
 homepage_template: index.twig
 
 # The default content for the 404 page. Uses the 'record_template' template by
@@ -436,14 +435,6 @@ hash_strength: 10
 # trustProxies:
 #     - 127.0.0.1
 #     - 10.0.0.0/8
-
-# Theme file path where themes are. They are under /theme in project's root
-# folder by default but can be relocated. This case you should define theme_path
-# accordingly.
-#
-# Make sure the path exists, and be aware that you'll get a new 'theme' folder on any
-# subsequent Bolt update. Changing this setting is not advised.
-# theme_path: theme
 
 # If you want Bolt installation get news through a proxy
 # httpProxy:
