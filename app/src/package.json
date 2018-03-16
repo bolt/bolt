@@ -15,18 +15,18 @@
         "blueimp-file-upload": "9.21.0",
         "bootbox": "~4.4.0",
         "bootstrap-sass": "~3.3.7",
-        "dropzone": "^5.1.1",
+        "dropzone": "^5.4.0",
         "font-awesome": "~4.7.0",
         "jquery": "~2.2.4",
         "jquery-formatdatetime": "~1.1.6",
         "jquery.cookie": "~1.4.1",
         "magnific-popup": "~1.1.0",
-        "modernizr": "~3.5.0",
-        "moment": "~2.20.1",
+        "modernizr": "~3.6.0",
+        "moment": "~2.21.0",
         "select2": "4.0.6-rc.1"
     },
     "devDependencies": {
-        "autoprefixer": "~8.0.0",
+        "autoprefixer": "~8.1.0",
         "css-mqpacker": "~6.0.1",
         "csswring": "~6.0.3",
         "deep-extend": "~0.5.0",
@@ -50,7 +50,7 @@
         "napa": "~3.0.0",
         "node-sass": "~4.7.2",
         "postcss-single-charset": "~2.0.0",
-        "request": "~2.83.0"
+        "request": "~2.85.0"
     },
     "scripts": {
         "start": "grunt",

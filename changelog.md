@@ -1,6 +1,16 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.4.10
+-----------
+
+Released: 2018-03-15. Notable changes:
+
+ - Added: Add unicode word support for searches [#7361](https://github.com/bolt/bolt/pull/7361)
+ - Change: Allow a viewless (singleton) contenttype for `homepage: …` setting [#7372](https://github.com/bolt/bolt/pull/7372)
+ - Fixed: Add check for existing `grouping` taxonomies [#7363](https://github.com/bolt/bolt/pull/7363)
+ - Fixed: Fix display in overview when `has_sortorder: false` [#7371](https://github.com/bolt/bolt/pull/7371)
+
 Bolt 3.4.9
 ----------
 
