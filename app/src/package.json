@@ -50,7 +50,7 @@
         "napa": "~3.0.0",
         "node-sass": "~4.7.2",
         "postcss-single-charset": "~2.0.0",
-        "request": "~2.83.0"
+        "request": "~2.85.0"
     },
     "scripts": {
         "start": "grunt",
