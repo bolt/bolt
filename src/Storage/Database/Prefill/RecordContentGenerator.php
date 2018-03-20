@@ -20,6 +20,8 @@ class RecordContentGenerator
 {
     /** @var ApiClient */
     private $apiClient;
+    /** @var ImageClient */
+    private $imageClient;
     /** @var string */
     private $contentTypeName;
     /** @var ContentRepository */
@@ -35,6 +37,7 @@ class RecordContentGenerator
     private $defaultTitles;
     /** @var array */
     private $createSummary;
+
     /**
      * Constructor.
      *
@@ -48,6 +51,7 @@ class RecordContentGenerator
     public function __construct(
         $contentTypeName,
         ApiClient $apiClient,
+        ImageClient $imageClient,
         ContentRepository $repository,
         FilesystemInterface $filesystem,
         array $taxConfig,
@@ -55,6 +59,7 @@ class RecordContentGenerator
     ) {
         $this->contentTypeName = $contentTypeName;
         $this->apiClient = $apiClient;
+        $this->imageClient = $imageClient;
         $this->repository = $repository;
         $this->filesystem = $filesystem;
         $this->taxConfig = $taxConfig;
@@ -488,7 +493,7 @@ class RecordContentGenerator
     private function fetchPlaceholder($placeholder)
     {
         try {
-            $image = $this->apiClient->getImage($placeholder);
+            $image = $this->imageClient->get($placeholder);
         } catch (RequestException $e) {
             // We couldn't fetch the file, fall back to default behaviour
             return false;
