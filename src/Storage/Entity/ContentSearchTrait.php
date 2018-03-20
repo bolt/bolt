@@ -98,7 +98,8 @@ trait ContentSearchTrait
 
         // Set the searchweights to the configured value, otherwise default to '50' or '100'
         foreach ($this->contenttype['fields'] as $key => $config) {
-            if (in_array($config['type'], $searchableTypes)) {
+            if (in_array($config['type'], $searchableTypes)
+                && (!isset($fieldconfig['searchable']) || $fieldconfig['searchable'] !== false)) {
                 $defaultValue = in_array($key, $slugFields) ? 100 : 50;
                 $fields[$key] = isset($config['searchweight']) ? $config['searchweight'] : $defaultValue;
             }

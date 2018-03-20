@@ -533,7 +533,8 @@ class Storage
         // Build fields 'WHERE'
         $fieldsWhere = [];
         foreach ($fields as $field => $fieldconfig) {
-            if (in_array($fieldconfig['type'], $searchableTypes)) {
+            if (in_array($fieldconfig['type'], $searchableTypes)
+                && (!isset($fieldconfig['searchable']) || $fieldconfig['searchable'] !== false)) {
                 foreach ($query['words'] as $word) {
                     // Build the LIKE, lowering the searched field to cover case-sensitive database systems
                     $fieldsWhere[] = sprintf('LOWER(%s.%s) LIKE LOWER(%s)', $table, $field, $this->app['db']->quote('%' . $word . '%'));
