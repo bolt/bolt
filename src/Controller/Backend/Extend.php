@@ -3,6 +3,7 @@
 namespace Bolt\Controller\Backend;
 
 use Bolt;
+use Bolt\Composer\Satis\PingService;
 use Bolt\Exception\PackageManagerException;
 use Bolt\Extension\ResolvedExtension;
 use Bolt\Filesystem\Exception\FileNotFoundException;
@@ -328,6 +329,11 @@ class Extend extends BackendBase
      */
     public function overview()
     {
+        /** @var PingService $pinger */
+        $pinger = $this->app['extend.ping'];
+        // Ping the extensions server to confirm connection
+        $this->app['extend.online'] = $pinger->ping(true);
+
         try {
             return $this->render('@bolt/extend/extend.twig', $this->getRenderContext());
         } catch (\Exception $e) {
@@ -461,7 +467,7 @@ class Extend extends BackendBase
         );
 
         return [
-            'messages'       => $this->app['extend.manager']->getMessages(),
+            'messages'       => $this->app['extend.ping']->getMessages(),
             'enabled'        => $this->app['extend.enabled'],
             'writeable'      => $this->app['extend.writeable'],
             'online'         => $this->app['extend.online'],

@@ -12,11 +12,7 @@ use Bolt\Filesystem\Handler\File;
 use Bolt\Filesystem\Manager as FilesystemManager;
 use Bolt\Logger\FlashLogger;
 use Composer\Package\CompletePackage;
-use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7;
@@ -87,50 +83,6 @@ class PackageManagerTest extends TestCase
         $app['logger.flash'] = $flashLogger;
 
         new PackageManager($app);
-    }
-
-    public function providerSetupPingExceptions()
-    {
-        $app = new Application();
-        $jsonManager = $this->getMockBuilder(JsonManager::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['update'])
-            ->getMock()
-        ;
-        $jsonManager
-            ->expects($this->any())
-            ->method('update')
-        ;
-        $app['extend.manager.json'] = $jsonManager;
-        $app['extend.writeable'] = true;
-        $app['extend.site'] = 'https://example.com';
-        $request = new Psr7\Request('GET', $app['extend.site']);
-
-        return [
-            [$app, new MockHandler([new ClientException('There was a 400', $request)]), '/^Client error: There was a 400/'],
-            [$app, new MockHandler([new ServerException('There was a 500', $request)]), '/^Extension server returned an error: There was a 500/'],
-            [$app, new MockHandler([new RequestException('DNS down', $request)]), '/^Testing connection to extension server failed: DNS down/'],
-            [$app, new MockHandler([new Exception('Drop bear')]), '/^Generic failure while testing connection to extension server: Drop bear/'],
-        ];
-    }
-
-    /**
-     * @dataProvider providerSetupPingExceptions
-     *
-     * @param Application $app
-     * @param MockHandler $mock
-     * @param string      $regex
-     */
-    public function testSetupPingExceptions($app, $mock, $regex)
-    {
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-        $app['guzzle.client'] = $client;
-
-        $packageManager = new PackageManager($app);
-        $messages = $packageManager->getMessages();
-
-        $this->assertRegExp($regex, $messages[0]);
     }
 
     public function testGetAllPackages()
