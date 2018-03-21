@@ -131,6 +131,11 @@ class YamlHelper extends \Codeception\Module
         ];
 
         $permissions['contenttypes'] = [
+            'homepage'     => [
+                'create'           => ['editor'],
+                'edit'             => ['editor'],
+                'publish'          => ['editor'],
+            ],
             'pages'     => [
                 'create'           => ['editor'],
                 'edit'             => ['editor', 'author'],
@@ -263,7 +268,7 @@ class YamlHelper extends \Codeception\Module
 
     public function getUpdatedTheme()
     {
-        $theme = $this->readYaml('theme/base-2016/theme.yml');
+        $theme = $this->readYaml('theme/base-2018/theme.yml');
 
         /**
          * Disabled as currently unsupported due to problems in test due to

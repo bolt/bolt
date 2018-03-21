@@ -9,7 +9,7 @@
 
 {% block page_title %}
     {% set contenttype = {'%contenttype%': context.contenttype.singular_name} %}
-    {% if context.content.title is not empty %}
+    {% if context.content.title is not empty or context.contenttype.singleton %}
         {{ __('contenttypes.generic.edit', contenttype) }}
     {% else %}
         {{ __('contenttypes.generic.new', contenttype) }}

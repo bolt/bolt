@@ -7,6 +7,7 @@ use Bolt\Legacy;
 use Bolt\Legacy\Content;
 use Bolt\Legacy\Storage;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\Mocks\ImageApiMock;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Doctrine\DBAL\Connection;
 use Symfony\Component\HttpFoundation\Request;
@@ -76,8 +77,8 @@ class StorageTest extends BoltUnitTest
         $this->resetDb();
         $app = $this->getApp();
         $this->addDefaultUser($app);
-        $prefillMock = new LoripsumMock();
-        $this->setService('prefill', $prefillMock);
+        $this->setService('prefill', new LoripsumMock());
+        $this->setService('prefill.image', new ImageApiMock());
 
         $storage = new Storage($app);
         $output = $storage->prefill(['showcases']);
