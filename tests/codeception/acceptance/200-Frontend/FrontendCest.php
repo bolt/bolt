@@ -44,8 +44,8 @@ class FrontendCest
         $I->see('Recent Pages');
         $I->dontSee('Recent Resources');
 
-        $I->see('A Page I Made', 'h1');
-        $I->see('Built with Bolt, tested with Codeception', 'footer');
+        $I->see('Welcome Home (Sanitarium)', 'h2');
+        $I->see('This website is tested with Codeception, built with Bolt and Bulma.', 'footer');
     }
 
     /**
@@ -153,11 +153,10 @@ class FrontendCest
         $I->wantTo("see that menus have 'first' and a correct 'active'.");
 
         $I->amOnPage('/');
-        $I->seeElement('a', ['href' => '/', 'class' => 'first']);
-        $I->seeElement('li', ['class' => 'index-1 menu-text first active']);
+        $I->seeElement('a', ['href' => '/', 'class' => 'navbar-item is-active first']);
 
         $I->amOnPage('/pages');
-        $I->seeElement('li', ['class' => 'index-3 active']);
+        $I->seeElement('a', ['href' => '/pages', 'class' => 'navbar-item is-active ']);
     }
 
     /**

@@ -369,14 +369,12 @@ GRINGALET;
         $handler = $this->getRecordRuntime();
 
         $result = $handler->listTemplates(null);
-        $this->assertArrayHasKey('page.twig', $result);
-        $this->assertArrayHasKey('extrafields.twig', $result);
         $this->assertArrayHasKey('index.twig', $result);
         $this->assertArrayHasKey('listing.twig', $result);
+        $this->assertArrayHasKey('not-found.twig', $result);
+        $this->assertArrayHasKey('page.twig', $result);
         $this->assertArrayHasKey('record.twig', $result);
-        $this->assertArrayHasKey('notfound.twig', $result);
         $this->assertArrayHasKey('search.twig', $result);
-        $this->assertArrayHasKey('styleguide.twig', $result);
     }
 
     public function testListTemplatesAllTwig()
@@ -386,14 +384,12 @@ GRINGALET;
         $handler = $this->getRecordRuntime();
 
         $result = $handler->listTemplates('*.twig');
-        $this->assertArrayHasKey('page.twig', $result);
-        $this->assertArrayHasKey('extrafields.twig', $result);
         $this->assertArrayHasKey('index.twig', $result);
         $this->assertArrayHasKey('listing.twig', $result);
+        $this->assertArrayHasKey('not-found.twig', $result);
+        $this->assertArrayHasKey('page.twig', $result);
         $this->assertArrayHasKey('record.twig', $result);
-        $this->assertArrayHasKey('notfound.twig', $result);
         $this->assertArrayHasKey('search.twig', $result);
-        $this->assertArrayHasKey('styleguide.twig', $result);
     }
 
     public function testListTemplatesLimitedTwig()
@@ -404,7 +400,6 @@ GRINGALET;
 
         $result = $handler->listTemplates('s*.twig');
         $this->assertArrayHasKey('search.twig', $result);
-        $this->assertArrayHasKey('styleguide.twig', $result);
         $this->assertArrayNotHasKey('index.twig', $result);
         $this->assertArrayNotHasKey('listing.twig', $result);
         $this->assertArrayNotHasKey('record.twig', $result);
@@ -416,27 +411,25 @@ GRINGALET;
         $app['config']->set('theme/templateselect/templates', [
             'koala' => [
                 'name'     => 'Koala',
-                'filename' => 'extrafields.twig',
+                'filename' => 'index.twig',
             ],
             'clippy' => [
                 'name'     => 'Clippy',
-                'filename' => 'styleguide.twig',
+                'filename' => 'listing.twig',
             ],
         ]);
         $handler = $this->getRecordRuntime();
 
-        $result = $handler->listTemplates('*extra*');
-        $this->assertArrayHasKey('extrafields.twig', $result);
+        $result = $handler->listTemplates('*i*.twig');
+        $this->assertArrayHasKey('index.twig', $result);
         $this->assertContains('Koala', $result);
-
-        $result = $handler->listTemplates('*styleguide*');
-        $this->assertArrayHasKey('styleguide.twig', $result);
+        $this->assertArrayHasKey('listing.twig', $result);
         $this->assertContains('Clippy', $result);
 
-        $this->assertArrayNotHasKey('entry.twig', $result);
-        $this->assertArrayNotHasKey('index.twig', $result);
-        $this->assertArrayNotHasKey('listing.twig', $result);
+        $this->assertArrayNotHasKey('not-found.twig', $result);
+        $this->assertArrayNotHasKey('page.twig', $result);
         $this->assertArrayNotHasKey('record.twig', $result);
+        $this->assertArrayNotHasKey('search.twig', $result);
     }
 
     public function testPagerEmptyPager()

@@ -266,14 +266,14 @@ class BackendAdminCest extends AbstractAcceptanceTest
 
         // Set up the browser
         $this->setLoginCookies($I);
-        $I->amOnPage('/bolt/file/edit/themes/base-2016/theme.yml');
+        $I->amOnPage('/bolt/file/edit/themes/base-2018/theme.yml');
 
         $yaml = $I->getUpdatedTheme();
         $I->fillField('#file_edit_contents', $yaml);
         $I->click('Save', '#file_edit_save');
 
         $indent = '            ';
-        $I->amOnPage('/bolt/file/edit/themes/base-2016/theme.yml');
+        $I->amOnPage('/bolt/file/edit/themes/base-2018/theme.yml');
         $I->see('page.twig:');
         $I->see("text:\n{$indent}type: text");
         $I->see("html:\n{$indent}type: html");

@@ -12,6 +12,7 @@ use Bolt\Legacy\Storage;
 use Bolt\Logger\FlashLogger;
 use Bolt\Logger\Manager;
 use Bolt\Storage\Entity;
+use Bolt\Tests\Mocks\ImageApiMock;
 use Bolt\Tests\Mocks\LoripsumMock;
 use Bolt\Users;
 use Doctrine\Common\Cache\VoidCache;
@@ -220,7 +221,7 @@ abstract class BoltUnitTest extends TestCase
      */
     protected function addSomeContent($contentTypes = null, $categories = null, $count = null)
     {
-        $contentTypes = $contentTypes ?: ['showcases', 'pages'];
+        $contentTypes = $contentTypes ?: ['showcases', 'pages', 'homepage'];
         $categories = $categories ?: ['news'];
         $count = $count ?: 5;
 
@@ -228,6 +229,7 @@ abstract class BoltUnitTest extends TestCase
         $this->addDefaultUser($app);
         $app['config']->set('taxonomy/categories/options', $categories);
         $this->setService('prefill', new LoripsumMock());
+        $this->setService('prefill.image', new ImageApiMock());
 
         $builder = $app['prefill.builder'];
         $builder->build($contentTypes, $count);

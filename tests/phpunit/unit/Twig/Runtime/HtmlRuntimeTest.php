@@ -86,7 +86,7 @@ HTML;
         $handler = $this->getHtmlRuntime();
 
         $result = $handler->menu($app['twig'], 'main', 'partials/_sub_menu.twig', ['kitten' => 'fluffy']);
-        $this->assertRegExp('#<li class="index-1 first">#', $result);
+        $this->assertRegExp('#<a href="/" title=\'This is the first menu item.\' class=\'navbar-item  first\'>Home</a>#', $result);
     }
 
     public function testShy()
