@@ -82,17 +82,11 @@ cron_hour: 3
 homepage: homepage/1
 homepage_template: index.twig
 
-# The default content for the 404 page. Uses the 'record_template' template by
-# default.
+# The default content for the 404 page. Can be an (array of) template names or
+# identifiers for records, which will be tried until a match is found.
 #
-# Make sure this is set to an existing record, otherwise visitors will get an
-# error-page when the request a non-existing page.
-#
-# Note 1: The record specified in this parameter must be set to 'published'
-# Note 2: If you are logged on, and debug is set to 'true', you will NOT see the
-#         404 page!
-# Note 3: This may also point to a template without a record, eg 'error404.twig'
-notfound: block/404-not-found
+# Note: The record specified in this parameter must be set to 'published'.
+notfound: [ not-found.twig, block/404-not-found ]
 
 # The default template and amount of records to use for listing-pages on the
 # site.
