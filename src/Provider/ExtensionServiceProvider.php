@@ -100,6 +100,12 @@ class ExtensionServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['extend.ping'] = $app->share(
+            function ($app) {
+                return new Satis\PingService($app['guzzle.client'], $app['request_stack'], $uri = $app['extend.site'] . 'ping');
+            }
+        );
+
         $app['extend.info'] = $app->share(
             function ($app) {
                 return new Satis\QueryService($app['guzzle.client'], $app['extend.site'], $app['extend.urls']);

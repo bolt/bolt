@@ -6,6 +6,7 @@ use Bolt\Filesystem\Adapter\Local;
 use Bolt\Filesystem\Filesystem;
 use Bolt\Storage\Database\Prefill;
 use Bolt\Tests\BoltUnitTest;
+use Bolt\Tests\Mocks\ImageApiMock;
 use Bolt\Tests\Mocks\LoripsumMock;
 
 class RecordContentGeneratorTest extends BoltUnitTest
@@ -59,6 +60,7 @@ class RecordContentGeneratorTest extends BoltUnitTest
         $generator = new Prefill\RecordContentGenerator(
             $contentTypeName,
             new LoripsumMock(),
+            new ImageApiMock(),
             $app['storage']->getRepository($contentTypeName),
             $app['filesystem']->getFilesystem('files'),
             $app['config']->get('taxonomy'),

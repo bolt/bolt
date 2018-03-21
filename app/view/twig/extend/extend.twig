@@ -16,7 +16,7 @@
 {% block page_main %}
     {{ include('@bolt/extend/_package.twig') }}
 
-    {% if context.messages %}
+    {% if context.messages is not empty %}
         <div class="row">
             <div class="col-xs-12">
                 <div class="alert alert-info alert-dismissible">
@@ -134,9 +134,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fa fa-cog fa-fw"></i>{{ __('page.extend.options') }}</div>
                 <div class="panel-body">
+                        {% set disabled = (not context.writeable or not context.online) %}
                         <p><strong>{{ __('page.extend.message.check-for-updates') }}</strong></p>
                         <div class="btn-group">
-                            <a class="btn btn-tertiary{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="update-check">
+                            <a class="btn btn-tertiary{% if disabled %} disabled{% endif %} clickspinner" data-request="update-check">
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-check') }}
                             </a>
                         </div>
@@ -144,21 +145,21 @@
                         <hr>
                         <p><strong>{{ __('page.extend.message.maintenance') }}</strong></p>
                         <div class="btn-group">
-                            <a class="btn btn-tertiary{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="update-run">
+                            <a class="btn btn-tertiary{% if disabled %} disabled{% endif %} clickspinner" data-request="update-run">
                                 <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.update-all') }}
                             </a>
-                            <button type="button" class="btn btn-tertiary dropdown-toggle" data-toggle="dropdown">
+                            <button type="button" class="btn btn-tertiary dropdown-toggle {% if disabled %} disabled{% endif %}" data-toggle="dropdown">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu pull-right" role="menu">
                                 <li>
-                                    <a href="#" class="{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="install-run">
+                                    <a href="#" class="{% if disabled %} disabled{% endif %} clickspinner" data-request="install-run">
                                         <i class="fa fa-download fa-fw"></i> {{ __('page.extend.button.install-all') }}
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="{% if not context.writeable or not context.online %} disabled{% endif %} clickspinner" data-request="autoload-dump">
+                                    <a href="#" class="{% if disabled %} disabled{% endif %} clickspinner" data-request="autoload-dump">
                                         <i class="fa fa-refresh fa-fw"></i> {{ __('page.extend.button.autoload-dump') }}
                                     </a>
                                 </li>

@@ -57,7 +57,7 @@ class BackendLemmingsCest extends AbstractAcceptanceTest
         $I->see('Recent Pages');
         $I->dontSee('Recent Resources');
 
-        $I->see('A Page I Made', 'h1');
-        $I->see('Built with Bolt, tested with Codeception', 'footer');
+        $I->see('Welcome Home (Sanitarium)', 'h2');
+        $I->see('This website is tested with Codeception, built with Bolt and Bulma.', 'footer');
     }
 }
