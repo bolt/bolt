@@ -2,6 +2,7 @@
 
 namespace Bolt\Nut;
 
+use Bolt\Composer\Satis\PingService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,6 +15,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ExtensionsInstall extends BaseCommand
 {
+    /** @var PingService */
+    private $pinger;
+
     /**
      * {@inheritdoc}
      */
@@ -28,11 +32,23 @@ class ExtensionsInstall extends BaseCommand
         ;
     }
 
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        parent::initialize($input, $output);
+        $this->pinger = $this->app['extend.ping'];
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (!$this->pinger->ping(true, $output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG)) {
+            $this->io->error($this->pinger->getMessages()->toArray());
+
+            return 1;
+        }
+
         $name = $input->getArgument('name');
         $version = $input->getArgument('version');
 
