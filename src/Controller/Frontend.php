@@ -391,22 +391,27 @@ class Frontend extends ConfigurableBase
         }
 
         $result = $this->storage()->searchContent($q, $contenttypes, $filters, $limit, $offset);
+        $arr = $result ?: [
+            'no_of_results' => 0,
+            'results'       => [],
+            'query'         => ['sanitized_q' => null],
+        ];
 
         /** @var \Bolt\Pager\PagerManager $manager */
         $manager = $this->app['pager'];
         $manager
             ->createPager($context)
-            ->setCount($result['no_of_results'])
-            ->setTotalpages(ceil($result['no_of_results'] / $pageSize))
+            ->setCount($arr['no_of_results'])
+            ->setTotalpages(ceil($arr['no_of_results'] / $pageSize))
             ->setCurrent($page)
             ->setShowingFrom($offset + 1)
-            ->setShowingTo($offset + count($result['results']));
+            ->setShowingTo($offset + count($arr['results']));
 
         $manager->setLink($this->generateUrl('search', ['q' => $q]) . '&page_search=');
 
         $globals = [
-            'records'      => $result['results'],
-            $context       => $result['query']['sanitized_q'],
+            'records'      => $arr['results'],
+            $context       => $arr['query']['sanitized_q'],
             'searchresult' => $result,
         ];
 
