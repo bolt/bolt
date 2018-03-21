@@ -1,10 +1,12 @@
 Changelog for Bolt 3.x
 ======================
 
-Bolt 3.5-dev
------------
+Bolt 3.5 beta 1
+---------------
 
--
+Released: 2018-03-21. Notable changes:
+
+ - (to do: compile changelog)
 
 Bolt 3.4.10
 -----------
