@@ -4,7 +4,7 @@
     <body>
       <trans-unit id="1" approved="yes">
         <source>Passwords must match.</source>
-        <target xml:lang="pt-PT">As senhas têm de ser iguais.</target>
+        <target xml:lang="pt">As senhas têm de ser iguais.</target>
       </trans-unit>
     </body>
   </file>
