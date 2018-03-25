@@ -800,8 +800,8 @@ class Storage
             }
         }
 
-        $limit = !empty($parameters['limit']) ? $parameters['limit'] : 9999;
-        $page = !empty($parameters['page']) ? $parameters['page'] : 1;
+        $limit = isset($parameters['limit']) && $parameters['limit'] ? $parameters['limit'] : 9999;
+        $page = isset($parameters['page']) && $parameters['page'] ? $parameters['page'] : 1;
 
         // If we're allowed to use pagination, use the 'page' parameter.
         if (!empty($parameters['paging']) && $this->app['request_stack']->getCurrentRequest() !== null) {
@@ -888,8 +888,8 @@ class Storage
 
         $slug = $this->app['slugify']->slugify($name);
 
-        $limit = $parameters['limit'] ?: 9999;
-        $page = $parameters['page'] ?: 1;
+        $limit = isset($parameters['limit']) && $parameters['limit'] ? $parameters['limit'] : 9999;
+        $page = isset($parameters['page']) && $parameters['page'] ? $parameters['page'] : 1;
 
         $taxonomytype = $this->getTaxonomyType($taxonomyslug);
 
