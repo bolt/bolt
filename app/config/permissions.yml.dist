@@ -4,7 +4,7 @@
 # and understand the consequences of making uninformed changes to the roles and
 # permissions.
 
-# First, we need to define some roles. There are three built-in roles that you
+# First, we need to define some roles. There are four built-in roles that you
 # should never add manually:
 # - 'root', the "superuser" role; Bolt will automatically grant all permissions
 #   to this role. Manually adding it to any permission is pointless, because it
