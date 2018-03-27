@@ -49,7 +49,7 @@
                             {% set divider = true %}
                         {% else %}
                             <li{% if divider %} class="subdivider"{% endif %}>
-                                <a href="{{ item.uri|default('') }}">
+                                <a href="{{ item.uri|default('') }}" title="{{ item.label|default('') }}">
                                     {{ icon(item.icon) }}{{ item.label|default("<em>(" ~ __('general.phrase.no-content') ~ ")</em>")|raw }}
                                 </a>
                             </li>
