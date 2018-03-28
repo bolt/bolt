@@ -99,7 +99,7 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
 
         // Edit the field
         $twig = $I->grabTextFrom('#file_edit_contents', 'textarea');
-        $twig = str_replace('This website is built with', 'This website is tested with Codeception, built with', $twig);
+        $twig = str_replace('This website is ', 'This website is tested with Codeception, ', $twig);
         $I->fillField('#file_edit_contents', $twig);
 
         // Save it
@@ -113,7 +113,7 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         ]);
 
         $I->amOnPage('/bolt/file/edit/themes/base-2018/partials/_footer.twig');
-        $I->see('This website is tested with Codeception, built with', '#file_edit_contents');
+        $I->see('This website is tested with Codeception, ', '#file_edit_contents');
     }
 
     /**
