@@ -123,8 +123,8 @@ class TaxonomyType extends JoinTypeBase
         $grouping = $this->getGroup($fieldTaxonomy);
         if ($grouping) {
             $entity->setGroup($this->getGroup($fieldTaxonomy));
+            $entity->setSortorder($this->getSortorder($fieldTaxonomy));
         }
-        $entity->setSortorder($this->getSortorder($fieldTaxonomy));
     }
 
     /**
