@@ -171,7 +171,6 @@ showcases:
             placeholder: https://source.unsplash.com/1280x768/?animal,koala,kitten,puppy,cute/__random__
         imagelist:
             type: imagelist
-            placeholder: https://source.unsplash.com/1280x768/?animal,koala,kitten,puppy,cute/__random__
         file:
             type: file
             group: files

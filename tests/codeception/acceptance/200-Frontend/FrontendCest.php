@@ -45,7 +45,7 @@ class FrontendCest
         $I->dontSee('Recent Resources');
 
         $I->see('Welcome Home (Sanitarium)', 'h2');
-        $I->see('This website is tested with Codeception, built with Bolt and Bulma.', 'footer');
+        $I->see('This website is tested with Codeception, built with Bolt.', 'footer');
     }
 
     /**
