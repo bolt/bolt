@@ -73,9 +73,7 @@ class ImageRuntime
         }
 
         // After v1.5.1 we store image data as an array
-        if (is_array($fileName)) {
-            $fileName = isset($fileName['filename']) ? $fileName['filename'] : (isset($fileName['file']) ? $fileName['file'] : '');
-        }
+        $fileName = $this->normalizeFileName($fileName);
 
         // If _no_ filename is given, return nothing.
         if (!$fileName) {
@@ -312,9 +310,7 @@ class ImageRuntime
         }
 
         // If we're passing in an image as array, instead of a single filename.
-        if (is_array($fileName) && isset($fileName['file'])) {
-            $fileName = $fileName['file'];
-        }
+        $fileName = $this->normalizeFileName($fileName);
 
         return $this->urlGenerator->generate(
             'thumb_alias',
@@ -333,5 +329,25 @@ class ImageRuntime
     private function isAlias($alias)
     {
         return (bool) $this->config->get('theme/thumbnails/aliases/' . $alias, false);
+    }
+
+
+    /**
+     * If $fileName is an array with 'filename' or 'file' return that property,
+     * otherwise return passed value.
+     *
+     * @param array|string $fileName
+     *
+     * @return string
+     */
+    private function normalizeFileName($fileName)
+    {
+        if (!is_array($fileName)) {
+            return $fileName;
+        }
+
+        return isset($fileName['filename']) ? $fileName['filename']
+            : isset($fileName['file']) ? $fileName['file'] : ''
+        ;
     }
 }
