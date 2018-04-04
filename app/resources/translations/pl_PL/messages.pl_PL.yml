@@ -649,8 +649,8 @@ page.login.password-hide: "Ukryj"
 page.login.password-reset-link-sent: "Link resetowania hasła został wysłany do '%user%'."
 page.login.password-show: "Pokaż"
 page.login.placeholder.username: "Twoja nazwa użytkownika"
-page.login.placeholder.password: # "Your password"
-page.login.title: "Zaloguj się\\_do Bolt"
+page.login.placeholder.password: "Twoje hasło"
+page.login.title: "Zaloguj się do Bolt"
 
 page.prefill.skipped-existing: "Pominięty <code>%key%</code> (posiada rekordy)"
 
