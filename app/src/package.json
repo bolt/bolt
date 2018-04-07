@@ -23,7 +23,7 @@
         "magnific-popup": "~1.1.0",
         "modernizr": "~3.6.0",
         "moment": "~2.21.0",
-        "select2": "4.0.6-rc.1"
+        "select2": "4.0.0"
     },
     "devDependencies": {
         "autoprefixer": "~8.1.0",
