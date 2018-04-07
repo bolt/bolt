@@ -91,7 +91,7 @@
     {# use the files includes in ckeditor/codemirror plugin, instead of duplicating files. #}
     <link rel="stylesheet" property="stylesheet" href="{{ asset('js/ckeditor/plugins/codemirror/css/codemirror.min.css', 'bolt') }}">
     <script src="{{ asset('js/ckeditor/ckeditor.js', 'bolt') }}"></script>
-    <script src="{{ asset('js/ckeditor/plugins/codemirror/js/codemirror.min.js', 'bolt') }}"></script>
+    <script src="{{ asset('js/ckeditor/plugins/codemirror/js/codemirror.js', 'bolt') }}"></script>
     <script src="{{ asset('js/ckeditor/plugins/codemirror/js/codemirror.addons.search.min.js', 'bolt') }}"></script>
     {% for file in context.codeMirrorPlugins %}
         <script src="{{ asset('js/ckeditor/plugins/codemirror/plugins/' ~ file ~ '.min.js', 'bolt') }}"></script>
