@@ -57,7 +57,9 @@ class Content extends Entity
         $setter = 'set' . ucfirst($key);
         if (is_array($value)) {
             // Filter empty values from the array
-            $value = array_filter($value);
+            $value = array_filter($value, function ($item) {
+                return $item !== null && $item !== '';
+            });
         }
         $this->$setter($value);
     }
