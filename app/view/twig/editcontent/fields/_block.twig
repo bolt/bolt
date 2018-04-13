@@ -22,6 +22,20 @@
     {# This ensures that an empty value is always submitted even if there are no subsequent repeater sets #}
     <input type="hidden" name="{{ name }}[]">
 
+    {# show/hide panel content buttons #}
+    {% if field.toggleblocks is defined and field.toggleblocks is same as('all') %}
+        <div class="block-collapse text-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-default hide-all-blocks">
+                    {{ __('general.phrase.hide-all-blocks') }}
+                </button>
+                <button type="button" class="btn btn-sm btn-default show-all-blocks">
+                    {{ __('general.phrase.show-all-blocks') }}
+                </button>
+            </div>
+        </div>
+    {% endif %}
+
     <div class="block-slot">
         {% set blockfieldvals = context.content.get(contentkey) %}
         {% for blockname,block in field.fields %}
@@ -30,7 +44,7 @@
                 {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': blockfieldvals.getEmptySet, 'index': index, 'block': blockname}) }}
             </script>
         {% endfor %}
-
+        
         {% for index, repeatfieldset in blockfieldvals %}
             {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': repeatfieldset, 'index': index, 'block': repeatfieldset.first.block }) }}
         {% endfor %}
