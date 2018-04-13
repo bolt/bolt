@@ -2,7 +2,12 @@
     <div class="panel-heading">
         <div class="row">
             <div class="col-xs-5">
-                <label class="main">{{ field.fields[block].label }}</label>
+                <label class="main">
+                    {% if field.toggleblocks is defined and (field.toggleblocks is same as(true) or field.toggleblocks is same as('all')) %}
+                        <span class="toggle-block fa fa-chevron-circle-down"></span>
+                    {% endif %}
+                    {{ field.fields[block].label }}
+                </label>
             </div>
             <div class="col-xs-7 text-right">
                 <div class="btn-group">
