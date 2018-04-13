@@ -88,6 +88,30 @@
                 self._resetEditors(setToMove);
             });
 
+            self.element.on('click', '.toggle-block', function () {
+                var setToToggle = $(this).closest('.block-group').find('.panel-body');
+
+                $(this).toggleClass('fa-chevron-circle-down').toggleClass('fa-chevron-circle-right');
+                setToToggle.slideToggle();
+            });
+            
+            self.element.on('click', '.hide-all-blocks', function () {
+                var $container = $(this).closest('.bolt-field-block');
+                var setToHide = $container.find('.panel-body');
+                var triggerToChange = $container.find('.toggle-block');
+
+                triggerToChange.removeClass('fa-chevron-circle-down').addClass('fa-chevron-circle-right');
+                setToHide.slideUp();
+            });
+
+            self.element.on('click', '.show-all-blocks', function () {
+                var $container = $(this).closest('.bolt-field-block');
+                var setToShow = $container.find('.panel-body');
+                var triggerToChange = $container.find('.toggle-block');
+
+                triggerToChange.removeClass('fa-chevron-circle-right').addClass('fa-chevron-circle-down');
+                setToShow.slideDown();
+            });
         },
 
         /**
