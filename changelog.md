@@ -1,10 +1,10 @@
 Changelog for Bolt 3.x
 ======================
 
-Bolt 3.5 RC
------------
+Bolt 3.5 RC 2
+-------------
 
-Released: 2018-04-01. Notable changes:
+Released: 2018-04-10. Notable changes:
 
  - Added: Add new 'Embed' field type. [#7278](https://github.com/bolt/bolt/pull/7278)
  - Added: Add a Homepage singleton to default contenttypes, remove old images. [#7369](https://github.com/bolt/bolt/pull/7369)
@@ -13,6 +13,7 @@ Released: 2018-04-01. Notable changes:
  - Added: New Base-2018 theme. [#14](https://github.com/bolt/themes/pull/14)
  - Added: Possibility to add submenu items to custom menus in backend. [#7252](https://github.com/bolt/bolt/pull/7252)
  - Changed: Rename use of 'oembed' to 'embed'. [#7327](https://github.com/bolt/bolt/pull/7327)
+ - Fixed: DBAL 2.7.1 fixes, adjusted comparison for version. [#7436](https://github.com/bolt/bolt/pull/7436)
  - Fixed: Update `ctrl+s`, `meta+s` keybindings for newer version of plugin. [#7364](https://github.com/bolt/bolt/pull/7364)
  - Fixed: Use `path` instead of `url` for the oembed endpoint. [#7300](https://github.com/bolt/bolt/pull/7300)
  - Improvement: Allow a viewless (singleton) contenttype for `homepage: …` setting. [#7372](https://github.com/bolt/bolt/pull/7372)
@@ -23,10 +24,11 @@ Released: 2018-04-01. Notable changes:
  - Improvement: Set right order of grouped menu entries. [#7219](https://github.com/bolt/bolt/pull/7219)
  - Updated: Update "hardcoded" JS libraries like jQuery UI, CKEditor and more. [#7283](https://github.com/bolt/bolt/pull/7283)
  - Updated: Update `base-2016` and `skeleton` themes for 2018. [#13](https://github.com/bolt/themes/pull/13)
- - Updated: Updating some yarn depencies to latest versions.
+ - Updated: Updating CKeditor to 4.9.1, codemirror to 5.36.0. [#7433](https://github.com/bolt/bolt/pull/7433)
 
 Previous pre-releases:
 
+ - RC 1: 2018-04-01
  - Beta 2: 2018-03-26
  - Beta 1: 2018-03-21
 
