@@ -3,22 +3,31 @@
         <div class="row">
             <div class="col-xs-5">
                 <label class="main">
-                    {% if field.toggleblocks is defined and (field.toggleblocks is same as(true) or field.toggleblocks is same as('all')) %}
-                        <span class="toggle-block fa fa-chevron-circle-down"></span>
-                    {% endif %}
                     {{ field.fields[block].label }}
                 </label>
             </div>
             <div class="col-xs-7 text-right">
                 <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-default move-up">
-                        <i class="fa fa-arrow-up"></i> {{ __('general.phrase.move-up') }}
+                        <i class="fa fa-arrow-up" title="{{ __('general.phrase.move-up') }}"></i>
                     </button>
-                    <button type="button" class="btn btn-sm btn-default  move-down">
-                        <i class="fa fa-arrow-down"></i> {{ __('general.phrase.move-down') }}
+                    <button type="button" class="btn btn-sm btn-default move-down">
+                        <i class="fa fa-arrow-down" title="{{ __('general.phrase.move-down') }}"></i>
                     </button>
-                    <button type="button" class="btn btn-sm btn-silent-danger delete-button">
-                        <i class="fa fa-trash"></i> {{ __('general.phrase.delete-set') }}
+                    {% if field.collapsible is not defined or field.collapsible %}
+                        <button type="button" class="btn btn-sm btn-default repeater-collapse">
+                            <span class="collapsible" title="{{ __('field.repeater.collapse') }}">
+                                <i class="fa fa-compress"></i>
+                            </span>
+                            <span class="expandible" title="{{ __('field.repeater.expand') }}">
+                                <i class="fa fa-expand"></i>
+                            </span>
+                        </button>
+                    {% endif %}
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-silent-danger delete-button" title="{{ __('field.repeater.delete-set') }}">
+                        <i class="fa fa-trash"></i>
                     </button>
                 </div>
             </div>

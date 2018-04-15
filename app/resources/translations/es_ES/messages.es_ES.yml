@@ -260,7 +260,7 @@ general.phrase.database-update-required-pre: "La base de datos necesita ser actu
 general.phrase.delete: "Eliminar"
 general.phrase.delete-directory-name: "Borrar %foldername%"
 general.phrase.delete-file-name: "Eliminar %filename%"
-general.phrase.delete-set: "Eliminar set"
+field.repeater.delete-set: "Eliminar set"
 general.phrase.delete-user-name: "Eliminar a %username%"
 general.phrase.depublication-date-colon: "Fecha de despublicación"
 general.phrase.depublish: "Quitar publicación"

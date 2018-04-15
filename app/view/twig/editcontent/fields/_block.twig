@@ -23,14 +23,14 @@
     <input type="hidden" name="{{ name }}[]">
 
     {# show/hide panel content buttons #}
-    {% if field.toggleblocks is defined and field.toggleblocks is same as('all') %}
+    {% if field.collapsible is not defined or field.collapsible %}
         <div class="block-collapse text-right">
             <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-default hide-all-blocks">
-                    {{ __('general.phrase.hide-all-blocks') }}
+                    {{ __('field.repeater.collapse-all') }}
                 </button>
                 <button type="button" class="btn btn-sm btn-default show-all-blocks">
-                    {{ __('general.phrase.show-all-blocks') }}
+                    {{ __('field.repeater.expand-all') }}
                 </button>
             </div>
         </div>
@@ -44,7 +44,7 @@
                 {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': blockfieldvals.getEmptySet, 'index': index, 'block': blockname}) }}
             </script>
         {% endfor %}
-        
+
         {% for index, repeatfieldset in blockfieldvals %}
             {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': repeatfieldset, 'index': index, 'block': repeatfieldset.first.block }) }}
         {% endfor %}

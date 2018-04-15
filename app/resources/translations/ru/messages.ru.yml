@@ -397,7 +397,7 @@ general.phrase.database-update-required-post: "чтобы сделать это 
 general.phrase.database-update-required-pre: "База данных должна быть обновлена/восстановлена. Пройдите по 'Конфигурация'"
 general.phrase.delete-directory-name: "Удалить %foldername%"
 general.phrase.delete-file-name: "Удалить %filename%"
-general.phrase.delete-set: "Удалить"
+field.repeater.delete-set: "Удалить"
 general.phrase.delete-user-name: "Удалить %username%"
 general.phrase.depublication-date-colon: "Дата скрытия:"
 general.phrase.deselect-all: "Отменить выбор всех"

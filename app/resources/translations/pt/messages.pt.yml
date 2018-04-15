@@ -289,7 +289,7 @@ general.phrase.database-up-to-date-already: "A sua base de dados está atualizad
 general.phrase.delete: "Eliminar"
 general.phrase.delete-directory-name: "Eliminar %foldername%"
 general.phrase.delete-file-name: "Eliminar %filename%"
-general.phrase.delete-set: "Eliminar o conjunto"
+field.repeater.delete-set: "Eliminar o conjunto"
 general.phrase.delete-user-name: "Eliminar %username%"
 general.phrase.depublication-date-colon: "Data para final de publicação:"
 general.phrase.depublish: "Despublicar"

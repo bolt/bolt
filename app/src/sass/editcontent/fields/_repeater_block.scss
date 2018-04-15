@@ -51,4 +51,20 @@ fieldset.bolt-field-block {
     .toggle-block {
         cursor: pointer;
     }
+
+    .repeater-collapse {
+        .expandible {
+            display: none;
+        }
+
+        &.collapsed {
+            .expandible {
+                display: block;
+            }
+            .collapsible {
+                display: none;
+            }
+        }
+    }
+
 }

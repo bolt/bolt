@@ -246,7 +246,7 @@ general.phrase.database-update-required-pre: "Databázi je nutné aktualizovat/o
 general.phrase.delete: "Smazat"
 general.phrase.delete-directory-name: "Smazat %foldername%"
 general.phrase.delete-file-name: "Smazat %filename%"
-general.phrase.delete-set: "Odstranit sadu"
+field.repeater.delete-set: "Odstranit sadu"
 general.phrase.delete-user-name: "Odstranit %username%"
 general.phrase.depublication-date-colon: "Datum expirace:"
 general.phrase.depublish: "Odpublikovat"
