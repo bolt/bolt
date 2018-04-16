@@ -22,11 +22,11 @@
         "jquery.cookie": "~1.4.1",
         "magnific-popup": "~1.1.0",
         "modernizr": "~3.6.0",
-        "moment": "~2.22.0",
+        "moment": "~2.22.1",
         "select2": "4.0.0"
     },
     "devDependencies": {
-        "autoprefixer": "~8.2.0",
+        "autoprefixer": "~8.3.0",
         "css-mqpacker": "~6.0.2",
         "csswring": "~6.0.3",
         "deep-extend": "~0.5.0",
