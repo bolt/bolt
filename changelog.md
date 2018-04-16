@@ -1,16 +1,17 @@
 Changelog for Bolt 3.x
 ======================
 
-Bolt 3.5 RC 2
+Bolt 3.5 RC 3
 -------------
 
-Released: 2018-04-10. Notable changes:
+Released: 2018-04-16. Notable changes:
 
- - Added: Add new 'Embed' field type. [#7278](https://github.com/bolt/bolt/pull/7278)
  - Added: Add a Homepage singleton to default contenttypes, remove old images. [#7369](https://github.com/bolt/bolt/pull/7369)
  - Added: Add feature to fetch placeholder images from remote URLs. [#7368](https://github.com/bolt/bolt/pull/7368)
+ - Added: Add new 'Embed' field type. [#7278](https://github.com/bolt/bolt/pull/7278)
  - Added: Add user accounts to `nut import`/`nut export`. [#7306](https://github.com/bolt/bolt/pull/7306)
  - Added: New Base-2018 theme. [#14](https://github.com/bolt/themes/pull/14)
+ - Added: New Feature: Collapsible Blocks and Repeaters [#7443](https://github.com/bolt/bolt/pull/7443)
  - Added: Possibility to add submenu items to custom menus in backend. [#7252](https://github.com/bolt/bolt/pull/7252)
  - Changed: Rename use of 'oembed' to 'embed'. [#7327](https://github.com/bolt/bolt/pull/7327)
  - Fixed: DBAL 2.7.1 fixes, adjusted comparison for version. [#7436](https://github.com/bolt/bolt/pull/7436)
@@ -28,6 +29,7 @@ Released: 2018-04-10. Notable changes:
 
 Previous pre-releases:
 
+ - RC 2: 2018-04-10
  - RC 1: 2018-04-01
  - Beta 2: 2018-03-26
  - Beta 1: 2018-03-21
