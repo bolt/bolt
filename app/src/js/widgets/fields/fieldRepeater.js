@@ -133,6 +133,29 @@
                 self._resetEditors(setToMove);
             });
 
+            self.element.on('click', '.repeater-collapse', function () {
+                var setToToggle = $(this).closest('.repeater-group').find('.panel-body');
+
+                $(this).toggleClass('collapsed');
+                setToToggle.slideToggle();
+            });
+
+            self.element.on('click', '.hide-all-blocks', function () {
+                var $container = $(this).closest('.bolt-field-repeater');
+                var setToHide = $container.find('.panel-body');
+                $container.find('.repeater-collapse').addClass('collapsed');
+
+                setToHide.slideUp();
+            });
+
+            self.element.on('click', '.show-all-blocks', function () {
+                var $container = $(this).closest('.bolt-field-repeater');
+                var setToShow = $container.find('.panel-body');
+                $container.find('.repeater-collapse').removeClass('collapsed');
+
+                setToShow.slideDown();
+            });
+
             // Add initial groups until minimum number is reached.
             while (self._count < self.options.minimum) {
                 self._append();
