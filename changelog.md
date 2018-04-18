@@ -1,10 +1,10 @@
 Changelog for Bolt 3.x
 ======================
 
-Bolt 3.5 RC 3
--------------
+Bolt 3.5.0
+----------
 
-Released: 2018-04-16. Notable changes:
+Released: 2018-04-18. Notable changes:
 
  - Added: Add new 'Embed' field type. [#7278](https://github.com/bolt/bolt/pull/7278)
  - Added: New Base-2018 theme. [#14](https://github.com/bolt/themes/pull/14)
@@ -26,13 +26,6 @@ Released: 2018-04-16. Notable changes:
  - Updated: Update "hardcoded" JS libraries like jQuery UI, CKEditor and more. [#7283](https://github.com/bolt/bolt/pull/7283)
  - Updated: Update `base-2016` and `skeleton` themes for 2018. [#13](https://github.com/bolt/themes/pull/13)
  - Updated: Updating CKeditor to 4.9.1, codemirror to 5.36.0. [#7433](https://github.com/bolt/bolt/pull/7433)
-
-Previous pre-releases:
-
- - RC 2: 2018-04-10
- - RC 1: 2018-04-01
- - Beta 2: 2018-03-26
- - Beta 1: 2018-03-21
 
 Bolt 3.4.10
 -----------
