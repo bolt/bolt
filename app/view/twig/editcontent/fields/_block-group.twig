@@ -1,3 +1,4 @@
+{% if field.fields[block] is defined %}
 <div class="repeater-group block-group row panel panel-default">
     <div class="panel-heading">
         <div class="row">
@@ -69,3 +70,4 @@
         {% endfor %}
     </div>
 </div>
+{% endif %}
