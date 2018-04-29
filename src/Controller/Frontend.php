@@ -150,7 +150,7 @@ class Frontend extends ConfigurableBase
         // First, try to get it by slug.
         $content = $this->getContent($contenttype['slug'], ['slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)]);
 
-        if (is_numeric($slug) && (!$content || count($content) === 0)) {
+        if (is_numeric($slug) && !$content) {
             // And otherwise try getting it by ID
             $content = $this->getContent($contenttype['slug'], ['id' => $slug, 'returnsingle' => true]);
         }
