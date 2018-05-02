@@ -13,6 +13,7 @@ use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 /**
  * Standard Frontend actions.
@@ -189,6 +190,10 @@ class Frontend extends ConfigurableBase
      */
     public function preview(Request $request, $contenttypeslug)
     {
+        if (!$request->isMethod('POST')) {
+            throw new MethodNotAllowedHttpException(['POST'], 'This route only accepts POST requests.');
+        }
+
         $contenttype = $this->getContentType($contenttypeslug);
 
         $id = $request->request->get('id');
