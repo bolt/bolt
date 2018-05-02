@@ -41,7 +41,11 @@ class DisableXssProtectionListener implements EventSubscriberInterface
             return;
         }
 
-        $route = $request->attributes->get('_route');
+        // In case we're using 'preview', the `_route` has been set to `contentlink`, because we're
+        // viewing a single page, but `_original_route` will be `preview`, which should take
+        // precedence, if set. See PR https://github.com/bolt/bolt/pull/7458
+        /** @deprecated since 3.4 to be removed in 4.0 */
+        $route = $request->attributes->get('_internal_route', $request->attributes->get('_route'));
 
         if (!in_array($route, $this->routes)) {
             return;

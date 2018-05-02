@@ -131,9 +131,17 @@ abstract class Base implements ControllerProviderInterface
             return;
         }
 
+        // In case we're previewing a record, this will override the `_route`, but keep the original
+        // one, used to see if we need to disable the XSS protection header.
+        // See PR https://github.com/bolt/bolt/pull/7458
         list($routeName, $routeParams) = $content->getRouteNameAndParams();
         if ($routeName) {
-            $request->attributes->add(['_route' => $routeName, '_route_params' => $routeParams]);
+            /** @deprecated since 3.4 to be removed in 4.0 */
+            $request->attributes->add([
+                '_route'          => $routeName,
+                '_route_params'   => $routeParams,
+                '_internal_route' => $request->attributes->get('_route'),
+            ]);
         }
     }
 
