@@ -25,7 +25,7 @@ info:
                 from your desktop or from a different browser window.<br>
                 Alternatively, you can use a previously uploaded image.<br>
                 You can rearrange the images using drag'n'drop, and change the descriptions of the images.
-        oembed: |
+        embed: |
             Use this field to embed content inside a page on the website. Just copy/paste the
                   URL of a page on Twitter, Facebook, Soundcloud, or almost any other website that supports embeds.<br>
                   Bolt will automatically fetch the &lt;embed&gt;-code, with the correct width, height and the original
