@@ -30,6 +30,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
         $app['disable_xss_protection_routes'] = [
             'preview',
             'fileedit',
+            'contentlink',
         ];
         $app['listener.disable_xss_protection'] = $app->share(
             function ($app) {
