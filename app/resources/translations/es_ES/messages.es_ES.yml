@@ -438,7 +438,7 @@ contenttypes.generic.invalid-field: "No se puede definir %field% en %contenttype
 contenttypes.generic.invalid-hyphen: "En el TiposdeContenido para '%contenttype%', has usado un guión en la definición que no es compatible. Por favor edite el archivo TiposdeContenidos.yml(contenttypes.yml) y remueva el guión o alternativamente cámbielo por un guión bajo."
 contenttypes.generic.invalid-relation: "Para '%contenttype%' en TiposContenido, la relación '%relation%' está definida, la cual no es válida como TiposContenido. Por favor edite el archivo contenttypes.yml, y corrija esto."
 contenttypes.generic.new: "Nuevo %contenttype%"
-contenttypes.generic.no-recent: "No hay"
+contenttypes.generic.no-recent: "No hay %contenttype% recientes"
 contenttypes.generic.not-existing: "El %contenttype% que estás buscando no existe. Probablemente fue eliminado, o nunca existió."
 contenttypes.generic.overview: "Listado de %contenttypes%"
 contenttypes.generic.recent: "Recientes %contenttypes%"
