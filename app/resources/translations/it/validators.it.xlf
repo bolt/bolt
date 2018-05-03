@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="file.ext">
+  <file source-language="en" datatype="plaintext" original="file.ext" target-language="it">
     <body>
-      <trans-unit id="1">
+      <trans-unit id="1" approved="yes">
         <source>Passwords must match.</source>
-        <target xml:lang="it" state="translated">Le password devono essere uguali.</target>
+        <target xml:lang="it">Le password devono essere uguali.</target>
       </trans-unit>
     </body>
   </file>
