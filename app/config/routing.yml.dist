@@ -28,6 +28,7 @@ preview:
         _controller: controller.frontend:preview
     requirements:
         contenttypeslug: controller.requirement:anyContentType
+    methods: [POST]
 
 contentlink:
     path: /{contenttypeslug}/{slug}
