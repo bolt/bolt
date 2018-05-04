@@ -27,9 +27,9 @@ info:
       Használhatja a korábban feltöltött képeit is.<br>
       Átrendezheti a képeket fogd és vidd módszerrel, valamint szerkesztheti a leírásokat is.
     embed: |
-      Használja ezt a mezőt a weboldalon belüli tartalom beágyazásához. Csak másolja/illessze be az oldal URL-jét a Twitteren, a Facebookon, a Soundcloudon vagy szinte minden olyan weboldalon, amely támogatja a beágyazásokat.
+      Használja ezt a mezőt a weboldalon belüli tartalom beágyazásához. Csak másolja vagy illessze be az oldal URL-jét Twitteren, Facebookon, Soundcloud-on vagy szinte bármely más olyan webhelyen, amely támogatja a beágyazásokat.
       <br>
-      A Bolt automatikusan megkapja a &lt;embed&gt;-kódot a megfelelő szélességgel, magassággal és az eredeti címmel. Ha megváltoztatja a szélességet vagy a magasságot, a másik érték ennek megfelelően változik, hogy megtartsa a képarányt.
+      A Bolt automatikusan lekéri a &lt;beágyazott&gt; kódot, a megfelelő szélességgel, magassággal és az eredeti címmel. Ha megváltoztatja a szélességet vagy a magasságot, a másik érték ennek megfelelően változik, hogy megtartsa a képarányt.
     video: |
       Használja ezt a mezőt egy videó beágyazásához a weboldalon belül. Csak másolja/illessze be egy videooldal URL-jét a Youtube, Vimeo vagy szinte minden más videomegosztó webhelyre.<br> A Bolt automatikusan megkapja a &lt;embed&gt;-kódot, a megfelelő szélességgel, magassággal és az eredeti címmel. Ha megváltoztatja a szélességet vagy a magasságot, a másik érték ennek megfelelően változik, hogy megtartsa a képarányt.
   geolocation: |
