@@ -1,80 +1,54 @@
+---
 info:
-    upload:
-        image: |
-            Use this field to upload a photo or image. Click the button to upload a file from your
-            computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
-            from your desktop or from a different browser window.<br>
-            Alternatively, you can use a previously uploaded image. To select a previously uploaded file, just
-            type (part) of the file name in the input area, and it will be autocompleted.
-        file: |
-            Use this field to upload a file to include as a download or to use inside a page on the
-            website. Click the button to upload a file from your computer, or if you're using a recent version
-            of Chrome or Firefox, you can simply drag'n'drop the file from your desktop or from a different
-            browser window.<br>
-            Alternatively, you can use a previously uploaded file. To select a previously uploaded file, just
-            type (part) of the file name in the input area, and it will be autocompleted.
-        filelist: |
-            Use this field to upload multiple files and some descriptions. Like with the singular "file" field, recent
-            browser versions are able to understand you dragging a file into the input field. Maybe give it a try?
-        filesmall: |
-            Use the button to upload a file. To select a previously uploaded file, you can
-            type (part) of the file name in the input area, and it will be autocompleted.
-        imagelist: |
-            Use this field to upload a set of photos or image. Click the button to upload a file from your
-                computer, or if you're using a recent version of Chrome or Firefox, you can simply drag'n'drop the file
-                from your desktop or from a different browser window.<br>
-                Alternatively, you can use a previously uploaded image.<br>
-                You can rearrange the images using drag'n'drop, and change the descriptions of the images.
-        video: |
-            Use this field to embed a video inside a page on the website. Just copy/paste the
-                  URL of a video-page on Youtube, Vimeo or almost any other video sharing website.<br>
-                  Bolt will automatically fetch the &lt;embed&gt;-code, with the correct width, height and the original
-                  title. If you change the width or height, the other value will change accordingly, to maintain the
-                  aspect ratio.
-    geolocation: |
-        Use this field to get the geolocation of any address, or place the marker
-            manually by dragging the pin. First, enter an (approximate) address in the 'address'-field,
-            and the corresponding latitude and longitude will be retrieved using the Google Maps API,
-            together with the closest matching address, according to Google.<br>
-            If you want to move the marker to a different location, just drag'n'drop the pin on the
-            mini-map. The latitude and longitude will be updated automatically.
-    markdown: |
-        Markdown is a text-to-HTML conversion tool for web writers.
-            <p>Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
-            which is then converted to structurally valid HTML.</p>
-            <p><strong>Quick reference:</strong><br>
-            # This is an &lt;h1&gt;-tag<br>
-            ## This is an &lt;h2&gt;-tag<br>
-            ###### This is an &lt;h6&gt;-tag</p>
-            <p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
-            ___<em><strong>is both</strong></em>___. You can also use asterisks: This *<em>is italic</em>*,
-            this **<strong>is bold</strong>**.
-            <p>Create <a href='#'>links</a> like this:<br>
-            An [exciting website](http://example.org/ &quot;Title of link&quot;)</p>
-            <p>&nbsp; * This is an unordered list<br>
-            &nbsp; * Item 2</p>
-            <p>&nbsp; 1 This is an ordered list<br>
-            &nbsp; 2 Item 2</p>
-    relationships: |
-        By selecting other records as a 'relation', you are actually
-            creating a link between this record, and the one you selected. On the
-            website, this can by used for 'related articles', 'see also' or to display
-            how this record fits into a certain structure.
-    taxonomy: |
-        By selecting one or more taxonomies for this record,
-                  you are classifying this record to have those properties. On the
-                  website this can be used to group certain records together, or
-                  to automatically create links to records that share a
-                  classification.
+  upload:
+    image: |
+      Utilizza questo campo per caricare una foto o un'immagine. Clicca sul pulsante per caricare un file dal tuo computer, oppure se stai usando una versione recente di Chrome o Firefox, puoi semplicemente trascinare il file dal tuo desktop o da una finestra diversa del browser<br>
+      Altrimenti puoi utilizzare un'immagine caricata precedentemente. Per selezionare un file caricato in precedenza ti basta digitare una (parte) del nome del file nell'area di inserimento e sarà completato automaticamente.
+    file: |
+      Utilizza questo campo per caricare un file da includere come download o per usarlo nella pagina sul sito web. Clicca sul pulsante per caricare un file dal tuo computer, oppure se stai usando una versione recente di Chrome o Firefox, puoi semplicemente trascinare il file dal tuo desktop o da una finestra diversa del browser<br>
+      Altrimenti puoi utilizzare un file caricato precedentemente. Per selezionare un file caricato in precedenza ti basta digitare una (parte) del nome del file nell'area di inserimento e sarà completato automaticamente.
+    filelist: |
+      Usa questo campo per caricare file multipli e alcune descrizioni. Come con campi "file" singoli, versioni recenti di Browser sono in grado di capire se stai trascinando un file nel campo di inserimento. Che ne dici di fare un tentativo?
+    filesmall: |
+      Usa questo pulsante per caricare un file. Per selezionare un file caricato precedentemente, puoi digitare (parte) del nome del file nell'area di inserimento e sarà completato automaticamente.
+    imagelist: |
+      Usa questo campo per caricare una serie di foto o immagini. Clicca sul pulsante per caricare un file dal tuo computer, oppure se stai usando una versione recente di Chrome o Firefox, puoi semplicemente trascinare il file dal tuo desktop o da una finestra diversa del browser<br>
+      Altrimenti puoi usare un'immagine caricata precedentemente<br>
+      Puoi riorganizzare le immagini trascinandole e inoltre puoi modificare la descrizione delle immagini.
+    embed: |
+      Usa questo campo per incorporare il contenuto all'interno di una pagina del sito internet. Ti basta copiare/incollare l'URL della pagina su Twitter, Facebook, Soundcloud o praticamente ogni altro sito web che supporta l'incorporazione<br>
+      Bolt recupererà automaticamente il codice da &lt;incorporare&gt;, con la corretta larghezza,altezza e il titolo originale. Se modifichi la larghezza o l'altezza, l'altro parametro varierà di conseguenza per mantenere le proporzioni.
+    video: |
+      Usa questo campo per incorporare un video all'interno della pagina del sito web. Ti basta copiare/incollare l'URL della pagina video da Youtube, Vimeo o praticamente ogni altro sito web di condivisione video<br>
+      Bolt recupererà automaticamente il codice da &lt;incorporare&gt;, con la corretta larghezza,altezza e il titolo originale. Se modifichi la larghezza o l'altezza l'altro parametro varierà di conseguenza per mantenere le proporzioni.
+  geolocation: |
+    Usa questo campo per ottenere la geolocalizzazione di qualsiasi indirizzo oppure sposta manualmente l'indicatore di posizione trascinando il puntatore. Per prima cosa inserisci un indirizzo (anche approssimativo) nel campo "indirizzo", e le corrispondenti coordinate di latitudine e longitudine saranno recuperate utilizzando le API di Google Maps, insieme all'indirizzo corrispondente più vicino secondo Google<br>
+    Se vuoi spostare l'indicatore di posizione in una posizione diversa, ti basta trascinare il puntatore sulla mini mappa. La latitudine e la longitudine saranno aggiornati automaticamente.
+  markdown: |
+    Il Markdown è uno strumento di conversione text-to-HTML per gli scrittori sul web.
+    <p>Il Markdown ti permette di scrivere usando delle semplici forme di testo facili da leggere e facili da scrivere che saranno convertite automaticamente in codice HTML valido</p>
+    <strong> Guida Veloce</strong>
+    # Questo è tag per il &lt;Titolo 1&gt;<br>
+    ## Questo è il tag per il &lt;Titolo 2&gt;<br>
+    ###### Questo è il tag il &lt;Titolo 6&gt;</p>
+    <p>Questo_ <em>è corsivo</em>_, questo __<strong> è grasseto</strong>__, e questo __<em><strong>è entrambi</strong></em>__. Puoi anche usare gli asterischi: Questo *<em>è corsivo</em>*,
+    questo **<strong>è grasseto</strong>**.
+    <p>Crea dei <a href='#'>links</a>come questi<br>
+    Un [Bellissimo Sito web](http://example.org &quot: Titolo del link&quot;)</p>
+    <p>&nbsp; * Questa è una lista non ordinata<br>
+    &nbsp; * oggetto 2</p>
+    <p>&nbsp;1 Questa è una lista ordinata<br>
+    &nbsp; 2 oggetto 2</p>
+  relationships: |
+    Selezionando gli altri record come "relazione", si crea un link di collegamento tra questo record e quello che hai selezionato. Sul sito web, questo può essere usato per gli "articoli correlati", "vedi anche" o visualizzare come questo record si inserisce in una determinata struttura.
+  taxonomy: |
+    Selezionando una o più tassonomie per questo record, vengono classificate in questo record delle proprietà. Sul sito web puoi utilizzarle per raggruppare determinati record oppure per creare automaticamente link a record che condividono una classificazione comune.
 about:
-    bolt: |
-        <p>Bolt is a CMS that strives to be simple, fast, straightforward and enjoyable to use. Both for
-        developers and content-editors. Bolt is Open Source, and as such it uses other Open Source
-        components. If you are a developer you're very welcome to help in the further development of Bolt.</p>
-    licence: |
-        <p>All parts of Bolt are free to use under the open-source MIT license. The full licensing text can be
-        found here, in the included <a href="https://docs.bolt.cm/other/license">LICENSE.md</a>.</p>
+  bolt: |
+    <p>Bolt è un CMS che ha come obiettivo l'essere semplice, veloce, semplice e piacevole da usare, sia per gli sviluppatori che per i creatori di contenuti, Bolt è Open Source e come tale utilizza altri componenti Open Source. Se sei uno sviluppatore sei il benvenuto per aiutare nello sviluppo di Bolt</p>
+  licence: |
+    <p>Tutte le parti di Bolt sono libere per l'uso con licenza open-source MIT. Il testo completo della licenza può essere trovato qui, incluso nella pagina <a href="https://docs.bolt.cm/other/license">LICENZA.md</a></p>
 prefill:
-    short_help: |
-        <p>Check the contenttypes for which you want to automatically generate some records that are filled with Lorem Ipsum dummy content.</p>
-        <p>If all checkboxes are left unchecked, Bolt will only prefill the contenttypes that have no content yet.</p>
+  short_help: |
+    <p>Verifica i "ContentTypes" per il quale si desidera generare automaticamente alcuni records che sono riempiti con contenuto dimostrativo per principianti</p>
+    <p>Se tutte le caselle vengono lasciate non selezionate, Bolt inserirà solo i "ContentTypes" che non hanno nessun contenuto.</p>
