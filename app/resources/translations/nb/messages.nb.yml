@@ -7,21 +7,18 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
-#  27 Legacy untranslated messages
-# 391 Untranslated messages
-#  14 Legacy translation messages
-# 179 Translation messages
+#   1 Unused messages
+#  25 Legacy untranslated messages
+# 380 Untranslated messages
+#  15 Legacy translation messages
+# 191 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
-"contenttypes.generic.no-proper-type": # "In the ContentType for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
-"general.phrase.duplicate-set": # "Duplicate Set"
 "users.your-password": "Passordet ditt"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
-"(none)": #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Current (saved) status:": #
@@ -35,8 +32,8 @@
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Menu": #
-"Search": #
 "The field %field% has been changed to \"%newValue%\"": #
+"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": # "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
@@ -47,7 +44,6 @@
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "View (saved version) on site": #
-"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -55,8 +51,6 @@ contenttypes.generic.actions-all: # "Actions for %contenttypes%"
 contenttypes.generic.actions-one: # "Actions for this %contenttype%"
 contenttypes.generic.consecutive-underscores: # "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
 contenttypes.generic.created: # "This %contenttype% was created"
-contenttypes.generic.delete: # "Delete %contenttype%"
-contenttypes.generic.duplicate: # "Duplicate %contenttype%"
 contenttypes.generic.duplicated-finalize: # "Content was duplicated. Click 'Save %contenttype%' to finalize."
 contenttypes.generic.edit: # "Edit %contenttype%"
 contenttypes.generic.group.meta: # "Meta"
@@ -92,12 +86,11 @@ field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
 field.embed.height: # "Height"
-field.embed.label.preview: # "Preview"
-field.embed.label.size: # "Size"
 field.embed.label.url: # "URL of content to embed"
 field.embed.matched-embed: # "Matched Embed"
 field.embed.pixel: # "pixel"
 field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.provider-name: #
 field.embed.width: # "Width"
 
 field.general.allowed-filetypes: # "Allowed file types are:"
@@ -148,7 +141,6 @@ general.phrase.access-denied-permissions-view-file-directory: # "You don't have 
 general.phrase.access-denied-privilege-edit-user: # "You do not have the right privileges to edit that user."
 general.phrase.access-denied-self-action: # "You cannot '%s' yourself."
 general.phrase.add-selected: # "Add Selected"
-general.phrase.author: # "Author"
 general.phrase.change-current-status: # "Click to change current status."
 general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
 general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
@@ -161,7 +153,6 @@ general.phrase.close-editor: # "Close editor"
 general.phrase.collapse-sidebar: # "Collapse sidebar"
 general.phrase.configuration-main: # "Main configuration"
 general.phrase.confirm-delete-file: # "Are you sure you want to delete %FILENAME%?"
-general.phrase.confirm-delete-user: # "Are you sure you want to delete %username%?"
 general.phrase.confirm-record-multiple: # "Are you sure you want to do this for %NUMBER% records?"
 general.phrase.confirm-record-single: # "Are you sure you want to do this for 1 record?"
 general.phrase.confirm-remove-file: # "Are you sure you want to remove this file?"
@@ -169,11 +160,11 @@ general.phrase.confirm-remove-files: # "Are you sure you want to remove these fi
 general.phrase.confirm-remove-image: # "Are you sure you want to remove this image?"
 general.phrase.confirm-remove-images: # "Are you sure you want to remove these images?"
 general.phrase.confirm-remove-record: # "Are you sure you wish to delete this record? There is no undo."
+general.phrase.content-type-permissions: # "ContentType Permissions"
+general.phrase.content-types: # "ContentTypes"
 general.phrase.database-check: # "Check Database"
 general.phrase.database-update-required-post: # "to do this now."
 general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
-general.phrase.delete: # "Delete"
-general.phrase.delete-directory-name: # "Delete %foldername%"
 general.phrase.depublish: # "Depublish"
 general.phrase.depublish-date-past: # "Depublish date is in the past. Change the status if you want to depublish now."
 general.phrase.depublish-explanation: # "If set, the record will be automatically depublished on the given date."
@@ -223,7 +214,6 @@ general.phrase.note-colon: # "Note:"
 general.phrase.omnisearch: # "Omnisearch"
 general.phrase.only-root-change-file-extensions: # "Only root can change file extensions."
 general.phrase.or: # "or"
-general.phrase.order: # "Order"
 general.phrase.other-content: # "Other content"
 general.phrase.others: # "Others"
 general.phrase.path-image-file: # "Path to image file"
@@ -234,7 +224,6 @@ general.phrase.published: # "Published"
 general.phrase.record-related-to-variable: # "This record is related to the following %CTNAME%:"
 general.phrase.records: # "Records"
 general.phrase.redirect-detected: # "Redirect detected. Check if you are still logged on."
-general.phrase.related-content: # "Related content"
 general.phrase.rename-foldername: # "Rename %foldername%"
 general.phrase.required-character-count: # "At least %NUM% characters required"
 general.phrase.required-is-bang: # "Is required!"
@@ -280,6 +269,7 @@ general.visit-bolt: # "Visit Bolt.cm"
 generic.noscript.message: # "JavaScript is currently disabled in your browser. Bolt requires JavaScript to function properly and continuing without it might corrupt or erase data."
 
 logs.change-log.cleared: # "The change log has been cleared."
+logs.change-log.contenttypes.all: # "All ContentTypes"
 logs.change-log.trimmed: # "The change log has been trimmed."
 
 logs.system-log: # "System Log"
@@ -300,9 +290,7 @@ page.checks.show-failed: # "Show only failed checks"
 page.checks.system-pass: # "All system configuration checks pass!"
 page.checks.system-problem: # "System configuration check found problems!"
 
-page.ckeditor-browse-server.files: # "Files"
 page.ckeditor-browse-server.size: # "Filesize"
-page.ckeditor-browse-server.title: # "Files"
 
 page.dashboard.button.add: # "Add …"
 page.dashboard.empty-database: # "It seems there's no content in the database."
@@ -389,7 +377,6 @@ page.extend.headline.stable-versions: # "Stable versions"
 page.extend.headline.test-versions: # "Unstable test versions"
 page.extend.headline.theme-installation-complete: # "Theme installation complete"
 page.extend.headline.updates: # "Updates"
-page.extend.listheader.class: # "Class"
 page.extend.listheader.extension: # "Extension"
 page.extend.listheader.name: # "Name"
 page.extend.listheader.status: # "Status"
@@ -446,7 +433,6 @@ page.file-management.message.create-file: # "Please enter the new file name"
 page.file-management.message.create-folder: # "Please enter the new folder name"
 page.file-management.message.save-failed-invalid-form: # "File '%s' could not be saved, because the form wasn't valid."
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
-page.file-management.title: # "File Management"
 
 page.login.button.back: # "Back to login"
 page.login.button.forgot-password: # "I forgot my password …"
@@ -457,7 +443,6 @@ page.login.label.password: # "Password"
 page.login.label.username: # "Username / email"
 page.login.password-hide: # "Hide"
 page.login.password-show: # "Show"
-page.login.placeholder.password: # "Your password"
 page.login.placeholder.username: # "Your username"
 page.login.title: # "Sign in to Bolt"
 
@@ -482,13 +467,14 @@ panel.user-actions.button.add: # "Add a new user"
 "(default template)": "(standard mal)"
 "(no category)": "(ingen kategori)"
 "(no group)": "(ingen gruppe)"
+"(none)": "(ingen)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Legg til litt <a href='%url%' class='btn btn-default'>eksempelinnhold med Loripsum-tekst</a>"
 "Added to <tt>%key%</tt> '%title%'": "La til i <tt>%key%</tt> «%title%»"
 "Everybody": "Alle"
 "Excerpt": "Utdrag"
+"Search": "Søk"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Identifikator og slug for '%taxonomytype%' er ikke det samme ('%slug%' vs. '%taxonomytype%'). Endre taxonomy.yml slik at de samsvarer for å hindre inkonsistens mellom databaselager og dine maler."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Innstillinger for roller og rettigheter lagres i %permissions%."
-"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug-en '%slug%' brukes i mer enn en innholdstype. Rediger contenttypes.yml slik at alle er forskjellige."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Oversettelsesfila «%s» kan ikke opprettes. Du må bruke ditt eget skriveprogram for å endre denne fila."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Dette nettstedet er <a href='%url%' target='_blank' title='Sofistikert, lett og enkelt CMS'>Bygd med Bolt</a>."
 "Title": "Tittel"
@@ -496,8 +482,13 @@ panel.user-actions.button.add: # "Add a new user"
 
 #--- Translation messages -----------------------------------------------------
 
+contenttypes.generic.delete: "Slett %contenttype%"
+contenttypes.generic.duplicate: "Dupliser %contenttype%"
 contenttypes.generic.group.relations: "Relasjoner"
 contenttypes.generic.group.taxonomy: "Taksonomi"
+
+field.embed.label.preview: "Forhåndsvis"
+field.embed.label.size: "Størrelse"
 
 field.general.stack: "Bunke"
 
@@ -528,6 +519,7 @@ general.bolt-third-party-libraries: "Nedenfor er tredjepartsbibliotekene som er 
 general.phrase.access-denied-logged-out: "Du er logget ut."
 general.phrase.access-denied-privilege-view-page: "Du har ikke rettigheter til å se på denne siden."
 general.phrase.action-plural: "Handlinger"
+general.phrase.author: "Forfatter"
 general.phrase.author-colon: "Forfatter:"
 general.phrase.browswer-platform: "Nettleser / plattform"
 general.phrase.by: "av"
@@ -541,9 +533,8 @@ general.phrase.clear-cache-again: "Tøm mellomlager igjen"
 general.phrase.clear-filter-sort: "Tøm sortering/filter"
 general.phrase.code-colon: "Kode:"
 general.phrase.configuration: "Oppsett"
+general.phrase.confirm-delete-user: "Er du sikker på at du vil slette username%?"
 general.phrase.content: "Innhold"
-general.phrase.content-type-permissions: "Rettigheter etter innholdstype"
-general.phrase.content-types: "Innholdstyper"
 general.phrase.create-user-first: "Lag den første brukeren"
 general.phrase.created-on-colon: "Opprettet:"
 general.phrase.current-session-plural: "Gjeldende økter"
@@ -553,6 +544,8 @@ general.phrase.database-check-update: "Sjekk/oppdater database "
 general.phrase.database-prefill: "Forhåndsfyll databasen"
 general.phrase.database-prefill-dummy-content: "Fyll databasen med dummyinnhold"
 general.phrase.database-up-to-date-already: "Databasen din er allerede oppdatert."
+general.phrase.delete: "Slett"
+general.phrase.delete-directory-name: "Slett %foldername%"
 general.phrase.delete-file-name: "Slett %filename%"
 general.phrase.delete-user-name: "Slett %username%"
 general.phrase.depublication-date-colon: "Avpubliseringsdato:"
@@ -596,9 +589,10 @@ general.phrase.modifications-needed-colon: "Endringer som trengs:"
 general.phrase.modified: "Endret"
 general.phrase.no-result-for-search-term: "Ingen resultat funnet for «%SEARCHTERM%». Prøv et annet søk."
 general.phrase.no-such-action-for-user: "Ingen slik handling for bruker «%s»."
-general.phrase.none: "ingen"
+general.phrase.none: "Ingen"
 general.phrase.of: "av"
 general.phrase.options: "Innstillinger"
+general.phrase.order: "Rekkefølge"
 general.phrase.order-colon-sort: "Rekkefølge: %sort%"
 general.phrase.overview: "Oversikt"
 general.phrase.overview-for: "Oversikt for"
@@ -612,6 +606,7 @@ general.phrase.provided-by-colon: "Skaffet av:"
 general.phrase.publication-date-colon: "Publiseringsdato:"
 general.phrase.published-on-colon: "Publisert:"
 general.phrase.read-more: "Les mer"
+general.phrase.related-content: "Relatert innhold"
 general.phrase.relationships: "Relasjoner"
 general.phrase.return-editing: "tilbake til redigering"
 general.phrase.roles: "Roller"
@@ -661,10 +656,11 @@ general.phrase.view-site: "Vis nettsted"
 general.phrase.written-by-on: "Skrevet av <em>%name%</em> %date%"
 
 logs.change-log: "Endringslogg"
-logs.change-log.contenttypes.all: "Alle innholdstyper"
 logs.change-log.not-found: "Den forespurte oppføringen i endringsloggen fins ikke."
 
+page.ckeditor-browse-server.files: "Filer"
 page.ckeditor-browse-server.modified: "Endret"
+page.ckeditor-browse-server.title: "Filer"
 
 page.dashboard.title: "Dashbord"
 
@@ -677,6 +673,7 @@ page.edit-users.label.last-seen: "Sist sett"
 page.edit-users.label.username: "Brukernavn"
 
 page.extend.listheader.actions: "Handlinger"
+page.extend.listheader.class: "Klasse"
 page.extend.message.maintenance: "Vedlikehold"
 
 page.file-management.message.access-denied: "Opplastingen til denne mappa er ikke tillatt."
@@ -686,8 +683,10 @@ page.file-management.message.save-failed-colon: "Klarte ikke lagre fila «%s»:"
 page.file-management.message.save-failed-unknown: "Klarte ikke lagre fila «%s» av en eller annen grunn."
 page.file-management.message.save-success: "Fila «%s» er lagret."
 page.file-management.message.upload-success: "Fila «%file%» er lastet opp."
+page.file-management.title: "Filbehandling"
 
 page.login.password-reset-link-sent: "En lenke for nullstilling av passord er sendt til «%user%»."
+page.login.placeholder.password: "Passordet ditt"
 
 page.prefill.skipped-existing: "Hoppet over <code>%key%</code> (har allerede poster)"
 

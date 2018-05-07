@@ -1,4 +1,3 @@
----
 info:
     upload:
         image: |
@@ -42,14 +41,14 @@ info:
         Markdown est un outil de conversion texte-vers-HTML simple.
         <p>Markdown vous permet d'écrire des textes facile à lire et dans un format compréhensible,
         tout en vous permettant de produire du HTML valide.</p>
-        <p><strong>Référence rapide&nbsp;:</strong><br>
+        <p><strong>Référence rapide:</strong><br>
         # Ceci est une balise &lt;h1&gt;<br>
         ## Ceci est une balise &lt;h2&gt;<br>
         ###### Ceci est une balise &lt;h6&gt;</p>
         <p>Ce texte est en _<em>italique</em>_, celui-ci en __<strong>gras</strong>__, et celui-là
-        ___<em><strong>les deux</strong></em>___. Vous pouvez aussi utiliser des astérisques&nbsp;: Texte en *<em>italique</em>*,
+        ___<em><strong>les deux</strong></em>___. Vous pouvez aussi utiliser des astérisques: Texte en *<em>italique</em>*,
         texte en **<strong>gras</strong>**.
-        <p>Créer des <a href='#'>liens</a> de cette manière&nbsp;:<br>
+        <p>Créer des <a href='#'>liens</a> de cette manière:<br>
         Un [site génial](http://example.org/ &quot;Titre du lien&quot;)</p>
         <p>&nbsp; * Ceci est une liste non ordonnée<br>
         &nbsp; * Elément 2</p>

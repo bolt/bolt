@@ -1,4 +1,3 @@
----
 info:
     upload:
         image: |
@@ -24,9 +23,9 @@ info:
         imagelist: |
             Gebruik dit veld voor het uploaden van meerdere foto's of afbeeldingen.
             Klik op de knop om een bestand van uw computer te uploaden.
-            Als je een recente versie van Chrome of Firefox gebruikt, is het ook mogelijk om het bestand vanaf uw computer naar de knop te slepen<br/>
+            Als je een recente versie van Chrome of Firefox gebruikt, is het ook mogelijk om het bestand vanaf uw computer naar de knop te slepen<br>
             Je kunt ook een afbeelding kiezen die eerder geüpload is. <br>
-            Ook kan je omschrijving van de afbeelding aanpassen en de afbeeldingen met drag'n'drop herschikken .
+            Ook kan je omschrijving van de afbeelding aanpassen en de afbeeldingen met drag'n'drop herschikken.
         embed: |
             Gebruik dit veld voor het embedden van content op een pagina in de website. Kopieer en plak
             de URL van Twitter, Facebook, Soundcloud of bijna elke andere sites die embeds ondersteunt. <br>
@@ -77,12 +76,10 @@ about:
         <p>Bolt is een CMS dat ernaar streeft om simpel, snel, ongecompliceerd te zijn. Voor developers
         en voor content editors. Bolt is Open Source, en maakt ook gebruik van andere Open Source
         componenten. Als u een developer bent, bent u van harte welkom om te helpen bij de verdere
-        ontwikkeling van Bolt.
-        </p>
+        ontwikkeling van Bolt.</p>
     licence: |
         <p>Alle onderdelen van Bolt zijn vrij te gebruiken volgense de open-source MIT licentie. De volledige
-        licentie tekst is beschikbaar in de bijgevoegde <a href="https://docs.bolt.cm/other/license">LICENSE.md</a> bestand.
-        </p>
+        licentie tekst is beschikbaar in de bijgevoegde <a href="https://docs.bolt.cm/other/license">LICENSE.md</a> bestand.</p>
 prefill:
     short_help: |
         <p>Controleer de contenttypes waarvoor u Lorem Ipsum dummy inhoud wilt laten genereren.</p>

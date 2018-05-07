@@ -2,7 +2,7 @@ info:
     upload:
         image: |
             Slouží k nahrání fotografie nebo obrázku.
-            Pro nahrání klikněte na tlačítko <em>Nahrát obrázek</em>.
+            Pro nahrání klikněte na tlačítko Nahrát obrázek.
             Pokud využíváte novější verze prohlížečů Chrome, Firefox apod., jednoduše přetáhněte soubory z vašeho počítače nebo jiného okna prohlížeče.<br>
             Můžete také použít obrázky či fotografie již uložené na tomto webu. Pro použití dříve nahranéhio souboru prostě začněte psát název souboru do vstupního pole.
             Název bude automaticky doplněn.
@@ -30,9 +30,9 @@ info:
         <p>Umožňuje vám psát jednoduše čitelným, snadno zapamatovatelným formátem,
         který je posléze převeden do validní struktury HTML.</p>
         <p><strong>Stručný přehled:</strong><br>
-        # Toto je nadpis H1<br>
-        ## Toto je nadpis H2<br>
-        ###### Toto je nadpis H6</p>
+        # Toto je nadpis &lt;h1&gt;<br>
+        ## Toto je nadpis &lt;h2&gt;<br>
+        ###### Toto je nadpis &lt;h6&gt;</p>
         <p>Toto je _<em>kurzíva</em>_, toto __<strong>tučné</strong>__, a toto
         ___<em><strong>oboje najednou</strong></em>___. Můžete také používat znak hvězdička: Toto *<em>je kurzíva</em>*,
         toto **<strong>je tučňák</strong>**.

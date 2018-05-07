@@ -7,16 +7,14 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
+#   1 Unused messages
 #  13 Legacy untranslated messages
-# 188 Untranslated messages
-#  28 Legacy translation messages
-# 382 Translation messages
+# 185 Untranslated messages
+#  27 Legacy translation messages
+# 386 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
-"general.phrase.duplicate-set": # "Duplicate Set"
-"contenttypes.generic.no-proper-type": "Sisältötyypissä '%contenttype%' kenttä '%field%' on määritetty 'type: %type%', joka ei ole kelvollinen kenttätyyppi. Muokkaa contenttypes.yml korjataksesi tämän."
 "users.your-password": "Salasanasi"
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -27,13 +25,13 @@
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Finding packages that require this one…": #
+"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Menu": #
-"Search": #
 "The field %field% has been changed to \"%newValue%\"": #
+"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": # "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
 "Unable to create file: %FILE%": #
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -41,17 +39,17 @@ contenttypes.generic.consecutive-underscores: # "In the ContentType for '%conten
 contenttypes.generic.group.meta: # "Meta"
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
+contenttypes.generic.reserved-name: # "In the ContentType for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+contenttypes.generic.wrong-use-field: # "In the ContentType for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
 field.embed.height: # "Height"
-field.embed.label.preview: # "Preview"
-field.embed.label.size: # "Size"
 field.embed.label.url: # "URL of content to embed"
 field.embed.matched-embed: # "Matched Embed"
-field.embed.pixel: # "pixel"
 field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.provider-name: #
 field.embed.width: # "Width"
 
 field.markdown.label.markedview: # "Markdown"
@@ -78,7 +76,6 @@ general.bolt-documentation: # "Bolt documentation"
 general.bolt-welcome-new-site: # "Welcome to your new Bolt site, %USER%."
 
 general.phrase.add-selected: # "Add Selected"
-general.phrase.author: # "Author"
 general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
 general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
 general.phrase.clashing-relation: # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
@@ -86,11 +83,13 @@ general.phrase.clear-cache-complete: # "Cleared cache."
 general.phrase.confirm-record-multiple: # "Are you sure you want to do this for %NUMBER% records?"
 general.phrase.confirm-record-single: # "Are you sure you want to do this for 1 record?"
 general.phrase.confirm-remove-files: # "Are you sure you want to remove these files?"
+general.phrase.content-type-permissions: # "ContentType Permissions"
+general.phrase.content-types: # "ContentTypes"
 general.phrase.database-check: # "Check Database"
 general.phrase.database-update-required-post: # "to do this now."
 general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
-general.phrase.delete: # "Delete"
 general.phrase.depublish: # "Depublish"
+general.phrase.depublish-date-past: # "Depublish date is in the past. Change the status if you want to depublish now."
 general.phrase.depublish-explanation: # "If set, the record will be automatically depublished on the given date."
 general.phrase.error-cache-clear: # "Failed to clear cache. You should delete it manually."
 general.phrase.error-login-invalid-parameters: # "Invalid login parameters."
@@ -110,14 +109,11 @@ general.phrase.move-up: # "Move Up"
 general.phrase.no-preview: # "No Preview"
 general.phrase.no-result-for-search-term: # "No results found for '%SEARCHTERM%'. Please try another search."
 general.phrase.no-undo: # "There is no undo!"
-general.phrase.order: # "Order"
 general.phrase.other-content: # "Other content"
 general.phrase.others: # "Others"
-general.phrase.publish: # "Publish"
 general.phrase.record-related-to-variable: # "This record is related to the following %CTNAME%:"
 general.phrase.records: # "Records"
 general.phrase.redirect-detected: # "Redirect detected. Check if you are still logged on."
-general.phrase.related-content: # "Related content"
 general.phrase.required-character-count: # "At least %NUM% characters required"
 general.phrase.search-results-for-variable: # "Search results for <b>%search%</b>."
 general.phrase.selection: # "Selection"
@@ -129,10 +125,10 @@ general.phrase.thumbnail: # "Thumbnail"
 general.phrase.toggle-all: # "Check/Uncheck all"
 general.phrase.upload-drop-here: # "Drop files in the file manager to upload them or use the button below."
 general.phrase.upload-progress: # "Current uploads"
-general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
-general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
 
 general.visit-bolt: # "Visit Bolt.cm"
+
+logs.change-log.contenttypes.all: # "All ContentTypes"
 
 menu.configuration.checks: # "Set-up checks"
 
@@ -176,8 +172,8 @@ page.extend.error-class-invalid: # "Extension package %NAME% has an invalid clas
 page.extend.error-composer-json-not-readable: # "The Bolt extensions composer.json isn't readable."
 page.extend.error-composer-json-not-writable: # "The Bolt extensions composer.json isn't writable."
 page.extend.error-message-client: # "Client error: %errormessage%"
-page.extend.error-message-connection: # "Testing connection to extension server failed: %errormessage%"
 page.extend.error-message-generic: # "Generic failure while testing connection to extension server: %errormessage%"
+page.extend.error-message-server: # "Extension server returned an error: %errormessage%"
 page.extend.headline.bundled: # "Bundled Extensions"
 page.extend.headline.currently-installed: # "Your Currently Installed Extensions"
 page.extend.headline.install-new-extension: # "Install a new Extension"
@@ -191,7 +187,6 @@ page.extend.headline.updates: # "Updates"
 page.extend.listheader.class: # "Class"
 page.extend.listheader.extension: # "Extension"
 page.extend.listheader.name: # "Name"
-page.extend.listheader.status: # "Status"
 page.extend.listheader.version: # "Version"
 page.extend.message.add-extension-with-form: # "Add a new extension using the form below."
 page.extend.message.autoload-dump: # "This will rebuild both the autoload files and cache."
@@ -238,9 +233,9 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 
 page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
+page.file-management.message.create-file: # "Please enter the new file name"
+page.file-management.message.create-folder: # "Please enter the new folder name"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
-
-page.login.placeholder.password: # "Your password"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
@@ -260,11 +255,10 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 "Excerpt": "Näyte"
 "Expand sidebar": "Avaa sivupalkki"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "Tiedostoa '%file%' ei voitu ladata (väärä/kielletty tiedostomuoto). Varmista että tiedostomuoto on jokin seuraavista:"
-"Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Viallinen valikkopolku (%PATH%) tiedostossa menu.yml. Ei vastaa määritettyjä sisältötyyppejä tai reittejä."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Viallinen valikkopolku (%PATH%) tiedostossa menu.yml. Luultavasti sen pitäisi olla 'link:'!"
+"Search": "Hae"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Tyypin '%taxonomytype%' tunnus ja tunniste eivät ole samat ('%slug%' vs. '%taxonomytype%'). Muokkaa ne samoiksi tiedostossa taxonomy.yml estääksesi ristiriidat tietokannan ja sivupohjiesi välillä."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Roolien ja oikeuksien asetukset on tallennettu <code>%permissions%</code>."
-"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Tunniste '%slug%' on käytössä usealle tietotyypille. Muokkaa contenttype.yml erotellaksesi ne toisistaan."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Käännöstiedostoa '%s' ei voida luoda. Sinun pitää päivittää tiedostoa muulla tavoin, esimerkiksi suoraa palvelimelta."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Sivusto on rakennettu <a href='%url%' target='_blank' title='Kehittynyt, kevyt ja yksinkertainen sisällönhallinta'>Boltilla</a>."
 "Title": "Otsikko"
@@ -303,16 +297,18 @@ contenttypes.generic.publish: "Julkaise %contenttype%"
 contenttypes.generic.recent: "Uudet %contenttypes%"
 contenttypes.generic.recent-changes-one: "Viimeisimmät muutokset %contenttype%"
 contenttypes.generic.recently-edited: "Viimeksi muokatut %contenttypes%"
-contenttypes.generic.reserved-name: "Sisältötyypissä '%contenttype%' kenttä '%field%' on määrietty varatulla nimellä. Muokkaa contenttypes.yml korjataksesi tämän."
 contenttypes.generic.save: "Tallenna %contenttype%"
 contenttypes.generic.saved-changes: "Muokkaukset sisältötyyppiin on tallennettu."
 contenttypes.generic.saved-new: "Uusi %contenttype% tallennettu."
 contenttypes.generic.saving-impossible: "%contenttype% ei voitu tallentaa."
 contenttypes.generic.show-more: "Lisää sisältötyyppejä"
 contenttypes.generic.view: "Näytä %contenttypes%"
-contenttypes.generic.wrong-use-field: "Sisältötyypissä '%contenttype%.' kenttä on määritetty 'uses: %uses%', mutta kenttää '%uses%' ei ole olemassa. Muokkaa contenttypes.yml korjataksesi tämän."
 
 contenttypes.record.comment-add-colon: "Lisää kommentti:"
+
+field.embed.label.preview: "Esikatselu"
+field.embed.label.size: "Koko"
+field.embed.pixel: "pikseli"
 
 field.general.allowed-filetypes: "Sallitut tiedostomuodot ovat:"
 field.general.select-from-server: "Valitse palvelimelta"
@@ -366,6 +362,7 @@ general.phrase.access-denied-privilege-edit-user: "Sinulla ei ole tarvittavia oi
 general.phrase.access-denied-privilege-view-page: "Sinulla ei ole oikeuksia näyttää sivua."
 general.phrase.access-denied-self-action: "Et voi '%s' itseäsi."
 general.phrase.action-plural: "Toiminnot"
+general.phrase.author: "Kirjoittaja"
 general.phrase.author-colon: "Kirjoittaja:"
 general.phrase.browswer-platform: "Selain / alusta"
 general.phrase.by: "@"
@@ -393,8 +390,6 @@ general.phrase.confirm-remove-image: "Haluatko varmasti poistaa tämän kuvan?"
 general.phrase.confirm-remove-images: "Haluatko varmasti poistaa nämä kuvat?"
 general.phrase.confirm-remove-record: "Halautko varmasti poistaa tämän tietueen? Sitä ei voi palauttaa."
 general.phrase.content: "Sisältö"
-general.phrase.content-type-permissions: "Sisätötyyppien oikeudet"
-general.phrase.content-types: "Sisältötyypit"
 general.phrase.create-user-first: "Luo ensimmäinen käyttäjä"
 general.phrase.created-on-colon: "Luotu:"
 general.phrase.current-session-plural: "Nykyiset istunnot:"
@@ -404,11 +399,11 @@ general.phrase.database-check-update: "Tietokannan tarkistus/päivitys"
 general.phrase.database-prefill: "Esitäytä tietokanta"
 general.phrase.database-prefill-dummy-content: "Täytä tietokanta mallisisällöllä"
 general.phrase.database-up-to-date-already: "Tietokanta on ajantasalla."
+general.phrase.delete: "Tuhoa"
 general.phrase.delete-directory-name: "Poista %foldername%"
 general.phrase.delete-file-name: "Tuhoa %filename%"
 general.phrase.delete-user-name: "Tuhoa %username%"
 general.phrase.depublication-date-colon: "Arkistointipäiväys"
-general.phrase.depublish-date-past: "Arkistointipäiväys on menneisyydessä. Vaihda tila jos haluat arkistoida nyt."
 general.phrase.deselect-all: "Poista valinnat"
 general.phrase.details: "Yksityiskohdat"
 general.phrase.disable-user-name: "Sulje %username%"
@@ -480,6 +475,7 @@ general.phrase.omnisearch: "Monihaku"
 general.phrase.only-root-change-file-extensions: "Vain pääkäyttäjä voi vaihtaa tiedostopäätteen."
 general.phrase.options: "Valinnat"
 general.phrase.or: "tai"
+general.phrase.order: "Järjestys"
 general.phrase.order-colon-sort: "Järjestys: %sort%"
 general.phrase.overview: "Yleiskatsaus"
 general.phrase.overview-for: "Yleiskatsaus:"
@@ -493,10 +489,12 @@ general.phrase.preview: "Esikatselu"
 general.phrase.profile: "Profiili"
 general.phrase.provided-by-colon: "Toimittanut:"
 general.phrase.publication-date-colon: "Julkaisupäivä:"
+general.phrase.publish: "Julkaise"
 general.phrase.publish-timed: "Ajoitettu julkaisu"
 general.phrase.published: "Julkaise"
 general.phrase.published-on-colon: "Julkaisuaika:"
 general.phrase.read-more: "Lue lisää"
+general.phrase.related-content: "Liittyvä sisältö"
 general.phrase.relationships: "Liitokset"
 general.phrase.rename-foldername: "Uudelleennimeä  %foldername%"
 general.phrase.required-is-bang: "Vaadittu!"
@@ -559,6 +557,8 @@ general.phrase.users-none-create-first: "Tietokannassa ei ole käyttäjiä. Ole 
 general.phrase.users-none-create-first-extended: "Järjestelmässä ei ole käyttäjiä. Luo ensimmäinen käyttäjä, joka saa pääkäyttäjän oikeudet."
 general.phrase.users-permissions: "Käyttäjät   Oikeudet"
 general.phrase.users.all: "Kaikki käyttäjät"
+general.phrase.value-maximum-variable: "Arvo ei saa olla yli “%MAXVAL%”!"
+general.phrase.value-minimum-variable: "Arvon täytyy olla vähintään “%MINVAL%”!"
 general.phrase.value-new: "Uusi arvo"
 general.phrase.value-old: "Vanha arvo"
 general.phrase.view-edit-templates: "Näytä tai muokkaa sivupohjia"
@@ -575,7 +575,6 @@ generic.noscript.message: "JavaScript on poistettu käytöstä selaimessasi. Suu
 
 logs.change-log: "Muutoslogi"
 logs.change-log.cleared: "Muutoslogi tyhjennettiin."
-logs.change-log.contenttypes.all: "Kaikki sisältötyypit"
 logs.change-log.not-found: "Pyydetty muutoslogin merkintä ei ole olemassa."
 logs.change-log.trimmed: "Muutoslogi karsittiin."
 
@@ -640,16 +639,15 @@ page.edit-users.title.profile: "Profiili"
 page.edit-users.user-create: "Luo uusi käyttäjätili alla olevalla lomakkeella. Salasana kenttä on pakollinen."
 page.edit-users.user-edit: "Muokkaa olemassa olevaa käyttäjätiliä alla olevalla lomakkeella. Jätä salasanakenttä tyhjäksi, jos et halua vaihtaa salasanaa."
 
-page.extend.error-message-server: "Yhteydentarkistus laajennospalvelimelle epäonnistui: %errormessage%"
+page.extend.error-message-connection: "Yhteydentarkistus laajennospalvelimelle epäonnistui: %errormessage%"
 page.extend.listheader.actions: "Toiminnot"
+page.extend.listheader.status: "Tila"
 page.extend.message.maintenance: "Ylläpito"
 page.extend.theme.generation.missing.name: "Teeman nimeä ei löydy. Teemaa ei luotu."
 page.extend.theme.generation.success: "Teema luotiin onnistuneesti. Voit nyt muokata sitä suoraan teemakansiostasi."
 
 page.file-management.label.create-folder: "Luo kansio"
 page.file-management.message.access-denied: "Lataus tähän kansioon ei ole sallittu."
-page.file-management.message.create-file: "Anna uusi tiedoston nimi!"
-page.file-management.message.create-folder: "Anna uusi kansion nimi!"
 page.file-management.message.file-not-readable: "Tiedostoa ei voida lukea."
 page.file-management.message.folder-not-found: "Hakemistoa '%s' ei löydy tai sitä ei voida lukea."
 page.file-management.message.save-failed-colon: "Tiedostoa '%s' ei voida tallentaa:"
@@ -657,7 +655,7 @@ page.file-management.message.save-failed-invalid-form: "Tiedostoa '%s' ei voitu 
 page.file-management.message.save-failed-unknown: "Jostain syystä tiedostoa '%s' ei voida tallentaa."
 page.file-management.message.save-success: "Tiedosto '%s' tallennettu."
 page.file-management.message.upload-success: "Tiedosto '%file%' ladattiin onnistuneesti."
-page.file-management.title: "Tiedostot"
+page.file-management.title: "Tiedostohallinta"
 
 page.login.button.back: "Takaisin sisäänkirjautumiseen"
 page.login.button.forgot-password: "Unohdin salasanani…"
@@ -669,6 +667,7 @@ page.login.label.username: "Käyttäjätunnus / sähköposti"
 page.login.password-hide: "Piilota"
 page.login.password-reset-link-sent: "Salasanan palautuslinkki lähetettiin käyttäjälle '%user%'."
 page.login.password-show: "Näytä"
+page.login.placeholder.password: "Salasanasi"
 page.login.placeholder.username: "Käyttäjätunnuksesi"
 page.login.title: "Bolt sisäänkirjautuminen"
 

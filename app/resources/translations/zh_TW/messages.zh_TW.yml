@@ -7,16 +7,14 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
-#  22 Legacy untranslated messages
+#   1 Unused messages
+#  20 Legacy untranslated messages
 # 233 Untranslated messages
-#  19 Legacy translation messages
-# 337 Translation messages
+#  20 Legacy translation messages
+# 338 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
-"general.phrase.duplicate-set": # "Duplicate Set"
-"contenttypes.generic.no-proper-type": "“%contenttype%(Entry)”的內容格式配置中，設定為'type: %type%'的欄位'%field%'不是合適的欄位類型(fieldtype)。請編輯contenttypes.yml檔案，修復此問題。"
 "users.your-password": "你的密碼"
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -25,15 +23,14 @@
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
-"Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Everybody": #
 "Finding packages that require this one…": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Menu": #
-"Search": #
 "The field %field% has been changed to \"%newValue%\"": #
+"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": # "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
 "Unable to delete directory: %DIR%": #
@@ -42,7 +39,6 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
-"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -50,17 +46,17 @@ contenttypes.generic.consecutive-underscores: # "In the ContentType for '%conten
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
 contenttypes.generic.recent-changes-one: # "Recent changes to this %contenttype%"
+contenttypes.generic.reserved-name: # "In the ContentType for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+contenttypes.generic.wrong-use-field: # "In the ContentType for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
 field.embed.height: # "Height"
-field.embed.label.preview: # "Preview"
-field.embed.label.size: # "Size"
 field.embed.label.url: # "URL of content to embed"
 field.embed.matched-embed: # "Matched Embed"
-field.embed.pixel: # "pixel"
 field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.provider-name: #
 field.embed.width: # "Width"
 
 field.general.stack: # "Stack"
@@ -105,7 +101,6 @@ general.phrase.clear-cache-complete: # "Cleared cache."
 general.phrase.clear-change-log: # "Clear Change Log"
 general.phrase.clear-system-log: # "Clear System Log"
 general.phrase.close-editor: # "Close editor"
-general.phrase.confirm-delete-file: # "Are you sure you want to delete %FILENAME%?"
 general.phrase.confirm-record-multiple: # "Are you sure you want to do this for %NUMBER% records?"
 general.phrase.confirm-record-single: # "Are you sure you want to do this for 1 record?"
 general.phrase.confirm-remove-file: # "Are you sure you want to remove this file?"
@@ -113,10 +108,11 @@ general.phrase.confirm-remove-files: # "Are you sure you want to remove these fi
 general.phrase.confirm-remove-image: # "Are you sure you want to remove this image?"
 general.phrase.confirm-remove-images: # "Are you sure you want to remove these images?"
 general.phrase.confirm-remove-record: # "Are you sure you wish to delete this record? There is no undo."
+general.phrase.content-type-permissions: # "ContentType Permissions"
+general.phrase.content-types: # "ContentTypes"
 general.phrase.database-check: # "Check Database"
 general.phrase.database-update-required-post: # "to do this now."
 general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
-general.phrase.delete: # "Delete"
 general.phrase.depublish: # "Depublish"
 general.phrase.depublish-date-past: # "Depublish date is in the past. Change the status if you want to depublish now."
 general.phrase.depublish-explanation: # "If set, the record will be automatically depublished on the given date."
@@ -158,7 +154,6 @@ general.phrase.publish: # "Publish"
 general.phrase.record-related-to-variable: # "This record is related to the following %CTNAME%:"
 general.phrase.records: # "Records"
 general.phrase.redirect-detected: # "Redirect detected. Check if you are still logged on."
-general.phrase.related-content: # "Related content"
 general.phrase.required-character-count: # "At least %NUM% characters required"
 general.phrase.required-is-bang: # "Is required!"
 general.phrase.required-is-or-match-pattern: # "Is required or needs to match a pattern!"
@@ -184,6 +179,8 @@ general.phrase.warning-templatefields-loss: # "You may lose some of your templat
 general.phrase.warning-unfinished-changes-loss: # "You have unfinished changes on this page. If you continue without saving, you will lose these changes."
 
 general.visit-bolt: # "Visit Bolt.cm"
+
+logs.change-log.contenttypes.all: # "All ContentTypes"
 
 menu.configuration.checks: # "Set-up checks"
 menu.configuration.routing: # "Routing set up"
@@ -240,7 +237,6 @@ page.extend.headline.stable-versions: # "Stable versions"
 page.extend.headline.test-versions: # "Unstable test versions"
 page.extend.headline.theme-installation-complete: # "Theme installation complete"
 page.extend.headline.updates: # "Updates"
-page.extend.listheader.class: # "Class"
 page.extend.listheader.extension: # "Extension"
 page.extend.listheader.name: # "Name"
 page.extend.listheader.status: # "Status"
@@ -291,10 +287,10 @@ page.extend.theme.generation.missing.name: # "No theme name found. Theme is not 
 
 page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
+page.file-management.message.create-file: # "Please enter the new file name"
+page.file-management.message.create-folder: # "Please enter the new folder name"
 page.file-management.message.save-failed-invalid-form: # "File '%s' could not be saved, because the form wasn't valid."
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
-
-page.login.placeholder.password: # "Your password"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
@@ -314,12 +310,13 @@ panel.latest-activity.system: # "Latest system activity"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>帶有 Loripsum 示例文字</a> 的記錄"
 "Added to <tt>%key%</tt> '%title%'": "添加到 <tt>%key%</tt> '%title%'"
 "Current (saved) status:": "當前(儲存的)狀態:"
+"Do you really want to delete %FOLDERNAME%?": "確認要刪除 %FOLDERNAME% 嗎？"
 "Excerpt": "摘要"
 "Expand sidebar": "展開"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "無法上傳檔案 '%file%' (錯誤的/不允許的檔案類型)。確保副檔名是以下類型之一："
+"Search": "搜尋"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' 的標識符和 slug 不同。('%slug%' 與 '%taxonomytype%')。請編輯 taxonomy.yml 保持一致，避免資料庫存儲和模板不一致。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "角色和許可權設定儲存在 <code>%permissions%</code> 檔案中。"
-"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "slug '%slug%'用在了多個內容格式中。請編輯 contenttypes.yml 區分它們。"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "無法創建翻譯檔案 '%s'。你需要自行使用編輯器修改檔案。"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "本網站由<a href='%url%' target='_blank' title='精緻、輕量、簡潔的 CMS'>Bolt 構建</a>。"
 "Title": "標題"
@@ -353,16 +350,18 @@ contenttypes.generic.overview: "%contenttypes%一覽"
 contenttypes.generic.publish: "釋出%contenttype%"
 contenttypes.generic.recent: "歷史%contenttypes%"
 contenttypes.generic.recently-edited: "曾經編輯的%contenttypes%"
-contenttypes.generic.reserved-name: "“%contenttype%”的內容格式配置中，所設定的'%field%'欄位是保留字。請編輯contenttypes.yml檔案，修復此問題。"
 contenttypes.generic.save: "儲存%contenttype%"
 contenttypes.generic.saved-changes: "對此%contenttype%所做出的變更已經儲存。"
 contenttypes.generic.saved-new: "已儲存新%contenttype%。"
 contenttypes.generic.saving-impossible: "無法儲存%contenttype%。"
 contenttypes.generic.show-more: "更多%contenttypes%"
 contenttypes.generic.view: "檢視%contenttypes%"
-contenttypes.generic.wrong-use-field: "“%contenttype%”的內容格式配置中，欄位'%field%'所設定的'uses: %uses%'中'%uses%'欄位並不存在。請編輯contenttypes.yml檔案，修復此問題。"
 
 contenttypes.record.comment-add-colon: "添加註釋："
+
+field.embed.label.preview: "預覽"
+field.embed.label.size: "大小"
+field.embed.pixel: "畫素"
 
 field.general.allowed-filetypes: "允許的檔案類型為："
 field.general.select-from-server: "在伺服器上選擇"
@@ -425,10 +424,9 @@ general.phrase.code-colon: "程式碼:"
 general.phrase.collapse-sidebar: "摺疊側邊欄"
 general.phrase.configuration: "配置"
 general.phrase.configuration-main: "主配置檔案"
+general.phrase.confirm-delete-file: "確定要刪除 %FILENAME% 嗎？"
 general.phrase.confirm-delete-user: "確定要刪除 %username% 嗎？"
 general.phrase.content: "內容"
-general.phrase.content-type-permissions: "內容格式的許可權"
-general.phrase.content-types: "內容格式"
 general.phrase.create-user-first: "創建第一個使用者"
 general.phrase.created-on-colon: "創建於："
 general.phrase.current-session-plural: "當前會話"
@@ -438,6 +436,7 @@ general.phrase.database-check-update: "資料庫檢查 / 更新"
 general.phrase.database-prefill: "填充資料庫"
 general.phrase.database-prefill-dummy-content: "用示例內容填充資料庫"
 general.phrase.database-up-to-date-already: "資料庫已經是最新的。"
+general.phrase.delete: "刪除"
 general.phrase.delete-directory-name: "刪除 %foldername%"
 general.phrase.delete-file-name: "刪除 %filename%"
 general.phrase.delete-user-name: "刪除 %username%"
@@ -517,7 +516,8 @@ general.phrase.publish-timed: "定時釋出"
 general.phrase.published: "已釋出"
 general.phrase.published-on-colon: "發表於："
 general.phrase.read-more: "閱讀更多"
-general.phrase.relationships: "關係"
+general.phrase.related-content: "相關內容"
+general.phrase.relationships: "關聯"
 general.phrase.rename-foldername: "重新命名 %foldername%"
 general.phrase.return-editing: "返回編輯"
 general.phrase.roles: "角色"
@@ -585,7 +585,6 @@ generic.noscript.message: "你的瀏覽器當前已禁用JavaScript。Bolt的大
 
 logs.change-log: "變更紀錄"
 logs.change-log.cleared: "變更紀錄已被清除。"
-logs.change-log.contenttypes.all: "所有內容格式"
 logs.change-log.not-found: "所請求的 changelog 條目不存在。"
 logs.change-log.trimmed: "變更紀錄已被縮減。"
 
@@ -594,7 +593,7 @@ logs.system-log.cleared: "系統紀錄已被清除。"
 logs.system-log.trimmed: "系統紀錄已被縮減。"
 
 page.ckeditor-browse-server.files: "檔案"
-page.ckeditor-browse-server.modified: "已修改"
+page.ckeditor-browse-server.modified: "修改時間"
 page.ckeditor-browse-server.size: "檔案大小"
 page.ckeditor-browse-server.title: "檔案"
 
@@ -624,7 +623,7 @@ page.edit-users.error.username-used: "使用者名已被佔用，請選擇別的
 page.edit-users.label.assigned-roles: "分配角色"
 page.edit-users.label.display-name: "顯示名"
 page.edit-users.label.last-ip: "上一次IP"
-page.edit-users.label.last-seen: "上次登入"
+page.edit-users.label.last-seen: "上一次時間"
 page.edit-users.label.password: "密碼"
 page.edit-users.label.password-confirm: "密碼(確認)"
 page.edit-users.label.user-enabled: "啟用使用者"
@@ -650,20 +649,19 @@ page.extend.button.install-all: "安裝所有包"
 page.extend.button.update-all: "運行全部更新"
 page.extend.button.update-check: "運行更新檢查"
 page.extend.listheader.actions: "操作"
+page.extend.listheader.class: "分級"
 page.extend.message.maintenance: "維護"
 page.extend.theme.generation.success: "布景產生成功，你現在可以從存放布景的資料夾修改它。"
 
 page.file-management.label.create-folder: "創建資料夾"
 page.file-management.message.access-denied: "不允許上傳到此資料夾。"
-page.file-management.message.create-file: "請輸入新檔名"
-page.file-management.message.create-folder: "請輸入新資料夾名"
 page.file-management.message.file-not-readable: "檔案不可讀取！"
 page.file-management.message.folder-not-found: "找不到 '%s' 資料夾，或者該資料夾不可讀。"
 page.file-management.message.save-failed-colon: "無法儲存檔案 '%s'："
 page.file-management.message.save-failed-unknown: "由於某種原因，檔案 '%s' 不能儲存。"
 page.file-management.message.save-success: "已儲存檔案 '%s'。"
 page.file-management.message.upload-success: "檔案 '%file%' 上傳成功。"
-page.file-management.title: "檔案"
+page.file-management.title: "檔案管理"
 
 page.login.button.back: "返回登入"
 page.login.button.forgot-password: "我忘記了自己的密碼"
@@ -675,6 +673,7 @@ page.login.label.username: "使用者名 / email"
 page.login.password-hide: "隱藏"
 page.login.password-reset-link-sent: "密碼重置連結已發送到 '%user%'。"
 page.login.password-show: "顯示"
+page.login.placeholder.password: "你的密碼"
 page.login.placeholder.username: "你的使用者名"
 page.login.title: "登入 Bolt"
 

@@ -7,15 +7,16 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
-#   4 Legacy untranslated messages
-#  40 Untranslated messages
-#  37 Legacy translation messages
-# 530 Translation messages
+#   4 Unused messages
+#   2 Legacy untranslated messages
+#  33 Untranslated messages
+#  38 Legacy translation messages
+# 538 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
 "contenttypes.generic.no-proper-type": "%contenttype%: das Feld „%field%“ hat den Typ „%type%“, was kein valider Feldtyp mehr ist. Bitte contenttypes.yml editieren und dies korrigieren."
+"general.phrase.delete-set": "Set löschen"
 "general.phrase.duplicate-set": "Kopiere Gruppe"
 "users.your-password": "Ihr Passwort"
 
@@ -23,8 +24,6 @@
 
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "Menu": #
-"Search": #
-"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -33,14 +32,9 @@ contenttypes.generic.consecutive-underscores: # "In the ContentType for '%conten
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
-field.embed.height: # "Height"
-field.embed.label.preview: # "Preview"
-field.embed.label.size: # "Size"
 field.embed.label.url: # "URL of content to embed"
 field.embed.matched-embed: # "Matched Embed"
-field.embed.pixel: # "pixel"
-field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
-field.embed.width: # "Width"
+field.embed.provider-name: #
 
 field.repeater.collapse: # "Collapse this set"
 field.repeater.collapse-all: # "Collapse all"
@@ -66,15 +60,12 @@ page.checks.system-problem: # "System configuration check found problems!"
 
 page.edit-users.error.email-invalid: # "This email address is not valid."
 page.edit-users.error.password-different-email: # "Password must not match the email address."
-page.edit-users.error.password-long: # "This value is too long. It should have 128 characters or less."
 
 page.extend.headline.bundled: # "Bundled Extensions"
 page.extend.listheader.class: # "Class"
 page.extend.listheader.name: # "Name"
 
 page.file-management.actions-for-files: # "Actions for files"
-
-page.login.placeholder.password: # "Your password"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
@@ -101,6 +92,7 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 "Finding packages that require this one…": "Finde Pakete die dieses erfordern…"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Ungültiger Menüpfad (%PATH%) in menu.yml gesetzt. Dieser stimmt mit keinem konfigurierten Datentyp oder einer Route überein."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Ungültiger Menüpfad (%PATH%) in menu.yml gesetzt. Vielleichst sollte stattdessen link: benutzt werden!"
+"Search": "Suche"
 "The field %field% has been changed to \"%newValue%\"": "Das Feld %field% wurde auf \"%newValue%\" geändert"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "Die ID und das Kürzel für '%taxonomytype%' sind nicht die selben ('%slug%' und '%taxonomytype%'). Bitte editieren Sie taxonomy.yml, um eventuelle Inkonsistenzen in Templates oder der Datenbank zu verhindern."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "Die Einstellungen und Berechtigungen werden in <code>%permissions%</code> gespeichert."
@@ -160,6 +152,13 @@ contenttypes.generic.wrong-use-field: "%contenttype%: das Feld „%field%“ nut
 
 contenttypes.record.comment-add-colon: "Einen Kommentar hinzufügen:"
 
+field.embed.height: "Höhe"
+field.embed.label.preview: "Vorschau"
+field.embed.label.size: "Größe"
+field.embed.pixel: "Pixel"
+field.embed.placeholder.url: "Url van de content op Facebook, Twitter, Soundcloud, etc."
+field.embed.width: "Breite"
+
 field.general.allowed-filetypes: "Erlaubte Dateitypen sind:"
 field.general.select-from-server: "Vom Server wählen"
 field.general.stack: "Stapel"
@@ -182,7 +181,7 @@ field.repeater.delete-set: "Set löschen"
 field.slug.button.edit: "Bearbeiten"
 field.slug.button.generate: "Generiere von:"
 field.slug.button.lock: "Sperren"
-field.slug.message.warning: "Änderungen an diesem Feld können sich auf externe Verlinkungen auswirken!"
+field.slug.message.warning: "Ändernungen an diesem Feld können sich auf externe Verlinkungen auswirken!"
 field.slug.permalink: "Permanenter Link"
 field.slug.unique-alias: "Eindeutiger Alias"
 
@@ -394,7 +393,7 @@ general.phrase.read-more: "Mehr …"
 general.phrase.record-related-to-variable: "Dieser Eintrag ist verbunden mit %CTNAME%:"
 general.phrase.records: "Einträge"
 general.phrase.redirect-detected: "Umleitung erkannt. Bitte prüfen ob wir noch angemeldet sind."
-general.phrase.related-content: "Verwandter Inhalt"
+general.phrase.related-content: "Verknüpfte Inhalte"
 general.phrase.relationships: "Beziehungen"
 general.phrase.rename-foldername: "%foldername% umbenennen"
 general.phrase.required-character-count: "Es sind mindestens %NUM% Zeichen erforderlich"
@@ -466,8 +465,8 @@ general.phrase.users-none-create-first: "Es gibt keine Benutzer in der Datenbank
 general.phrase.users-none-create-first-extended: "Auf dem System existieren keine Benutzer. Bitte legen sie den ersten Benutzer an. Dieser bekommt automatisch Root-Rechte."
 general.phrase.users-permissions: "Benutzer & Benutzerrechte"
 general.phrase.users.all: "Alle Benutzer"
-general.phrase.value-maximum-variable: "Der Wert muss kleiner als “%MAXVAL%” sein!"
-general.phrase.value-minimum-variable: "Der Wert muss größer als “%MINVAL%” sein!"
+general.phrase.value-maximum-variable: "Der Wert darf nicht größer sein als „%MAXVAL%”!"
+general.phrase.value-minimum-variable: "Der Wert muss mindestens „%MINVAL%” betragen!"
 general.phrase.value-new: "Neuer Wert"
 general.phrase.value-old: "Alter Wert"
 general.phrase.view-edit-templates: "Templates anzeigen/bearbeiten"
@@ -498,7 +497,7 @@ menu.configuration.routing: "Routing einrichten"
 
 nut.greeting: "Willkommen bei Bolt!"
 
-nut.version: "version"
+nut.version: "version\_"
 
 page.ckeditor-browse-server.files: "Dateien"
 page.ckeditor-browse-server.modified: "Bearbeitet"
@@ -527,6 +526,7 @@ page.edit-users.error.displayname-used: "Dieser Anzeigename ist bereits in Verwe
 page.edit-users.error.email-used: "Diese E-Mail Adresse wird bereits benutzt. Bitte eine andere wählen."
 page.edit-users.error.password-different-displayname: "Das Passwort darf nicht Teil des Anzeigenamens sein."
 page.edit-users.error.password-different-username: "Das Passwort darf nicht mit dem Benutzernamen übereinstimmen."
+page.edit-users.error.password-long: "Dieser Wert ist zu groß. Er sollte 128 oder weniger Zeichen haben."
 page.edit-users.error.password-mismatch: "Passwörter müssen gleich sein."
 page.edit-users.error.password-short: "Der Wert ist zu kurz. Bitte mindestens 6 Zeichen Länge."
 page.edit-users.error.username-used: "Benutzername bereits in Verwendung. Bitte andere Wahl treffen."
@@ -595,7 +595,7 @@ page.extend.headline.updates: "Updates"
 page.extend.listheader.actions: "Aktionen"
 page.extend.listheader.extension: "Extension"
 page.extend.listheader.status: "Status"
-page.extend.listheader.version: "Version"
+page.extend.listheader.version: "Version\_"
 page.extend.message.add-extension-with-form: "Neue Erweiterungen können mit dem Formular hinzugefügt werden."
 page.extend.message.autoload-dump: "Dies wird die Autoload-Dateien und den Cache neu erzeugen."
 page.extend.message.autoloader-start: "Lade Composer Autoload Dumper"
@@ -667,6 +667,7 @@ page.login.label.username: "Benutzername / E-Mail Adresse"
 page.login.password-hide: "Verstecken"
 page.login.password-reset-link-sent: "Ein Link zum Zurücksetzen des Passworts wurde an '%user%' versandt."
 page.login.password-show: "Anzeigen"
+page.login.placeholder.password: "Ihr Passwort"
 page.login.placeholder.username: "Ihr Benutzername"
 page.login.title: "In Bolt anmelden"
 

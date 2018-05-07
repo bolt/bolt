@@ -46,21 +46,21 @@ info:
         mini-map. The latitude and longitude will be updated automatically.
     markdown: |
         Markdown is a text-to-HTML conversion tool for web writers.
-            <p>Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
-            which is then converted to structurally valid HTML.</p>
-            <p><strong>Quick reference:</strong><br>
-            # This is an &lt;h1&gt;-tag<br>
-            ## This is an &lt;h2&gt;-tag<br>
-            ###### This is an &lt;h6&gt;-tag</p>
-            <p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
-            ___<em><strong>is both</strong></em>___. You can also use asterisks: This *<em>is italic</em>*,
-            this **<strong>is bold</strong>**.
-            <p>Create <a href='#'>links</a> like this:<br>
-            An [exciting website](http://example.org/ &quot;Title of link&quot;)</p>
-            <p>&nbsp; * This is an unordered list<br>
-            &nbsp; * Item 2</p>
-            <p>&nbsp; 1 This is an ordered list<br>
-            &nbsp; 2 Item 2</p>
+        <p>Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
+        which is then converted to structurally valid HTML.</p>
+        <p><strong>Quick reference:</strong><br>
+        # This is an &lt;h1&gt;-tag<br>
+        ## This is an &lt;h2&gt;-tag<br>
+        ###### This is an &lt;h6&gt;-tag</p>
+        <p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
+        ___<em><strong>is both</strong></em>___. You can also use asterisks: This *<em>is italic</em>*,
+        this **<strong>is bold</strong>**.
+        <p>Create <a href='#'>links</a> like this:<br>
+        An [exciting website](http://example.org/ &quot;Title of link&quot;)</p>
+        <p>&nbsp; * This is an unordered list<br>
+        &nbsp; * Item 2</p>
+        <p>&nbsp; 1 This is an ordered list<br>
+        &nbsp; 2 Item 2</p>
     relationships: |
         By selecting other records as a 'relation', you are actually
         creating a link between this record, and the one you selected. On the
