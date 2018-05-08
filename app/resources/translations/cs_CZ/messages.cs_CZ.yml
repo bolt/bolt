@@ -7,11 +7,17 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#   8 Legacy untranslated messages
-#  18 Untranslated messages
+#   3 Unused messages
+#   9 Legacy untranslated messages
+#  33 Untranslated messages
 #  32 Legacy translation messages
-# 540 Translation messages
+# 537 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"contenttypes.generic.no-proper-type": "Typ obsahu „%contenttype%“, pole „%field%“ používá „typ: %type%“, což není korektní typ pole. Proveďte prosím potřebné úpravy v contenttypes.yml."
+"general.phrase.duplicate-set": "Duplikovat sadu"
+"users.your-password": "Vaše heslo"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -23,14 +29,31 @@
 "Search": #
 "The field %field% has been changed to \"%newValue%\"": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
+"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
+
+contenttypes.generic.consecutive-underscores: # "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
+field.embed.height: # "Height"
+field.embed.label.preview: # "Preview"
+field.embed.label.size: # "Size"
+field.embed.label.url: # "URL of content to embed"
+field.embed.matched-embed: # "Matched Embed"
+field.embed.pixel: # "pixel"
+field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.width: # "Width"
+
+field.repeater.collapse: # "Collapse this set"
+field.repeater.collapse-all: # "Collapse all"
+field.repeater.expand: # "Expand this set"
+field.repeater.expand-all: # "Expand all"
 field.repeater.label.add-set: # "Add new %label% set"
 
+general.phrase.upload-drop-here: # "Drop files in the file manager to upload them or use the button below."
 general.phrase.upload-progress: # "Current uploads"
 
 menu.configuration.checks: # "Set-up checks"
@@ -47,6 +70,8 @@ page.edit-users.error.password-different-email: # "Password must not match the e
 page.edit-users.error.password-long: # "This value is too long. It should have 128 characters or less."
 
 page.file-management.actions-for-files: # "Actions for files"
+
+page.login.placeholder.password: # "Your password"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
@@ -107,7 +132,6 @@ contenttypes.generic.invalid-relation: "V definici obsahu „%contenttype%“ je
 contenttypes.generic.last-modified: "Poslední úpravy %contenttypes%"
 contenttypes.generic.new: "%contenttype%"
 contenttypes.generic.no-latest: "Žádný poslední %contenttype%"
-contenttypes.generic.no-proper-type: "Typ obsahu „%contenttype%“, pole „%field%“ používá „typ: %type%“, což není korektní typ pole. Proveďte prosím potřebné úpravy v contenttypes.yml."
 contenttypes.generic.no-recent: "Prázdný: %contenttype%."
 contenttypes.generic.none-available: "%contenttypes% nenalezen."
 contenttypes.generic.not-existing: "Typ obsahu %contenttype%, který hledáte, neexistuje. Buď byl smazán a nebo nikdy neexistoval."
@@ -144,6 +168,8 @@ field.image.label.alt: "Alternativní text (popis obrázku)"
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Náhled"
+
+field.repeater.delete-set: "Odstranit sadu"
 
 field.slug.button.edit: "Upravit"
 field.slug.button.generate: "Vytvořit z:"
@@ -246,7 +272,6 @@ general.phrase.database-update-required-pre: "Databázi je nutné aktualizovat/o
 general.phrase.delete: "Smazat"
 general.phrase.delete-directory-name: "Smazat %foldername%"
 general.phrase.delete-file-name: "Smazat %filename%"
-field.repeater.delete-set: "Odstranit sadu"
 general.phrase.delete-user-name: "Odstranit %username%"
 general.phrase.depublication-date-colon: "Datum expirace:"
 general.phrase.depublish: "Odpublikovat"
@@ -257,7 +282,6 @@ general.phrase.details: "Podrobnosti"
 general.phrase.disable-user-name: "Zablokovat %username%"
 general.phrase.draft: "Koncept"
 general.phrase.duplicate-file-name: "Duplikovat %filename%"
-general.phrase.duplicate-set: "Duplikovat sadu"
 general.phrase.edit: "Upravit"
 general.phrase.edit-file: "Upravit soubor"
 general.phrase.edit-role-permissions: "Upravit uživatelské role a oprávnění"
@@ -643,7 +667,6 @@ page.login.password-hide: "Skrýt"
 page.login.password-reset-link-sent: "Odkaz na obnovení hesla byl odeslán uživateli „%user%“."
 page.login.password-show: "Zobrazit"
 page.login.placeholder.username: "Vaše uživatelské jméno"
-page.login.placeholder.password: # "Your password"
 page.login.title: "Přihlášení do Boltu"
 
 page.prefill.skipped-existing: "Vynecháno <code>%key%</code> (již existuje)"
@@ -669,5 +692,3 @@ permissions.roles.label.anonymous: "Nepřihlášení"
 permissions.roles.label.owner: "Vlastník"
 
 users.actions-for-users: "Akce pro Uživatele"
-
-users.your-password: "Vaše heslo"

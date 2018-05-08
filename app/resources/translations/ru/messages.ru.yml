@@ -7,11 +7,17 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#   7 Legacy untranslated messages
-# 189 Untranslated messages
+#   3 Unused messages
+#   8 Legacy untranslated messages
+# 200 Untranslated messages
 #  33 Legacy translation messages
-# 369 Translation messages
+# 370 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"contenttypes.generic.no-proper-type": "В сущности '%contenttype%', поле '%field%' имеет 'тип: %type%', который не является допустимым. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
+"general.phrase.duplicate-set": "Дублировать"
+"users.your-password": "Ваш пароль"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -22,9 +28,11 @@
 "Menu": #
 "Search": #
 "The field %field% has been changed to \"%newValue%\"": #
+"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
+contenttypes.generic.consecutive-underscores: # "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
 contenttypes.generic.group.ungrouped: # "Ungrouped"
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
@@ -33,10 +41,23 @@ contenttypes.generic.recent-changes-one: # "Recent changes to this %contenttype%
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
+field.embed.height: # "Height"
+field.embed.label.preview: # "Preview"
+field.embed.label.size: # "Size"
+field.embed.label.url: # "URL of content to embed"
+field.embed.matched-embed: # "Matched Embed"
+field.embed.pixel: # "pixel"
+field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.width: # "Width"
+
 field.geolocation.label.snap: # "Snap to nearest address"
 
 field.markdown.label.markedview: # "Markdown"
 
+field.repeater.collapse: # "Collapse this set"
+field.repeater.collapse-all: # "Collapse all"
+field.repeater.expand: # "Expand this set"
+field.repeater.expand-all: # "Expand all"
 field.repeater.label.add-set: # "Add new %label% set"
 
 field.slug.button.generate: # "Generate from:"
@@ -92,7 +113,6 @@ general.phrase.live-edit: # "Live Edit"
 general.phrase.log-change-trim: # "Trim Change Log"
 general.phrase.log-system-trim: # "Trim System Log"
 general.phrase.missing-about-page-block: # "There currently is no Block with 'about-us' as its slug. If you create one, it will be shown here. Go to 'Configuration' > 'Check Database' and select 'Add sample Records' to automatically generate this Block."
-
 general.phrase.no-content-found: # "No content found."
 general.phrase.no-files-in-list: # "No files in the list, yet."
 general.phrase.no-images-in-list: # "No images in the list, yet."
@@ -121,6 +141,7 @@ general.phrase.system-config-checks: # "System Configuration Checks"
 general.phrase.thumbnail: # "Thumbnail"
 general.phrase.time-format-24-12: # "Time in 24h/12h format"
 general.phrase.toggle-all: # "Check/Uncheck all"
+general.phrase.upload-drop-here: # "Drop files in the file manager to upload them or use the button below."
 general.phrase.upload-not-allowed: # "Upload not allowed"
 general.phrase.upload-progress: # "Current uploads"
 general.phrase.users-permissions: # "Users & Permissions"
@@ -230,6 +251,8 @@ page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.message.save-failed-invalid-form: # "File '%s' could not be saved, because the form wasn't valid."
 
+page.login.placeholder.username: # "Your username"
+
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
 page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already has a record)"
@@ -237,6 +260,7 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 panel.latest-activity.by: # "by"
 
 #--- Legacy translation messages ----------------------------------------------
+
 "(default template)": "(шаблон по умолчанию)"
 "(no category)": "(без категории)"
 "(no group)": "(нет группы)"
@@ -288,7 +312,6 @@ contenttypes.generic.invalid-field: "Невозможно установить %
 contenttypes.generic.last-modified: "Последнее редактирование %contenttypes%"
 contenttypes.generic.new: "Создать %contenttype%"
 contenttypes.generic.no-latest: "Нет последних %contenttype%"
-contenttypes.generic.no-proper-type: "В сущности '%contenttype%', поле '%field%' имеет 'тип: %type%', который не является допустимым. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
 contenttypes.generic.no-recent: "Нет недавних %contenttype%."
 contenttypes.generic.none-available: "Нет доступных %contenttypes%."
 contenttypes.generic.not-existing: "%contenttype% которое вы искали не существует. Возможно оно было удалено, или никогда не существовало."
@@ -322,6 +345,8 @@ field.geolocation.placeholder.address: "Улица, Индекс, город и�
 field.image.label.alt: "Другое"
 
 field.markdown.label.preview: "Предварительный просмотр"
+
+field.repeater.delete-set: "Удалить"
 
 field.slug.button.edit: "Редактировать"
 field.slug.permalink: "Постоянная ссылка"
@@ -397,7 +422,6 @@ general.phrase.database-update-required-post: "чтобы сделать это 
 general.phrase.database-update-required-pre: "База данных должна быть обновлена/восстановлена. Пройдите по 'Конфигурация'"
 general.phrase.delete-directory-name: "Удалить %foldername%"
 general.phrase.delete-file-name: "Удалить %filename%"
-field.repeater.delete-set: "Удалить"
 general.phrase.delete-user-name: "Удалить %username%"
 general.phrase.depublication-date-colon: "Дата скрытия:"
 general.phrase.deselect-all: "Отменить выбор всех"
@@ -405,7 +429,6 @@ general.phrase.details: "Сведения"
 general.phrase.disable-user-name: "Отключить %username%"
 general.phrase.draft: "Черновик"
 general.phrase.duplicate-file-name: "Копия %filename%"
-general.phrase.duplicate-set: "Дублировать"
 general.phrase.edit: "Редактировать"
 general.phrase.edit-file: "Редактирование файла"
 general.phrase.edited: "и редактирован"
@@ -676,5 +699,3 @@ permissions.roles.label.anonymous: "Аноним"
 permissions.roles.label.owner: "Владелец"
 
 users.actions-for-users: "Действия пользователей"
-
-users.your-password: "Ваш пароль"

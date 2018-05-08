@@ -7,25 +7,46 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#   3 Legacy untranslated messages
-#  32 Untranslated messages
+#   3 Unused messages
+#   4 Legacy untranslated messages
+#  47 Untranslated messages
 #  37 Legacy translation messages
-# 526 Translation messages
+# 523 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"contenttypes.generic.no-proper-type": "En el tipo de contenido para '%contenttype%', el campo '%field%' contiene 'type: %type%', el cual no es un tipo de campo apropiado. Por favor edite contenttypes.yml para corregir esto."
+"general.phrase.duplicate-set": "Duplicar Set"
+"users.your-password": "Tu contraseña"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "Menu": #
 "Search": #
+"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
+contenttypes.generic.consecutive-underscores: # "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
+field.embed.height: # "Height"
+field.embed.label.preview: # "Preview"
+field.embed.label.size: # "Size"
+field.embed.label.url: # "URL of content to embed"
+field.embed.matched-embed: # "Matched Embed"
+field.embed.pixel: # "pixel"
+field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.width: # "Width"
+
+field.repeater.collapse: # "Collapse this set"
+field.repeater.collapse-all: # "Collapse all"
+field.repeater.expand: # "Expand this set"
+field.repeater.expand-all: # "Expand all"
 field.repeater.label.add-set: # "Add new %label% set"
 
 general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
@@ -35,6 +56,7 @@ general.phrase.depublish-explanation: # "If set, the record will be automaticall
 general.phrase.extensions-overview: # "Extensions Overview"
 general.phrase.folder: # "Folder"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
+general.phrase.upload-drop-here: # "Drop files in the file manager to upload them or use the button below."
 general.phrase.upload-progress: # "Current uploads"
 
 menu.configuration.checks: # "Set-up checks"
@@ -60,6 +82,8 @@ page.extend.listheader.name: # "Name"
 page.extend.options: # "Extension Options"
 
 page.file-management.actions-for-files: # "Actions for files"
+
+page.login.placeholder.password: # "Your password"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
@@ -124,7 +148,6 @@ contenttypes.generic.invalid-relation: "En el Tipo de Contenido '%contenttype%',
 contenttypes.generic.last-modified: "Última modificación %contenttypes%"
 contenttypes.generic.new: "Nuevo %contenttype%"
 contenttypes.generic.no-latest: "No hay %contenttype% reciente"
-contenttypes.generic.no-proper-type: "En el tipo de contenido para '%contenttype%', el campo '%field%' contiene 'type: %type%', el cual no es un tipo de campo apropiado. Por favor edite contenttypes.yml para corregir esto."
 contenttypes.generic.no-recent: "No hay"
 contenttypes.generic.none-available: "No hay %contenttypes% disponibles."
 contenttypes.generic.not-existing: "El %contenttype% que estás buscando no existe. Probablemente fue eliminado, o nunca existió."
@@ -161,6 +184,8 @@ field.image.label.alt: "Atributo alt"
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Previsualizar"
+
+field.repeater.delete-set: "Eliminar set"
 
 field.slug.button.edit: "Editar"
 field.slug.button.generate: "Generado por:"
@@ -260,7 +285,6 @@ general.phrase.database-update-required-pre: "La base de datos necesita ser actu
 general.phrase.delete: "Eliminar"
 general.phrase.delete-directory-name: "Borrar %foldername%"
 general.phrase.delete-file-name: "Eliminar %filename%"
-field.repeater.delete-set: "Eliminar set"
 general.phrase.delete-user-name: "Eliminar a %username%"
 general.phrase.depublication-date-colon: "Fecha de despublicación"
 general.phrase.depublish: "Quitar publicación"
@@ -270,7 +294,6 @@ general.phrase.details: "Detalles"
 general.phrase.disable-user-name: "Deshabilitar a %username%"
 general.phrase.draft: "Borrador"
 general.phrase.duplicate-file-name: "Duplicar %filename%"
-general.phrase.duplicate-set: "Duplicar Set"
 general.phrase.edit: "Editar"
 general.phrase.edit-file: "Editar fichero"
 general.phrase.edit-role-permissions: "Editar Roles y Permisos"
@@ -645,7 +668,6 @@ page.login.password-hide: "Ocultar"
 page.login.password-reset-link-sent: "Se ha enviado un enlace para reiniciar la contraseña de '%user%'."
 page.login.password-show: "Mostrar"
 page.login.placeholder.username: "Tu usuario"
-page.login.placeholder.password: # "Your password"
 page.login.title: "Iniciar Sesión en Bolt"
 
 page.prefill.skipped-existing: "Omitida <code>%key%</code> (ya tiene registros)"
@@ -671,5 +693,3 @@ permissions.roles.label.anonymous: "Anónimo"
 permissions.roles.label.owner: "Propietario"
 
 users.actions-for-users: "Acciones para usuarios"
-
-users.your-password: "Tu contraseña"

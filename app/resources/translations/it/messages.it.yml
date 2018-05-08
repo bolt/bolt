@@ -7,11 +7,17 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#  30 Legacy untranslated messages
-# 359 Untranslated messages
+#   3 Unused messages
+#  31 Legacy untranslated messages
+# 372 Untranslated messages
 #  10 Legacy translation messages
-# 199 Translation messages
+# 198 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"contenttypes.generic.no-proper-type": # "In the ContentType for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"general.phrase.duplicate-set": # "Duplicate Set"
+"users.your-password": "La tua password"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -45,15 +51,16 @@
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "View (saved version) on site": #
+"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
+contenttypes.generic.consecutive-underscores: # "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
 contenttypes.generic.group.meta: # "Meta"
 contenttypes.generic.group.template: # "Template"
 contenttypes.generic.group.ungrouped: # "Ungrouped"
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
-contenttypes.generic.no-proper-type: # "In the ContentType for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
 contenttypes.generic.not-saved-yet: # "This %contenttype% has not been saved yet."
 contenttypes.generic.recent-changes-one: # "Recent changes to this %contenttype%"
 contenttypes.generic.saving-impossible: # "Could not save %contenttype%."
@@ -62,6 +69,15 @@ contenttypes.record.comment-add-colon: # "Add a comment:"
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
+
+field.embed.height: # "Height"
+field.embed.label.preview: # "Preview"
+field.embed.label.size: # "Size"
+field.embed.label.url: # "URL of content to embed"
+field.embed.matched-embed: # "Matched Embed"
+field.embed.pixel: # "pixel"
+field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.width: # "Width"
 
 field.general.allowed-filetypes: # "Allowed file types are:"
 field.general.stack: # "Stack"
@@ -75,6 +91,11 @@ field.image.label.alt: # "Alt"
 
 field.markdown.label.markedview: # "Markdown"
 
+field.repeater.collapse: # "Collapse this set"
+field.repeater.collapse-all: # "Collapse all"
+field.repeater.delete-set: # "Delete Set"
+field.repeater.expand: # "Expand this set"
+field.repeater.expand-all: # "Expand all"
 field.repeater.label.add-set: # "Add new %label% set"
 
 field.slug.button.generate: # "Generate from:"
@@ -139,13 +160,11 @@ general.phrase.database-update-required-post: # "to do this now."
 general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
 general.phrase.delete: # "Delete"
 general.phrase.delete-directory-name: # "Delete %foldername%"
-field.repeater.delete-set: # "Delete Set"
 general.phrase.depublish: # "Depublish"
 general.phrase.depublish-date-past: # "Depublish date is in the past. Change the status if you want to depublish now."
 general.phrase.depublish-explanation: # "If set, the record will be automatically depublished on the given date."
 general.phrase.details: # "Details"
 general.phrase.draft: # "Draft"
-general.phrase.duplicate-set: # "Duplicate Set"
 general.phrase.edit-role-permissions: # "Edit Roles and Permissions"
 general.phrase.error-cache-clear: # "Failed to clear cache. You should delete it manually."
 general.phrase.error-login-invalid-parameters: # "Invalid login parameters."
@@ -243,6 +262,7 @@ general.phrase.tip-colon: # "Tip:"
 general.phrase.toggle-all: # "Check/Uncheck all"
 general.phrase.types: # "Types"
 general.phrase.upload: # "Upload"
+general.phrase.upload-drop-here: # "Drop files in the file manager to upload them or use the button below."
 general.phrase.upload-file: # "Upload file"
 general.phrase.upload-file-to-directory: # "Upload a file to this folder"
 general.phrase.upload-not-allowed: # "Upload not allowed"
@@ -417,6 +437,7 @@ page.file-management.message.upload-not-writable: # "Unable to write to upload d
 page.login.button.log-on: # "Log on"
 page.login.cookies-required: # "Note: Cookies are required to log on to Bolt. Please allow cookies."
 page.login.label.password: # "Password"
+page.login.placeholder.password: # "Your password"
 page.login.title: # "Sign in to Bolt"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
@@ -674,12 +695,9 @@ page.login.password-hide: "Nascondi"
 page.login.password-reset-link-sent: "Un link per il reset della password è stato inviato a '%user%'."
 page.login.password-show: "Mostra"
 page.login.placeholder.username: "Il tuo nome utente"
-page.login.placeholder.password: # "Your password"
 
 page.prefill.skipped-existing: "Saltato <code>%key%</code> (ha già contenuti)"
 
 panel.latest-activity.button.more: "ulteriori attività"
 
 users.actions-for-users: "Azioni per gli Utenti"
-
-users.your-password: "La tua password"

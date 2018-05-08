@@ -7,11 +7,17 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#   9 Legacy untranslated messages
-#  64 Untranslated messages
+#   3 Unused messages
+#  10 Legacy untranslated messages
+#  79 Untranslated messages
 #  31 Legacy translation messages
-# 494 Translation messages
+# 491 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"contenttypes.generic.no-proper-type": "No tipo de conteúdo '%contenttype%', o campo '%field%' tem 'type: %type%', que não é um tipo de campo apropriado. Por favor, edite o contenttypes.yml, e corrija isso."
+"general.phrase.duplicate-set": "Duplicar conjunto"
+"users.your-password": "A sua senha"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -24,14 +30,29 @@
 "The field %field% has been changed to \"%newValue%\"": #
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
+"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
+contenttypes.generic.consecutive-underscores: # "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
+field.embed.height: # "Height"
+field.embed.label.preview: # "Preview"
+field.embed.label.size: # "Size"
+field.embed.label.url: # "URL of content to embed"
+field.embed.matched-embed: # "Matched Embed"
+field.embed.pixel: # "pixel"
+field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.width: # "Width"
+
+field.repeater.collapse: # "Collapse this set"
+field.repeater.collapse-all: # "Collapse all"
+field.repeater.expand: # "Expand this set"
+field.repeater.expand-all: # "Expand all"
 field.repeater.label.add-set: # "Add new %label% set"
 
 field.slug.button.generate: # "Generate from:"
@@ -52,6 +73,7 @@ general.phrase.redirect-detected: # "Redirect detected. Check if you are still l
 general.phrase.related-content: # "Related content"
 general.phrase.selection: # "Selection"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
+general.phrase.upload-drop-here: # "Drop files in the file manager to upload them or use the button below."
 general.phrase.upload-progress: # "Current uploads"
 general.phrase.warning-templatefields-loss: # "You may lose some of your template fields with this change. Go to the template section and note down the values before doing this."
 
@@ -99,6 +121,8 @@ page.extend.theme.generation.failure: # "We were unable to generate the theme. I
 
 page.file-management.actions-for-files: # "Actions for files"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
+
+page.login.placeholder.password: # "Your password"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
@@ -157,7 +181,6 @@ contenttypes.generic.invalid-relation: "No tipo de conteúdo '%contenttype%', es
 contenttypes.generic.last-modified: "Última modificação em %contenttypes%"
 contenttypes.generic.new: "Criar %contenttype%"
 contenttypes.generic.no-latest: "Sem %contenttype% recentes"
-contenttypes.generic.no-proper-type: "No tipo de conteúdo '%contenttype%', o campo '%field%' tem 'type: %type%', que não é um tipo de campo apropriado. Por favor, edite o contenttypes.yml, e corrija isso."
 contenttypes.generic.no-recent: "Sem %contenttype% recente"
 contenttypes.generic.none-available: "Sem %contenttypes%."
 contenttypes.generic.not-existing: "O %contenttype% de que está à procura não existe. Provavelmente foi eliminado, ou nunca existiu."
@@ -194,6 +217,8 @@ field.image.label.alt: "Alt"
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Pré-visualizar"
+
+field.repeater.delete-set: "Eliminar o conjunto"
 
 field.slug.button.edit: "Editar"
 field.slug.button.lock: "Bloquear"
@@ -289,7 +314,6 @@ general.phrase.database-up-to-date-already: "A sua base de dados está atualizad
 general.phrase.delete: "Eliminar"
 general.phrase.delete-directory-name: "Eliminar %foldername%"
 general.phrase.delete-file-name: "Eliminar %filename%"
-field.repeater.delete-set: "Eliminar o conjunto"
 general.phrase.delete-user-name: "Eliminar %username%"
 general.phrase.depublication-date-colon: "Data para final de publicação:"
 general.phrase.depublish: "Despublicar"
@@ -299,7 +323,6 @@ general.phrase.details: "Detalhes"
 general.phrase.disable-user-name: "Desativar %username%"
 general.phrase.draft: "Rascunho"
 general.phrase.duplicate-file-name: "Duplicar %filename%"
-general.phrase.duplicate-set: "Duplicar conjunto"
 general.phrase.edit: "Editar"
 general.phrase.edit-file: "Editar ficheiro"
 general.phrase.edit-role-permissions: "Editar funções e permissões"
@@ -646,7 +669,6 @@ page.login.password-hide: "Ocultar"
 page.login.password-reset-link-sent: "Foi enviada uma ligação ao '%user%' para poder redefinir a senha."
 page.login.password-show: "Exibir"
 page.login.placeholder.username: "O seu nome de utilizador"
-page.login.placeholder.password: # "Your password"
 page.login.title: "Iniciar sessão"
 
 page.prefill.skipped-existing: "Ignorado <code>%key%</code> (já possui um registo)"
@@ -672,5 +694,3 @@ permissions.roles.label.anonymous: "Anónimo"
 permissions.roles.label.owner: "Proprietário"
 
 users.actions-for-users: "Ações para utilizadores"
-
-users.your-password: "A sua senha"
