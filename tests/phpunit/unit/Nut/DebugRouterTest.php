@@ -15,7 +15,7 @@ class DebugRouterTest extends BoltUnitTest
 {
     use TableHelperTrait;
 
-    protected $regexExpectedA = '/(preview).+(ANY).+(ANY).+(ANY).+(\/{contenttypeslug})/';
+    protected $regexExpectedA = '/(preview).+(POST).+(ANY).+(ANY).+(\/{contenttypeslug})/';
     protected $regexExpectedB = '/(contentaction).+(POST).+(ANY).+(ANY).+(\/async\/content\/action)/';
 
     public function testRunNormal()
