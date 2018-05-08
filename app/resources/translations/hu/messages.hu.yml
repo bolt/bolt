@@ -7,11 +7,17 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#  10 Legacy untranslated messages
-# 106 Untranslated messages
+#   3 Unused messages
+#  11 Legacy untranslated messages
+# 120 Untranslated messages
 #  30 Legacy translation messages
-# 452 Translation messages
+# 450 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"general.phrase.duplicate-set": # "Duplicate Set"
+"contenttypes.generic.no-proper-type": "A(z) '%contenttype%' tartalomtípus tartalmaz egy '%type%' típusú '%field%' mezőt, ami nem megfelelő mezőtípus. A contenttypes.yml fájl szerkesztésével javítsd ezt!"
+"users.your-password": "Az ön jelszava"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -25,9 +31,11 @@
 "The field %field% has been changed to \"%newValue%\"": #
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
+"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
+contenttypes.generic.consecutive-underscores: # "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
 contenttypes.generic.recent-changes-one: # "Recent changes to this %contenttype%"
@@ -35,10 +43,24 @@ contenttypes.generic.recent-changes-one: # "Recent changes to this %contenttype%
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
+field.embed.height: # "Height"
+field.embed.label.preview: # "Preview"
+field.embed.label.size: # "Size"
+field.embed.label.url: # "URL of content to embed"
+field.embed.matched-embed: # "Matched Embed"
+field.embed.pixel: # "pixel"
+field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.width: # "Width"
+
 field.geolocation.label.snap: # "Snap to nearest address"
 
 field.image.label.alt: # "Alt"
 
+field.repeater.collapse: # "Collapse this set"
+field.repeater.collapse-all: # "Collapse all"
+field.repeater.delete-set: # "Delete Set"
+field.repeater.expand: # "Expand this set"
+field.repeater.expand-all: # "Expand all"
 field.repeater.label.add-set: # "Add new %label% set"
 
 field.slug.button.generate: # "Generate from:"
@@ -60,10 +82,8 @@ general.phrase.clear-cache-complete: # "Cleared cache."
 general.phrase.database-check: # "Check Database"
 general.phrase.database-update-required-post: # "to do this now."
 general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
-field.repeater.delete-set: # "Delete Set"
 general.phrase.depublish: # "Depublish"
 general.phrase.depublish-explanation: # "If set, the record will be automatically depublished on the given date."
-general.phrase.duplicate-set: # "Duplicate Set"
 general.phrase.error-cache-clear: # "Failed to clear cache. You should delete it manually."
 general.phrase.error-mail-options-not-set: # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
 general.phrase.error-session-data-login: # "Unable to retrieve login session data. Please check your system's PHP session settings."
@@ -92,6 +112,7 @@ general.phrase.slug-colon: # "Slug:"
 general.phrase.something-went-wrong-after-first-user: # "Something went wrong with logging in after first user creation!"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 general.phrase.toggle-all: # "Check/Uncheck all"
+general.phrase.upload-drop-here: # "Drop files in the file manager to upload them or use the button below."
 general.phrase.upload-progress: # "Current uploads"
 
 general.visit-bolt: # "Visit Bolt.cm"
@@ -143,6 +164,8 @@ page.extend.message.running-update-all: # "Running updates"
 
 page.file-management.actions-for-files: # "Actions for files"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
+
+page.login.placeholder.password: # "Your password"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
@@ -204,7 +227,6 @@ contenttypes.generic.invalid-field: "A %field% mező nem beállítható a %conte
 contenttypes.generic.last-modified: "Utoljára módosított %contenttypes%"
 contenttypes.generic.new: "Új %contenttype%"
 contenttypes.generic.no-latest: "Nincs legutóbbi %contenttype%"
-contenttypes.generic.no-proper-type: "A(z) '%contenttype%' tartalomtípus tartalmaz egy '%type%' típusú '%field%' mezőt, ami nem megfelelő mezőtípus. A contenttypes.yml fájl szerkesztésével javítsd ezt!"
 contenttypes.generic.no-recent: "Nincs újabb %contenttype%"
 contenttypes.generic.none-available: "Nincs elérhető %contenttypes%."
 contenttypes.generic.not-existing: "A %contenttype% tartalomtípus amit keresett nem létezik. Biztosan törölték vagy nem is létezett."
@@ -653,7 +675,6 @@ page.login.password-hide: "Elrejtés"
 page.login.password-reset-link-sent: "Jelszó visszaállítási link elküldve a '%user%' felhasználónak."
 page.login.password-show: "Mutat"
 page.login.placeholder.username: "A felhasználóneved"
-page.login.placeholder.password: # "Your password"
 page.login.title: "Bejelentkezés"
 
 page.prefill.skipped-existing: "<code>%key%</code> kihagyva (már tartalmaz bejegyzéseket)"
@@ -675,5 +696,3 @@ permissions.roles.label.anonymous: "Ismeretlen"
 permissions.roles.label.owner: "Tulajdonos"
 
 users.actions-for-users: "Műveletek a felhasználókhoz"
-
-users.your-password: "Az ön jelszava"

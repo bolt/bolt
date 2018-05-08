@@ -7,11 +7,18 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
+#   4 Unused messages
 #  21 Legacy untranslated messages
 # 211 Untranslated messages
 #  20 Legacy translation messages
 # 359 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"contenttypes.generic.no-proper-type": "No tipo de conteúdo '%contenttype%', o campo '%field%' tem 'type: %type%', que não é um fieldtype apropriado. Por favor, edite o contenttypes.yml, e corrija isso."
+"general.phrase.delete-set": "Apagar Set"
+"general.phrase.duplicate-set": "Duplicar o conjunto"
+"users.your-password": "Sua senha"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -306,7 +313,6 @@ contenttypes.generic.invalid-field: "Não pode setar %field% em %contenttype%. N
 contenttypes.generic.last-modified: "Última modificação em %contenttypes%"
 contenttypes.generic.new: "Novo %contenttype%"
 contenttypes.generic.no-latest: "Nenhum %contenttype%"
-contenttypes.generic.no-proper-type: "No tipo de conteúdo '%contenttype%', o campo '%field%' tem 'type: %type%', que não é um fieldtype apropriado. Por favor, edite o contenttypes.yml, e corrija isso."
 contenttypes.generic.no-recent: "Nenhum %contenttype% recente."
 contenttypes.generic.none-available: "Sem %contenttypes%."
 contenttypes.generic.not-existing: "O %contenttype% que você está procurando não existe. Provavelmente foi excluído, ou nunca existiu."
@@ -419,7 +425,6 @@ general.phrase.database-prefill-dummy-content: "Preencher com conteúdo aleatór
 general.phrase.database-up-to-date-already: "Seu banco de dados está atualizado."
 general.phrase.database-update-required-pre: "O Banco de dados precisa de atualização/Reparo. Acesse a 'Configuração'"
 general.phrase.delete: "Apagar"
-general.phrase.delete-set: "Apagar Set"
 general.phrase.delete-directory-name: "Excluir %foldername%"
 general.phrase.delete-file-name: "Excluir %filename%"
 general.phrase.delete-user-name: "Excluir %username%"
@@ -430,7 +435,6 @@ general.phrase.details: "Detalhes"
 general.phrase.disable-user-name: "Desabilitar %username%"
 general.phrase.draft: "Rascunho"
 general.phrase.duplicate-file-name: "Duplicar %filename%"
-general.phrase.duplicate-set: "Duplicar o conjunto"
 general.phrase.edit: "Alterar"
 general.phrase.edit-file: "Editar arquivo"
 general.phrase.edited: "e alterado"
@@ -693,4 +697,3 @@ permissions.roles.label.anonymous: "Anônimo"
 permissions.roles.label.owner: "Proprietário"
 
 users.actions-for-users: "Ações para usuários"
-users.your-password: "Sua senha"

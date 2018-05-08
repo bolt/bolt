@@ -7,16 +7,23 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#   2 Legacy untranslated messages
+#   3 Unused messages
+#   3 Legacy untranslated messages
 #   0 Untranslated messages
 #  38 Legacy translation messages
-# 558 Translation messages
+# 570 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"contenttypes.generic.no-proper-type": "In the ContentType for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
+"general.phrase.duplicate-set": "Duplicate Set"
+"users.your-password": "Your password"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "Menu": #
 "Search": #
+"field.embed.provider_name": #
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -63,8 +70,8 @@
 
 contenttypes.generic.actions-all: "Actions for %contenttypes%"
 contenttypes.generic.actions-one: "Actions for this %contenttype%"
-contenttypes.generic.created: "This %contenttype% was created"
 contenttypes.generic.consecutive-underscores: "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
+contenttypes.generic.created: "This %contenttype% was created"
 contenttypes.generic.delete: "Delete %contenttype%"
 contenttypes.generic.duplicate: "Duplicate %contenttype%"
 contenttypes.generic.duplicated-finalize: "Content was duplicated. Click 'Save %contenttype%' to finalize."
@@ -80,7 +87,6 @@ contenttypes.generic.invalid-relation: "In the ContentType for '%contenttype%', 
 contenttypes.generic.last-modified: "Last modified %contenttypes%"
 contenttypes.generic.new: "New %contenttype%"
 contenttypes.generic.no-latest: "No latest %contenttype%"
-contenttypes.generic.no-proper-type: "In the ContentType for '%contenttype%', the field '%field%' has 'type: %type%', which is not a proper field type. Please edit contenttypes.yml, and correct this."
 contenttypes.generic.no-recent: "No recent %contenttype%."
 contenttypes.generic.none-available: "No %contenttypes% available."
 contenttypes.generic.not-existing: "The %contenttype% you were looking for does not exist. It was probably deleted, or it never existed."
@@ -104,6 +110,15 @@ contenttypes.record.comment-add-colon: "Add a comment:"
 field.block.label.add-new: "Add new..."
 field.block.label.add-set: "Add new %label% set"
 
+field.embed.height: "Height"
+field.embed.label.preview: "Preview"
+field.embed.label.size: "Size"
+field.embed.label.url: "URL of content to embed"
+field.embed.matched-embed: "Matched Embed"
+field.embed.pixel: "pixel"
+field.embed.placeholder.url: "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.width: "Width"
+
 field.general.allowed-filetypes: "Allowed file types are:"
 field.general.select-from-server: "Select from server"
 field.general.stack: "Stack"
@@ -121,21 +136,12 @@ field.image.label.alt: "Alt"
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Preview"
 
-field.embed.height: "Height"
-field.embed.label.preview: "Preview"
-field.embed.label.size: "Size"
-field.embed.label.url: "URL of content to embed"
-field.embed.matched-embed: "Matched Embed"
-field.embed.pixel: "pixel"
-field.embed.placeholder.url: "URL of content on Facebook, Twitter, Soundcloud or other media website"
-field.embed.width: "Width"
-
-field.repeater.collapse-all: "Collapse all"
 field.repeater.collapse: "Collapse this set"
-field.repeater.expand-all: "Expand all"
-field.repeater.expand: "Expand this set"
-field.repeater.label.add-set: "Add new %label% set"
+field.repeater.collapse-all: "Collapse all"
 field.repeater.delete-set: "Delete Set"
+field.repeater.expand: "Expand this set"
+field.repeater.expand-all: "Expand all"
+field.repeater.label.add-set: "Add new %label% set"
 
 field.slug.button.edit: "Edit"
 field.slug.button.generate: "Generate from:"
@@ -248,7 +254,6 @@ general.phrase.details: "Details"
 general.phrase.disable-user-name: "Disable %username%"
 general.phrase.draft: "Draft"
 general.phrase.duplicate-file-name: "Duplicate %filename%"
-general.phrase.duplicate-set: "Duplicate Set"
 general.phrase.edit: "Edit"
 general.phrase.edit-file: "Edit file"
 general.phrase.edit-role-permissions: "Edit Roles and Permissions"
@@ -647,8 +652,8 @@ page.login.label.username: "Username / email"
 page.login.password-hide: "Hide"
 page.login.password-reset-link-sent: "A password reset link has been sent to '%user%'."
 page.login.password-show: "Show"
-page.login.placeholder.username: "Your username"
 page.login.placeholder.password: "Your password"
+page.login.placeholder.username: "Your username"
 page.login.title: "Sign in to Bolt"
 
 page.prefill.connection-timeout: "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
@@ -677,5 +682,3 @@ permissions.roles.label.anonymous: "Anonymous"
 permissions.roles.label.owner: "Owner"
 
 users.actions-for-users: "Actions for Users"
-
-users.your-password: "Your password"
