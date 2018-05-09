@@ -1,6 +1,31 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.4.11
+-----------
+
+Released: 2018-05-10. Notable changes:
+
+ - Change: Downgrading Select2 to 4.0.0 for IE compatibility. [#7434](https://github.com/bolt/bolt/pull/7434)
+ - Change: Update LICENSE to say 2018. [#7388](https://github.com/bolt/bolt/pull/7388)
+ - Change: Update polish translations [#7431](https://github.com/bolt/bolt/pull/7431)
+ - Fixed: [Security] `preg_quote` search words. [#7464](https://github.com/bolt/bolt/pull/7464)
+ - Fixed: [Security] Don't change route from 'preview' to 'contentlink', because it breaks disabling of XSS protection. [#7458](https://github.com/bolt/bolt/pull/7458)
+ - Fixed: [Security] Only allow POST on `/preview`, because there's no need to GET it.  [#7457](https://github.com/bolt/bolt/pull/7457)
+ - Fixed: Add an 'if' statement for missing Block field [#7449](https://github.com/bolt/bolt/pull/7449)
+ - Fixed: Change imagelist upload location from abolute to relative [#7397](https://github.com/bolt/bolt/pull/7397)
+ - Fixed: Change slug to name for display in "Delete"-button [#7418](https://github.com/bolt/bolt/pull/7418)
+ - Fixed: Don't Run a group sort if user has ordered via the UI [#7404](https://github.com/bolt/bolt/pull/7404)
+ - Fixed: Ensure array parameters are set before accessing in `getContentByTaxonomy` [#7394](https://github.com/bolt/bolt/pull/7394)
+ - Fixed: Ensure search result array is valid [#7386](https://github.com/bolt/bolt/pull/7386)
+ - Fixed: Fix check for numeric slug [#7455](https://github.com/bolt/bolt/pull/7455)
+ - Fixed: If stack is disabled, don't show it in recordbrowser popup [#7454](https://github.com/bolt/bolt/pull/7454)
+ - Fixed: Make aliased thumbnail generation consistent. [#7428](https://github.com/bolt/bolt/pull/7428)
+ - Fixed: Only filter null and empty strings, leave zeros untouched. Fixes Incorrect saving of select field. [#7412](https://github.com/bolt/bolt/pull/7412)
+ - Fixed: Show correct order in overview if ContentType has multiple taxonomies. [#7400](https://github.com/bolt/bolt/pull/7400)
+ - Fixed: Title for submenu items - to avoid truncation [#7407](https://github.com/bolt/bolt/pull/7407)
+ - Tests: Skip test on Travis [#7379](https://github.com/bolt/bolt/pull/7379)
+
 Bolt 3.4.10
 -----------
 
