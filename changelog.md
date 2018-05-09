@@ -1,6 +1,18 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.5.1
+----------
+
+Released: 2018-05-10. Notable changes:
+
+ - Fixed: Missing 'complexify' and 'jquery.tagcloud' [#7473](https://github.com/bolt/bolt/pull/#7473)
+ - Fixed: Renaming field to "Embed". [#7463](https://github.com/bolt/bolt/pull/#7463)
+ - Updated: Add more translations for `pt_BR`, Brasilian Portuguese. [#7446](https://github.com/bolt/bolt/pull/#7446)
+ - Updated: Reformat `XLF` & `info.yml` files consistently [#7471](https://github.com/bolt/bolt/pull/#7471)
+ - Updated: Update language strings from PHP & Twig [#7470](https://github.com/bolt/bolt/pull/#7470)
+ - … plus all changes from Bolt 3.4.11 are includes in this release as well.
+
 Bolt 3.5.0
 ----------
 
