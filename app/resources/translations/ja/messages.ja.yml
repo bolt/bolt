@@ -7,34 +7,30 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
-#  25 Legacy untranslated messages
-# 308 Untranslated messages
-#  16 Legacy translation messages
+#   1 Unused messages
+#  22 Legacy untranslated messages
+# 309 Untranslated messages
+#  18 Legacy translation messages
 # 262 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
-"general.phrase.duplicate-set": # "Duplicate Set"
-"contenttypes.generic.no-proper-type": "コンテンツタイプ '%contenttype' の中で、フィールド '%field%' は 'type: %type%'を持ちますが、これは適切なフィールドタイプではありません。contentstypes.ymlを編集し、修正してください。"
 "users.your-password": "パスワード"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
-"(none)": #
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "An error occured while updating `%TABLE%`. The error is %ERROR%": #
 "Dependencies": #
 "Detected Bolt version change to <b>%VERSION%</b>, and the cache has been cleared. Please <a href=\"%URI%\">check the database</a>, if you haven't done so already.": #
-"Do you really want to delete %FOLDERNAME%?": #
 "Error reading extensions/composer.json file: %ERROR%": #
 "Expand sidebar": #
 "Finding packages that require this one…": #
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": # "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured ContentTypes or routes."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": #
 "Menu": #
-"Search": #
 "The field %field% has been changed to \"%newValue%\"": #
+"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": # "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": #
 "Unable to create directory: %DIR%": #
 "Unable to create file: %FILE%": #
@@ -45,7 +41,6 @@
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
 "View (saved version) on site": #
-"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
@@ -54,6 +49,8 @@ contenttypes.generic.group.ungrouped: # "Ungrouped"
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
 contenttypes.generic.recent-changes-one: # "Recent changes to this %contenttype%"
+contenttypes.generic.reserved-name: # "In the ContentType for '%contenttype%', the field '%field%' is defined, which is a reserved name. Please edit contenttypes.yml, and correct this."
+contenttypes.generic.wrong-use-field: # "In the ContentType for '%contenttype%', the field '%field%' has 'uses: %uses%', but the field '%uses%' does not exist. Please edit contenttypes.yml, and correct this."
 
 contenttypes.record.comment-add-colon: # "Add a comment:"
 
@@ -61,12 +58,11 @@ field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
 field.embed.height: # "Height"
-field.embed.label.preview: # "Preview"
-field.embed.label.size: # "Size"
 field.embed.label.url: # "URL of content to embed"
 field.embed.matched-embed: # "Matched Embed"
 field.embed.pixel: # "pixel"
 field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.provider-name: #
 field.embed.width: # "Width"
 
 field.geolocation.label.address-lookup: # "Address lookup"
@@ -123,7 +119,6 @@ general.phrase.clear-system-log: # "Clear System Log"
 general.phrase.close-editor: # "Close editor"
 general.phrase.collapse-sidebar: # "Collapse sidebar"
 general.phrase.configuration-main: # "Main configuration"
-general.phrase.confirm-delete-file: # "Are you sure you want to delete %FILENAME%?"
 general.phrase.confirm-record-multiple: # "Are you sure you want to do this for %NUMBER% records?"
 general.phrase.confirm-record-single: # "Are you sure you want to do this for 1 record?"
 general.phrase.confirm-remove-file: # "Are you sure you want to remove this file?"
@@ -131,6 +126,8 @@ general.phrase.confirm-remove-files: # "Are you sure you want to remove these fi
 general.phrase.confirm-remove-image: # "Are you sure you want to remove this image?"
 general.phrase.confirm-remove-images: # "Are you sure you want to remove these images?"
 general.phrase.confirm-remove-record: # "Are you sure you wish to delete this record? There is no undo."
+general.phrase.content-type-permissions: # "ContentType Permissions"
+general.phrase.content-types: # "ContentTypes"
 general.phrase.database-check: # "Check Database"
 general.phrase.database-update-required-post: # "to do this now."
 general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
@@ -188,7 +185,6 @@ general.phrase.publish: # "Publish"
 general.phrase.record-related-to-variable: # "This record is related to the following %CTNAME%:"
 general.phrase.records: # "Records"
 general.phrase.redirect-detected: # "Redirect detected. Check if you are still logged on."
-general.phrase.related-content: # "Related content"
 general.phrase.required-character-count: # "At least %NUM% characters required"
 general.phrase.required-is-bang: # "Is required!"
 general.phrase.required-is-or-match-pattern: # "Is required or needs to match a pattern!"
@@ -224,6 +220,7 @@ general.phrase.warning-unfinished-changes-loss: # "You have unfinished changes o
 general.visit-bolt: # "Visit Bolt.cm"
 
 logs.change-log.cleared: # "The change log has been cleared."
+logs.change-log.contenttypes.all: # "All ContentTypes"
 logs.change-log.trimmed: # "The change log has been trimmed."
 
 logs.system-log: # "System Log"
@@ -260,7 +257,6 @@ page.edit-users.label.assigned-roles: # "Assigned roles"
 page.edit-users.label.display-name: # "Display name"
 page.edit-users.label.email: # "Email"
 page.edit-users.label.last-ip: # "Last IP"
-page.edit-users.label.password: # "Password"
 page.edit-users.label.password-confirm: # "Password (confirmation)"
 page.edit-users.label.user-enabled: # "User account is enabled"
 page.edit-users.log.user-added: # "Added user account '%user%'."
@@ -368,11 +364,11 @@ page.extend.theme.generation.success: # "Theme successfully generated. You can n
 page.file-management.actions-for-files: # "Actions for files"
 page.file-management.label.create-file: # "Create file"
 page.file-management.message.create-file: # "Please enter the new file name"
+page.file-management.message.create-folder: # "Please enter the new folder name"
 page.file-management.message.save-failed-invalid-form: # "File '%s' could not be saved, because the form wasn't valid."
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
 
 page.login.cookies-required: # "Note: Cookies are required to log on to Bolt. Please allow cookies."
-page.login.placeholder.username: # "Your username"
 page.login.title: # "Sign in to Bolt"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
@@ -392,15 +388,17 @@ panel.user-actions.button.add: # "Add a new user"
 "(default template)": "（デフォルトテンプレート）"
 "(no category)": "（カテゴリなし）"
 "(no group)": "（グループなし）"
+"(none)": "(なし)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "サンプルを追加<a href='%url%' class='btn btn-default'>ダミーテキスト（Loripsum）のレコード</a>"
 "Added to <tt>%key%</tt> '%title%'": "<tt>%key%</tt> '%title%' に追加しました"
 "Current (saved) status:": "現在の（保存された）ステータス："
+"Do you really want to delete %FOLDERNAME%?": "本当に %FOLDERNAME% を削除しますか？"
 "Everybody": "みなさん"
 "Excerpt": "概要"
 "File '%file%' could not be uploaded (wrong/disallowed file type). Make sure the file extension is one of the following:": "ファイル '%file%' をアップロードできませんでした（間違っている/許可されていない ファイルの種類）。 ファイルの拡張子が以下に含まれるかご確認ください:"
+"Search": "検索"
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "'%taxonomytype%' の識別名とスラッグが同じではありません('%slug%' vs. '%taxonomytype%')。taxonomy.xml を編集して、２つを一致させ、データベースとテンプレートの不整合を解消してください。"
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "ロールとパーミッションの設定は<code>%permissions%</code>に保存されています。"
-"The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "スラッグ '%slug%' は２つ以上のコンテンツで利用されています。contenttypes.ymlを編集して、別々のスラッグにしてください。"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "翻訳ファイル '%s' を作成できません。エディタを使ってあなたの手でこのファイルを修正してください。"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "このWebサイトは<a href='%url%' target='_blank' title='洗練された軽量でシンプルなCMS'>Bolt</a>を利用して制作されています。"
 "Title": "タイトル"
@@ -431,14 +429,15 @@ contenttypes.generic.overview: "%contenttypes% 一覧"
 contenttypes.generic.publish: "%contenttype% を公開"
 contenttypes.generic.recent: "最近の %contenttypes%"
 contenttypes.generic.recently-edited: "最近編集された %contenttypes%"
-contenttypes.generic.reserved-name: "コンテンツタイプ '%contenttype%' の中で定義されているフィールド '%field%' は予約名です。contentstypes.ymlを編集し、修正してください。"
 contenttypes.generic.save: "%contenttype% を保存"
 contenttypes.generic.saved-changes: "この %contenttype% への変更は保存されました。"
 contenttypes.generic.saved-new: "新しい %contenttype% が保存されました。"
 contenttypes.generic.saving-impossible: "%contenttype% を保存できませんでした"
 contenttypes.generic.show-more: "%contenttypes% をもっと見る"
 contenttypes.generic.view: "%contenttypes% を表示"
-contenttypes.generic.wrong-use-field: "コンテンツタイプ '%contenttype' の中で、フィールド '%field%' は 'uses: %uses%'を持ちますが、フィールド '%uses%' は存在しません。contentstypes.ymlを編集し、修正してください。"
+
+field.embed.label.preview: "プレビュー"
+field.embed.label.size: "サイズ"
 
 field.general.allowed-filetypes: "許可されたファイルの種類："
 field.general.select-from-server: "サーバーから選択"
@@ -487,10 +486,9 @@ general.phrase.clear-cache-again: "もう一度キャッシュをクリア"
 general.phrase.clear-filter-sort: "並び替え/フィルタをクリア"
 general.phrase.code-colon: "コード："
 general.phrase.configuration: "全般設定"
+general.phrase.confirm-delete-file: "本当に '%FILENAME%' を"
 general.phrase.confirm-delete-user: "本当に '%username%' を"
 general.phrase.content: "コンテンツ"
-general.phrase.content-type-permissions: "コンテンツタイプのパーミッション"
-general.phrase.content-types: "コンテンツタイプ"
 general.phrase.create-user-first: "最初のユーザを作成"
 general.phrase.created-on-colon: "作成日時："
 general.phrase.current-session-plural: "現在のセッション"
@@ -567,6 +565,7 @@ general.phrase.publish-timed: "予約公開"
 general.phrase.published: "公開"
 general.phrase.published-on-colon: "公開日時："
 general.phrase.read-more: "続きを読む"
+general.phrase.related-content: "関連するコンテンツ"
 general.phrase.relationships: "リレーションシップ"
 general.phrase.rename-foldername: "%foldername% をリネーム"
 general.phrase.return-editing: "編集に戻る"
@@ -626,7 +625,6 @@ general.phrase.written-by-on: "投稿者： <em>%name%</em> 投稿日時： %dat
 generic.noscript.message: "お使いのブラウザの設定でJavaScriptが現在無効になっています。Boltのほとんどの機能はJavaScriptなしでも動作しますが、大きく使い勝手が向上するため、ブラウザのJavaScriptを有効にすることをおすすめします。"
 
 logs.change-log: "変更ログ"
-logs.change-log.contenttypes.all: "すべてのコンテンツタイプ"
 logs.change-log.not-found: "リクエストされた変更ログのエントリは存在しません。"
 
 menu.configuration.routing: "ルーティング設定"
@@ -653,6 +651,7 @@ page.edit-locale.title.view: "ファイルを表示"
 page.edit-users.error.displayname-used: "この表示名はすでに利用されています。違う表示名を選択してください。"
 page.edit-users.error.password-mismatch: "パスワードは一致しなければなりません"
 page.edit-users.label.last-seen: "最終閲覧"
+page.edit-users.label.password: "パスワード"
 page.edit-users.label.username: "ユーザー名"
 page.edit-users.title.create: "新規ユーザーを作成"
 page.edit-users.title.edit: "ユーザーを編集"
@@ -662,14 +661,13 @@ page.extend.message.maintenance: "メンテナンス"
 
 page.file-management.label.create-folder: "フォルダを作成"
 page.file-management.message.access-denied: "このフォルダへのアップロードは許可されていません。"
-page.file-management.message.create-folder: "新しいフォルダ名を入力してください"
 page.file-management.message.file-not-readable: "ファイルが読み取り可能ではありません！"
 page.file-management.message.folder-not-found: "フォルダ '%s' は見つからないかもしくは読み取り可能ではありません。"
 page.file-management.message.save-failed-colon: "ファイル '%s' を保存できませんでした："
 page.file-management.message.save-failed-unknown: "何らかの理由でファイル '%s' を保存できませんでした。"
 page.file-management.message.save-success: "ファイル '%s' を保存しました。"
 page.file-management.message.upload-success: "ファイル '%file%' は正常にアップロードされました。"
-page.file-management.title: "ファイル"
+page.file-management.title: "ファイル管理"
 
 page.login.button.back: "ログイン画面に戻る"
 page.login.button.forgot-password: "パスワードを忘れた…"
@@ -680,7 +678,8 @@ page.login.label.username: "ユーザー名 / メール"
 page.login.password-hide: "隠す"
 page.login.password-reset-link-sent: "パスワードリセット用のリンクが '%user%'に送信されました"
 page.login.password-show: "表示"
-page.login.placeholder.password: "ユーザー名"
+page.login.placeholder.password: "パスワード"
+page.login.placeholder.username: "ユーザー名"
 
 page.prefill.skipped-existing: "<code>%key%</code>をスキップしました (すでにレコードが存在します)"
 

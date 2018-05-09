@@ -1,29 +1,35 @@
----
 info:
     upload:
+        image: |
+            可以使用此字段上传照片/图像，通过点击按钮从电脑上上传文件。如果你有新版本的Chrome或者Firefox浏览器，也可以
+            从桌面上或者从浏览的其他窗口拖曳文件。<br>
+            另外，你可以使用之前上传的文件。要选择这些文件，可以在输入框中输入文件的(部分)名称，它能够自动补全。
+        file: |
+            使用此字段可以上传文件做为下载或在网站上的网页中使用。单击该按钮，从您的计算机上上传文件, 或者如果您使用的是最新版本的 Chrome 或 Firefox, 您可以简单地从桌面或其他浏览器窗口中拖放文件。<br> 或者, 您可以使用以前上传的文件。若要选择以前上载的文件, 只需在输入区域中键入 (部分) 文件名, 它就会 自动完成找到文件。
         filelist: |
             可以使用此字段上传多个文件和描述。与单个的“文件”字段一样，新版本的浏览器可以识别拖曳到输入框区域的文件。
             或许你可以尝试一下？
-        filesmall: 可以使用按钮上传文件。要选择之前上传的文件，你可以在输入框中输入文件的(部分)名称，它能够自动补全。
+        filesmall: |
+            可以使用按钮上传文件。要选择之前上传的文件，你可以在输入框中输入文件的(部分)名称，它能够自动补全。
+        imagelist: |
+            使用此字段可上载一组照片或图像。单击该按钮，从您的计算机上上传文件, 或者如果您使用的是最新版本的 Chrome 或 Firefox, 您可以简单地从桌面或其他浏览器窗口中拖放文件。<br> 或者, 您可以使用以前上传的图像。<br> 您可以使用 "拖放" 来重新排列图像, 更改图像的描述。
+        video: |
+            使用此字段可在网站上的网页中嵌入视频。只需复制/粘贴视频页面的url 到Youtube, Vimeo 或几乎任何其他视频共享网站。<br> bolt 将自动获取 &lt;embed&gt; 代码, 并具有正确的宽度、高度和原始标题。如果更改宽度或高度, 则其他值也将相应更改, 以保持纵横比。
+    geolocation: |
+        使用此字段可获取任何地址的地理定位, 或通过拖动 pin 手动放置标记。首先, 在 "地址" 字段中输入一个 (近似) 地址, 其相应的纬度和经度将通过使用 google 地图 API 进行检索, 同时还有google 推荐的最接近的匹配地址。<br> 如果要将标记移动到其他位置, 只需拖动 "n" (小) 上的针脚。纬度和经度将会自动更新。
     markdown: |
-        Markdown是一个将文本转换成HTML的网页撰写工具。
-        <p>Markdown让你能使用易于读写的纯文本格式撰写文稿，再稍后将它转换成规整的HTML格式。</p>
-        <p><strong>快速参考：</strong><br>
-        # This is an &lt;h1&gt;-tag<br>
-        ## This is an &lt;h2&gt;-tag<br>
-        ###### This is an &lt;h6&gt;-tag</p>
-        <p>This _<em>is italic</em>_, this __<strong>is bold</strong>__, and this
-        ___<em><strong>is both</strong></em>___. You can also use asterixes: This *<em>is italic</em>*,
-        this **<strong>is bold</strong>**.
-        <p>Create <a href='#'>links</a> like this:<br>
-        An [exciting website](http://example.org/ &quot;Title of link&quot;)</p>
-        <p>&nbsp; * This is an unordered list<br>
-        &nbsp; * Item 2</p>
-        <p>&nbsp; 1 This is an ordered list<br>
-        &nbsp; 2 Item 2</p>
+        Markdown 是 web 编写者使用的 text-to-HTML 转换工具。<p> markdown 允许您使用易于阅读的、容易的纯文本格式进行编写, 然后将其转换为结构上有效的 HTML. </p><p> <strong> 快速引用: </strong> <br> 这是 &lt;h1&gt; 标记 <br> # # 这是一个 &lt;h2&gt; 标记 <br> # # # # # 这是一个 &lt;h6&gt;-标签 </p><p> 这 _ <em> 是斜体 </em> _, 此 __ <strong> 为粗体 </strong> __, 此 ___ <em> <strong> 都是 </strong></em>___.您也可以使用星号: 此 * <em> 为斜体 </em> *, 此 ** <strong> 为粗体 </strong> **。<p> 创建 <a href='#'> 链接 </a> 像这样: <br> 一个 [激动人心的网站] (http://示例. 链接 "的标题) </p> <p> &nbsp; * 这是一个无序列表 <br> &nbsp; * 项目 2 </p> <p> &nbsp; 1 这是一个有序列表 <br> &nbsp; 2 项目 2 </p>
     relationships: |
         指定与其他记录关联，实际上就是在这些记录和本条记录之间创建了一条链接。
         在网站上，这项特性可以用于“关联的文章”、“请参阅”功能或者展示这项记录符合的特定结构。
     taxonomy: |
         为记录选择了一个或者多个分类，就是在给记录指定某些属性。在网站上，这项特性可以将
         特定的记录组织起来，或者为这些记录自动创建到某个相同分类的链接。
+about:
+    bolt: |
+        <p> bolt 是一个 CMS, 它力求能够帮助开发人员和内容编辑者简单, 快速, 直接和愉快的使用。bolt 是开源的, 因此它使用其他开源组件。如果您是开发人员, 欢迎您帮助进一步发展bolt. </p>
+    licence: |
+        <p> 在开放源码的麻省理工学院许可下, bolt的所有部件都可以自由使用。此处可以找到完整的授权文本, 它包含 <a href="https://docs.bolt.cm/other/license"> 许可证. md </a> 中. </p>
+prefill:
+    short_help: |
+        <p> 检查要为其自动生成某些记录的 ContentTypes Lorem Ipsum 虚拟内容. </p> <p> 如果所有复选框都未选中, 则bolt将只填充没有内容的 ContentTypes. </p>
