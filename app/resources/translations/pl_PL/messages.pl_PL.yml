@@ -340,7 +340,7 @@ general.about: "O Bolt"
 
 general.about-bolt: "Na temat Bolt"
 
-general.access-control.reset-failed: "Nie udało się\\_zresetować hasła. Albo token jest nieprawidłowy, albo upłynęło zbyt dużo czasu, albo próbujesz resetować hasło z innego adresu IP."
+general.access-control.reset-failed: "Nie udało się zresetować hasła. Albo token jest nieprawidłowy, albo upłynęło zbyt dużo czasu, albo próbujesz resetować hasło z innego adresu IP."
 general.access-control.reset-successful: "Udało się zresetować hasło. Teraz możesz zalogować się używając hasła wysłanego w wiadomości e-mail."
 
 general.access-denied.content-not-modified: "Zawartość '%title%' nie może zostać zmodyfikowana."
@@ -586,7 +586,7 @@ page.ckeditor-browse-server.title: "Pliki"
 
 page.dashboard.button.add: "Dodaj …"
 page.dashboard.empty-database: "Wygląda na to że nie ma zawartości w bazie danych."
-page.dashboard.quickstart: "Aby szybko zacząć, <a href='%url%'>dodaj trochę\\_demonstracyjnej zawartości `Lorem Ipsum`</a>."
+page.dashboard.quickstart: "Aby szybko zacząć, <a href='%url%'>dodaj trochę demonstracyjnej zawartości `Lorem Ipsum`</a>."
 page.dashboard.title: "Pulpit"
 
 page.edit-file.button.revert: "Wycofaj zmiany"
@@ -618,7 +618,7 @@ page.edit-users.label.user-enabled: "Konto użytkownika jest aktywne"
 page.edit-users.label.username: "Nazwa użytkownika"
 page.edit-users.log.user-added: "Dodano konto użytkownika '%user%'."
 page.edit-users.log.user-updated: "Zaktualizowano konto użytkownika '%user%'."
-page.edit-users.message.change-self: "Zostałeś wylogowany ponieważ zmieniłeś swoją nazwę użytkownika. Proszę, zaloguj sie\\_ponownie."
+page.edit-users.message.change-self: "Zostałeś wylogowany ponieważ zmieniłeś swoją nazwę użytkownika. Proszę, zaloguj się ponownie."
 page.edit-users.message.saving-user: "Użytkownik %user% nie może zostać zapisany, albo nic nie uległo zmianie."
 page.edit-users.message.user-saved: "Użytkownik %user% został zapisany."
 page.edit-users.note-sqlite: "Używasz aktualnie SQLite do skonfigurowania pierwszego użytkownika. Jeśli chcesz używać zamiast tego MySQL lub PostgreSQL, edytuj plik konfiguracyjny <tt>'app/config/config.yml'</tt> a Bolt skonfiguruje tabele bazy danych dla Ciebie. Odśwież tą stronę przed kontynuacją."
