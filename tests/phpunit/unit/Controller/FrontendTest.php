@@ -311,7 +311,7 @@ class FrontendTest extends ControllerUnitTest
 
     public function testPreview()
     {
-        $this->setRequest(Request::create('/pages'));
+        $this->setRequest(Request::create('/pages', 'POST'));
         $this->controller()->listing($this->getRequest(), 'pages/test');
 
         $templates = $this->getMockBuilder(TemplateChooser::class)

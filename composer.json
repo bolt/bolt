@@ -16,7 +16,7 @@
         "bolt/pathogen": "~0.6",
         "bolt/requirements": "^1.0.2",
         "bolt/session": "^1.0",
-        "bolt/themes": "^2.0@beta",
+        "bolt/themes": "^2.0",
         "bolt/thumbs": "^3.1.1",
         "brandonwamboldt/utilphp": "^1.0",
         "carbondate/carbon": "^1.20",

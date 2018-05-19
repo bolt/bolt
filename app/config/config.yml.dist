@@ -307,6 +307,8 @@ wysiwyg:
     blockquote: false        # Allows the user to insert blockquotes using the `<blockquote>`-tag.
     codesnippet: false       # Allows the user to insert code snippets using `<pre><code>`-tags.
     specialchar: false       # Adds a button to insert special chars like '€' or '™'.
+    clipboard: false         # Adds buttons to 'undo' and 'redo'.
+    copypaste: false         # Adds buttons to 'cut', 'copy' and 'paste'.
     ck:
         autoParagraph: true  # If set to 'true', any pasted content is wrapped in `<p>`-tags for multiple line-breaks
         disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes

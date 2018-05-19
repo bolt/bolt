@@ -13,6 +13,7 @@ use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 /**
  * Standard Frontend actions.
@@ -150,7 +151,7 @@ class Frontend extends ConfigurableBase
         // First, try to get it by slug.
         $content = $this->getContent($contenttype['slug'], ['slug' => $slug, 'returnsingle' => true, 'log_not_found' => !is_numeric($slug)]);
 
-        if (is_numeric($slug) && (!$content || count($content) === 0)) {
+        if (is_numeric($slug) && !$content) {
             // And otherwise try getting it by ID
             $content = $this->getContent($contenttype['slug'], ['id' => $slug, 'returnsingle' => true]);
         }
@@ -189,6 +190,10 @@ class Frontend extends ConfigurableBase
      */
     public function preview(Request $request, $contenttypeslug)
     {
+        if (!$request->isMethod('POST')) {
+            throw new MethodNotAllowedHttpException(['POST'], 'This route only accepts POST requests.');
+        }
+
         $contenttype = $this->getContentType($contenttypeslug);
 
         $id = $request->request->get('id');
