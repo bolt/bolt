@@ -7,11 +7,17 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#  16 Legacy untranslated messages
-# 172 Untranslated messages
+#   3 Unused messages
+#  17 Legacy untranslated messages
+# 185 Untranslated messages
 #  24 Legacy translation messages
-# 386 Translation messages
+# 385 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"general.phrase.duplicate-set": # "Duplicate Set"
+"contenttypes.generic.no-proper-type": "W typie zawartości '%contenttype%', pole '%field%' jest typu: '%type%', co nie jest poprawnym typem pola. Proszę edytować contenttypes.yml, i poprawić to."
+"users.your-password": "Twoje hasło"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -31,14 +37,25 @@
 "Unable to rename directory: %DIR%": #
 "Unable to rename file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
+"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
+contenttypes.generic.consecutive-underscores: # "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 contenttypes.generic.invalid-relation: # "In the ContentType for '%contenttype%', the relation '%relation%' is defined, which is not a valid ContentType. Please edit contenttypes.yml, and correct this."
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
+
+field.embed.height: # "Height"
+field.embed.label.preview: # "Preview"
+field.embed.label.size: # "Size"
+field.embed.label.url: # "URL of content to embed"
+field.embed.matched-embed: # "Matched Embed"
+field.embed.pixel: # "pixel"
+field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.width: # "Width"
 
 field.geolocation.label.snap: # "Snap to nearest address"
 
@@ -46,6 +63,11 @@ field.image.label.alt: # "Alt"
 
 field.markdown.label.markedview: # "Markdown"
 
+field.repeater.collapse: # "Collapse this set"
+field.repeater.collapse-all: # "Collapse all"
+field.repeater.delete-set: # "Delete Set"
+field.repeater.expand: # "Expand this set"
+field.repeater.expand-all: # "Expand all"
 field.repeater.label.add-set: # "Add new %label% set"
 
 field.slug.button.generate: # "Generate from:"
@@ -70,9 +92,7 @@ general.phrase.clear-cache-complete: # "Cleared cache."
 general.phrase.database-check: # "Check Database"
 general.phrase.database-update-required-post: # "to do this now."
 general.phrase.database-update-required-pre: # "The database needs to be updated/repaired. Go to 'Configuration'"
-general.phrase.delete-set: # "Delete Set"
 general.phrase.depublish-explanation: # "If set, the record will be automatically depublished on the given date."
-general.phrase.duplicate-set: # "Duplicate Set"
 general.phrase.error-cache-clear: # "Failed to clear cache. You should delete it manually."
 general.phrase.error-login-invalid-parameters: # "Invalid login parameters."
 general.phrase.error-mail-options-not-set: # "The email configuration setting 'mailoptions' hasn't been set. Bolt may be unable to send password reset."
@@ -112,6 +132,7 @@ general.phrase.status-explanation: # "The status defines whether or not this rec
 general.phrase.system-config-checks: # "System Configuration Checks"
 general.phrase.thumbnail: # "Thumbnail"
 general.phrase.toggle-all: # "Check/Uncheck all"
+general.phrase.upload-drop-here: # "Drop files in the file manager to upload them or use the button below."
 general.phrase.upload-progress: # "Current uploads"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
 general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
@@ -272,7 +293,6 @@ contenttypes.generic.invalid-field: "Nie można ustawić %field% w %contenttype%
 contenttypes.generic.last-modified: "Ostatnio zmodyfikowane %contenttypes%"
 contenttypes.generic.new: "Nowy %contenttype%"
 contenttypes.generic.no-latest: "Brak ostatnich %contenttype%"
-contenttypes.generic.no-proper-type: "W typie zawartości '%contenttype%', pole '%field%' jest typu: '%type%', co nie jest poprawnym typem pola. Proszę edytować contenttypes.yml, i poprawić to."
 contenttypes.generic.no-recent: "Brak ostatnich %contenttype%"
 contenttypes.generic.none-available: "Brak dostępnych %contenttypes%."
 contenttypes.generic.not-existing: "Typ %contenttype% którego szukasz, nie istnieje. Został usunięty albo nigdy nie istniał."
@@ -320,7 +340,7 @@ general.about: "O Bolt"
 
 general.about-bolt: "Na temat Bolt"
 
-general.access-control.reset-failed: "Nie udało się\\_zresetować hasła. Albo token jest nieprawidłowy, albo upłynęło zbyt dużo czasu, albo próbujesz resetować hasło z innego adresu IP."
+general.access-control.reset-failed: "Nie udało się zresetować hasła. Albo token jest nieprawidłowy, albo upłynęło zbyt dużo czasu, albo próbujesz resetować hasło z innego adresu IP."
 general.access-control.reset-successful: "Udało się zresetować hasło. Teraz możesz zalogować się używając hasła wysłanego w wiadomości e-mail."
 
 general.access-denied.content-not-modified: "Zawartość '%title%' nie może zostać zmodyfikowana."
@@ -566,7 +586,7 @@ page.ckeditor-browse-server.title: "Pliki"
 
 page.dashboard.button.add: "Dodaj …"
 page.dashboard.empty-database: "Wygląda na to że nie ma zawartości w bazie danych."
-page.dashboard.quickstart: "Aby szybko zacząć, <a href='%url%'>dodaj trochę\\_demonstracyjnej zawartości `Lorem Ipsum`</a>."
+page.dashboard.quickstart: "Aby szybko zacząć, <a href='%url%'>dodaj trochę demonstracyjnej zawartości `Lorem Ipsum`</a>."
 page.dashboard.title: "Pulpit"
 
 page.edit-file.button.revert: "Wycofaj zmiany"
@@ -598,7 +618,7 @@ page.edit-users.label.user-enabled: "Konto użytkownika jest aktywne"
 page.edit-users.label.username: "Nazwa użytkownika"
 page.edit-users.log.user-added: "Dodano konto użytkownika '%user%'."
 page.edit-users.log.user-updated: "Zaktualizowano konto użytkownika '%user%'."
-page.edit-users.message.change-self: "Zostałeś wylogowany ponieważ zmieniłeś swoją nazwę użytkownika. Proszę, zaloguj sie\\_ponownie."
+page.edit-users.message.change-self: "Zostałeś wylogowany ponieważ zmieniłeś swoją nazwę użytkownika. Proszę, zaloguj się ponownie."
 page.edit-users.message.saving-user: "Użytkownik %user% nie może zostać zapisany, albo nic nie uległo zmianie."
 page.edit-users.message.user-saved: "Użytkownik %user% został zapisany."
 page.edit-users.note-sqlite: "Używasz aktualnie SQLite do skonfigurowania pierwszego użytkownika. Jeśli chcesz używać zamiast tego MySQL lub PostgreSQL, edytuj plik konfiguracyjny <tt>'app/config/config.yml'</tt> a Bolt skonfiguruje tabele bazy danych dla Ciebie. Odśwież tą stronę przed kontynuacją."
@@ -648,9 +668,9 @@ page.login.label.username: "Nazwa użytkownika / adres e-mail"
 page.login.password-hide: "Ukryj"
 page.login.password-reset-link-sent: "Link resetowania hasła został wysłany do '%user%'."
 page.login.password-show: "Pokaż"
+page.login.placeholder.password: "Twoje hasło"
 page.login.placeholder.username: "Twoja nazwa użytkownika"
-page.login.placeholder.password: # "Your password"
-page.login.title: "Zaloguj się\\_do Bolt"
+page.login.title: "Zaloguj się do Bolt"
 
 page.prefill.skipped-existing: "Pominięty <code>%key%</code> (posiada rekordy)"
 
@@ -675,5 +695,3 @@ permissions.roles.label.anonymous: "Anonimowy"
 permissions.roles.label.owner: "Właściciel"
 
 users.actions-for-users: "Akcje dla Użytkowników"
-
-users.your-password: "Twoje hasło"

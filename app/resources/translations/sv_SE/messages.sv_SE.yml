@@ -7,11 +7,17 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#  10 Legacy untranslated messages
-#  77 Untranslated messages
+#   3 Unused messages
+#  11 Legacy untranslated messages
+#  92 Untranslated messages
 #  30 Legacy translation messages
-# 481 Translation messages
+# 478 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"contenttypes.generic.no-proper-type": "I innehållstypen '%contenttype%', fältet '%field%' har 'typ: %type%', som inte är ett korrekt fält. Redigera contenttypes.yml för att lösa det."
+"general.phrase.duplicate-set": "Duplicera grupp"
+"users.your-password": "Ditt lösenord"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -25,14 +31,29 @@
 "The field %field% has been changed to \"%newValue%\"": #
 "Unable to duplicate file: %FILE%": #
 "Unfortunately, no content could be found. Try another page, or go to the <a href=\"%paths_root%\">homepage</a>.": #
+"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
+contenttypes.generic.consecutive-underscores: # "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
+field.embed.height: # "Height"
+field.embed.label.preview: # "Preview"
+field.embed.label.size: # "Size"
+field.embed.label.url: # "URL of content to embed"
+field.embed.matched-embed: # "Matched Embed"
+field.embed.pixel: # "pixel"
+field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.width: # "Width"
+
+field.repeater.collapse: # "Collapse this set"
+field.repeater.collapse-all: # "Collapse all"
+field.repeater.expand: # "Expand this set"
+field.repeater.expand-all: # "Expand all"
 field.repeater.label.add-set: # "Add new %label% set"
 
 field.slug.button.generate: # "Generate from:"
@@ -68,6 +89,7 @@ general.phrase.selection: # "Selection"
 general.phrase.show-proposed-alterations: # "Show proposed alterations"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 general.phrase.toggle-all: # "Check/Uncheck all"
+general.phrase.upload-drop-here: # "Drop files in the file manager to upload them or use the button below."
 general.phrase.upload-progress: # "Current uploads"
 general.phrase.value-maximum-variable: # "The value must not be greater than “%MAXVAL%”!"
 general.phrase.value-minimum-variable: # "The value has to be at least “%MINVAL%”!"
@@ -115,6 +137,8 @@ page.extend.options: # "Extension Options"
 
 page.file-management.actions-for-files: # "Actions for files"
 page.file-management.message.upload-not-writable: # "Unable to write to upload destination. Check permissions on %TARGET%"
+
+page.login.placeholder.username: # "Your username"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
@@ -172,7 +196,6 @@ contenttypes.generic.invalid-relation: "I innehållstypen för '%contenttype%' d
 contenttypes.generic.last-modified: "Senast redigerade %contenttypes%"
 contenttypes.generic.new: "Ny %contenttype%"
 contenttypes.generic.no-latest: "Inga senaste %contenttype%"
-contenttypes.generic.no-proper-type: "I innehållstypen '%contenttype%', fältet '%field%' har 'typ: %type%', som inte är ett korrekt fält. Redigera contenttypes.yml för att lösa det."
 contenttypes.generic.no-recent: "Inga nyligen redigerade %contenttype%."
 contenttypes.generic.none-available: "Inga %contenttypes%."
 contenttypes.generic.not-existing: "%contenttype% du letade efter finns inte. Den har förmodligen blivit borttagen eller så har den aldrig funnits."
@@ -209,6 +232,8 @@ field.image.label.alt: "Alt"
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Förhandsgranska"
+
+field.repeater.delete-set: "Ta bort grupp"
 
 field.slug.button.edit: "Redigera"
 field.slug.button.lock: "Lås"
@@ -298,7 +323,6 @@ general.phrase.database-up-to-date-already: "Din databas är redan uppdaterad."
 general.phrase.delete: "Radera"
 general.phrase.delete-directory-name: "Radera %foldername%"
 general.phrase.delete-file-name: "Radera %filename%"
-general.phrase.delete-set: "Ta bort grupp"
 general.phrase.delete-user-name: "Radera %username%"
 general.phrase.depublication-date-colon: "Avpublicerings datum:"
 general.phrase.depublish: "Avpublicera"
@@ -308,7 +332,6 @@ general.phrase.details: "Information"
 general.phrase.disable-user-name: "Deaktivera %username%"
 general.phrase.draft: "Utkast"
 general.phrase.duplicate-file-name: "Duplicera %filename%"
-general.phrase.duplicate-set: "Duplicera grupp"
 general.phrase.edit: "Redigera"
 general.phrase.edit-file: "Redigera fil"
 general.phrase.edit-role-permissions: "Redigera Roller och Rättigheter"
@@ -672,5 +695,3 @@ permissions.roles.label.anonymous: "Anonym"
 permissions.roles.label.owner: "Ägare"
 
 users.actions-for-users: "Åtgärder för Användare"
-
-users.your-password: "Ditt lösenord"

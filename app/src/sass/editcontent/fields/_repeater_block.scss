@@ -43,4 +43,28 @@ fieldset.bolt-field-block {
             border-bottom: none;
         }
     }
+
+    .block-collapse {
+        margin-bottom: 24px;
+    }
+
+    .toggle-block {
+        cursor: pointer;
+    }
+
+    .repeater-collapse {
+        .expandible {
+            display: none;
+        }
+
+        &.collapsed {
+            .expandible {
+                display: block;
+            }
+            .collapsible {
+                display: none;
+            }
+        }
+    }
+
 }

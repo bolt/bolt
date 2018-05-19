@@ -247,7 +247,8 @@ class FileManager extends BackendBase
             ];
 
             $originalFilename = $fileToProcess['name'];
-            $filename = preg_replace('/[^a-zA-Z0-9_\\.]/', '_', basename($originalFilename));
+            $filename = basename($originalFilename);
+            $filename = $this->app['upload.sanitizer']->slugify($filename, $this->app['config']->get('general/upload/replacement', '-'));
 
             try {
                 $isAllowed = $permissions->allowedUpload($filename);

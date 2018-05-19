@@ -7,11 +7,17 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#   5 Legacy untranslated messages
-#  31 Untranslated messages
+#   3 Unused messages
+#   6 Legacy untranslated messages
+#  46 Untranslated messages
 #  35 Legacy translation messages
-# 527 Translation messages
+# 524 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"contenttypes.generic.no-proper-type": "Dans le type de contenu '%contenttype%', le champ '%field%' a pour type '%type%' qui n'est pas un type de champ autorisé. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
+"general.phrase.duplicate-set": "Dupliquer le lot"
+"users.your-password": "Votre mot de passe"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -20,14 +26,29 @@
 "Finding packages that require this one…": #
 "Menu": #
 "Search": #
+"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
 
+contenttypes.generic.consecutive-underscores: # "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
 contenttypes.generic.invalid-hyphen: # "In the ContentType for '%contenttype%', you have used a hyphen in the definition which is not supported. Please edit contenttypes.yml and remove the hyphen or alternatively replace with an underscore."
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
+field.embed.height: # "Height"
+field.embed.label.preview: # "Preview"
+field.embed.label.size: # "Size"
+field.embed.label.url: # "URL of content to embed"
+field.embed.matched-embed: # "Matched Embed"
+field.embed.pixel: # "pixel"
+field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.width: # "Width"
+
+field.repeater.collapse: # "Collapse this set"
+field.repeater.collapse-all: # "Collapse all"
+field.repeater.expand: # "Expand this set"
+field.repeater.expand-all: # "Expand all"
 field.repeater.label.add-set: # "Add new %label% set"
 
 field.slug.button.generate: # "Generate from:"
@@ -37,6 +58,7 @@ general.phrase.changelog-note: # "Note: The database table will continue to grow
 general.phrase.clashing-relation: # "In the ContentType for '%contenttype%', both a field and a relation are named '%relation%' which will prevent the relation from working. Please edit contenttypes.yml, and correct this."
 general.phrase.extensions-overview: # "Extensions Overview"
 general.phrase.folder: # "Folder"
+general.phrase.upload-drop-here: # "Drop files in the file manager to upload them or use the button below."
 general.phrase.upload-progress: # "Current uploads"
 
 menu.configuration.checks: # "Set-up checks"
@@ -62,6 +84,8 @@ page.extend.listheader.name: # "Name"
 page.extend.options: # "Extension Options"
 
 page.file-management.actions-for-files: # "Actions for files"
+
+page.login.placeholder.password: # "Your password"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
@@ -124,7 +148,6 @@ contenttypes.generic.invalid-relation: "Dans le type de contenu '%contenttype%',
 contenttypes.generic.last-modified: "Derniers %contenttypes% modifiés"
 contenttypes.generic.new: "Nouveau %contenttype%"
 contenttypes.generic.no-latest: "Pas de %contenttype% récent"
-contenttypes.generic.no-proper-type: "Dans le type de contenu '%contenttype%', le champ '%field%' a pour type '%type%' qui n'est pas un type de champ autorisé. Veuillez modifier le fichier contenttypes.yml pour corriger cette erreur."
 contenttypes.generic.no-recent: "Aucun %contenttype% récent."
 contenttypes.generic.none-available: "Aucun(e) %contenttypes% disponible"
 contenttypes.generic.not-existing: "Le/la %contenttype% que vous recherchez n'existe pas. Il/elle a été soit supprimé(e) soit n'a jamais existé."
@@ -161,6 +184,8 @@ field.image.label.alt: "Alt"
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Aperçu"
+
+field.repeater.delete-set: "Supprimer le lot"
 
 field.slug.button.edit: "Modifier"
 field.slug.button.lock: "Verrouiller"
@@ -259,7 +284,6 @@ general.phrase.database-update-required-pre: "La base de données doit être mis
 general.phrase.delete: "Supprimer"
 general.phrase.delete-directory-name: "Supprimer %foldername%"
 general.phrase.delete-file-name: "Supprimer %filename%"
-general.phrase.delete-set: "Supprimer le lot"
 general.phrase.delete-user-name: "Supprimer l'utilisateur %username%"
 general.phrase.depublication-date-colon: "Date de dépublication :"
 general.phrase.depublish: "Dépublier"
@@ -270,7 +294,6 @@ general.phrase.details: "Détails"
 general.phrase.disable-user-name: "Désactiver l'utilisateur %username%"
 general.phrase.draft: "Brouillon"
 general.phrase.duplicate-file-name: "Dupliquer %filename%"
-general.phrase.duplicate-set: "Dupliquer le lot"
 general.phrase.edit: "Modifier"
 general.phrase.edit-file: "Edition de fichier"
 general.phrase.edit-role-permissions: "Modifier les rôles et les droits"
@@ -646,7 +669,6 @@ page.login.password-hide: "Masquer"
 page.login.password-reset-link-sent: "Un lien pour réinitialiser le mot de passe a été envoyé à '%user%'."
 page.login.password-show: "Afficher"
 page.login.placeholder.username: "Votre identifiant"
-page.login.placeholder.password: # "Your password"
 page.login.title: "Connexion à Bolt"
 
 page.prefill.skipped-existing: "Type de contenu <code>%key%</code> non traité (des enregistrements sont déjà présents)"
@@ -672,5 +694,3 @@ permissions.roles.label.anonymous: "Anonyme"
 permissions.roles.label.owner: "Propriétaire"
 
 users.actions-for-users: "Actions sur les utilisateurs"
-
-users.your-password: "Votre mot de passe"
