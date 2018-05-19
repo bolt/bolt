@@ -62,6 +62,7 @@ roles-hierarchy:
 # inside the code, so they don't appear here.
 global:
     about: [ everyone ] # view the 'About Bolt' page
+    checks: [ admin, developer ]
     clearcache: [ admin, developer ]
     contentaction: [ editor, admin, developer ]
     dashboard: [ everyone ]
