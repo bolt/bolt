@@ -6,7 +6,7 @@ but are usually only listed here against the lowest version applied to.
 
 ----
 
-Bolt 3.5.12
+Bolt 3.5.2
 ----------
 
 Released: 2018-05-22. Notable changes:
