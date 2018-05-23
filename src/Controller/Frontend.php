@@ -467,7 +467,7 @@ class Frontend extends ConfigurableBase
 
         // Build the pager
         $page = $this->app['pager']->getCurrentPage($contentType['slug']);
-        $order = $contentType['sort'] ?: $this->getListingOrder($contentType);
+        $order = isset($contentType['listing_sort']) ? $contentType['listing_sort'] : $this->getListingOrder($contentType);
 
         // CT value takes precedence over theme & config.yml
         if (!empty($contentType['listing_records'])) {
