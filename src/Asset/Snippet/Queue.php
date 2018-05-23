@@ -25,7 +25,7 @@ class Queue implements QueueInterface
     protected $cache;
 
     /** @var array */
-    private $matchedComments;
+    private $matchedComments = [];
 
     /**
      * Constructor.
@@ -68,7 +68,7 @@ class Queue implements QueueInterface
         // First, gather all html <!-- comments -->, because they shouldn't be
         // considered for replacements. We use a callback, so we can fill our
         // $this->matchedComments array
-        preg_replace_callback('/<!--(.*)-->/Uis', [$this, 'pregCallback'], $response->getContent());
+        $response->setContent(preg_replace_callback('/<!--(.*)-->/Uis', [$this, 'pregCallback'], $response->getContent()));
 
         /** @var Snippet $asset */
         foreach ($this->queue as $key => $asset) {
@@ -107,7 +107,7 @@ class Queue implements QueueInterface
      */
     private function pregCallback($c)
     {
-        $key = '###bolt-comment-' . count((array) $this->matchedComments) . '###';
+        $key = '###bolt-comment-' . count($this->matchedComments) . '###';
         // Add it to the array of matched comments.
         $this->matchedComments['/' . $key . '/'] = $c[0];
 
