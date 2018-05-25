@@ -108,6 +108,7 @@ final class RecentlyEdited
                     ->setRoute('editcontent', ['contenttypeslug' => $contentTypeKey, 'id' => $entity->getId()])
                     ->setLabel($label)
                     ->setIcon($contentType->get('icon_one', 'fa:file-text-o'))
+                    ->setPermission('contenttype:' . $contentTypeKey . ':edit')
             );
         }
     }
