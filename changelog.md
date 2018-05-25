@@ -1,6 +1,11 @@
 Changelog for Bolt 3.x
 ======================
 
+**NOTE:** Changes from earlier releases are merged into newer releases as well,
+but are usually only listed here against the lowest version applied to.
+
+----
+
 Bolt 3.6-dev
 ------------
 
@@ -10,10 +15,6 @@ Bolt 3.5 beta 1
 ---------------
 
 Released: 2018-03-21. Notable changes:
-**NOTE:** Changes from earlier releases are merged into newer releases as well,
-but are usually only listed here against the lowest version applied to.
-
-----
 
 Bolt 3.5.2
 ----------
