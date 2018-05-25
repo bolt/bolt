@@ -13,7 +13,18 @@ Released: 2018-03-21. Notable changes:
 **NOTE:** Changes from earlier releases are merged into newer releases as well,
 but are usually only listed here against the lowest version applied to.
 
---- 
+----
+
+Bolt 3.5.2
+----------
+
+Released: 2018-05-22. Notable changes:
+
+ - Fixed: Don't break if UserId is `null` [#7490](https://github.com/bolt/bolt/pull/7490)
+ - Fixed: Missing quotes in MySQL queries. Pass taxonomy field through a platform id quote [#7485](https://github.com/bolt/bolt/pull/7485)
+ - Fixed: Recent Records in sidebar menu in backend empty for users other than root. [#7487](https://github.com/bolt/bolt/pull/7487)
+ - Fixed: The dreaded "Permission 'everyone' is not granted to any roles." has been fixed. [#7488](https://github.com/bolt/bolt/pull/7488)
+ - Updated: Portuguese, Polish, Dutch translation files. [#7479](https://github.com/bolt/bolt/pull/7479), [#7480](https://github.com/bolt/bolt/pull/7480), [#7476](https://github.com/bolt/bolt/pull/7476)
 
 Bolt 3.5.1
 ----------
