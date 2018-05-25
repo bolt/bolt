@@ -6,6 +6,15 @@ but are usually only listed here against the lowest version applied to.
 
 ----
 
+Bolt 3.5.3
+----------
+
+Released: 2018-05-25. Notable changes:
+
+ - Fixed: Fix setting listing order on frontend [#7495](https://github.com/bolt/bolt/pull/7495)
+ - Fixed: PHP 7.2 'Must be array or Countable' exception, by removing dead code. [#7494](https://github.com/bolt/bolt/pull/7494)
+ - Security: [packaged `.tgz` and `.zip` versions only] Symfony components updated to [Symfony 2.8.41](http://symfony.com/blog/symfony-2-8-41-released).
+
 Bolt 3.5.2
 ----------
 
