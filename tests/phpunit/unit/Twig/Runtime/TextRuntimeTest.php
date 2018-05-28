@@ -57,6 +57,21 @@ class TextRuntimeTest extends BoltUnitTest
         $this->assertSame('2012-06-14 09:07', $result);
     }
 
+    public function testLocaleDateTimeStringWithFormatAndLocale()
+    {
+        $app = $this->getApp();
+        $handler = new TextRuntime($app['logger.system'], $app['slugify']);
+
+        $result = $handler->localeDateTime('2012-06-14 09:07:55', '%A %B %e', 'is_IS');
+        $this->assertSame('fimmtudagur júní 14', $result);
+
+        $result = $handler->localeDateTime('2012-06-14 09:07:55', '%A %B %e', ['foo_BAR', 'fi_FI']);
+        $this->assertSame('Torstai Kesäkuu 14', $result);
+
+        $result = $handler->localeDateTime('2012-06-14 09:07:55', '%A %B %e');
+        $this->assertSame('Thursday June 14', $result);
+    }
+
     /**
      * @runInSeparateProcess
      */
