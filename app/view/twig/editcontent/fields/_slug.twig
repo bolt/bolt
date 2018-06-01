@@ -58,7 +58,7 @@
 {% block fieldset_type 'slug' %}
 {% block fieldset_widget 'fieldSlug' %}
 
-{% block fieldset_label_text option.viewless ? trans.label_alias : trans.label_permalink %}
+{% block fieldset_label_text field.label|default(option.viewless ? trans.label_alias : trans.label_permalink) %}
 {% block fieldset_label_class 'col-sm-12' %}
 
 {% block fieldset_controls %}
