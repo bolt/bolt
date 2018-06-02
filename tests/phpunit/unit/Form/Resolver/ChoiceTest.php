@@ -34,7 +34,11 @@ class ChoiceTest extends TestCase
                 ],
             ],
             'Repeater field with indexed array' => [
-                ['select_array' => ['foo', 'bar', 'koala', 'drop bear']],
+                [
+                    'repeater' => [
+                        'select_array' => ['foo', 'bar', 'koala', 'drop bear']
+                    ],
+                ],
                 [
                     'repeater' => [
                         'type'   => 'repeater',
