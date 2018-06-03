@@ -256,6 +256,7 @@ class Content extends Entity
     public function setRelation(Collection\Relations $rel)
     {
         $this->relation = $rel;
+        $rel->setOwner($this);
     }
 
     /**
