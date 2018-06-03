@@ -212,7 +212,7 @@ class Builder
 
             if ($subField !== null) {
                 $subMapping = isset($mapping['data']['fields'][$subField]) ? $mapping['data']['fields'][$subField] : null;
-                if ($subMapping === null) {
+                if (!isset($subMapping['fieldtype'])) {
                     continue;
                 }
                 $fieldType = $this->fieldManager->get($subMapping['fieldtype'], $subMapping);
