@@ -41,7 +41,7 @@ class UploadContainer implements ContainerInterface
      */
     public function save($file, $content)
     {
-        $this->filesystem->put($file, $content);
+        $this->filesystem->put($file, (string) $content);
     }
 
     /**
