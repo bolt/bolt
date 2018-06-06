@@ -223,10 +223,15 @@ htmlcleaner:
 #
 # You can change the pattern match and replacement on uploaded files and if the
 # resulting filename should be transformed to lower case.
+#
+# Setting 'autoconfirm: true' prevents the creation of temporary lock files
+# while uploading.
+#
 # upload:
 #     pattern: '[^A-Za-z0-9\.]+'
 #     replacement: '-'
 #     lowercase: true
+#     autoconfirm: false
 
 # Define the file types (extensions to be exact) that are acceptable for upload
 # in either 'file' fields or through the 'files' screen.
