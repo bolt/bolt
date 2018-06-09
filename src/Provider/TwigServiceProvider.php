@@ -69,7 +69,13 @@ class TwigServiceProvider implements ServiceProviderInterface
             );
         };
         $app['twig.runtime.bolt_routing'] = function ($app) {
-            return new Twig\Runtime\RoutingRuntime($app['canonical'], $app['request_stack'], $app['locale']);
+            return new Twig\Runtime\RoutingRuntime(
+                $app['canonical'],
+                $app['request_stack'],
+                $app['locale'],
+                $app['url_generator'],
+                $app['users']
+            );
         };
         $app['twig.runtime.bolt_text'] = function ($app) {
             return new Twig\Runtime\TextRuntime($app['logger.system'], $app['slugify']);
