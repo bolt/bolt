@@ -34,6 +34,10 @@
             </div>
         </div>
     </div>
+
+    {# This ensures that a form value is always submitted even if all the fields are empty #}
+    <input type="hidden" name="{{ name ~ '[' ~ index ~ '][' ~ block ~ ']' }}[__internal]" value="1">
+
     <div class="panel-body">
         {% set defaults = {
             class:      '',
