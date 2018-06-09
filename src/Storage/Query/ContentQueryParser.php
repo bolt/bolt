@@ -176,7 +176,9 @@ class ContentQueryParser
 
         if (in_array($queryParts[0], $this->operations)) {
             $operation = array_shift($queryParts);
-            $this->params['limit'] = array_shift($queryParts);
+            if (count($queryParts) && is_numeric($queryParts[0])) {
+                $this->params['limit'] = array_shift($queryParts);
+            }
             $this->identifier = implode(',', $queryParts);
         } else {
             $this->identifier = implode(',', $queryParts);
