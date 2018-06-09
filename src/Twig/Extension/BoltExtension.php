@@ -6,6 +6,7 @@ use Bolt;
 use Bolt\Config;
 use Bolt\Configuration\PathsProxy;
 use Bolt\Storage\EntityManagerInterface;
+use Bolt\Twig\Runtime\BoltRuntime;
 use Bolt\Twig\SetcontentTokenParser;
 use Bolt\Twig\SwitchTokenParser;
 use Twig\Extension\AbstractExtension;
@@ -67,8 +68,9 @@ class BoltExtension extends AbstractExtension implements GlobalsInterface
 
         return [
             // @codingStandardsIgnoreStart
-            new TwigFunction('first', 'twig_first', $env + $deprecated),
-            new TwigFunction('last',  'twig_last', $env + $deprecated),
+            new TwigFunction('first',       'twig_first', $env + $deprecated),
+            new TwigFunction('last',        'twig_last', $env + $deprecated),
+            new TwigFunction('fieldtype',   [BoltRuntime::class, 'fieldType']),
             // @codingStandardsIgnoreEnd
         ];
     }
@@ -82,7 +84,8 @@ class BoltExtension extends AbstractExtension implements GlobalsInterface
         $deprecated = ['deprecated' => true];
 
         return [
-            new TwigFilter('ucfirst', 'twig_capitalize_string_filter', $env + $deprecated + ['alternative' => 'capitalize']),
+            new TwigFilter('ucfirst',   'twig_capitalize_string_filter', $env + $deprecated + ['alternative' => 'capitalize']),
+            new TwigFilter('fieldtype', [BoltRuntime::class, 'fieldType']),
         ];
     }
 
