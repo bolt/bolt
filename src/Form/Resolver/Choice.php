@@ -58,11 +58,15 @@ final class Choice
     {
         foreach ($fields as $name => $field) {
             if ($field['type'] === 'repeater') {
-                $this->build($select, $field['fields']);
+                $subField = new ArrayObject();
+                $this->build($subField, $field['fields']);
+                $select[$name] = iterator_to_array($subField);
             }
             if ($field['type'] === 'block') {
                 foreach ($field['fields'] as $blockName => $block) {
-                    $this->build($select, $block['fields']);
+                    $subField = new ArrayObject();
+                    $this->build($subField, $block['fields']);
+                    $select[$name][$blockName] = iterator_to_array($subField);
                 }
             }
             $values = $this->getValues($field);
