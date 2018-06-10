@@ -104,8 +104,10 @@ class Upload extends BackendBase
         $result = $this->app['upload']->process($filesToProcess);
 
         if ($result->isValid()) {
-            // Remove the .lock file attached to the file
-            $result->confirm();
+            if (!$this->app['config']->get('general/upload/autoconfirm')) {
+                // Remove the .lock file attached to the file
+                $result->confirm();
+            }
 
             $successfulFiles = [];
             foreach ($result as $resultFile) {
@@ -114,13 +116,14 @@ class Upload extends BackendBase
 
             return $successfulFiles;
         }
-            // The file that was saved during process() has a .lock file attached
-            // and can now be cleared, in the case where form processing fails
-            try {
-                $result->clear();
-            } catch (\Exception $e) {
-                // It's an error state anyway
-            }
+
+        // The file that was saved during process() has a .lock file attached
+        // and can now be cleared, in the case where form processing fails
+        try {
+            $result->clear();
+        } catch (\Exception $e) {
+            // It's an error state anyway
+        }
 
         $errorFiles = [];
         foreach ($result as $resultFile) {

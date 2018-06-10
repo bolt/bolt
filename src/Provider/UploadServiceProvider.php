@@ -33,6 +33,7 @@ class UploadServiceProvider implements ServiceProviderInterface
                 $uploadHandler = new UploadHandler($app['upload.container']);
                 $uploadHandler->setPrefix($app['upload.prefix']);
                 $uploadHandler->setOverwrite($app['upload.overwrite']);
+                $uploadHandler->setAutoconfirm($app['config']->get('general/upload/autoconfirm'));
                 $uploadHandler->addRule('extension', ['allowed' => $allowedExtensions]);
 
                 $uploadHandler->setSanitizerCallback(function ($filename) use ($app) {
