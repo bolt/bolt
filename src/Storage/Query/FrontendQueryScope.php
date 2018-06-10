@@ -72,6 +72,9 @@ class FrontendQueryScope implements QueryScopeInterface
         foreach ($contentTypes as $type => $values) {
             if (isset($values['sort'])) {
                 $this->orderBys[$type] = $values['sort'];
+                if (isset($values['singular_slug'])) {
+                    $this->orderBys[$values['singular_slug']] = $values['sort'];
+                }
             }
         }
     }
@@ -85,7 +88,7 @@ class FrontendQueryScope implements QueryScopeInterface
 
         // Setup default ordering of queries on a per-contenttype basis
         $existing = $query->getParameter('order');
-        if (!$existing && $this->orderBys[$ct]) {
+        if (!$existing && isset($this->orderBys[$ct])) {
             $handler = new OrderDirective();
             $handler($query, $this->orderBys[$ct]);
         }
