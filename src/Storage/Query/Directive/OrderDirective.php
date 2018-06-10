@@ -27,6 +27,9 @@ class OrderDirective
             if (strpos($order, '-') === 0) {
                 $direction = 'DESC';
                 $order = substr($order, 1);
+            } elseif (strpos($order, ' DESC') !== false) {
+                $direction = 'DESC';
+                $order = str_replace(' DESC', '', $order);
             } else {
                 $direction = null;
             }
