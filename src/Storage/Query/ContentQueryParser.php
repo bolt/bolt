@@ -206,6 +206,8 @@ class ContentQueryParser
             return;
         }
 
+        $this->directives = [];
+
         foreach ($this->params as $key => $value) {
             if ($this->hasDirectiveHandler($key)) {
                 $this->directives[$key] = $value;
