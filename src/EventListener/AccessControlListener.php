@@ -4,8 +4,9 @@ namespace Bolt\EventListener;
 
 use Bolt\AccessControl\Token\Token;
 use Bolt\Common\Serialization;
+use Bolt\Events\AccessControlEvent;
+use Bolt\Events\AccessControlEvents;
 use Bolt\Events\StorageEvent;
-use Bolt\Events\StorageEvents;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Session\SessionStorage;
@@ -13,6 +14,7 @@ use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManagerInterface;
 use Bolt\Storage\Repository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 /**
  * AccessControl listener class.
@@ -27,6 +29,8 @@ class AccessControlListener implements EventSubscriberInterface
     protected $sessionStorage;
     /** @var EntityManagerInterface */
     protected $em;
+    /** @var CsrfTokenManagerInterface */
+    private $csrfTokenManager;
 
     /**
      * Constructor.
@@ -38,11 +42,13 @@ class AccessControlListener implements EventSubscriberInterface
     public function __construct(
         FilesystemInterface $filesystem,
         SessionStorage $sessionStorage,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        CsrfTokenManagerInterface $csrfTokenManager
     ) {
         $this->filesystem = $filesystem;
         $this->sessionStorage = $sessionStorage;
         $this->em = $em;
+        $this->csrfTokenManager = $csrfTokenManager;
     }
 
     /**
@@ -80,6 +86,18 @@ class AccessControlListener implements EventSubscriberInterface
         $this->deleteAuthtokens($userEntity);
         $this->deleteSessions($userEntity);
     }
+
+    /**
+     * Fake the form to ensure the content editing CSRF token exists in a
+     * persistent session.
+     *
+     * @param AccessControlEvent $event
+     */
+    public function onLoginSuccess(AccessControlEvent $event)
+    {
+        $this->csrfTokenManager->getToken('content_edit');
+    }
+
 
     /**
      * Delete any save authtokens for a user.
@@ -127,8 +145,9 @@ class AccessControlListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            StorageEvents::PRE_DELETE => 'onStorageEventPostSave',
-            StorageEvents::PRE_DELETE => 'onStorageEventPreDelete',
+            //\Bolt\Events\StorageEvents::PRE_DELETE => 'onStorageEventPostSave',
+            //\Bolt\Events\StorageEvents::PRE_DELETE => 'onStorageEventPreDelete',
+            AccessControlEvents::LOGIN_SUCCESS => 'onLoginSuccess',
         ];
     }
 }
