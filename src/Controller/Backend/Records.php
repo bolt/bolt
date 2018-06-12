@@ -9,6 +9,7 @@ use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\Form\Button;
 use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -87,6 +88,15 @@ class Records extends BackendBase
             if ($response instanceof Response) {
                 return $response;
             }
+        }
+
+        // If the form is not valid, we normally show it again to the user.
+        // In case of an Ajaxy Request we can't, so we return a JSON error
+        // response.
+        if ($form->isSubmitted() && !$form->isValid() && $request->isXmlHttpRequest()) {
+                $response = ['error' => ['message' => (string) $form->getErrors()]];
+
+                return new JsonResponse($response, 500);
         }
 
         try {
