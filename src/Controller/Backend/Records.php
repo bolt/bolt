@@ -96,7 +96,7 @@ class Records extends BackendBase
         if ($form->isSubmitted() && !$form->isValid() && $request->isXmlHttpRequest()) {
                 $response = ['error' => ['message' => (string) $form->getErrors()]];
 
-                return new JsonResponse($response, 500);
+                return new JsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         try {
