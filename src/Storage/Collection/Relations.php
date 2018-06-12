@@ -2,7 +2,6 @@
 
 namespace Bolt\Storage\Collection;
 
-use Bolt\Exception\StorageException;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\EntityProxy;
@@ -73,8 +72,8 @@ class Relations extends ArrayCollection
     /**
      * Adds a related entity by type, id and owner
      *
-     * @param $type
-     * @param $id
+     * @param string         $type
+     * @param int            $id
      * @param Entity\Content $owner
      */
     protected function addEntity($type, $id, Entity\Content $owner)
@@ -272,18 +271,36 @@ class Relations extends ArrayCollection
      * Overrides the default to allow fetching a sub-selection.
      *
      * {@inheritdoc}
-     *
-     * @throws StorageException
      */
     public function offsetGet($offset)
     {
-        if ($this->em === null) {
-            throw new StorageException('Unable to load collection values. Ensure that EntityManager is set on ' . __CLASS__);
-        }
+        return $this->buildLazyCollection($this->getField($offset));
+    }
 
+    /**
+     * This method is compatible with the above offsetGet in that it returns a collection of lazy loaded content
+     * entity objects, this time for all relations no matter what the contenttype
+     *
+     * @return LazyCollection
+     */
+    public function all()
+    {
+        return $this->buildLazyCollection($this->toArray());
+    }
+
+    /**
+     * @param iterable $items
+     *
+     * @return LazyCollection
+     */
+    protected function buildLazyCollection($items)
+    {
+        if ($this->em === null) {
+            return parent::getIterator();
+        }
         $collection = new LazyCollection();
-        $proxies = $this->getField($offset);
-        foreach ($proxies as $proxy) {
+
+        foreach ($items as $proxy) {
             $collection->add(new EntityProxy($proxy->to_contenttype, $proxy->to_id, $this->em));
         }
 
