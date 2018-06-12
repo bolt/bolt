@@ -16,7 +16,8 @@ class EventListenerServiceProvider implements ServiceProviderInterface
                 return new Listener\AccessControlListener(
                     $app['filesystem'],
                     $app['session.storage'],
-                    $app['storage.lazy']
+                    $app['storage.lazy'],
+                    $app['csrf']
                 );
             }
         );
@@ -160,6 +161,7 @@ class EventListenerServiceProvider implements ServiceProviderInterface
             'template_view',
             'zone_guesser',
             'pager',
+            'access_control',
         ];
 
         foreach ($listeners as $name) {

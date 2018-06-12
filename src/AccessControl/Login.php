@@ -129,7 +129,7 @@ class Login extends AccessChecker
             }
         }
 
-        $this->dispatcher->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
+        $this->dispatcher->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event);
 
         return $this->loginFinish($userEntity);
     }
@@ -164,7 +164,7 @@ class Login extends AccessChecker
             $userTokenEntity->setLastseen(Carbon::now());
             $this->getRepositoryAuthtoken()->save($userTokenEntity);
             $this->flashLogger->success(Trans::__('general.phrase.session-resumed-colon'));
-            $this->dispatcher->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
+            $this->dispatcher->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event);
 
             return $this->loginFinish($userEntity);
         }
