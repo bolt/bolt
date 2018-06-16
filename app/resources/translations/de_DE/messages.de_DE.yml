@@ -7,7 +7,7 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
+#   2 Unused messages
 #   4 Legacy untranslated messages
 #  40 Untranslated messages
 #  37 Legacy translation messages
@@ -16,7 +16,6 @@
 #--- Unused messages ----------------------------------------------------------
 
 "contenttypes.generic.no-proper-type": "%contenttype%: das Feld „%field%“ hat den Typ „%type%“, was kein valider Feldtyp mehr ist. Bitte contenttypes.yml editieren und dies korrigieren."
-"general.phrase.duplicate-set": "Kopiere Gruppe"
 "users.your-password": "Ihr Passwort"
 
 #--- Legacy untranslated messages ---------------------------------------------

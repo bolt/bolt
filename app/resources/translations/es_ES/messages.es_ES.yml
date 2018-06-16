@@ -8,8 +8,8 @@
 #          re-map your translations.
 
 #   4 Unused messages
-#   0 Legacy untranslated messages
-#   5 Untranslated messages
+#   1 Legacy untranslated messages
+#   4 Untranslated messages
 #  40 Legacy translation messages
 # 566 Translation messages
 
@@ -17,12 +17,14 @@
 
 "contenttypes.generic.no-proper-type": "Para '%contenttype%' en TiposContenido, el campo '%field%' es del 'tipo:%type%', el cual no es un tipo de campo apropiado. Por favor edite el archivo contenttypes.yml, y corrija esto."
 "general.phrase.delete-set": "Eliminar set"
-"general.phrase.duplicate-set": "Duplicar Conjunto"
 "users.your-password": "Tu contraseña"
+"field.embed.provider-name": #
+
+#--- Legacy untranslated messages ---------------------------------------------
+
+"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
-
-field.embed.provider-name: #
 
 field.repeater.collapse: # "Collapse this set"
 field.repeater.collapse-all: # "Collapse all"
