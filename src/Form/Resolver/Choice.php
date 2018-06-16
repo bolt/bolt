@@ -4,7 +4,6 @@ namespace Bolt\Form\Resolver;
 
 use ArrayObject;
 use Bolt\Collection\Bag;
-use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\Query\Query;
 use Bolt\Storage\Query\QueryResultset;
@@ -105,7 +104,7 @@ final class Choice
      */
     private function getYamlValues(Bag $field)
     {
-        $values = array_slice($field->get('values', []), 0, $field->get('limit'));
+        $values = array_slice($field->get('values', []), 0, $field->get('limit'), true);
         if ($field->get('sortable')) {
             asort($values, SORT_REGULAR);
         }
