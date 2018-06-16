@@ -7,7 +7,7 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
+#   2 Unused messages
 #   8 Legacy untranslated messages
 # 200 Untranslated messages
 #  33 Legacy translation messages
@@ -16,7 +16,6 @@
 #--- Unused messages ----------------------------------------------------------
 
 "contenttypes.generic.no-proper-type": "В сущности '%contenttype%', поле '%field%' имеет 'тип: %type%', который не является допустимым. Пожалуйста отредактируйте contenttypes.yml, чтобы исправить это."
-"general.phrase.duplicate-set": "Дублировать"
 "users.your-password": "Ваш пароль"
 
 #--- Legacy untranslated messages ---------------------------------------------

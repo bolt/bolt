@@ -7,7 +7,7 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
+#   2 Unused messages
 #   9 Legacy untranslated messages
 #  33 Untranslated messages
 #  32 Legacy translation messages
@@ -16,7 +16,6 @@
 #--- Unused messages ----------------------------------------------------------
 
 "contenttypes.generic.no-proper-type": "Typ obsahu „%contenttype%“, pole „%field%“ používá „typ: %type%“, což není korektní typ pole. Proveďte prosím potřebné úpravy v contenttypes.yml."
-"general.phrase.duplicate-set": "Duplikovat sadu"
 "users.your-password": "Vaše heslo"
 
 #--- Legacy untranslated messages ---------------------------------------------

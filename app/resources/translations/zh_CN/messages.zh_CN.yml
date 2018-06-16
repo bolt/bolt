@@ -7,7 +7,7 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
+#   2 Unused messages
 #  22 Legacy untranslated messages
 # 249 Untranslated messages
 #  19 Legacy translation messages
@@ -15,7 +15,6 @@
 
 #--- Unused messages ----------------------------------------------------------
 
-"general.phrase.duplicate-set": # "Duplicate Set"
 "contenttypes.generic.no-proper-type": "“%contenttype%(Entry)”的内容格式配置中，设置为'type: %type%'的字段'%field%'不是合适的字段类型(fieldtype)。请编辑contenttypes.yml文件，修复此问题。"
 "users.your-password": "你的密码"
 
