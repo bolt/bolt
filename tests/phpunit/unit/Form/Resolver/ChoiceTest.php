@@ -61,6 +61,16 @@ class ChoiceTest extends TestCase
                     ],
                 ],
             ],
+            'Field un-sorted indexed array' => [
+                ['select_array' => [1 => 'bar', 3 => 'drop bear', 0 => 'foo', 2 => 'koala']],
+                [
+                    'select_array' => [
+                        'type'     => 'select',
+                        'sortable' => false,
+                        'values'   => [1 => 'bar', 3 => 'drop bear', 0 => 'foo', 2 => 'koala'],
+                    ],
+                ],
+            ],
             'Field with limited count indexed array' => [
                 ['select_array' => ['foo', 'bar']],
                 [
