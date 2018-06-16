@@ -105,7 +105,20 @@ class FilesystemManager extends AsyncBase
         $folderName = $request->request->get('foldername');
 
         try {
-            $dir = $this->filesystem()->getDir("$namespace://$parentPath/$folderName");
+            // Trimming spaces and cleaning folder name
+            $folderName = trim($folderName);
+            $slugifiedFolderName = $this->app['slugify']->slugify($folderName);
+
+            // If slugified folder name differs, we show warning
+            if ($slugifiedFolderName !== $folderName) {
+                $warningText = Trans::__(
+                    'Directory <strong>"%DIR%"</strong> was created with another name: <strong>"%SLUGDIR%"</strong>.',
+                    ['%DIR%' => $folderName, '%SLUGDIR%' => $slugifiedFolderName,]
+                );
+                $this->app['logger.flash']->warning($warningText);
+            }
+
+            $dir = $this->filesystem()->getDir("$namespace://$parentPath/$slugifiedFolderName");
             $dir->create();
 
             return $this->json($dir->getPath(), Response::HTTP_OK);
