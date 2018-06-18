@@ -50,7 +50,7 @@
 {% block render_item %}
     {% with {
         page: i,
-        link: (i == 1 and pager.for != 'search') ? canonical() : pager.makelink() ~ i,
+        link: pager.makelink() ~ i,
         active: i == pager.current,
         first: i == 1,
         last: i == pager.totalpages,
