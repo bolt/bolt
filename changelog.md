@@ -6,6 +6,20 @@ but are usually only listed here against the lowest version applied to.
 
 ----
 
+Bolt 3.5.4
+----------
+
+Released: 2018-05-26. Notable changes:
+
+ - Changed: Show a message when attempting to save while CSRF token has expired. [#7529](https://github.com/bolt/bolt/pull/7529)
+ - Fixed: Allow custom slug field label. [#7502](https://github.com/bolt/bolt/pull/7502)
+ - Fixed: Field with same name as other one inside repeater overwrites config of the first one. Ensure select choices are built and accessed via multi-level field names. [#7496](https://github.com/bolt/bolt/pull/7496) [#7505](https://github.com/bolt/bolt/pull/7505)
+ - Fixed: Filter in Backend is lost when clicking first item in pager. [#7536](https://github.com/bolt/bolt/pull/7536)
+ - Fixed: Handle fatal error when Block Groups and Sub-Fields have the same name. [#7504](https://github.com/bolt/bolt/pull/7504)
+ - Fixed: Named repeaters are not saved even if empty. Add a placeholder form input to always trigger saving of Block Fields [#7503](https://github.com/bolt/bolt/pull/7503)
+ - Fixed: Set `preserve_keys` in `array_slice` to keep numeric array key association [#7531](https://github.com/bolt/bolt/pull/7531)
+ - Updated: Translating `messages.ru.yml`. [#7533](https://github.com/bolt/bolt/pull/7533)
+
 Bolt 3.5.3
 ----------
 
