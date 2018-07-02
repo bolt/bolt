@@ -48,7 +48,7 @@
         {% for rkey, rfield in field.fields[block].fields %}
             {% set rfield = defaults|merge(rfield) %}
             {% if rfield.type == 'select' %}
-                {% set values = context.values.select_choices[rkey] %}
+                {% set values = context.values.select_choices[name][block][rkey] %}
             {% endif %}
             {% set rcontext = {
                 'key':        name ~ '_' ~ index ~ '_' ~ block ~ '_' ~ rkey,

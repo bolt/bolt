@@ -7,7 +7,7 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
+#   2 Unused messages
 #  11 Legacy untranslated messages
 #  92 Untranslated messages
 #  30 Legacy translation messages
@@ -16,7 +16,6 @@
 #--- Unused messages ----------------------------------------------------------
 
 "contenttypes.generic.no-proper-type": "I innehållstypen '%contenttype%', fältet '%field%' har 'typ: %type%', som inte är ett korrekt fält. Redigera contenttypes.yml för att lösa det."
-"general.phrase.duplicate-set": "Duplicera grupp"
 "users.your-password": "Ditt lösenord"
 
 #--- Legacy untranslated messages ---------------------------------------------

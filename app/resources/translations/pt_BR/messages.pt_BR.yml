@@ -7,22 +7,19 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
+#   2 Unused messages
 #   1 Legacy untranslated messages
 #   0 Untranslated messages
-#  38 Legacy translation messages
+#  40 Legacy translation messages
 # 570 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
-contenttypes.generic.no-proper-type: "No tipo de conteúdo '%contenttype%', o campo '%field%' tem 'type: %type%', que não é um tipo de campo apropriado. Por favor, edite o contenttypes.yml, e corrija isso."
-general.phrase.duplicate-set: "Duplicar conjunto"
-users.your-password: "Sua senha"
+"contenttypes.generic.no-proper-type": "No tipo de conteúdo '%contenttype%', o campo '%field%' tem 'type: %type%', que não é um tipo de campo apropriado. Por favor, edite o contenttypes.yml, e corrija isso."
+"users.your-password": "Sua senha"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
-"Menu": "Menu"
-"Search": "Buscar"
 "field.embed.provider_name": #
 
 #--- Legacy translation messages ----------------------------------------------
@@ -47,6 +44,8 @@ users.your-password: "Sua senha"
 "Finding packages that require this one…": "À procura de pacotes que necessitem deste…"
 "Invalid menu path (%PATH%) set in menu.yml. Does not match any configured contenttypes or routes.": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Não coincide com qualquer tipo de conteúdo ou roteamentos configurados."
 "Invalid menu path (%PATH%) set in menu.yml. Probably should be a link: instead!": "Caminho de menu inválido (%PATH%) definido no ficheiro menu.yml. Provavelmente deveria ser uma hiperligação!"
+"Menu": "Menu"
+"Search": "Buscar"
 "The field %field% has been changed to \"%newValue%\"": "O campo %field% foi alterado para \"%newValue%\""
 "The identifier and slug for '%taxonomytype%' are the not the same ('%slug%' vs. '%taxonomytype%'). Please edit taxonomy.yml, and make them match to prevent inconsistencies between database storage and your templates.": "O identificador e o slug para '%taxonomytype%' não são os mesmos ('%slug%' vs. '%taxonomytype%'). Edite taxonomy.yml, e faça-os coincidirem para evitar inconsistências entre o armazenamento do banco de dados e seus templates."
 "The settings for roles and permissions are stored in <code>%permissions%</code>.": "As definições para papéis e permissões são armazenadas em <code>%permissions%</code>."
@@ -87,8 +86,8 @@ contenttypes.generic.invalid-relation: "No tipo de conteúdo '%contenttype%', es
 contenttypes.generic.last-modified: "Última modificação em %contenttypes%"
 contenttypes.generic.new: "Novo %contenttype%"
 contenttypes.generic.no-latest: "Nenhum %contenttype%"
-contenttypes.generic.none-available: "Sem %contenttypes%."
 contenttypes.generic.no-recent: "Nenhum %contenttype% recente."
+contenttypes.generic.none-available: "Sem %contenttypes%."
 contenttypes.generic.not-existing: "O %contenttype% que você está procurando não existe. Provavelmente foi excluído, ou nunca existiu."
 contenttypes.generic.not-saved-yet: "Este %contenttype% ainda não foi salvo."
 contenttypes.generic.overview: "%contenttypes% visão geral "

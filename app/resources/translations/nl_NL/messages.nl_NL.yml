@@ -7,7 +7,7 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   2 Unused messages
+#   1 Unused messages
 #   1 Legacy untranslated messages
 #   0 Untranslated messages
 #  40 Legacy translation messages
@@ -16,7 +16,6 @@
 #--- Unused messages ----------------------------------------------------------
 
 "contenttypes.generic.no-proper-type": "In het contenttype voor '%contenttype%' heeft het veld '%field%' type: %type%, wat geen geldig veld type is. Pas contenttypes.yml aan en corrigeer dit."
-"general.phrase.duplicate-set": "Dupliceer Set"
 
 #--- Legacy untranslated messages ---------------------------------------------
 

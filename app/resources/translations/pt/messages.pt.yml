@@ -7,7 +7,7 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
+#   2 Unused messages
 #   3 Legacy untranslated messages
 #   0 Untranslated messages
 #  38 Legacy translation messages
@@ -16,7 +16,6 @@
 #--- Unused messages ----------------------------------------------------------
 
 "contenttypes.generic.no-proper-type": "No tipo de conteúdo '%contenttype%', o campo '%field%' tem 'type: %type%', que não é um tipo de campo apropriado. Por favor, edite o contenttypes.yml, e corrija isso."
-"general.phrase.duplicate-set": "Duplicar conjunto"
 "users.your-password": "A sua senha"
 
 #--- Legacy untranslated messages ---------------------------------------------
@@ -32,7 +31,7 @@
 "(no group)": "(sem grupo)"
 "(none)": "(nenhum)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar registos de amostra com texto <a href='%url%' class='btn btn-default'>Loripsum</a>"
-"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled: "Registos adicionados para o tipo de conteúdo <tt>%CONTENTYPE%</tt> intitulados"
+"Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": "Registos adicionados para o tipo de conteúdo <tt>%CONTENTYPE%</tt> intitulados"
 "Added to <tt>%key%</tt> '%title%'": "Adicionado a <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Ocorreu um erro ao atualizar a '%TABLE%'. O erro é %ERROR%"
 "Current (saved) status:": "Estado atual (guardado):"
@@ -93,8 +92,8 @@ contenttypes.generic.not-existing: "O %contenttype% de que está à procura não
 contenttypes.generic.not-saved-yet: "Este %contenttype% ainda não foi guardado."
 contenttypes.generic.overview: "%contenttypes% - visão geral "
 contenttypes.generic.publish: "Publicar %contenttype%"
-contenttypes.generic.recent-changes-one: "Alterações recentes a %contenttype%"
 contenttypes.generic.recent: "%contenttypes% recentes"
+contenttypes.generic.recent-changes-one: "Alterações recentes a %contenttype%"
 contenttypes.generic.recently-edited: "%contenttypes% - Edições recentes"
 contenttypes.generic.reserved-name: "No tipo de conteúdo '%contenttype%', o campo '%field%' definido, é um nome reservado. Por favor, edite o contenttypes.yml, e corrija isso."
 contenttypes.generic.save: "Guardar %contenttype%"
@@ -614,8 +613,8 @@ page.extend.message.overwrite: "Isto irá sobrescrever os ficheiros existentes! 
 page.extend.message.package-dependencies: "Pacotes que dependem disto"
 page.extend.message.package-install-info-fail: "Não foi possível obter dados de instalação para %PACKAGE% %VERSION%."
 page.extend.message.removing: "A preparar para remover o pacote..."
-page.extend.message.running-update-all: "Atualizações em execução"
 page.extend.message.running-update: "A executar atualização..."
+page.extend.message.running-update-all: "Atualizações em execução"
 page.extend.message.shows-updates: "Isto não vai instalar nada, apenas mostrar-lhe as atualizações disponíveis"
 page.extend.message.start-using-extension: "Pode começar a usar a extensão instalada. Documentação e instruções de execução podem ser encontradas usando a ligação abaixo."
 page.extend.message.updated: "Está tudo atualizado!"
