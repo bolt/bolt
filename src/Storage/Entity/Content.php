@@ -235,7 +235,7 @@ class Content extends Entity
     /**
      * @param string|null $contentType
      *
-     * @return Collection\Relations
+     * @return Collection\Relations|Collection\LazyCollection
      */
     public function getRelation($contentType = null)
     {
@@ -256,6 +256,23 @@ class Content extends Entity
     public function setRelation(Collection\Relations $rel)
     {
         $this->relation = $rel;
+        $rel->setOwner($this);
+    }
+
+    /**
+     * Gets all related content items
+     *
+     * @param $contentType
+     *
+     * @return Collection\LazyCollection
+     */
+    public function getRelated($contentType = null)
+    {
+        if ($contentType !== null) {
+            return $this->getRelation($contentType);
+        }
+
+        return $this->getRelation()->all();
     }
 
     /**

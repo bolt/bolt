@@ -23,6 +23,7 @@ class SelectQueryHandler
         $set = new QueryResultset();
         /** @var SelectQuery $query */
         $query = $contentQuery->getService('select');
+        $query->setSingleFetchMode(false);
 
         foreach ($contentQuery->getContentTypes() as $contentType) {
             $contentType = str_replace('-', '_', $contentType);

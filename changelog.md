@@ -15,6 +15,28 @@ Bolt 3.5 beta 1
 ---------------
 
 Released: 2018-03-21. Notable changes:
+Bolt 3.5.4
+----------
+
+Released: 2018-05-26. Notable changes:
+
+ - Changed: Show a message when attempting to save while CSRF token has expired. [#7529](https://github.com/bolt/bolt/pull/7529)
+ - Fixed: Allow custom slug field label. [#7502](https://github.com/bolt/bolt/pull/7502)
+ - Fixed: Field with same name as other one inside repeater overwrites config of the first one. Ensure select choices are built and accessed via multi-level field names. [#7496](https://github.com/bolt/bolt/pull/7496) [#7505](https://github.com/bolt/bolt/pull/7505)
+ - Fixed: Filter in Backend is lost when clicking first item in pager. [#7536](https://github.com/bolt/bolt/pull/7536)
+ - Fixed: Handle fatal error when Block Groups and Sub-Fields have the same name. [#7504](https://github.com/bolt/bolt/pull/7504)
+ - Fixed: Named repeaters are not saved even if empty. Add a placeholder form input to always trigger saving of Block Fields [#7503](https://github.com/bolt/bolt/pull/7503)
+ - Fixed: Set `preserve_keys` in `array_slice` to keep numeric array key association [#7531](https://github.com/bolt/bolt/pull/7531)
+ - Updated: Translating `messages.ru.yml`. [#7533](https://github.com/bolt/bolt/pull/7533)
+
+Bolt 3.5.3
+----------
+
+Released: 2018-05-25. Notable changes:
+
+ - Fixed: Fix setting listing order on frontend [#7495](https://github.com/bolt/bolt/pull/7495)
+ - Fixed: PHP 7.2 'Must be array or Countable' exception, by removing dead code. [#7494](https://github.com/bolt/bolt/pull/7494)
+ - Security: [packaged `.tgz` and `.zip` versions only] Symfony components updated to [Symfony 2.8.41](http://symfony.com/blog/symfony-2-8-41-released).
 
 Bolt 3.5.2
 ----------

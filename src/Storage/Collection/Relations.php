@@ -2,11 +2,11 @@
 
 namespace Bolt\Storage\Collection;
 
-use Bolt\Exception\StorageException;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\EntityProxy;
 use Doctrine\Common\Collections\ArrayCollection;
+use DomainException;
 
 /**
  * This class stores an array collection of Relations Entities.
@@ -17,16 +17,20 @@ class Relations extends ArrayCollection
 {
     protected $em;
 
+    protected $owner;
+
     /**
      * Relations constructor.
      *
-     * @param array         $elements
-     * @param EntityManager $em
+     * @param array               $elements
+     * @param EntityManager       $em
+     * @param Entity\Content|null $owner
      */
-    public function __construct(array $elements = [], EntityManager $em = null)
+    public function __construct(array $elements = [], EntityManager $em = null, Entity\Content $owner = null)
     {
         parent::__construct($elements);
         $this->em = $em;
+        $this->owner = $owner;
     }
 
     /**
@@ -41,11 +45,16 @@ class Relations extends ArrayCollection
      * @param array          $formValues
      * @param Entity\Content $entity
      */
-    public function setFromPost(array $formValues, Entity\Content $entity)
+    public function setFromPost(array $formValues, Entity\Content $entity = null)
     {
         if (!isset($formValues['relation'])) {
             return;
         }
+
+        if ($entity === null && $this->getOwner() !== null) {
+            $entity = $this->getOwner();
+        }
+
         $flatVals = $formValues['relation'];
         foreach ($flatVals as $field => $values) {
             if (!is_array($values)) {
@@ -55,14 +64,58 @@ class Relations extends ArrayCollection
                 if (!$val) {
                     continue;
                 }
-                $newEntity = new Entity\Relations([
-                    'from_contenttype' => (string) $entity->getContenttype(),
-                    'from_id'          => $entity->getId(),
-                    'to_contenttype'   => $field,
-                    'to_id'            => $val,
-                ]);
-                $this->add($newEntity);
+                $this->addEntity($field, $val, $entity);
             }
+        }
+    }
+
+    /**
+     * Adds a related entity by type, id and owner
+     *
+     * @param string         $type
+     * @param int            $id
+     * @param Entity\Content $owner
+     */
+    protected function addEntity($type, $id, Entity\Content $owner)
+    {
+        $newEntity = new Entity\Relations([
+            'from_contenttype' => (string) $owner->getContenttype(),
+            'from_id'          => $owner->getId(),
+            'to_contenttype'   => $type,
+            'to_id'            => $id,
+        ]);
+        $this->add($newEntity);
+    }
+
+    /**
+     * Associate related items by type and identifiers
+     *
+     * @param string|Entity\Content $type
+     * @param array|null            $items
+     */
+    public function associate($type, array $items = null)
+    {
+        if ($this->getOwner() === null) {
+            throw new DomainException('Unable to associate relations to a collection that does not have an owning entity!');
+        }
+        if ($type instanceof Entity\Content) {
+            $this->addEntity((string) $type->getContenttype(), $type->getId(), $this->getOwner());
+
+            return;
+        }
+
+        if (is_iterable($type)) {
+            foreach ($type as $entity) {
+                if ($entity instanceof Entity\Content) {
+                    $this->associate($entity);
+                }
+            }
+
+            return;
+        }
+
+        foreach ($items as $item) {
+            $this->addEntity($type, $item, $this->getOwner());
         }
     }
 
@@ -221,13 +274,33 @@ class Relations extends ArrayCollection
      */
     public function offsetGet($offset)
     {
-        if ($this->em === null) {
-            throw new StorageException('Unable to load collection values. Ensure that EntityManager is set on ' . __CLASS__);
-        }
+        return $this->buildLazyCollection($this->getField($offset));
+    }
 
+    /**
+     * This method is compatible with the above offsetGet in that it returns a collection of lazy loaded content
+     * entity objects, this time for all relations no matter what the contenttype
+     *
+     * @return LazyCollection
+     */
+    public function all()
+    {
+        return $this->buildLazyCollection($this->toArray());
+    }
+
+    /**
+     * @param iterable $items
+     *
+     * @return LazyCollection
+     */
+    protected function buildLazyCollection($items)
+    {
+        if ($this->em === null) {
+            return parent::getIterator();
+        }
         $collection = new LazyCollection();
-        $proxies = $this->getField($offset);
-        foreach ($proxies as $proxy) {
+
+        foreach ($items as $proxy) {
             $collection->add(new EntityProxy($proxy->to_contenttype, $proxy->to_id, $this->em));
         }
 
@@ -242,5 +315,23 @@ class Relations extends ArrayCollection
         }
 
         return $output;
+    }
+
+    /**
+     * @return Entity\Content
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Set a reference to the owning entity.
+     *
+     * @param Entity\Content $owner
+     */
+    public function setOwner(Entity\Content $owner)
+    {
+        $this->owner = $owner;
     }
 }

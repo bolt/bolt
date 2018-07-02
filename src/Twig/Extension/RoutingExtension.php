@@ -23,6 +23,7 @@ class RoutingExtension extends AbstractExtension
         return [
             // @codingStandardsIgnoreStart
             new TwigFunction('canonical',      [Runtime\RoutingRuntime::class, 'canonical']),
+            new TwigFunction('editlink',       [Runtime\RoutingRuntime::class, 'editlink']),
             new TwigFunction('htmllang',       [Runtime\RoutingRuntime::class, 'htmlLang']),
             new TwigFunction('ismobileclient', [Runtime\RoutingRuntime::class, 'isMobileClient']),
             new TwigFunction('redirect',       [Runtime\RoutingRuntime::class, 'redirect'], ['deprecated' => true]),

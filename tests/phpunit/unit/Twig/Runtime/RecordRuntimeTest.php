@@ -6,7 +6,6 @@ use Bolt\Asset\Snippet\Snippet;
 use Bolt\Legacy\Content;
 use Bolt\Pager\Pager;
 use Bolt\Pager\PagerManager;
-use Bolt\Routing\Canonical;
 use Bolt\Storage\Repository;
 use Bolt\Tests\BoltUnitTest;
 use Bolt\Twig\Runtime\RecordRuntime;
@@ -466,18 +465,6 @@ GRINGALET;
         ;
         $pager->for = $pagerName = 'Clippy';
         $pager->totalpages = $surr = 2;
-
-        $canonical = $this->getMockBuilder(Canonical::class)
-            ->setMethods(['getUrl'])
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-        $canonical
-            ->expects($this->atLeastOnce())
-            ->method('getUrl')
-            ->will($this->returnValue('1'))
-        ;
-        $app['canonical'] = $canonical;
 
         $manager = $this->getMockBuilder(PagerManager::class)
             ->setMethods(['isEmptyPager', 'getPager'])

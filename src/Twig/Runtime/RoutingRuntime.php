@@ -4,7 +4,9 @@ namespace Bolt\Twig\Runtime;
 
 use Bolt\Library;
 use Bolt\Routing\Canonical;
+use Bolt\Users;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Bolt specific Twig functions and filters that provide routing functionality.
@@ -19,19 +21,32 @@ class RoutingRuntime
     private $requestStack;
     /** @var string */
     private $locale;
+    /** @var UrlGeneratorInterface  */
+    private $urlGenerator;
+    /** @var Users  */
+    private $users;
 
     /**
      * Constructor.
      *
-     * @param Canonical    $canonical
-     * @param RequestStack $requestStack
-     * @param string       $locale
+     * @param Canonical             $canonical
+     * @param RequestStack          $requestStack
+     * @param string                $locale
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param Users                 $users
      */
-    public function __construct(Canonical $canonical, RequestStack $requestStack, $locale)
-    {
+    public function __construct(
+        Canonical $canonical,
+        RequestStack $requestStack,
+        $locale,
+        UrlGeneratorInterface $urlGenerator,
+        Users $users
+    ) {
         $this->canonical = $canonical;
         $this->requestStack = $requestStack;
         $this->locale = $locale;
+        $this->urlGenerator = $urlGenerator;
+        $this->users = $users;
     }
 
     /**
@@ -42,6 +57,24 @@ class RoutingRuntime
     public function canonical()
     {
         return $this->canonical->getUrl();
+    }
+
+    /**
+     * Generate a backend edit link for a given record if the user has the permission
+     *
+     * @param $record
+     *
+     * @return bool
+     */
+    public function editlink($record)
+    {
+        $perm = 'contenttype:' . $record->contenttype['slug'] . ':edit:' . $record->id;
+
+        if ($this->users->isAllowed($perm)) {
+            return $this->urlGenerator->generate('editcontent', ['contenttypeslug' => $record->contenttype['slug'], 'id' => $record->id]);
+        }
+
+        return false;
     }
 
     /**

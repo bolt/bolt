@@ -132,12 +132,21 @@ class SearchQuery extends SelectQuery
             return null;
         }
 
-        $expr = $this->qb->expr()->orX();
+        $wrapExpr = $this->qb->expr()->andX();
+        $config = $this->config->getConfig($this->contentType);
+        $searchExpr = $this->qb->expr()->orX();
+        $searchKeys = array_keys($config);
+
         /** @var Filter $filter */
         foreach ($this->filters as $filter) {
-            $expr = $expr->add($filter->getExpression());
+            if (in_array($filter->getKey(), $searchKeys)) {
+                $searchExpr->add($filter->getExpression());
+            } else {
+                $wrapExpr->add($filter->getExpression());
+            }
         }
+        $wrapExpr->add($searchExpr);
 
-        return $expr;
+        return $wrapExpr;
     }
 }

@@ -8,6 +8,8 @@ use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Helpers\Input;
 use Bolt\Response\TemplateResponse;
+use Bolt\Storage\Entity\Taxonomy;
+use Bolt\Storage\Repository\TaxonomyRepository;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -186,6 +188,8 @@ class Frontend extends ConfigurableBase
      * @param Request $request         The Symfony Request
      * @param string  $contenttypeslug The content type slug
      *
+     * @throws \Exception
+     *
      * @return TemplateResponse
      */
     public function preview(Request $request, $contenttypeslug)
@@ -245,8 +249,8 @@ class Frontend extends ConfigurableBase
      */
     public function listing(Request $request, $contenttypeslug)
     {
-        $listingparameters = $this->getListingParameters($contenttypeslug);
-        $content = $this->getContent($contenttypeslug, $listingparameters);
+        $listingParameters = $this->getListingParameters($contenttypeslug);
+        $content = $this->getContent($contenttypeslug, $listingParameters);
         $contenttype = $this->getContentType($contenttypeslug);
 
         $template = $this->templateChooser()->listing($contenttype);
@@ -268,6 +272,8 @@ class Frontend extends ConfigurableBase
      * @param Request $request      The Symfony Request
      * @param string  $taxonomytype The taxonomy type slug
      * @param string  $slug         The taxonomy slug
+     *
+     * @throws \Bolt\Exception\InvalidRepositoryException
      *
      * @return TemplateResponse|false
      */
@@ -292,7 +298,22 @@ class Frontend extends ConfigurableBase
         }
 
         $order = $this->getOption('theme/listing_sort', false) ?: $this->getOption('general/listing_sort');
-        $content = $this->storage()->getContentByTaxonomy($taxonomytype, $slug, ['limit' => $amount, 'order' => $order, 'page' => $page]);
+        $isLegacy = $this->getOption('general/compatibility/setcontent_legacy', true);
+        if ($isLegacy) {
+            $content = $this->storage()->getContentByTaxonomy($taxonomytype, $slug, ['limit' => $amount, 'order' => $order, 'page' => $page]);
+        } else {
+            $page = $this->app['pager']->getCurrentPage('taxonomy');
+            $appCt = array_keys($this->app['query.search_config']->getSearchableTypes());
+            /** @var TaxonomyRepository $repo */
+            $repo = $this->app['storage']->getRepository(Taxonomy::class);
+            $query = $repo->queryContentByTaxonomy($appCt, [$taxonomytype => $slug])
+                ->setFirstResult(($page - 1) * $amount)
+                ->setMaxResults($amount)
+            ;
+
+            $results = $repo->getContentByTaxonomy($query);
+            $content = $results->getCollection();
+        }
 
         if (!$this->isTaxonomyValid($content, $slug, $taxonomy)) {
             $this->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
@@ -395,28 +416,43 @@ class Frontend extends ConfigurableBase
             $filters = null;
         }
 
-        $result = $this->storage()->searchContent($q, $contenttypes, $filters, $limit, $offset);
-        $arr = $result ?: [
-            'no_of_results' => 0,
-            'results'       => [],
-            'query'         => ['sanitized_q' => null],
-        ];
+        $isLegacy = $this->getOption('general/compatibility/setcontent_legacy', true);
+        if ($isLegacy) {
+            $result = $this->storage()->searchContent($q, $contenttypes, $filters, $limit, $offset);
 
-        /** @var \Bolt\Pager\PagerManager $manager */
-        $manager = $this->app['pager'];
-        $manager
-            ->createPager($context)
-            ->setCount($arr['no_of_results'])
-            ->setTotalpages(ceil($arr['no_of_results'] / $pageSize))
-            ->setCurrent($page)
-            ->setShowingFrom($offset + 1)
-            ->setShowingTo($offset + count($arr['results']));
+            /** @var \Bolt\Pager\PagerManager $manager */
+            $manager = $this->app['pager'];
+            $manager
+                ->createPager($context)
+                ->setCount($result['no_of_results'])
+                ->setTotalpages(ceil($result['no_of_results'] / $pageSize))
+                ->setCurrent($page)
+                ->setShowingFrom($offset + 1)
+                ->setShowingTo($offset + count($result['results']))
+            ;
 
-        $manager->setLink($this->generateUrl('search', ['q' => $q]) . '&page_search=');
+            $manager->setLink($this->generateUrl('search', ['q' => $q]) . '&page_search=');
+        } else {
+            $appCt = array_keys($this->app['query.search_config']->getSearchableTypes());
+            $textQuery = '(' . join(',', $appCt) . ')/search';
+            $params = [
+                'filter' => $q,
+                'page'   => $page,
+                'limit'  => $pageSize,
+            ];
+            $searchResult = $this->getContent($textQuery, $params);
+
+            $result = [
+                'results' => $searchResult,
+                'query'   => [
+                    'sanitized_q' => strip_tags($q),
+                ],
+            ];
+        }
 
         $globals = [
-            'records'      => $arr['results'],
-            $context       => $arr['query']['sanitized_q'],
+            'records'      => $result['results'],
+            $context       => $result['query']['sanitized_q'],
             'searchresult' => $result,
         ];
 
