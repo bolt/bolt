@@ -20,7 +20,7 @@ class QueryServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         $app['query'] = function ($app) {
-            $runner = new Query($app['query.parser']);
+            $runner = new Query($app['query.parser'], $app['twig.records.view']);
             $runner->addScope('frontend', $app['query.scope.frontend']);
 
             return $runner;

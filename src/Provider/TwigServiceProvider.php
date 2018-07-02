@@ -299,6 +299,14 @@ class TwigServiceProvider implements ServiceProviderInterface
             return $options;
         };
 
+        $app['twig.records.view'] = $app->share(
+            function ($app) {
+                $wrapper = new Twig\TwigRecordsView($app['storage.metadata']);
+
+                return $wrapper;
+            }
+        );
+
         $app['safe_twig'] = $app->share(
             function ($app) {
                 Deprecated::service('safe_twig', 3.3, 'Use "twig" service with sandbox enabled instead.');
