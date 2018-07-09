@@ -7,7 +7,7 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
+#   2 Unused messages
 #  13 Legacy untranslated messages
 # 188 Untranslated messages
 #  28 Legacy translation messages
@@ -15,7 +15,6 @@
 
 #--- Unused messages ----------------------------------------------------------
 
-"general.phrase.duplicate-set": # "Duplicate Set"
 "contenttypes.generic.no-proper-type": "Sisältötyypissä '%contenttype%' kenttä '%field%' on määritetty 'type: %type%', joka ei ole kelvollinen kenttätyyppi. Muokkaa contenttypes.yml korjataksesi tämän."
 "users.your-password": "Salasanasi"
 

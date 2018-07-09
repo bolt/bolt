@@ -3,6 +3,7 @@
 namespace Bolt\Storage\Query;
 
 use Bolt\Storage\Entity\Content;
+use Bolt\Twig\TwigRecordsView;
 
 class Query
 {
@@ -10,15 +11,18 @@ class Query
     protected $parser;
     /** @var array */
     protected $scopes;
+    /** @var TwigRecordsView */
+    protected $recordsView;
 
     /**
      * Constructor.
      *
      * @param ContentQueryParser $parser
      */
-    public function __construct(ContentQueryParser $parser)
+    public function __construct(ContentQueryParser $parser, TwigRecordsView $recordsView)
     {
         $this->parser = $parser;
+        $this->recordsView = $recordsView;
     }
 
     /**
@@ -81,5 +85,20 @@ class Query
         }
 
         return null;
+    }
+
+    /**
+     * Helper to be called from Twig that is passed via a TwigRecordsView rather than the raw records.
+     *
+     * @param $textquery
+     * @param array $parameters
+     *
+     * @return QueryResultset|null
+     */
+    public function getContentForTwig($textquery, $parameters = [])
+    {
+        return $this->recordsView->createView(
+            $this->getContentByScope('frontend', $textquery, $parameters)
+        );
     }
 }

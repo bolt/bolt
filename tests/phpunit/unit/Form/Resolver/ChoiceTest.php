@@ -34,7 +34,11 @@ class ChoiceTest extends TestCase
                 ],
             ],
             'Repeater field with indexed array' => [
-                ['select_array' => ['foo', 'bar', 'koala', 'drop bear']],
+                [
+                    'repeater' => [
+                        'select_array' => ['foo', 'bar', 'koala', 'drop bear']
+                    ],
+                ],
                 [
                     'repeater' => [
                         'type'   => 'repeater',
@@ -54,6 +58,16 @@ class ChoiceTest extends TestCase
                         'type'     => 'select',
                         'sortable' => true,
                         'values'   => ['foo', 'bar', 'koala', 'drop bear'],
+                    ],
+                ],
+            ],
+            'Field un-sorted indexed array' => [
+                ['select_array' => [1 => 'bar', 3 => 'drop bear', 0 => 'foo', 2 => 'koala']],
+                [
+                    'select_array' => [
+                        'type'     => 'select',
+                        'sortable' => false,
+                        'values'   => [1 => 'bar', 3 => 'drop bear', 0 => 'foo', 2 => 'koala'],
                     ],
                 ],
             ],

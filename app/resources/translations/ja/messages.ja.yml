@@ -7,7 +7,7 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
+#   2 Unused messages
 #  25 Legacy untranslated messages
 # 308 Untranslated messages
 #  16 Legacy translation messages
@@ -15,7 +15,6 @@
 
 #--- Unused messages ----------------------------------------------------------
 
-"general.phrase.duplicate-set": # "Duplicate Set"
 "contenttypes.generic.no-proper-type": "コンテンツタイプ '%contenttype' の中で、フィールド '%field%' は 'type: %type%'を持ちますが、これは適切なフィールドタイプではありません。contentstypes.ymlを編集し、修正してください。"
 "users.your-password": "パスワード"
 

@@ -7,7 +7,7 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   3 Unused messages
+#   2 Unused messages
 #  11 Legacy untranslated messages
 # 120 Untranslated messages
 #  30 Legacy translation messages
@@ -15,7 +15,6 @@
 
 #--- Unused messages ----------------------------------------------------------
 
-"general.phrase.duplicate-set": # "Duplicate Set"
 "contenttypes.generic.no-proper-type": "A(z) '%contenttype%' tartalomtípus tartalmaz egy '%type%' típusú '%field%' mezőt, ami nem megfelelő mezőtípus. A contenttypes.yml fájl szerkesztésével javítsd ezt!"
 "users.your-password": "Az ön jelszava"
 

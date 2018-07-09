@@ -58,8 +58,12 @@ class ArrayExtension extends AbstractExtension
      *
      * @return array
      */
-    public function order(array $array, $on, $onSecondary = null)
+    public function order($array, $on, $onSecondary = null)
     {
+        // We only want to work with real arrays, anything else is ignored
+        if (!is_array($array)) {
+            return $array;
+        }
         // If we don't get a string, we can't determine a sort order.
         if (!is_string($on)) {
             throw new \InvalidArgumentException(sprintf('Second parameter passed to %s must be a string, %s given', __METHOD__, gettype($on)));
