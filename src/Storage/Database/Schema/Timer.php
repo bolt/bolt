@@ -66,9 +66,11 @@ class Timer
         } catch (FileNotFoundException $e) {
             // Don't need to delete the file, it isn't there
         } catch (IOException $e) {
-            $message = sprintf('Unable to remove database schema check timestamp: %s', $e->getMessage());
+            if (strpos($e->getMessage(), 'No such file or directory') === 0) {
+                $message = sprintf('Unable to remove database schema check timestamp: %s', $e->getMessage());
 
-            throw new StorageException($message, $e->getCode(), $e);
+                throw new StorageException($message, $e->getCode(), $e);
+            }
         }
     }
 
