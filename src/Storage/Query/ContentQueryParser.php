@@ -2,6 +2,8 @@
 
 namespace Bolt\Storage\Query;
 
+use Bolt\Events\QueryEvent;
+use Bolt\Events\QueryEvents;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Query\Directive\GetQueryDirective;
@@ -176,7 +178,9 @@ class ContentQueryParser
 
         if (in_array($queryParts[0], $this->operations)) {
             $operation = array_shift($queryParts);
-            $this->params['limit'] = array_shift($queryParts);
+            if (count($queryParts) && is_numeric($queryParts[0])) {
+                $this->params['limit'] = array_shift($queryParts);
+            }
             $this->identifier = implode(',', $queryParts);
         } else {
             $this->identifier = implode(',', $queryParts);
@@ -201,6 +205,8 @@ class ContentQueryParser
         if (!$this->params) {
             return;
         }
+
+        $this->directives = [];
 
         foreach ($this->params as $key => $value) {
             if ($this->hasDirectiveHandler($key)) {
@@ -436,8 +442,14 @@ class ContentQueryParser
     public function fetch()
     {
         $this->parse();
+        $parseEvent = new QueryEvent($this);
+        $this->getEntityManager()->getEventManager()->dispatch(QueryEvents::PARSE, $parseEvent);
 
-        return call_user_func($this->handlers[$this->getOperation()], $this);
+        $result = call_user_func($this->handlers[$this->getOperation()], $this);
+        $executeEvent = new QueryEvent($this, $result);
+        $this->getEntityManager()->getEventManager()->dispatch(QueryEvents::EXECUTE, $executeEvent);
+
+        return $result;
     }
 
     /**

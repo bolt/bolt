@@ -7,11 +7,19 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#   0 Legacy untranslated messages
+#   1 Unused messages
+#   1 Legacy untranslated messages
 #   0 Untranslated messages
 #  40 Legacy translation messages
-# 559 Translation messages
+# 570 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"contenttypes.generic.no-proper-type": "In het contenttype voor '%contenttype%' heeft het veld '%field%' type: %type%, wat geen geldig veld type is. Pas contenttypes.yml aan en corrigeer dit."
+
+#--- Legacy untranslated messages ---------------------------------------------
+
+"field.embed.provider_name": #
 
 #--- Legacy translation messages ----------------------------------------------
 
@@ -60,8 +68,8 @@
 
 contenttypes.generic.actions-all: "Handelingen voor %contenttypes%"
 contenttypes.generic.actions-one: "Handelingen voor deze %contenttype%"
-contenttypes.generic.created: "Deze %contenttype% is aangemaakt."
 contenttypes.generic.consecutive-underscores: "In het contenttype voor '%contenttype%' heeft het veld '%field%' opeenvolgende underscores, wat niet ondersteund wordt. Pas contenttypes.yml aan en gebruik één enkele underscore."
+contenttypes.generic.created: "Deze %contenttype% is aangemaakt."
 contenttypes.generic.delete: "Verwijder %contenttype%"
 contenttypes.generic.duplicate: "Dupliceer %contenttype%"
 contenttypes.generic.duplicated-finalize: "Inhoud is gedupliceerd. Klik op 'Sla %contenttype% op' om af te ronden."
@@ -77,7 +85,6 @@ contenttypes.generic.invalid-relation: "In het contenttype voor '%contenttype%',
 contenttypes.generic.last-modified: "Laatst aangepaste %contenttypes%"
 contenttypes.generic.new: "Nieuwe %contenttype%"
 contenttypes.generic.no-latest: "Geen nieuwste %contenttype%"
-contenttypes.generic.no-proper-type: "In het contenttype voor '%contenttype%' heeft het veld '%field%' type: %type%, wat geen geldig veld type is. Pas contenttypes.yml aan en corrigeer dit."
 contenttypes.generic.no-recent: "Geen recente %contenttype%."
 contenttypes.generic.none-available: "Geen %contenttypes% beschikbaar."
 contenttypes.generic.not-existing: "Het record van %contenttype% dat je zoekt bestaat niet. Het is ofwel verwijderd, of het heeft nooit bestaan."
@@ -101,6 +108,15 @@ contenttypes.record.comment-add-colon: "Voeg een opmerking toe:"
 field.block.label.add-new: "Voeg toe…"
 field.block.label.add-set: "Voeg nieuwe set %label% toe"
 
+field.embed.height: "Hoogte"
+field.embed.label.preview: "Voorbeeld"
+field.embed.label.size: "Grootte"
+field.embed.label.url: "Url naar embedde content"
+field.embed.matched-embed: "Gevonden embed"
+field.embed.pixel: "pixels"
+field.embed.placeholder.url: "Url van de content op Facebook, Twitter, Soundcloud, etc."
+field.embed.width: "Breedte"
+
 field.general.allowed-filetypes: "Toegestane bestandtypes:"
 field.general.select-from-server: "Kies vanaf de server"
 field.general.stack: "Stapel"
@@ -118,6 +134,11 @@ field.image.label.alt: "Alt."
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Voorvertoning"
 
+field.repeater.collapse: "Klap deze set in"
+field.repeater.collapse-all: "Klap alles in"
+field.repeater.delete-set: "Verwijder Set"
+field.repeater.expand: "Klap deze set uit"
+field.repeater.expand-all: "Klap alles uit"
 field.repeater.label.add-set: "Voeg nieuwe set %label% toe"
 
 field.slug.button.edit: "Bewerk"
@@ -221,7 +242,6 @@ general.phrase.database-update-required-pre: "De database moet gecontroleerd / b
 general.phrase.delete: "Verwijderen"
 general.phrase.delete-directory-name: "Verwijder %foldername%"
 general.phrase.delete-file-name: "Verwijder %filename%"
-general.phrase.delete-set: "Set verwijderen"
 general.phrase.delete-user-name: "Verwijder %username%"
 general.phrase.depublication-date-colon: "Depublicatiedatum:"
 general.phrase.depublish: "Publicatie opheffen"
@@ -232,7 +252,6 @@ general.phrase.details: "Details"
 general.phrase.disable-user-name: "Schakel %username% uit"
 general.phrase.draft: "Klad"
 general.phrase.duplicate-file-name: "Dupliceer %filename%"
-general.phrase.duplicate-set: "Dupliceer Set"
 general.phrase.edit: "Bewerk"
 general.phrase.edit-file: "Bewerk bestand"
 general.phrase.edit-role-permissions: "Bewerk Rollen en Permissies"

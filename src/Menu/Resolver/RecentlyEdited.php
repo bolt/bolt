@@ -48,21 +48,27 @@ final class RecentlyEdited
             return;
         }
         foreach ($contentRoot->get('main')->children() as $name => $contentMenu) {
+            if ($contentMenu->isGroup()) {
+                $this->resolveGroupMenu($contentMenu, $contentTypes);
+                continue;
+            }
             if ($contentTypes->getPath($name . '/singleton')) {
                 $this->addSingleton($contentMenu, $name);
                 continue;
             }
             $this->addRecentlyEdited($contentMenu, $name, $contentTypes);
         }
+    }
 
-        if (!$contentRoot->has('grouped')) {
-            return;
-        }
-        foreach ($contentRoot->get('grouped')->children() as $groupName => $groupMenu) {
-            foreach ($groupMenu->children() as $name => $contentMenu) {
-                if ($contentTypes->getPath($name . '/singleton')) {
-                    $this->addSingleton($contentMenu, $name);
-                }
+    /**
+     * @param MenuEntry $groupMenu
+     * @param Bag       $contentTypes
+     */
+    private function resolveGroupMenu(MenuEntry $groupMenu, Bag $contentTypes)
+    {
+        foreach ($groupMenu->children() as $name => $contentMenu) {
+            if ($contentTypes->getPath($name . '/singleton')) {
+                $this->addSingleton($contentMenu, $name);
             }
         }
     }
@@ -102,6 +108,7 @@ final class RecentlyEdited
                     ->setRoute('editcontent', ['contenttypeslug' => $contentTypeKey, 'id' => $entity->getId()])
                     ->setLabel($label)
                     ->setIcon($contentType->get('icon_one', 'fa:file-text-o'))
+                    ->setPermission('contenttype:' . $contentTypeKey . ':edit')
             );
         }
     }

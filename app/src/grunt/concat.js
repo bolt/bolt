@@ -89,7 +89,7 @@ module.exports = function (grunt, option) {
                 '<%= path.src.npm %>/complexify/jquery.complexify.min.js',      //   2 kb
                 '<%= path.tmp %>/bootbox.min.js',                               //  10 kb
                 '<%= path.tmp %>/jquery.magnific-popup.min.js',                 //  21 kb
-                '<%= path.src.lib %>/jquery-ui-1.11.4.custom/jquery-ui.min.js', //  96 kb
+                '<%= path.src.lib %>/jquery-ui-1.12.1.custom/jquery-ui.min.js', //  88 kb
                 '<%= path.tmp %>/bootstrap-file-input.min.js',                  //   2 kb
                 '<%= path.tmp %>/jquery-hotkeys.min.js',                        //   2 kb
                 '<%= path.tmp %>/jquery.iframe-transport.min.js',               //   3 kb
@@ -116,8 +116,8 @@ module.exports = function (grunt, option) {
                 sourceMapName: '<%= path.sourcemaps %>/lib.css.map'
             },
             src: [
-                '<%= path.src.lib %>/jquery-ui-1.11.4.custom/jquery-ui.structure.css',
-                '<%= path.src.lib %>/jquery-ui-1.11.4.custom/jquery-ui.theme.css',
+                '<%= path.src.lib %>/jquery-ui-1.12.1.custom/jquery-ui.structure.css',
+                '<%= path.src.lib %>/jquery-ui-1.12.1.custom/jquery-ui.theme.css',
                 '<%= path.src.npm %>/select2/dist/css/select2.css',
                 '<%= path.src.npm %>/blueimp-file-upload/css/jquery.fileupload.css',
                 '<%= path.src.npm %>/blueimp-file-upload/css/jquery.fileupload-ui.css',

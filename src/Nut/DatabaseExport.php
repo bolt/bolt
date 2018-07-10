@@ -32,6 +32,7 @@ class DatabaseExport extends BaseCommand
             ->addOption('file',        'f', InputOption::VALUE_REQUIRED, 'A YAML or JSON file to use for export data. Must end with .yml, .yaml or .json')
             ->addOption('directory',   'd', InputOption::VALUE_REQUIRED, 'A destination directory. The command will automatically generate file names.')
             ->addOption('contenttype', 'c', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'ContentType name to export records for (can be used multiple times).')
+            ->addOption('users',       'u', InputOption::VALUE_NONE, 'Also export users table.')
         ;
     }
 
@@ -55,9 +56,10 @@ class DatabaseExport extends BaseCommand
         $exportContentTypes = (array) $input->getOption('contenttype') ?: array_keys($this->app['config']->get('contenttypes'));
         // Response bag
         $responseBag = MutableBag::fromRecursive(['error' => [], 'warning' => [], 'success' => []]);
+        $includeUsers = $input->getOption('users');
 
         $migration = new Migration\Export($this->app['storage'], $this->app['query']);
-        $exportData = $migration->run($exportContentTypes, $responseBag);
+        $exportData = $migration->run($exportContentTypes, $responseBag, $includeUsers);
 
         // Dump the file
         $file->dump($exportData->toArrayRecursive(), ['inline' => 4]);

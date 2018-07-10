@@ -1,10 +1,50 @@
 # This file defines the contenttypes on the website. See the documentation for
 # details: https://docs.bolt.cm/contenttypes/intro
 
-# Pages can be used for the more 'static' pages on your site. Things like
-# 'about us', 'contact' or a 'disclaimer'. This content-type has a 'templateselect'
-# field, which allows you to override the record_template setting for an
-# individual page.
+# The Homepage contenttype is a singleton: There can be only one record of this
+# contenttype.
+
+homepage:
+    name: Homepage
+    singular_name: Homepage
+    fields:
+        title:
+            type: text
+            class: large
+            group: content
+            postfix: |
+                The 'Homepage' can contain basic information about the website. This title will be
+                shown on the homepage of the website, as the name implies. To change the
+                <em><strong>name</strong></em> of the site, as is shown in the header, and the tab
+                in the webbrowser, edit <code>sitename:</code> in the configuration file.
+        image:
+            type: image
+            placeholder: https://source.unsplash.com/1920x640/?cityscape,landscape,nature/__random__
+        teaser:
+            type: html
+            height: 150px
+        content:
+            type: html
+            height: 300px
+        contentlink:
+            type: text
+            label: Link
+            placeholder: 'contenttype/slug or http://example.org/'
+            postfix: "Use this to add a link for this Homepage. This could either be an 'internal' link like <tt>page//about</tt>, if you use a contenttype/slug combination. Otherwise use a proper URL, like `http://example.org`."
+        slug:
+            type: slug
+            uses: title
+            group: meta
+    viewless: true
+    singleton: true
+    default_status: published
+    icon_many: "fa:home"
+    icon_one: "fa:home"
+
+
+# Pages can be used for the more 'static' pages on your site. This content-type
+# has a 'templateselect' field, which allows you to override the record_template
+# setting for an individual page.
 # The taxonomy for this ContentType is defined as 'groups', which is a so-called
 # "grouping taxonomy". This way you can easily group sets of pages that logically
 # belong together. If your site has a 'services' section, in which you'd like to
@@ -24,6 +64,7 @@ pages:
             uses: title
         image:
             type: image
+            placeholder: https://source.unsplash.com/1280x768/?business,workplace/__random__
         teaser:
             type: html
             height: 150px
@@ -34,15 +75,15 @@ pages:
             type: templateselect
             filter: '*.twig'
     taxonomy: [ groups ]
-    recordsperpage: 100
+    recordsperpage: 20
 
 
-# Entries can be used for things like 'news' or 'blogpostings'. They have a 'teaser',
-# which can be used for a short blurb on listing-pages, allowing visitors to
-# click-through to the rest of the entry. It also has fields for an image and an
-# optional video.
-# A relation is defined to the pages ContentType. This way you can refer to a page
-# from your news-item.
+# Entries can be used for things like 'news' or 'blogpostings'. They have a
+# 'teaser', which can be used for a short blurb on listing-pages, allowing
+# visitors to click-through to the rest of the entry. It also has fields for an
+# image and an optional video.
+# A relation is defined to the pages ContentType. This way you can refer to a
+# page from your news-item.
 # This ContentType defines 'categories' and 'tags' as taxonomies, allowing the
 # editor to use both to categorize a specific entry.
 # The 'sort' is set to '-datepublish', which means that newer entries will be
@@ -68,6 +109,7 @@ entries:
         image:
             type: image
             group: media
+            placeholder: https://source.unsplash.com/1280x768/?business,workspace,interior/__random__
         video:
             type: video
     relations:
@@ -81,7 +123,7 @@ entries:
     listing_records: 10
     default_status: published
     sort: -datepublish
-    recordsperpage: 10
+    recordsperpage: 20
 
 
 # The 'Showcases' is not particularly useful in most cases, but it does a good
@@ -118,12 +160,15 @@ showcases:
         geolocation:
             type: geolocation
             group: Media
+        embed:
+            type: embed
         video:
             type: video
         image:
             type: image
             attrib: title # Note: retrieve this in your template with {{ record.values.image.title }}
             extensions: [ gif, jpg, png ]
+            placeholder: https://source.unsplash.com/1280x768/?animal,koala,kitten,puppy,cute/__random__
         imagelist:
             type: imagelist
         file:

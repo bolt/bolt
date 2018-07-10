@@ -36,14 +36,14 @@ class NotFoundListener implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param string          $notFoundPage
+     * @param string|array    $notFoundPage
      * @param Storage         $storage
      * @param TemplateChooser $templateChooser
      * @param Environment     $twig
      */
     public function __construct($notFoundPage, Storage $storage, TemplateChooser $templateChooser, Environment $twig)
     {
-        $this->notFoundPage = $notFoundPage;
+        $this->notFoundPage = (array) $notFoundPage;
         $this->storage = $storage;
         $this->templateChooser = $templateChooser;
         $this->twig = $twig;
@@ -69,25 +69,30 @@ class NotFoundListener implements EventSubscriberInterface
             Zone::set($request, Zone::FRONTEND);
         }
 
-        try {
-            $this->renderNotFound($event, $this->notFoundPage);
+        foreach ($this->notFoundPage as $item) {
+            try {
+                $this->renderNotFound($event, $item);
 
-            return;
-        } catch (LoaderError $e) {
-            // Template not found, fall though to see if we can render a
-            // record, failing that let the exception handler take over
+                return;
+            } catch (LoaderError $e) {
+                // Template not found, fall though to see if we can render a
+                // record, failing that let the exception handler take over
+            }
+
+            $content = $this->storage->getContent($item, ['returnsingle' => true]);
+            if ($content instanceof Content && !empty($content->id)) {
+                $template = $this->templateChooser->record($content);
+                $this->renderNotFound($event, $template, $content->getTemplateContext());
+
+                return;
+            }
         }
 
-        $content = $this->storage->getContent($this->notFoundPage, ['returnsingle' => true]);
-        if (!$content instanceof Content || empty($content->id)) {
-            $msg = sprintf('No page could be shown, because the "notfound" setting "%s" in config.yml or theme.yml is not valid.', $this->notFoundPage);
-            $event->setException(new NotFoundHttpException($msg, $e));
-
-            return;
-        }
-
-        $template = $this->templateChooser->record($content);
-        $this->renderNotFound($event, $template, $content->getTemplateContext());
+        $msg = sprintf(
+            'No page could be shown, because the "notfound" setting "%s" in config.yml or theme.yml is not valid.',
+            implode(', ', $this->notFoundPage)
+        );
+        $event->setException(new NotFoundHttpException($msg, $e));
     }
 
     /**

@@ -12,6 +12,7 @@ use Bolt\Pager\PagerManager;
 use Bolt\Storage\Collection\Taxonomy;
 use Bolt\Storage\Entity;
 use Bolt\Storage\Mapping\ContentType;
+use Bolt\Storage\Query\Query;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Glob;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +36,8 @@ class RecordRuntime
     private $themeTemplateSelect;
     /** @var bool */
     private $useTwigGlobals;
+    /** @var Query  */
+    private $query;
 
     /**
      * Constructor.
@@ -44,19 +47,22 @@ class RecordRuntime
      * @param DirectoryInterface $templatesDir
      * @param array              $themeTemplateSelect
      * @param mixed              $useTwigGlobals
+     * @param Query              $query
      */
     public function __construct(
         RequestStack $requestStack,
         PagerManager $pagerManager,
         DirectoryInterface $templatesDir,
         array $themeTemplateSelect,
-        $useTwigGlobals
+        $useTwigGlobals,
+        Query $query
     ) {
         $this->requestStack = $requestStack;
         $this->pagerManager = $pagerManager;
         $this->templatesDir = $templatesDir;
         $this->themeTemplateSelect = $themeTemplateSelect;
         $this->useTwigGlobals = $useTwigGlobals;
+        $this->query = $query;
     }
 
     /**
@@ -264,6 +270,70 @@ class RecordRuntime
         }
 
         return $files;
+    }
+
+    /**
+     * @param Entity\Content $entity
+     * @param string         $field
+     * @param array          $where
+     *
+     * @return Entity\Content|null
+     */
+    public function next($entity, $field = 'datepublish', $where = [])
+    {
+        if ($field[0] === '-') {
+            $operator = '<';
+            $field = substr($field, 1);
+            $order = '-' . $field;
+        } elseif ($field[0] === '+') {
+            $operator = '>';
+            $field = substr($field, 1);
+            $order = $field;
+        } else {
+            $operator = '>';
+            $order = $field;
+        }
+        $params = [
+            $field         => $operator . $entity->get($field),
+            'limit'        => 1,
+            'order'        => $order,
+            'returnsingle' => true,
+        ];
+        $params = array_merge($params, $where);
+
+        return $this->query->getContent((string) $entity->getContentype, $params);
+    }
+
+    /**
+     * @param Entity\Content $entity
+     * @param string         $field
+     * @param array          $where
+     *
+     * @return Entity\Content|null
+     */
+    public function previous($entity, $field = 'datepublish', array $where = [])
+    {
+        if ($field[0] === '-') {
+            $operator = '>';
+            $field = substr($field, 1);
+            $order = '-' . $field;
+        } elseif ($field[0] === '+') {
+            $operator = '<';
+            $field = substr($field, 1);
+            $order = $field;
+        } else {
+            $operator = '<';
+            $order = $field;
+        }
+        $params = [
+            $field         => $operator . $entity->get($field),
+            'limit'        => 1,
+            'order'        => $order,
+            'returnsingle' => true,
+        ];
+        $params = array_merge($params, $where);
+
+        return $this->query->getContent((string) $entity->getContentype, $params);
     }
 
     /**

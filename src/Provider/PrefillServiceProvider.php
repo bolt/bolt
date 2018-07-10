@@ -19,6 +19,12 @@ class PrefillServiceProvider implements ServiceProviderInterface
             }
         );
 
+        $app['prefill.image'] = $app->share(
+            function ($app) {
+                return new Prefill\ImageClient($app['guzzle.client']);
+            }
+        );
+
         $app['prefill.builder'] = $app->share(
             function ($app) {
                 return new Prefill\Builder(
@@ -45,6 +51,7 @@ class PrefillServiceProvider implements ServiceProviderInterface
                 return new Prefill\RecordContentGenerator(
                     $contentTypeName,
                     $app['prefill'],
+                    $app['prefill.image'],
                     $app['storage']->getRepository($contentTypeName),
                     $app['filesystem']->getFilesystem('files'),
                     $app['config']->get('taxonomy'),

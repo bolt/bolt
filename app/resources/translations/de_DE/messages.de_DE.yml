@@ -7,29 +7,51 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   0 Unused messages
-#   3 Legacy untranslated messages
-#  25 Untranslated messages
+#   2 Unused messages
+#   4 Legacy untranslated messages
+#  40 Untranslated messages
 #  37 Legacy translation messages
-# 533 Translation messages
+# 530 Translation messages
+
+#--- Unused messages ----------------------------------------------------------
+
+"contenttypes.generic.no-proper-type": "%contenttype%: das Feld „%field%“ hat den Typ „%type%“, was kein valider Feldtyp mehr ist. Bitte contenttypes.yml editieren und dies korrigieren."
+"users.your-password": "Ihr Passwort"
 
 #--- Legacy untranslated messages ---------------------------------------------
 
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": #
 "Menu": #
 "Search": #
+"field.embed.provider_name": #
 
 #--- Untranslated messages ----------------------------------------------------
+
+contenttypes.generic.consecutive-underscores: # "In the ContentType for '%contenttype%', the field '%field%' has consecutive underscores, which is not supported. Please edit contenttypes.yml and use a single underscore."
 
 field.block.label.add-new: # "Add new..."
 field.block.label.add-set: # "Add new %label% set"
 
+field.embed.height: # "Height"
+field.embed.label.preview: # "Preview"
+field.embed.label.size: # "Size"
+field.embed.label.url: # "URL of content to embed"
+field.embed.matched-embed: # "Matched Embed"
+field.embed.pixel: # "pixel"
+field.embed.placeholder.url: # "URL of content on Facebook, Twitter, Soundcloud or other media website"
+field.embed.width: # "Width"
+
+field.repeater.collapse: # "Collapse this set"
+field.repeater.collapse-all: # "Collapse all"
+field.repeater.expand: # "Expand this set"
+field.repeater.expand-all: # "Expand all"
 field.repeater.label.add-set: # "Add new %label% set"
 
 general.phrase.changelog-not-enabled: # "The changelog is not enabled. If you enable it, any changes made to the content in all ContentTypes will be logged on this page, for reference. See the section <code>changelog:</code> in your <code>config.yml</code> to change this setting."
 general.phrase.changelog-note: # "Note: The database table will continue to grow as the editors keep adding content. If you enable this functionality in a production environment the table may end up taking up a lot of space."
 general.phrase.extensions-overview: # "Extensions Overview"
 general.phrase.folder: # "Folder"
+general.phrase.upload-drop-here: # "Drop files in the file manager to upload them or use the button below."
 general.phrase.upload-progress: # "Current uploads"
 
 menu.configuration.checks: # "Set-up checks"
@@ -50,6 +72,8 @@ page.extend.listheader.class: # "Class"
 page.extend.listheader.name: # "Name"
 
 page.file-management.actions-for-files: # "Actions for files"
+
+page.login.placeholder.password: # "Your password"
 
 page.prefill.connection-timeout: # "Timeout attempting connection to the 'Lorem Ipsum' generator. Unable to add dummy content."
 page.prefill.database-update-required: # "Table not found for ContentType %CONTENTTYPE%, a database update is probably required."
@@ -115,7 +139,6 @@ contenttypes.generic.invalid-relation: "Im Datentyp '%contenttype%' ist die Bezi
 contenttypes.generic.last-modified: "Zuletzt bearbeitete %contenttypes%"
 contenttypes.generic.new: "%contenttype% erstellen"
 contenttypes.generic.no-latest: "Keine neuesten %contenttype%"
-contenttypes.generic.no-proper-type: "%contenttype%: das Feld „%field%“ hat den Typ „%type%“, was kein valider Feldtyp mehr ist. Bitte contenttypes.yml editieren und dies korrigieren."
 contenttypes.generic.no-recent: "Keine letzten %contenttype%"
 contenttypes.generic.none-available: "Keine %contenttypes%."
 contenttypes.generic.not-existing: "Der gesuchte Datentyp „%contenttype%“ konnte nicht gefunden werden."
@@ -152,6 +175,8 @@ field.image.label.alt: "Alt"
 
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Vorschau"
+
+field.repeater.delete-set: "Set löschen"
 
 field.slug.button.edit: "Bearbeiten"
 field.slug.button.generate: "Generiere von:"
@@ -252,7 +277,6 @@ general.phrase.database-update-required-pre: "Die Datenbank muss aktualisiert/re
 general.phrase.delete: "Löschen"
 general.phrase.delete-directory-name: "%foldername% löschen"
 general.phrase.delete-file-name: "%filename% löschen"
-general.phrase.delete-set: "Set löschen"
 general.phrase.delete-user-name: "%username% löschen"
 general.phrase.depublication-date-colon: "Datum der Archivierung:"
 general.phrase.depublish: "Depublizieren"
@@ -263,7 +287,6 @@ general.phrase.details: "Details"
 general.phrase.disable-user-name: "%username% deaktivieren"
 general.phrase.draft: "Entwurf"
 general.phrase.duplicate-file-name: "%filename% kopieren"
-general.phrase.duplicate-set: "Kopiere Gruppe"
 general.phrase.edit: "Bearbeiten"
 general.phrase.edit-file: "Datei bearbeiten"
 general.phrase.edit-role-permissions: "Rollen und Zugriffsrechte bearbeiten"
@@ -644,7 +667,6 @@ page.login.password-hide: "Verstecken"
 page.login.password-reset-link-sent: "Ein Link zum Zurücksetzen des Passworts wurde an '%user%' versandt."
 page.login.password-show: "Anzeigen"
 page.login.placeholder.username: "Ihr Benutzername"
-page.login.placeholder.password: # "Your password"
 page.login.title: "In Bolt anmelden"
 
 page.prefill.skipped-existing: "Überspringe <code>%key%</code> (bereits Einträge vorhanden)"
@@ -670,5 +692,3 @@ permissions.roles.label.anonymous: "Anonym"
 permissions.roles.label.owner: "Besitzer"
 
 users.actions-for-users: "Aktionen für Benutzer"
-
-users.your-password: "Ihr Passwort"

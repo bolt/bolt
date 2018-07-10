@@ -7,6 +7,7 @@ use Bolt\Configuration\PathResolver;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -69,7 +70,7 @@ class ExceptionToJsonListener implements EventSubscriberInterface
      */
     protected function convert(\Exception $exception)
     {
-        $statusCode = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
+        $statusCode = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
         $file = Path::makeRelative($exception->getFile(), $this->pathResolver->resolve('root'));
 
         $response = new JsonResponse([

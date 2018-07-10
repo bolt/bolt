@@ -37,6 +37,7 @@ class ContentType extends BaseTable
         'geolocation'    => 'columnJson',
         'image'          => 'columnJson',
         'imagelist'      => 'columnJson',
+        'embed'          => 'columnJson',
         'selectmultiple' => 'columnJson',
         'templatefields' => 'columnJson',
         'video'          => 'columnJson',

@@ -3,7 +3,6 @@
 namespace Bolt\Storage\Entity;
 
 use Bolt\Common\Json;
-use Bolt\Helpers\Excerpt;
 use Bolt\Helpers\Input;
 use Bolt\Legacy;
 use Bolt\Library as Lib;
@@ -54,56 +53,6 @@ trait ContentValuesTrait
         }
 
         return false;
-    }
-
-    /**
-     * Alias for getExcerpt().
-     *
-     * @param int          $length
-     * @param bool         $includeTitle
-     * @param string|array $focus
-     *
-     * @return Markup
-     */
-    public function excerpt($length = 200, $includeTitle = false, $focus = null)
-    {
-        return $this->getExcerpt($length, $includeTitle, $focus);
-    }
-
-    /**
-     * Create an excerpt for the content.
-     *
-     * @param int          $length
-     * @param bool         $includeTitle
-     * @param string|array $focus
-     *
-     * @return Markup
-     */
-    public function getExcerpt($length = 200, $includeTitle = false, $focus = null)
-    {
-        $excerptParts = [];
-
-        if (!empty($this->contenttype['fields'])) {
-            foreach ($this->contenttype['fields'] as $key => $field) {
-                // Skip empty fields, and fields used as 'title'.
-                if (!isset($this->values[$key]) || in_array($key, $this->getTitleColumnName())) {
-                    continue;
-                }
-                // add 'text', 'html' and 'textarea' fields.
-                if (in_array($field['type'], ['text', 'html', 'textarea'])) {
-                    $excerptParts[] = $this->values[$key];
-                }
-                // add 'markdown' field
-                if ($field['type'] === 'markdown') {
-                    $excerptParts[] = $this->app['markdown']->text($this->values[$key]);
-                }
-            }
-        }
-
-        $excerpter = new Excerpt(implode(' ', $excerptParts), $this->getTitle());
-        $excerpt = $excerpter->getExcerpt($length, $includeTitle, $focus);
-
-        return new Markup($excerpt, 'UTF-8');
     }
 
     /**
@@ -198,6 +147,7 @@ trait ContentValuesTrait
                         $newvalue[$field] = round($this->values[$field]);
                         break;
 
+                    case 'embed':
                     case 'select':
                         if (is_array($this->values[$field])) {
                             $newvalue[$field] = Json::dump($this->values[$field]);
@@ -363,6 +313,7 @@ trait ContentValuesTrait
         }
 
         $serializedFieldTypes = [
+            'embed',
             'geolocation',
             'imagelist',
             'image',

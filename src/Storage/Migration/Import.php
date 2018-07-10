@@ -12,6 +12,7 @@ use Bolt\Storage\Field\Type\RelationType;
 use Bolt\Storage\Field\Type\TaxonomyType;
 use Bolt\Storage\Query\Query;
 use Bolt\Storage\Repository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use RuntimeException;
 
 /**
@@ -48,13 +49,19 @@ final class Import
      * @param Bag        $importData
      * @param MutableBag $responseBag
      * @param bool       $overwrite
+     * @param Bag        $importUsers
+     *
+     * @throws \Bolt\Exception\InvalidRepositoryException
      *
      * @return MutableBag
      */
-    public function run(Bag $importData, MutableBag $responseBag, $overwrite = false)
+    public function run(Bag $importData, MutableBag $responseBag, $overwrite = false, Bag $importUsers = null)
     {
         $this->validateContentTypes($importData);
         $relationQueue = MutableBag::from([]);
+        if ($importUsers) {
+            $this->importUsers($importUsers, $responseBag);
+        }
 
         foreach ($importData as $contentTypeName => $recordsData) {
             $this->importContentType($contentTypeName, $recordsData, $relationQueue, $responseBag, $overwrite);
@@ -65,6 +72,29 @@ final class Import
     }
 
     /**
+     * @param Bag        $importUsers
+     * @param MutableBag $responseBag
+     *
+     * @throws \Bolt\Exception\InvalidRepositoryException
+     */
+    private function importUsers(Bag $importUsers, MutableBag $responseBag)
+    {
+        /** @var Repository\UsersRepository $repo */
+        $repo = $this->em->getRepository(Entity\Users::class);
+
+        foreach ($importUsers as $user) {
+            $entity = new Entity\Users($user->toArrayRecursive());
+            $entity->setId(null);
+            try {
+                $repo->save($entity);
+                $responseBag->get('success')->add(sprintf('Added user "%s".', $entity->getUsername()));
+            } catch (UniqueConstraintViolationException $e) {
+                $responseBag->get('warning')->add(sprintf('Skipping user "%s" as it already exists.', $entity->getUsername()));
+            }
+        }
+    }
+
+    /**
      * Perform an import for records under a single ContentType key.
      *
      * @param string     $contentTypeName
@@ -72,6 +102,8 @@ final class Import
      * @param MutableBag $relationQueue
      * @param MutableBag $responseBag
      * @param bool       $overwrite
+     *
+     * @throws \Bolt\Exception\InvalidRepositoryException
      */
     private function importContentType(
         $contentTypeName,

@@ -197,4 +197,14 @@ class SearchConfig
     {
         $this->searchInvisible = $searchInvisible;
     }
+
+    /**
+     * Return an array of searchable contenttypes
+     * @return array
+     */
+    public function getSearchableTypes()
+    {
+        return $this->searchableTypes;
+    }
+
 }

@@ -1,6 +1,108 @@
 Changelog for Bolt 3.x
 ======================
 
+**NOTE:** Changes from earlier releases are merged into newer releases as well,
+but are usually only listed here against the lowest version applied to.
+
+----
+
+Bolt 3.5.4
+----------
+
+Released: 2018-05-26. Notable changes:
+
+ - Changed: Show a message when attempting to save while CSRF token has expired. [#7529](https://github.com/bolt/bolt/pull/7529)
+ - Fixed: Allow custom slug field label. [#7502](https://github.com/bolt/bolt/pull/7502)
+ - Fixed: Field with same name as other one inside repeater overwrites config of the first one. Ensure select choices are built and accessed via multi-level field names. [#7496](https://github.com/bolt/bolt/pull/7496) [#7505](https://github.com/bolt/bolt/pull/7505)
+ - Fixed: Filter in Backend is lost when clicking first item in pager. [#7536](https://github.com/bolt/bolt/pull/7536)
+ - Fixed: Handle fatal error when Block Groups and Sub-Fields have the same name. [#7504](https://github.com/bolt/bolt/pull/7504)
+ - Fixed: Named repeaters are not saved even if empty. Add a placeholder form input to always trigger saving of Block Fields [#7503](https://github.com/bolt/bolt/pull/7503)
+ - Fixed: Set `preserve_keys` in `array_slice` to keep numeric array key association [#7531](https://github.com/bolt/bolt/pull/7531)
+ - Updated: Translating `messages.ru.yml`. [#7533](https://github.com/bolt/bolt/pull/7533)
+
+Bolt 3.5.3
+----------
+
+Released: 2018-05-25. Notable changes:
+
+ - Fixed: Fix setting listing order on frontend [#7495](https://github.com/bolt/bolt/pull/7495)
+ - Fixed: PHP 7.2 'Must be array or Countable' exception, by removing dead code. [#7494](https://github.com/bolt/bolt/pull/7494)
+ - Security: [packaged `.tgz` and `.zip` versions only] Symfony components updated to [Symfony 2.8.41](http://symfony.com/blog/symfony-2-8-41-released).
+
+Bolt 3.5.2
+----------
+
+Released: 2018-05-22. Notable changes:
+
+ - Fixed: Don't break if UserId is `null` [#7490](https://github.com/bolt/bolt/pull/7490)
+ - Fixed: Missing quotes in MySQL queries. Pass taxonomy field through a platform id quote [#7485](https://github.com/bolt/bolt/pull/7485)
+ - Fixed: Recent Records in sidebar menu in backend empty for users other than root. [#7487](https://github.com/bolt/bolt/pull/7487)
+ - Fixed: The dreaded "Permission 'everyone' is not granted to any roles." has been fixed. [#7488](https://github.com/bolt/bolt/pull/7488)
+ - Updated: Portuguese, Polish, Dutch translation files. [#7479](https://github.com/bolt/bolt/pull/7479), [#7480](https://github.com/bolt/bolt/pull/7480), [#7476](https://github.com/bolt/bolt/pull/7476)
+
+Bolt 3.5.1
+----------
+
+Released: 2018-05-10. Notable changes:
+
+ - Fixed: Missing 'complexify' and 'jquery.tagcloud' [#7473](https://github.com/bolt/bolt/pull/7473)
+ - Fixed: Renaming field to "Embed". [#7463](https://github.com/bolt/bolt/pull/7463)
+ - Updated: Add more translations for `pt_BR`, Brasilian Portuguese. [#7446](https://github.com/bolt/bolt/pull/7446)
+ - Updated: Reformat `XLF` & `info.yml` files consistently [#7471](https://github.com/bolt/bolt/pull/7471)
+ - Updated: Update language strings from PHP & Twig [#7470](https://github.com/bolt/bolt/pull/7470)
+ - Updated: Change nl_NL info popups to use informal 'je' instead of formal 'u' [7476](https://github.com/bolt/bolt/pull/7476)
+
+Bolt 3.5.0
+----------
+
+Released: 2018-04-18. Notable changes:
+
+ - Added: Add new 'Embed' field type. [#7278](https://github.com/bolt/bolt/pull/7278)
+ - Added: New Base-2018 theme. [#14](https://github.com/bolt/themes/pull/14)
+ - Added: Add user accounts to `nut import`/`nut export`. [#7306](https://github.com/bolt/bolt/pull/7306)
+ - Added: Add a Homepage singleton to default contenttypes, remove old images. [#7369](https://github.com/bolt/bolt/pull/7369)
+ - Added: Add feature to fetch placeholder images from remote URLs. [#7368](https://github.com/bolt/bolt/pull/7368)
+ - Added: New Feature: Collapsible Blocks and Repeaters [#7443](https://github.com/bolt/bolt/pull/7443)
+ - Added: Possibility to add submenu items to custom menus in backend. [#7252](https://github.com/bolt/bolt/pull/7252)
+ - Changed: Rename use of 'oembed' to 'embed'. [#7327](https://github.com/bolt/bolt/pull/7327)
+ - Fixed: DBAL 2.7.1 fixes, adjusted comparison for version. [#7436](https://github.com/bolt/bolt/pull/7436)
+ - Fixed: Update `ctrl+s`, `meta+s` keybindings for newer version of plugin. [#7364](https://github.com/bolt/bolt/pull/7364)
+ - Fixed: Use `path` instead of `url` for the oembed endpoint. [#7300](https://github.com/bolt/bolt/pull/7300)
+ - Improvement: Allow a viewless (singleton) contenttype for `homepage: …` setting. [#7372](https://github.com/bolt/bolt/pull/7372)
+ - Improvement: Better handling of Marketplace connections. [#7380](https://github.com/bolt/bolt/pull/7380)
+ - Improvement: Enabled JSON manifest asset version strategy. [#7305](https://github.com/bolt/bolt/pull/7305)
+ - Improvement: Improved filename sanitizer for uploaded files. [#7217](https://github.com/bolt/bolt/pull/7217)
+ - Improvement: Make `notfound` setting more fault-tolerant. [#7376](https://github.com/bolt/bolt/pull/7376)
+ - Improvement: Set right order of grouped menu entries. [#7219](https://github.com/bolt/bolt/pull/7219)
+ - Updated: Update "hardcoded" JS libraries like jQuery UI, CKEditor and more. [#7283](https://github.com/bolt/bolt/pull/7283)
+ - Updated: Update `base-2016` and `skeleton` themes for 2018. [#13](https://github.com/bolt/themes/pull/13)
+ - Updated: Updating CKeditor to 4.9.1, codemirror to 5.36.0. [#7433](https://github.com/bolt/bolt/pull/7433)
+
+Bolt 3.4.11
+-----------
+
+Released: 2018-05-10. Notable changes:
+
+ - Change: Downgrading Select2 to 4.0.0 for IE compatibility. [#7434](https://github.com/bolt/bolt/pull/7434)
+ - Change: Update LICENSE to say 2018. [#7388](https://github.com/bolt/bolt/pull/7388)
+ - Change: Update polish translations [#7431](https://github.com/bolt/bolt/pull/7431)
+ - Fixed: [Security] `preg_quote` search words. [#7464](https://github.com/bolt/bolt/pull/7464)
+ - Fixed: [Security] Don't change route from 'preview' to 'contentlink', because it breaks disabling of XSS protection. [#7458](https://github.com/bolt/bolt/pull/7458)
+ - Fixed: [Security] Only allow POST on `/preview`, because there's no need to GET it.  [#7457](https://github.com/bolt/bolt/pull/7457)
+ - Fixed: Add an 'if' statement for missing Block field [#7449](https://github.com/bolt/bolt/pull/7449)
+ - Fixed: Change imagelist upload location from abolute to relative [#7397](https://github.com/bolt/bolt/pull/7397)
+ - Fixed: Change slug to name for display in "Delete"-button [#7418](https://github.com/bolt/bolt/pull/7418)
+ - Fixed: Don't Run a group sort if user has ordered via the UI [#7404](https://github.com/bolt/bolt/pull/7404)
+ - Fixed: Ensure array parameters are set before accessing in `getContentByTaxonomy` [#7394](https://github.com/bolt/bolt/pull/7394)
+ - Fixed: Ensure search result array is valid [#7386](https://github.com/bolt/bolt/pull/7386)
+ - Fixed: Fix check for numeric slug [#7455](https://github.com/bolt/bolt/pull/7455)
+ - Fixed: If stack is disabled, don't show it in recordbrowser popup [#7454](https://github.com/bolt/bolt/pull/7454)
+ - Fixed: Make aliased thumbnail generation consistent. [#7428](https://github.com/bolt/bolt/pull/7428)
+ - Fixed: Only filter null and empty strings, leave zeros untouched. Fixes Incorrect saving of select field. [#7412](https://github.com/bolt/bolt/pull/7412)
+ - Fixed: Show correct order in overview if ContentType has multiple taxonomies. [#7400](https://github.com/bolt/bolt/pull/7400)
+ - Fixed: Title for submenu items - to avoid truncation [#7407](https://github.com/bolt/bolt/pull/7407)
+ - Tests: Skip test on Travis [#7379](https://github.com/bolt/bolt/pull/7379)
+
 Bolt 3.4.10
 -----------
 

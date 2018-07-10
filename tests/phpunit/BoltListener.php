@@ -84,14 +84,14 @@ class BoltListener extends BaseTestListener
     /**
      * Get the path to the theme to be used in the unit test.
      *
-     * @param string $theme
+     * @param array|bool $theme
      *
      * @return string
      */
     protected function getTheme($theme)
     {
         if ($theme === false || (isset($theme['theme']) && $theme['theme'] === '')) {
-            return $this->getPath('theme', 'theme/base-2016');
+            return $this->getPath('theme', 'theme/base-2018');
         }
 
         return $this->getPath('theme', $theme['theme']);
@@ -100,7 +100,7 @@ class BoltListener extends BaseTestListener
     /**
      * Get the Bolt unit test Sqlite database.
      *
-     * @param string $boltdb
+     * @param array|bool $boltdb
      *
      * @return string
      */

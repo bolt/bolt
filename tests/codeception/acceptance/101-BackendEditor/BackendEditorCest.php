@@ -58,6 +58,39 @@ class BackendEditorCest extends AbstractAcceptanceTest
     }
 
     /**
+     * Create a homepage record.
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function createHomepageTest(\AcceptanceTester $I)
+    {
+        $I->wantTo("Create and edit the Homepage as the 'editor' user");
+
+        // Set up the browser
+        $this->setLoginCookies($I);
+        $I->amOnPage('/bolt');
+
+        $I->see('New Homepage');
+
+        $I->click('New Homepage');
+        $I->see('Homepage',      Locator::href('/bolt/editcontent/homepage'));
+
+        $I->fillField('#title',   'Welcome Home (Sanitarium)');
+        $I->fillField('#slug',    'welcome-home-sanitarium');
+        $I->fillField('#teaser',  'Welcome to where time stands still');
+        $I->fillField('#content', 'No one leaves and no one will');
+
+        $I->submitForm('form[name="content_edit"]', ['content_edit' => ['save' => 1]]);
+        $I->see('The new Homepage has been saved.');
+
+        $I->see('Welcome Home (Sanitarium)');
+        $I->see('Welcome to where time stands still');
+        $I->see('No one leaves and no one will');
+
+        $I->seeOptionIsSelected('#statusselect', 'Published');
+    }
+
+    /**
      * Create a page record.
      *
      * @param \AcceptanceTester $I

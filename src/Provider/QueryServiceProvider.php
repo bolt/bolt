@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Storage\Entity\Taxonomy;
 use Bolt\Storage\Query\ContentQueryParser;
 use Bolt\Storage\Query\FrontendQueryScope;
 use Bolt\Storage\Query\Query;
@@ -10,6 +11,7 @@ use Bolt\Storage\Query\SearchConfig;
 use Bolt\Storage\Query\SearchQuery;
 use Bolt\Storage\Query\SearchWeighter;
 use Bolt\Storage\Query\SelectQuery;
+use Bolt\Storage\Query\TaxonomyQuery;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
@@ -18,7 +20,7 @@ class QueryServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         $app['query'] = function ($app) {
-            $runner = new Query($app['query.parser']);
+            $runner = new Query($app['query.parser'], $app['twig.records.view']);
             $runner->addScope('frontend', $app['query.scope.frontend']);
 
             return $runner;
@@ -50,6 +52,10 @@ class QueryServiceProvider implements ServiceProviderInterface
 
         $app['query.search'] = function ($app) {
             return new SearchQuery($app['storage']->createQueryBuilder(), $app['query.parser.handler'], $app['query.search_config']);
+        };
+
+        $app['query.taxonomy'] = function ($app) {
+            return new TaxonomyQuery($app['storage']->getRepository(Taxonomy::class)->createQueryBuilder(), $app['schema.content_tables']);
         };
 
         $app['query.search_config'] = $app->share(

@@ -37,15 +37,11 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         $this->setLoginCookies($I);
         $I->amOnPage('/bolt/files');
 
-        $file = 'blur-flowers-home-1093.jpg';
+        $file = 'index.html';
         $I->see('Create folder', Locator::find('a', ['href' => '#']));
-        $I->see($file, Locator::href("/thumbs/1000x1000r/$file"));
+        $I->see($file, Locator::href("/bolt/file/edit/files/$file"));
 
-        // sleep(10000);
-
-        $I->see('45.6 KB', 'td');
-        $I->see('800×533 px', 'td');
-        $I->see('Place on stack',  Locator::find('a', ['href' => '#']));
+        $I->see('4 B', 'td');
         $I->see("Rename $file",    Locator::find('a', ['href' => '#']));
         $I->see("Delete $file",    Locator::find('a', ['href' => '#']));
         $I->see("Duplicate $file", Locator::find('a', ['href' => '#']));
@@ -65,20 +61,20 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
         $I->amOnPage('/bolt/files/themes');
 
         // Inspect the landing page
-        $dir = 'base-2016';
+        $dir = 'base-2018';
         $I->see('Create folder', Locator::find('a', ['href' => '#']));
         $I->see($dir,            Locator::href("/bolt/files/themes/$dir"));
         $I->see("Rename $dir",   Locator::find('a', ['href' => '#']));
         $I->see("Delete $dir",   Locator::find('a', ['href' => '#']));
 
         // Navigate into the theme and check the results
-        $I->click("$dir",      Locator::href("/bolt/files/themes/$dir"));
-        $I->see('css',         Locator::href("/bolt/files/themes/$dir/css"));
-        $I->see('images',      Locator::href("/bolt/files/themes/$dir/images"));
-        $I->see('js',          Locator::href("/bolt/files/themes/$dir/js"));
-        $I->see('theme.yml',   Locator::href("/bolt/file/edit/themes/$dir/theme.yml"));
-        $I->see('record.twig', Locator::href("/bolt/file/edit/themes/$dir/record.twig"));
-        $I->see('index.twig',  Locator::href("/bolt/file/edit/themes/$dir/index.twig"));
+        $I->click("$dir",     Locator::href("/bolt/files/themes/$dir"));
+        $I->see('css',        Locator::href("/bolt/files/themes/$dir/css"));
+        $I->see('partials',   Locator::href("/bolt/files/themes/$dir/partials"));
+        $I->see('js',         Locator::href("/bolt/files/themes/$dir/js"));
+        $I->see('theme.yml',  Locator::href("/bolt/file/edit/themes/$dir/theme.yml"));
+        $I->see('page.twig',  Locator::href("/bolt/file/edit/themes/$dir/page.twig"));
+        $I->see('index.twig', Locator::href("/bolt/file/edit/themes/$dir/index.twig"));
 
         // Navigate into a subdirectory
         $I->click('css',     Locator::href("/bolt/files/themes/$dir/css"));
@@ -96,19 +92,19 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
 
         // Set up the browser
         $this->setLoginCookies($I);
-        $I->amOnPage('/bolt/file/edit/themes/base-2016/partials/_footer.twig');
+        $I->amOnPage('/bolt/file/edit/themes/base-2018/partials/_footer.twig');
 
         // Put _footer.twig into edit mode
-        $I->see('<footer class="row">', 'textarea');
+        $I->see('<footer role="contentinfo" class="footer">', 'textarea');
 
         // Edit the field
         $twig = $I->grabTextFrom('#file_edit_contents', 'textarea');
-        $twig = str_replace('Built with Bolt', 'Built with Bolt, tested with Codeception', $twig);
+        $twig = str_replace('This website is ', 'This website is tested with Codeception, ', $twig);
         $I->fillField('#file_edit_contents', $twig);
 
         // Save it
         $token = $I->grabValueFrom('#file_edit__token');
-        $I->sendAjaxPostRequest('/bolt/file/edit/themes/base-2016/partials/_footer.twig', [
+        $I->sendAjaxPostRequest('/bolt/file/edit/themes/base-2018/partials/_footer.twig', [
             'file_edit' => [
                 'contents' => $twig,
                 '_token'   => $token,
@@ -116,8 +112,8 @@ class BackendDeveloperCest extends AbstractAcceptanceTest
             ],
         ]);
 
-        $I->amOnPage('/bolt/file/edit/themes/base-2016/partials/_footer.twig');
-        $I->see('Built with Bolt, tested with Codeception', '#file_edit_contents');
+        $I->amOnPage('/bolt/file/edit/themes/base-2018/partials/_footer.twig');
+        $I->see('This website is tested with Codeception, ', '#file_edit_contents');
     }
 
     /**

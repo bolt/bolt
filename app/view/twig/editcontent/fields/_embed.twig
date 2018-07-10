@@ -1,0 +1,156 @@
+{#=== OPTIONS ========================================================================================================#}
+
+{% set option = {
+    label:  field.label,
+    info:   field.info|default('info.upload.embed'),
+} %}
+
+{#=== INIT ===========================================================================================================#}
+
+{% set preview_w = 200 %}
+{% set preview_h = 150 %}
+
+{% set embed = context.content.get(contentkey) %}
+
+{% set attributes = {
+    url: {
+        class:        'form-control url',
+        id:           buid(),
+        name:         name ~ '[url]',
+        placeholder:  __('field.embed.placeholder.url') ~ ' …',
+        type:         'url',
+        value:        embed.url|default('')
+    },
+
+    width: {
+        class:      'form-control width',
+        id:         buid(),
+        name:       name ~ '[width]',
+        type:       'number',
+        value:      embed.width|default('')
+    },
+
+    height: {
+        class:      'form-control height',
+        id:         buid(),
+        name:       name ~ '[height]',
+        type:       'number',
+        value:      embed.height|default('')
+    },
+
+    hid_provider_name: {
+        class:      'form-control provider_name',
+        name:       name ~ '[provider_name]',
+        readonly:   true,
+        title:      __('field.embed.provider_name'),
+        type:       'text',
+        value:      embed.provider_name|default('')
+    },
+
+    hid_author_name: {
+        class:      'form-control author_name',
+        name:       name ~ '[author_name]',
+        readonly:   true,
+        title:      __('general.phrase.author'),
+        type:       'text',
+        value:      embed.author_name|default(''),
+    },
+
+    hid_author_url: {
+        class:      'author_url',
+        name:       name ~ '[author_url]',
+        type:       'hidden',
+        value:      embed.author_url|default(''),
+    },
+
+    hid_html: {
+        class:      'html',
+        name:       name ~ '[html]',
+        type:       'hidden',
+        value:      (embed.html is defined ? embed.html|replace({'"': '\''}) : '')
+    },
+
+    hid_thumbnail: {
+        class:      'thumbnail_url',
+        name:       name ~ '[thumbnail]',
+        type:       'hidden',
+        value:      embed.thumbnail|default(''),
+    },
+
+    preview: {
+        alt:       __('field.embed.label.preview'),
+        'data-default-url': asset('img/default_empty_4x3.png', 'bolt'),
+        height:    preview_h,
+        src:       embed.html|default(asset('img/default_empty_4x3.png', 'bolt')),
+        width:     preview_w,
+    },
+
+    play: {
+        class:     'btn btn-default preview',
+        type:      'button',
+        role:      'button',
+        value: 'Preview',
+    },
+
+    refresh: {
+        class:     'btn btn-default refresh',
+        type:      'button',
+        disabled:  embed.url|default('')|length <= 2 or embed.html|default() ? true : false,
+    },
+} %}
+
+{#=== FIELDSET =======================================================================================================#}
+
+{% extends '@bolt/_base/_fieldset.twig' %}
+
+{% block fieldset_type 'embed' %}
+{% block fieldset_widget 'fieldEmbed' %}
+
+{% block fieldset_label_text  labelkey %}
+{% block fieldset_label_info  option.info %}
+{% block fieldset_label_class 'col-xs-12' %}
+
+{% block fieldset_controls %}
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="col-sm-8">
+                <label for="{{ attributes.url.id }}">{{ __('field.embed.label.url') }}</label>
+                <div class="input-group">
+                    <input{{ hattr(attributes.url) }}>
+                    <span class="input-group-btn">
+                        <button{{ hattr(attributes.refresh) }}><i class="fa fa-refresh"></i></button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <label for="{{ attributes.url.id }}">{{ __('field.embed.label.preview') }}</label>
+                <button{{ hattr(attributes.play) }}>{{ __('field.embed.label.preview') }}</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">{{ __('field.embed.label.size') }}</label>
+            <div class="col-sm-8 form-inline">
+                <label for="{{ attributes.width.id }}" class="sr-only">{{ __('field.embed.width') }}</label>
+                <input{{ hattr(attributes.width) }}> ×
+                <label for="{{ attributes.height.id }}" class="sr-only">{{ __('field.embed.height') }}</label>
+                <input{{ hattr(attributes.height) }}>
+                <label class="label-pixels">{{ __('field.embed.pixel') }}</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-8">
+                <label>{{ __('field.embed.matched-embed') }}</label>
+                <input{{ hattr(attributes.hid_provider_name) }}>
+                <input{{ hattr(attributes.hid_author_name) }}>
+            </div>
+
+            <input{{ hattr(attributes.hid_author_url) }}>
+            <input{{ hattr(attributes.hid_html) }}>
+            <input{{ hattr(attributes.hid_thumbnail) }}>
+        </div>
+    </div>
+
+
+{% endblock fieldset_controls %}

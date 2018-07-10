@@ -153,6 +153,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             'incomingrelation'             => Field\Type\IncomingRelationType::class,
             'integer'                      => Field\Type\IntegerType::class,
             'markdown'                     => Field\Type\MarkdownType::class,
+            'embed'                        => Field\Type\EmbedType::class,
             'relation'                     => Field\Type\RelationType::class,
             'repeater'                     => Field\Type\RepeaterType::class,
             'select'                       => Field\Type\SelectType::class,
@@ -172,6 +173,7 @@ class StorageServiceProvider implements ServiceProviderInterface
             Entity\FieldValue::class => Repository\FieldValueRepository::class,
             Entity\LogChange::class  => Repository\LogChangeRepository::class,
             Entity\LogSystem::class  => Repository\LogSystemRepository::class,
+            Entity\Taxonomy::class   => Repository\TaxonomyRepository::class,
             Entity\Users::class      => Repository\UsersRepository::class,
         ];
 

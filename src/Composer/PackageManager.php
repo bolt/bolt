@@ -4,14 +4,12 @@ namespace Bolt\Composer;
 
 use Bolt;
 use Bolt\Composer\Package\Dependency;
+use Bolt\Composer\Satis\PingService;
 use Bolt\Extension\ResolvedExtension;
 use Bolt\Filesystem\Exception\ParseException;
 use Bolt\Translation\Translator as Trans;
 use Composer\CaBundle\CaBundle;
 use Composer\Package\CompletePackageInterface;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Exception\ServerException;
 use Silex\Application;
 
 class PackageManager
@@ -25,8 +23,6 @@ class PackageManager
 
     /** @var array|null */
     private $json;
-    /** @var string[] */
-    private $messages = [];
 
     /**
      * Constructor.
@@ -47,7 +43,10 @@ class PackageManager
      */
     public function getMessages()
     {
-        return $this->messages;
+        /** @var PingService $pinger */
+        $pinger = $this->app['extend.ping'];
+
+        return $pinger->getMessages()->toArray();
     }
 
     /**
@@ -83,9 +82,6 @@ class PackageManager
 
                 return;
             }
-
-            // Ping the extensions server to confirm connection
-            $this->ping(true);
         }
 
         $this->started = true;
@@ -356,59 +352,5 @@ class PackageManager
     private function updateJson()
     {
         $this->json = $this->app['extend.manager.json']->update();
-    }
-
-    /**
-     * Ping site to see if we have a valid connection and it is responding correctly.
-     *
-     * @param bool $addQuery
-     */
-    private function ping($addQuery = false)
-    {
-        $uri = $this->app['extend.site'] . 'ping';
-        $query = [];
-        if ($this->app['request_stack']->getCurrentRequest() !== null) {
-            $www = $this->app['request_stack']->getCurrentRequest()->server->get('SERVER_SOFTWARE', 'unknown');
-        } else {
-            $www = 'unknown';
-        }
-        if ($addQuery) {
-            $query = [
-                'bolt_ver'  => Bolt\Version::VERSION,
-                'php'       => PHP_VERSION,
-                'www'       => $www,
-            ];
-        }
-        $this->app['extend.online'] = false;
-        $guzzle = $this->app['guzzle.client'];
-
-        try {
-            $guzzle->head($uri, ['query' => $query, 'exceptions' => true, 'connect_timeout' => 10, 'timeout' => 30]);
-            $this->app['extend.online'] = true;
-        } catch (ClientException $e) {
-            // Thrown for 400 level errors
-            $this->messages[] = Trans::__(
-                'page.extend.error-message-client',
-                ['%errormessage%' => $e->getMessage()]
-            );
-        } catch (ServerException $e) {
-            // Thrown for 500 level errors
-            $this->messages[] = Trans::__(
-                'page.extend.error-message-server',
-                ['%errormessage%' => $e->getMessage()]
-            );
-        } catch (RequestException $e) {
-            // Thrown for connection timeout, DNS errors, etc
-            $this->messages[] = Trans::__(
-                'page.extend.error-message-connection',
-                ['%errormessage%' => $e->getMessage()]
-            );
-        } catch (\Exception $e) {
-            // Catch all
-            $this->messages[] = Trans::__(
-                'page.extend.error-message-generic',
-                ['%errormessage%' => $e->getMessage()]
-            );
-        }
     }
 }

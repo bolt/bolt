@@ -108,7 +108,7 @@ abstract class BackendBase extends Base
             if ($request->isXmlHttpRequest()) {
                 $response = ['error' => ['message' => Trans::__('general.phrase.redirect-detected')]];
 
-                return new JsonResponse($response, 500);
+                return new JsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
             }
 
             $app['logger.flash']->info(Trans::__('general.phrase.please-logon'));

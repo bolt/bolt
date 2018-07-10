@@ -19,7 +19,7 @@ final class Version
      *   Stable      — 3.0.0
      *   Development — 3.1.0 alpha 1
      */
-    const VERSION = '3.4.10';
+    const VERSION = '3.6.0 beta 0';
 
     /**
      * Whether this release is a stable one.
@@ -56,10 +56,10 @@ final class Version
      * @see http://semver.org/ For an explanation on semantic versioning.
      * @see http://php.net/manual/en/function.version-compare.php#refsect1-function.version-compare-notes Notes on version_compare
      *
-     * @param string $version  the version to compare
+     * @param string $version  The version to compare.
      * @param string $operator The comparison operator: <, <=, >, >=, ==, !=
      *
-     * @return bool whether the comparison succeeded
+     * @return bool Whether the comparison succeeded.
      */
     public static function compare($version, $operator)
     {

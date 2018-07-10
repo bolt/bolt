@@ -231,7 +231,7 @@ class Users
         $this->getUsers();
 
         // In most cases by far, we'll request an ID, and we can return it here.
-        if (array_key_exists($userId, $this->users)) {
+        if ($userId && array_key_exists($userId, $this->users)) {
             return $this->users[$userId];
         }
 

@@ -113,7 +113,7 @@
                 set = bolt.conf('ckeditor');
 
             config.language = bolt.conf('ckeditor.lang');
-            config.skin = 'boltcke';
+            config.skin = 'moono-lisa';
             config.resize_enabled = true;
             config.entities = false;
             config.fillEmptyBlocks = false;
@@ -126,6 +126,13 @@
             config.baseFloatZIndex = 100015;
 
             config.toolbar = list(
+                [                 {name: 'clipboard',   items: list( [set.clipboard,   'Undo'          ],
+                                                                     [set.clipboard,   'Redo'          ],
+                                                                     [set.copypaste,   'Cut'           ],
+                                                                     [set.copypaste,   'Copy'          ],
+                                                                     [set.copypaste,   'Paste'         ],
+                                                                     [set.copypaste,   'PasteFromWord' ],
+                                                                     [set.copypaste,   'PasteText'     ] )}],
                 [                 {name: 'styles',      items: list( [                 'Format'        ],
                                                                      [set.styles,      'Styles'        ] )}],
 
