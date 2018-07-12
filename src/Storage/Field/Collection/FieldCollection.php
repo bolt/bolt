@@ -145,7 +145,7 @@ class FieldCollection extends ArrayCollection implements FieldCollectionInterfac
     {
         $output = [];
 
-        foreach ($this->collection as $field) {
+        foreach ($this as $field) {
             $output[$field->getFieldName()] = $field->getValue();
         }
 
