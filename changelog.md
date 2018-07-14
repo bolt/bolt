@@ -6,10 +6,20 @@ but are usually only listed here against the lowest version applied to.
 
 ----
 
+Bolt 3.5.5
+----------
+
+Released: 2018-07-14. Notable changes
+
+ - Changed: Require `bolt/package-wrapper: ^4.0 || ^5.0` to handle `doctrine/common` split. [#7562](https://github.com/bolt/bolt/pull/#7562)
+ - Changed: Increasing input width in filter inputs. [#7544](https://github.com/bolt/bolt/pull/#7544)  [#7545](https://github.com/bolt/bolt/pull/#7545)
+ - Fixed: Incorrect replace in excerpt [#7541](https://github.com/bolt/bolt/pull/#7541)
+ - Updated: Typo in German language file. [#7557](https://github.com/bolt/bolt/pull/#7557)
+
 Bolt 3.5.4
 ----------
 
-Released: 2018-05-26. Notable changes:
+Released: 2018-06-26. Notable changes:
 
  - Changed: Show a message when attempting to save while CSRF token has expired. [#7529](https://github.com/bolt/bolt/pull/7529)
  - Fixed: Allow custom slug field label. [#7502](https://github.com/bolt/bolt/pull/7502)
