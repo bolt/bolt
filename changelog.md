@@ -11,10 +11,10 @@ Bolt 3.5.5
 
 Released: 2018-07-14. Notable changes
 
- - Changed: Require `bolt/package-wrapper: ^4.0 || ^5.0` to handle `doctrine/common` split. [#7562](https://github.com/bolt/bolt/pull/#7562)
- - Changed: Increasing input width in filter inputs. [#7544](https://github.com/bolt/bolt/pull/#7544)  [#7545](https://github.com/bolt/bolt/pull/#7545)
- - Fixed: Incorrect replace in excerpt [#7541](https://github.com/bolt/bolt/pull/#7541)
- - Updated: Typo in German language file. [#7557](https://github.com/bolt/bolt/pull/#7557)
+ - Changed: Require `bolt/package-wrapper: ^4.0 || ^5.0` to handle `doctrine/common` split. [#7562](https://github.com/bolt/bolt/pull/7562)
+ - Changed: Increasing input width in filter inputs. [#7544](https://github.com/bolt/bolt/pull/7544)  [#7545](https://github.com/bolt/bolt/pull/7545)
+ - Fixed: Incorrect replace in excerpt [#7541](https://github.com/bolt/bolt/pull/7541)
+ - Updated: Typo in German language file. [#7557](https://github.com/bolt/bolt/pull/7557)
 
 Bolt 3.5.4
 ----------
