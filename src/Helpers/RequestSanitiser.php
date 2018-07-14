@@ -51,8 +51,7 @@ final class RequestSanitiser
                 foreach ($v as $item) {
                     if (is_array($item)) {
                         $flattenV[] = json_encode($item);
-                    }
-                    else {
+                    } else {
                         $flattenV[] = $item;
                     }
                 }
