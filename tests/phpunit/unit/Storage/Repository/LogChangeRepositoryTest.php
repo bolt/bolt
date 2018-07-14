@@ -23,59 +23,202 @@ class LogChangeRepositoryTest extends BoltUnitTest
         $this->assertEquals(7, $params['date']);
     }
 
-    public function testActivityQuery()
+    public function providerActivityQueryDefault()
+    {
+        if (PHP_VERSION_ID < 70100) {
+            return [
+                ['SELECT * FROM bolt_log_change log_change ORDER BY id DESC LIMIT 10 OFFSET 0'],
+            ];
+        }
+
+        return [
+            ['SELECT * FROM bolt_log_change log_change ORDER BY id DESC LIMIT 10'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerActivityQueryDefault
+     *
+     * @param string $expected
+     */
+    public function testActivityQueryDefault($expected)
     {
         $repo = $this->getRepository();
         $query = $repo->getActivityQuery(1, 10, []);
-        $this->assertEquals(
-            'SELECT * FROM bolt_log_change log_change ORDER BY id DESC LIMIT 10 OFFSET 0',
-            $query->getSql());
 
+        $this->assertEquals($expected, $query->getSql());
+    }
+
+    public function providerActivityQueryContentType()
+    {
+        if (PHP_VERSION_ID < 70100) {
+            return [
+                ['SELECT * FROM bolt_log_change log_change WHERE contenttype = :contenttype ORDER BY id DESC LIMIT 10 OFFSET 0'],
+            ];
+        }
+
+        return [
+            ['SELECT * FROM bolt_log_change log_change WHERE contenttype = :contenttype ORDER BY id DESC LIMIT 10'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerActivityQueryContentType
+     *
+     * @param string $expected
+     */
+    public function testActivityQueryContentType($expected)
+    {
+        $repo = $this->getRepository();
         $query = $repo->getActivityQuery(1, 10, ['contenttype' => 'pages']);
-        $this->assertEquals(
-            'SELECT * FROM bolt_log_change log_change WHERE contenttype = :contenttype ORDER BY id DESC LIMIT 10 OFFSET 0',
-            $query->getSql());
         $params = $query->getParameters();
-        $this->assertEquals('pages', $params['contenttype']);
 
+        $this->assertEquals($expected, $query->getSql());
+        $this->assertEquals('pages', $params['contenttype']);
+    }
+
+    public function providerActivityQueryTwoContentTypes()
+    {
+        if (PHP_VERSION_ID < 70100) {
+            return [
+                ['SELECT * FROM bolt_log_change log_change WHERE (contenttype = :contenttype_0) OR (contenttype = :contenttype_1) ORDER BY id DESC LIMIT 10 OFFSET 0'],
+            ];
+        }
+
+        return [
+            ['SELECT * FROM bolt_log_change log_change WHERE (contenttype = :contenttype_0) OR (contenttype = :contenttype_1) ORDER BY id DESC LIMIT 10'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerActivityQueryTwoContentTypes
+     *
+     * @param string $expected
+     */
+    public function testActivityQueryTwoContentTypes($expected)
+    {
+        $repo = $this->getRepository();
         $query = $repo->getActivityQuery(1, 10, ['contenttype' => ['pages', 'entries']]);
-        $this->assertEquals(
-            'SELECT * FROM bolt_log_change log_change WHERE (contenttype = :contenttype_0) OR (contenttype = :contenttype_1) ORDER BY id DESC LIMIT 10 OFFSET 0',
-            $query->getSql());
         $params = $query->getParameters();
+
+        $this->assertEquals($expected, $query->getSql());
         $this->assertEquals('pages', $params['contenttype_0']);
         $this->assertEquals('entries', $params['contenttype_1']);
+    }
 
+    public function providerActivityQueryContentTypeContentId()
+    {
+        if (PHP_VERSION_ID < 70100) {
+            return [
+                ['SELECT * FROM bolt_log_change log_change WHERE (contenttype = :contenttype) AND (contentid = :contentid) ORDER BY id DESC LIMIT 10 OFFSET 0'],
+            ];
+        }
+
+        return [
+            ['SELECT * FROM bolt_log_change log_change WHERE (contenttype = :contenttype) AND (contentid = :contentid) ORDER BY id DESC LIMIT 10'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerActivityQueryContentTypeContentId
+     *
+     * @param string $expected
+     */
+    public function testActivityQueryContentTypeContentId($expected)
+    {
+        $repo = $this->getRepository();
         $query = $repo->getActivityQuery(1, 10, ['contenttype' => 'pages', 'contentid' => 123]);
-        $this->assertEquals(
-            'SELECT * FROM bolt_log_change log_change WHERE (contenttype = :contenttype) AND (contentid = :contentid) ORDER BY id DESC LIMIT 10 OFFSET 0',
-            $query->getSql());
         $params = $query->getParameters();
+
+        $this->assertEquals($expected, $query->getSql());
         $this->assertEquals('pages', $params['contenttype']);
         $this->assertEquals(123, $params['contentid']);
+    }
 
+    public function providerActivityQueryTwoContentTypesContentId()
+    {
+        if (PHP_VERSION_ID < 70100) {
+            return [
+                ['SELECT * FROM bolt_log_change log_change WHERE ((contenttype = :contenttype_0) OR (contenttype = :contenttype_1)) AND ((contentid = :contentid_0) OR (contentid = :contentid_1)) ORDER BY id DESC LIMIT 10 OFFSET 0'],
+            ];
+        }
+
+        return [
+            ['SELECT * FROM bolt_log_change log_change WHERE ((contenttype = :contenttype_0) OR (contenttype = :contenttype_1)) AND ((contentid = :contentid_0) OR (contentid = :contentid_1)) ORDER BY id DESC LIMIT 10'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerActivityQueryTwoContentTypesContentId
+     *
+     * @param string $expected
+     */
+    public function testActivityQueryTwoContentTypesContentId($expected)
+    {
+        $repo = $this->getRepository();
         $query = $repo->getActivityQuery(1, 10, ['contenttype' => ['pages', 'entries'], 'contentid' => [2, 4]]);
-        $this->assertEquals(
-            'SELECT * FROM bolt_log_change log_change WHERE ((contenttype = :contenttype_0) OR (contenttype = :contenttype_1)) AND ((contentid = :contentid_0) OR (contentid = :contentid_1)) ORDER BY id DESC LIMIT 10 OFFSET 0',
-            $query->getSql());
         $params = $query->getParameters();
+
+        $this->assertEquals($expected, $query->getSql());
         $this->assertEquals('pages', $params['contenttype_0']);
         $this->assertEquals('entries', $params['contenttype_1']);
         $this->assertEquals(2, $params['contentid_0']);
         $this->assertEquals(4, $params['contentid_1']);
+    }
 
+    public function providerActivityQueryOwnerId()
+    {
+        if (PHP_VERSION_ID < 70100) {
+            return [
+                ['SELECT * FROM bolt_log_change log_change WHERE ownerid = :ownerid ORDER BY id DESC LIMIT 10 OFFSET 0'],
+            ];
+        }
+
+        return [
+            ['SELECT * FROM bolt_log_change log_change WHERE ownerid = :ownerid ORDER BY id DESC LIMIT 10'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerActivityQueryOwnerId
+     *
+     * @param string $expected
+     */
+    public function testActivityQueryOwnerId($expected)
+    {
+        $repo = $this->getRepository();
         $query = $repo->getActivityQuery(1, 10, ['ownerid' => 1]);
-        $this->assertEquals(
-            'SELECT * FROM bolt_log_change log_change WHERE ownerid = :ownerid ORDER BY id DESC LIMIT 10 OFFSET 0',
-            $query->getSql());
         $params = $query->getParameters();
-        $this->assertEquals(1, $params['ownerid']);
 
+        $this->assertEquals($expected, $query->getSql());
+        $this->assertEquals(1, $params['ownerid']);
+    }
+
+    public function providerActivityQueryContentTypeContentIdOwnerId()
+    {
+        if (PHP_VERSION_ID < 70100) {
+            return [
+                ['SELECT * FROM bolt_log_change log_change WHERE (contenttype = :contenttype) AND (contentid = :contentid) AND (ownerid = :ownerid) ORDER BY id DESC LIMIT 10 OFFSET 0'],
+            ];
+        }
+
+        return [
+            ['SELECT * FROM bolt_log_change log_change WHERE (contenttype = :contenttype) AND (contentid = :contentid) AND (ownerid = :ownerid) ORDER BY id DESC LIMIT 10'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerActivityQueryContentTypeContentIdOwnerId
+     *
+     * @param string $expected
+     */
+    public function testActivityQueryContentTypeContentIdOwnerId($expected)
+    {
+        $repo = $this->getRepository();
         $query = $repo->getActivityQuery(1, 10, ['contenttype' => 'pages', 'contentid' => 1, 'ownerid' => 42]);
-        $this->assertEquals(
-            'SELECT * FROM bolt_log_change log_change WHERE (contenttype = :contenttype) AND (contentid = :contentid) AND (ownerid = :ownerid) ORDER BY id DESC LIMIT 10 OFFSET 0',
-            $query->getSql());
         $params = $query->getParameters();
+
+        $this->assertEquals($expected, $query->getSql());
         $this->assertEquals('pages', $params['contenttype']);
         $this->assertEquals(1, $params['contentid']);
         $this->assertEquals(42, $params['ownerid']);
