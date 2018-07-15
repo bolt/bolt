@@ -13,12 +13,17 @@ class MenuBuilder
     /** @var Application */
     private $app;
 
+    /**@var string @internal */
+    private $storageAccessor;
+
     /**
      * @param Application $app
+     * @param string      $storageAccessor
      */
-    public function __construct(Application $app)
+    public function __construct(Application $app, $storageAccessor = 'storage')
     {
         $this->app = $app;
+        $this->storageAccessor = $storageAccessor;
     }
 
     public function menu($identifier = null, $resolved = true)
@@ -203,8 +208,9 @@ class MenuBuilder
      */
     private function populateItemFromRecord(array $item, $path)
     {
-        /** @var \Bolt\Legacy\Content $content */
-        $content = $this->app['storage']->getContent($path, ['hydrate' => false]);
+        /** @var \Bolt\Legacy\Storage $engine */
+        $engine = $this->app[$this->storageAccessor];
+        $content = $engine->getContent($path, ['hydrate' => false]);
 
         if ($content) {
             if (empty($item['label'])) {
