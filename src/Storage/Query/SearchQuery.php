@@ -42,6 +42,8 @@ class SearchQuery extends SelectQuery
      * This method sets the search filter which then triggers the process method.
      *
      * @param string $search full search query
+     *
+     * @throws QueryParseException
      */
     public function setSearch($search)
     {
@@ -92,6 +94,8 @@ class SearchQuery extends SelectQuery
      * This overrides the SelectQuery default to do some extra preparation for a search query.
      * Firstly it builds separate filters for the search query and then it removes the filter
      * from the params and the others will then get processed normally by the parent.
+     *
+     * @throws QueryParseException
      */
     protected function processFilters()
     {
@@ -139,7 +143,7 @@ class SearchQuery extends SelectQuery
 
         /** @var Filter $filter */
         foreach ($this->filters as $filter) {
-            if (in_array($filter->getKey(), $searchKeys)) {
+            if (in_array($filter->getKey(), $searchKeys, true)) {
                 $searchExpr->add($filter->getExpression());
             } else {
                 $wrapExpr->add($filter->getExpression());
