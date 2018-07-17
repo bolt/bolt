@@ -46,7 +46,17 @@ final class RequestSanitiser
         foreach ($bag as $k => $v) {
             /** @var Bag $v */
             if (is_array($v) && !is_callable($v)) {
-                $bag[$k] = Bag::from($v)->join(' ');
+                // Flattening arrays, json encoding nested items
+                $flattenV = [];
+                foreach ($v as $item) {
+                    if (is_array($item)) {
+                        $flattenV[] = json_encode($item);
+                    } else {
+                        $flattenV[] = $item;
+                    }
+                }
+                // imploding to string
+                $bag[$k] = Bag::from($flattenV)->join(' ');
             } elseif (is_string($v) || (is_object($v) && method_exists($v, '__toString'))) {
                 $bag[$k] = (string) $v;
             } else {
