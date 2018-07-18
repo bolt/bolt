@@ -199,14 +199,8 @@ class Frontend extends ConfigurableBase
         }
 
         $contenttype = $this->getContentType($contenttypeslug);
-
-        $id = $request->request->get('id');
-        if ($id) {
-            $content = $this->storage()->getContent($contenttype['slug'], ['id' => $id, 'returnsingle' => true, 'status' => '!undefined']);
-        } else {
-            $content = $this->storage()->getContentObject($contenttypeslug);
-        }
-
+        $content = $this->storage()->getContentObject($contenttypeslug, [], false);
+        
         $content->setFromPost($request->request->all(), $contenttype);
 
         $liveEditor = $request->get('_live-editor-preview');
