@@ -301,7 +301,7 @@ class RecordRuntime
         ];
         $params = array_merge($params, $where);
 
-        return $this->query->getContent((string) $entity->getContentype, $params);
+        return $this->query->getContent((string) $entity->getContenttype(), $params);
     }
 
     /**
@@ -333,7 +333,7 @@ class RecordRuntime
         ];
         $params = array_merge($params, $where);
 
-        return $this->query->getContent((string) $entity->getContentype, $params);
+        return $this->query->getContent((string) $entity->getContenttype(), $params);
     }
 
     /**

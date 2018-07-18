@@ -26,7 +26,7 @@ class DatabaseRepairTest extends BoltUnitTest
         $command = new DatabaseRepair($app);
         $tester = new CommandTester($command);
 
-        $tester->execute([]);
+        $tester->execute([], ['interactive' => false]);
         $result = $tester->getDisplay();
         $this->assertRegExp('/Your database is already up to date/', $result);
     }
