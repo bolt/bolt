@@ -16,7 +16,7 @@
         </a>
     {% endif %}
 
-    <p style="margin-top: 15px;"><strong>{{ __('general.phrase.filter') }}</strong></p>
+    <p style="margin-top: 15px;"><strong>{{ __('general.phrase.taxonomy') }}</strong></p>
 
     <form class="form-inline">
 
@@ -39,18 +39,28 @@
                     </option>
                 {% endfor %}
                 </select>
-                {{ __('general.phrase.or') }}
             {% endif %}
         {% endfor %}
+        {% set status_query = global.request.query.get('status') %}
+        {% set status_list = { 'published' : 'Published', 'held' : 'Not Published', 'draft' : 'Draft' } %}
+        <p style="margin-top: 15px;"><strong>{{ __('general.phrase.status') }}</strong></p>
+        <select name='status' class='form-control'>
+            <option value=''>All</option>
+            {% for key, value in status_list %}
+                <option value='{{ key }}' {% if status_query == key %}selected{% endif %}>{{ value }}</option>
+            {% endfor %}
+        </select>
+
         {% set filter_query = global.request.query.get('filter') %}
         {% set order_query = global.request.query.get('order') %}
-            <input type="text" class="form-control" value="{{ filter_query }}" name="filter" style="width: 130px;" placeholder="{{ __('general.phrase.keyword-ellipsis') }}">
+        <p style="margin-top: 15px;"><strong>{{ __('general.phrase.title') }}</strong></p>
+        <input type="text" class="form-control" value="{{ filter_query }}" name="filter" style="width: 110px;" placeholder="{{ __('general.phrase.keyword-ellipsis') }}">
         </div>
 
         <div class="form-group" style="display: block; margin-top: 12px;">
             <button type="submit" class="btn btn-tertiary"><i class="fa fa-filter"></i> {{ __('general.phrase.filter') }}</button>
 
-            {% if filter_query or order_query or taxonomyfilter %}
+            {% if filter_query or order_query or taxonomyfilter or status_query %}
                 <a class="btn btn-tertiary" href="?"><i class="fa fa-close"></i> {{ __('general.phrase.clear-filter-sort') }}</a>
             {% endif %}
         </div>
