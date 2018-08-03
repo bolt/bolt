@@ -10,8 +10,8 @@
 #   2 Unused messages
 #   9 Legacy untranslated messages
 #  33 Untranslated messages
-#  32 Legacy translation messages
-# 537 Translation messages
+#  30 Legacy translation messages
+# 539 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -80,7 +80,6 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 
 "(default template)": "(standardní šablona)"
 "(no category)": "(bez kategorie)"
-"(no group)": "(nezařazení do skupiny)"
 "(none)": "(nic)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Přidat ukázku <a href='%url%' class='btn btn-default'>Záznam s Lorem ipsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Přidáno do <tt>%key%</tt> '%title%'"
@@ -99,7 +98,6 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Trvalý odkaz „%slug%“ je využíván více typy obsahu. Odlište je v konfiguračním souboru contenttypes.yml."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Nelze vytvořit soubor překladu „%s“. Pro provedení změn budete asi muset požít vlastní editor."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Tento web běží na <a href='%url%' target='_blank' title='Vyspělý, nenáročný a jednoduchý redakční systém'>Bolt</a>."
-"Title": "Nadpis"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Zkuste se přihlásit pomocí ftp klienta a nastavte atributy souboru pro zápis. Nebo zkuste jít <a>zpět</a> na poslední stranu."
 "Unable to create directory: %DIR%": "Nelze vytvořit složku: %DIR%"
 "Unable to create file: %FILE%": "Nelze vytvořit soubor: %FILE%"
@@ -349,6 +347,7 @@ general.phrase.move-up: "Posunout nahoru"
 general.phrase.no-content: "žádný obsah …"
 general.phrase.no-content-found: "Nebyl nalezen žádný obsah."
 general.phrase.no-files-in-list: "Žádné soubory v seznamu."
+general.phrase.no-group-parens: "(nezařazení do skupiny)"
 general.phrase.no-images-in-list: "Žádné obrázky v seznamu."
 general.phrase.no-preview: "Bez náhledu"
 general.phrase.no-result-for-search-term: "Pro „%SEARCHTERM%“ nebyly nalezeny žádné výsledky. Zkuste to jinak."
@@ -418,7 +417,7 @@ general.phrase.show-all: "zobrazit vše"
 general.phrase.show-proposed-alterations: "Ukázat navrhované změny"
 general.phrase.showing: "Zobrazuji"
 general.phrase.size: "Velikost"
-general.phrase.slug-colon: "Odkaz v URL:"
+general.phrase.slug: "Odkaz v URL"
 general.phrase.something-went-wrong: "Něco je špatně"
 general.phrase.something-went-wrong-after-first-user: "Něco se nezdařilo s přihlášením po vytvoření prvního uživatele!"
 general.phrase.stack: "Zásobník"
@@ -438,6 +437,7 @@ general.phrase.template-detail: "Detail šablony"
 general.phrase.thumbnail: "Náhled"
 general.phrase.time-format-24-12: "Formát času 24/12"
 general.phrase.tip-colon: "Tip:"
+general.phrase.title: "Nadpis"
 general.phrase.toggle-all: "Označit/odznačit vše"
 general.phrase.translations: "Překlady"
 general.phrase.types: "Typy"
