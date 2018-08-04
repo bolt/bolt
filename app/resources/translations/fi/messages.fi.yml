@@ -10,8 +10,8 @@
 #   2 Unused messages
 #  13 Legacy untranslated messages
 # 188 Untranslated messages
-#  28 Legacy translation messages
-# 382 Translation messages
+#  26 Legacy translation messages
+# 384 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -249,7 +249,6 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 
 "(default template)": "(oletussivupohja)"
 "(no category)": "(ei kategoriaa)"
-"(no group)": "(ei ryhmää)"
 "(none)": "(ei mitään)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lisää hieman <a href='%url%' class='btn btn-default'>mallisisältöä täytetekstillä</a>"
 "Added to <tt>%key%</tt> '%title%'": "Lisätty <tt>%key%</tt> '%title%'"
@@ -266,7 +265,6 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Tunniste '%slug%' on käytössä usealle tietotyypille. Muokkaa contenttype.yml erotellaksesi ne toisistaan."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Käännöstiedostoa '%s' ei voida luoda. Sinun pitää päivittää tiedostoa muulla tavoin, esimerkiksi suoraa palvelimelta."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Sivusto on rakennettu <a href='%url%' target='_blank' title='Kehittynyt, kevyt ja yksinkertainen sisällönhallinta'>Boltilla</a>."
-"Title": "Otsikko"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Yritä kirjautua ftp-ohjelmalla ja anna tiedostolle kirjoitusoikeudet. Muutoin mene <a>takaisin</a>"
 "Unable to create directory: %DIR%": "Ei voida luoda kansiota: %DIR%"
 "Unable to delete directory: %DIR%": "Ei voida poistaa kansiota: %DIR%"
@@ -466,6 +464,7 @@ general.phrase.modified: "Muokattu"
 general.phrase.no-content: "ei sisältöä …"
 general.phrase.no-content-found: "Ei sisältöä"
 general.phrase.no-files-in-list: "Ei tiedostoja listassa, vielä"
+general.phrase.no-group-parens: "(ei ryhmää)"
 general.phrase.no-images-in-list: "Ei kuvia listassa, vielä"
 general.phrase.no-such-action-for-user: "Käyttäjälle '%s' ei ole tätä toimintoa"
 general.phrase.no-title: "ei otsikkoa …"
@@ -520,7 +519,7 @@ general.phrase.settings: "Asetukset"
 general.phrase.show-all: "näytä kaikki"
 general.phrase.showing: "Näytetään"
 general.phrase.size: "Koko"
-general.phrase.slug-colon: "Tunniste:"
+general.phrase.slug: "Tunniste"
 general.phrase.something-went-wrong: "Jokin meni pieleen"
 general.phrase.stack: "Pino"
 general.phrase.stack-add: "Laita pinoon"
@@ -536,6 +535,7 @@ general.phrase.taxonomy: "Luokittelu"
 general.phrase.template-detail: "Yksityiskohtapohja"
 general.phrase.time-format-24-12: "Aika 24h/12h muodossa"
 general.phrase.tip-colon: "Vinkki:"
+general.phrase.title: "Otsikko"
 general.phrase.translations: "Käännökset"
 general.phrase.types: "Tyypit"
 general.phrase.update-database: "Päivitä tietokanta"

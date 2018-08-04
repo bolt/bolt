@@ -27,7 +27,7 @@
             <label for="{{ id_select }}" class="sr-only">{{ taxonomy.name }}</label>
             <div class="col-xs-12">
                 <select{{ macro.attr(attributes.select) }}>
-                    <option value="">{{ __('(no group)') }}</option>
+                    <option value="">{{ __('general.phrase.no-group-parens') }}</option>
                     <option value="" disabled>-----------</option>
                     {% for slug, group in taxonomy.options %}
                         {% set attr_opt = {

@@ -10,8 +10,8 @@
 #   2 Unused messages
 #   3 Legacy untranslated messages
 #   0 Untranslated messages
-#  38 Legacy translation messages
-# 570 Translation messages
+#  36 Legacy translation messages
+# 572 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -28,7 +28,6 @@
 
 "(default template)": "(tema padrão)"
 "(no category)": "(sem categoria)"
-"(no group)": "(sem grupo)"
 "(none)": "(nenhum)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Adicionar registos de amostra com texto <a href='%url%' class='btn btn-default'>Loripsum</a>"
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": "Registos adicionados para o tipo de conteúdo <tt>%CONTENTYPE%</tt> intitulados"
@@ -52,7 +51,6 @@
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "O slug '%slug%' é usado em mais de um tipo de conteúdo. Edite contenttypes.yml, para torná-los distintos."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "O arquivo de tradução '%s' não pode ser criado. Você precisa usar o seu próprio editor de texto para fazer as modificações neste arquivo."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Sítio criado em <a href='%url%' target='_blank' title='Sofisticado, leve e simples - CMS Bolt'>CMS Bolt</a>."
-"Title": "Título"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Tente ligar-se através do seu cliente de FTP e tornar o ficheiro legível. Caso contrário, tente <a>voltar</a> para a última página."
 "Unable to create directory: %DIR%": "Não é possível criar a pasta: %DIR%"
 "Unable to create file: %FILE%": "Não foi possível criar o ficheiro: %FILE%"
@@ -321,6 +319,7 @@ general.phrase.move-up: "Mover para cima"
 general.phrase.no-content: "sem conteúdo..."
 general.phrase.no-content-found: "Nenhum conteúdo encontrado."
 general.phrase.no-files-in-list: "Nenhum ficheiro na lista."
+general.phrase.no-group-parens: "(sem grupo)"
 general.phrase.no-images-in-list: "Sem imagens na lista."
 general.phrase.no-preview: "Sem pré-visualização"
 general.phrase.no-result-for-search-term: "Nenhum resultado encontrado para '%SEARCHTERM%'. Tente outros termos."
@@ -390,7 +389,7 @@ general.phrase.show-all: "mostrar todos"
 general.phrase.show-proposed-alterations: "Mostrar alterações propostas"
 general.phrase.showing: "A exibir"
 general.phrase.size: "Tamanho"
-general.phrase.slug-colon: "Nome curto:"
+general.phrase.slug: "Nome curto"
 general.phrase.something-went-wrong: "Ocorreu um erro"
 general.phrase.something-went-wrong-after-first-user: "Ocorreu um erro com a autenticação após criar o primeiro utilizador!"
 general.phrase.stack: "Pilha"
@@ -410,6 +409,7 @@ general.phrase.template-detail: "Detalhes do tema"
 general.phrase.thumbnail: "Miniatura"
 general.phrase.time-format-24-12: "Horário no formato 24h / 12h"
 general.phrase.tip-colon: "Dica:"
+general.phrase.title: "Título"
 general.phrase.toggle-all: "Marcar/Desmarcar tudo"
 general.phrase.translations: "Traduções"
 general.phrase.types: "Tipos"
