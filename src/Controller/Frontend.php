@@ -530,17 +530,14 @@ class Frontend extends ConfigurableBase
      */
     private function getListingOrder($contentType)
     {
-        /** @deprecated since 3.6 to be removed in 4.0 */
         // An empty default isn't set in config yet, arrays got to hate them.
-        if (is_array($contentType)) {
-            $contentType += ['taxonomy' => []];
-        }
-
-        $taxonomies = $this->getOption('taxonomy');
-        foreach ($contentType['taxonomy'] as $taxonomyName) {
-            if ($taxonomies[$taxonomyName]['has_sortorder']) {
-                // Let getContent() handle it
-                return null;
+        if (isset($contentType['taxonomy'])) {
+            $taxonomies = $this->getOption('taxonomy');
+            foreach ($contentType['taxonomy'] as $taxonomyName) {
+                if ($taxonomies[$taxonomyName]['has_sortorder']) {
+                    // Let getContent() handle it
+                    return null;
+                }
             }
         }
 
