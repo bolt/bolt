@@ -55,8 +55,11 @@ class StorageServiceProvider implements ServiceProviderInterface
                     $app['storage.metadata'],
                     $app['logger.system']
                 );
-                $storage->setLegacyService($app['storage.legacy_service']);
-                $storage->setLegacyStorage($app['storage.legacy']);
+                if ($app['config']->get('general/compatibility/setcontent_legacy', true)) {
+                    $storage->setLegacyService($app['storage.legacy_service']);
+                    $storage->setLegacyStorage($app['storage.legacy']);
+                }
+
                 $storage->setEntityBuilder($app['storage.entity_builder']);
                 $storage->setFieldManager($app['storage.field_manager']);
                 $storage->setCollectionManager($app['storage.collection_manager']);
@@ -74,10 +77,8 @@ class StorageServiceProvider implements ServiceProviderInterface
         $app['storage.content_repository'] = $app->protect(
             function ($classMetadata) use ($app) {
                 $repoClass = $app['storage.repository.default'];
-                /** @var Repository\ContentRepository $repo */
-                $repo = new $repoClass($app['storage'], $classMetadata);
 
-                return $repo;
+                return new $repoClass($app['storage'], $classMetadata);
             }
         );
 
@@ -85,9 +86,9 @@ class StorageServiceProvider implements ServiceProviderInterface
             function ($app) {
                 $allowedTags = $app['config']->get('general/htmlcleaner/allowed_tags', []);
                 $allowedAttributes = $app['config']->get('general/htmlcleaner/allowed_attributes', []);
-                $allowedWyswig = $app['config']->get('general/wysiwyg', []);
+                $allowedWysiwyg = $app['config']->get('general/wysiwyg', []);
 
-                return new Field\Sanitiser\Sanitiser($allowedTags, $allowedAttributes, $allowedWyswig);
+                return new Field\Sanitiser\Sanitiser($allowedTags, $allowedAttributes, $allowedWysiwyg);
             }
         );
 
