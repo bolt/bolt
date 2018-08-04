@@ -6,6 +6,18 @@ but are usually only listed here against the lowest version applied to.
 
 ----
 
+Bolt 3.5.6
+----------
+
+Released: 2018-08-02. Notable changes
+
+ - Fixed: Fix for undefined property in `FieldCollection::$collection`. [#7566](https://github.com/bolt/bolt/pull/7566)
+ - Fixed: Twig exception request santitisation handling. [#7569](https://github.com/bolt/bolt/pull/7569)
+ - Fixed: Workaround around DBAL Sqlite schema diff bug. [#7570](https://github.com/bolt/bolt/pull/7570)
+ - Security: [packaged version] Updated Symfony components updated to [2.8.44](http://symfony.com/blog/symfony-2-8-44-released).
+ - Tests: Set `database:repair` command call to non-interactive. [#7565](https://github.com/bolt/bolt/pull/7565)
+ - Updated: Base 2018 updated to [2.0.8](https://github.com/bolt/themes/releases/tag/v2.0.8).
+
 Bolt 3.5.5
 ----------
 

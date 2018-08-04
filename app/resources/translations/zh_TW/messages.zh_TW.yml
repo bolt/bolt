@@ -10,8 +10,8 @@
 #   2 Unused messages
 #  22 Legacy untranslated messages
 # 233 Untranslated messages
-#  19 Legacy translation messages
-# 337 Translation messages
+#  17 Legacy translation messages
+# 339 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -164,7 +164,7 @@ general.phrase.required-is-or-match-pattern: # "Is required or needs to match a 
 general.phrase.search-results-for-variable: # "Search results for <b>%search%</b>."
 general.phrase.selection: # "Selection"
 general.phrase.show-proposed-alterations: # "Show proposed alterations"
-general.phrase.slug-colon: # "Slug:"
+general.phrase.slug: # "Slug"
 general.phrase.something-went-wrong-after-first-user: # "Something went wrong with logging in after first user creation!"
 general.phrase.stack: # "Stack"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
@@ -308,7 +308,6 @@ panel.latest-activity.system: # "Latest system activity"
 
 "(default template)": "(默認模板)"
 "(no category)": "(沒有分類)"
-"(no group)": "(沒有分組)"
 "(none)": "(無)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "可以添加一些 <a href='%url%' class='btn btn-default'>帶有 Loripsum 示例文字</a> 的記錄"
 "Added to <tt>%key%</tt> '%title%'": "添加到 <tt>%key%</tt> '%title%'"
@@ -321,7 +320,6 @@ panel.latest-activity.system: # "Latest system activity"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "slug '%slug%'用在了多個內容格式中。請編輯 contenttypes.yml 區分它們。"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "無法創建翻譯檔案 '%s'。你需要自行使用編輯器修改檔案。"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "本網站由<a href='%url%' target='_blank' title='精緻、輕量、簡潔的 CMS'>Bolt 構建</a>。"
-"Title": "標題"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "可以試著用FTP客戶端登入，將檔案設定可讀許可權，也可以嘗試<a>返回</a>上一個頁面。"
 "View (saved version) on site": "觀看站點中(儲存的版本)"
 "You've been logged on successfully.": "你已成功登入。"
@@ -490,6 +488,7 @@ general.phrase.modifications-database-colon: "對資料庫作出的變更："
 general.phrase.modifications-needed-colon: "需要作出的修改："
 general.phrase.modified: "已修改"
 general.phrase.no-content: "無內容 …"
+general.phrase.no-group-parens: "(沒有分組)"
 general.phrase.no-result-for-search-term: "沒有找到 '%SEARCHTERM%'，請嘗試其他關鍵詞。"
 general.phrase.no-such-action-for-user: "使用者 '%s' 無此項操作。"
 general.phrase.no-title: "無標題 …"
@@ -552,6 +551,7 @@ general.phrase.taxonomy: "分類"
 general.phrase.template-detail: "詳情頁模板"
 general.phrase.time-format-24-12: "24/12小時制"
 general.phrase.tip-colon: "小貼士："
+general.phrase.title: "標題"
 general.phrase.translations: "翻譯"
 general.phrase.types: "類型"
 general.phrase.update-database: "更新資料庫"

@@ -47,7 +47,7 @@ locale: en_GB
 # with this option using your own theme.
 #
 # Note: If you've changed the filename, and your changes do not show up on the
-#       website, be sure to check for a config.ymlfile in your theme's folder.
+#       website, be sure to check for a config.yml file in your theme's folder.
 #       If a template is set there, it will override the setting here.
 maintenance_mode: false
 maintenance_template: maintenance_default.twig
