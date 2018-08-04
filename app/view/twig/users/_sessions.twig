@@ -14,14 +14,15 @@
 
         <tbody>
             {% for session in context.sessions %}
-            {% if users[session.user_id] is defined %}
-                {% set user = users[session.user_id] %}
-            {% else %}
-                {% set user = { 'displayname': '<em>unknown</em> '} %}
-            {% endif %}
                 <tr>
                     <td>
-                        <strong>{{ user.displayname|raw }}</strong>
+                        <strong>
+                        {% if users[session.user_id] is defined %}
+                            {{ users[session.user_id].displayname }}
+                        {% else %}
+                            <em>unknown</em>
+                        {% endif %}
+                        </strong>
                     </td>
                     <td>
                         {{ buic_moment(session.lastseen) }}
