@@ -17,6 +17,7 @@ use Symfony\Component\EventDispatcher\Event;
  *      $this->app['dispatcher']->addListener(CronEvents::CRON_INTERVAL, [$this, 'myJobCallbackMethod']);
  *
  * CRON_INTERVAL should be replace with one of the following:
+ *      * CRON_MINUTELY
  *      * CRON_HOURLY
  *      * CRON_DAILY
  *      * CRON_WEEKLY
@@ -45,11 +46,12 @@ class Cron extends Event
     private $cronHour;
     /** @var array The next elegible run time for each interim. */
     private $jobs = [
-        CronEvents::CRON_HOURLY  => ['increment' => 'PT1H', 'message' => 'Running Cron Hourly Jobs'],
-        CronEvents::CRON_DAILY   => ['increment' => 'P1D',  'message' => 'Running Cron Daily Jobs'],
-        CronEvents::CRON_WEEKLY  => ['increment' => 'P1W',  'message' => 'Running Cron Weekly Jobs'],
-        CronEvents::CRON_MONTHLY => ['increment' => 'P1M',  'message' => 'Running Cron Monthly Jobs'],
-        CronEvents::CRON_YEARLY  => ['increment' => 'P1Y',  'message' => 'Running Cron Yearly Jobs'],
+        CronEvents::CRON_MINUTELY => ['increment' => 'PT1M', 'message' => 'Running Cron Minutely jobs'],
+        CronEvents::CRON_HOURLY   => ['increment' => 'PT1H', 'message' => 'Running Cron Hourly Jobs'],
+        CronEvents::CRON_DAILY    => ['increment' => 'P1D',  'message' => 'Running Cron Daily Jobs'],
+        CronEvents::CRON_WEEKLY   => ['increment' => 'P1W',  'message' => 'Running Cron Weekly Jobs'],
+        CronEvents::CRON_MONTHLY  => ['increment' => 'P1M',  'message' => 'Running Cron Monthly Jobs'],
+        CronEvents::CRON_YEARLY   => ['increment' => 'P1Y',  'message' => 'Running Cron Yearly Jobs'],
     ];
 
     /**

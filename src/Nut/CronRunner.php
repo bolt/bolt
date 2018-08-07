@@ -19,7 +19,7 @@ class CronRunner extends BaseCommand
      */
     protected function configure()
     {
-        $interims = ['  - cron.Hourly', '  - cron.Daily', '  - cron.Weekly', '  - cron.Monthly', '  - cron.Yearly'];
+        $interims = ['  - cron.Minutely', '  - cron.Hourly', '  - cron.Daily', '  - cron.Weekly', '  - cron.Monthly', '  - cron.Yearly'];
         $this
             ->setName('cron')
             ->setDescription('Cron virtual daemon')

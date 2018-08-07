@@ -13,6 +13,7 @@ final class CronEvents
     {
     }
 
+    const CRON_MINUTELY = 'cron.Minutely';
     const CRON_HOURLY = 'cron.Hourly';
     const CRON_DAILY = 'cron.Daily';
     const CRON_WEEKLY = 'cron.Weekly';
