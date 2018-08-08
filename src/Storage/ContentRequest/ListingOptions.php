@@ -17,6 +17,8 @@ class ListingOptions
     protected $taxonomies;
     /** @var string */
     protected $filter;
+    /** @var string */
+    protected $status;
     /** @var bool */
     protected $groupSort;
 
@@ -126,6 +128,30 @@ class ListingOptions
     public function getFilter()
     {
         return $this->filter;
+    }
+
+    /**
+     * Set the status.
+     *
+     * @param string $status
+     *
+     * @return ListingOptions
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get the status.
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**

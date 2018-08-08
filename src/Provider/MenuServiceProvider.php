@@ -21,9 +21,12 @@ class MenuServiceProvider implements ServiceProviderInterface
     {
         $app['menu'] = $app->share(
             function ($app) {
-                $builder = new MenuBuilder($app);
+                $accessor = 'storage';
+                if ($app['config']->get('general/compatibility/setcontent_legacy') === false) {
+                    $accessor = 'query';
+                }
 
-                return $builder;
+                return new MenuBuilder($app, $accessor);
             }
         );
 

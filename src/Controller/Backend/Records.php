@@ -192,6 +192,7 @@ class Records extends BackendBase
             ->setOrder($request->query->get('order'))
             ->setPage($request->query->get('page_' . $contenttypeslug))
             ->setFilter($request->query->get('filter'))
+            ->setStatus($request->query->get('status'))
             ->setTaxonomies($taxonomy)
             ->setGroupSort(true)
         ;

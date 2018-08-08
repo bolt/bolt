@@ -7,15 +7,11 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   1 Unused messages
+#   0 Unused messages
 #   1 Legacy untranslated messages
 #   0 Untranslated messages
 #  38 Legacy translation messages
 # 572 Translation messages
-
-#--- Unused messages ----------------------------------------------------------
-
-"contenttypes.generic.no-proper-type": "In het contenttype voor '%contenttype%' heeft het veld '%field%' type: %type%, wat geen geldig veld type is. Pas contenttypes.yml aan en corrigeer dit."
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -334,7 +330,6 @@ general.phrase.of: "van"
 general.phrase.omnisearch: "Omnisearch"
 general.phrase.only-root-change-file-extensions: "Alleen root kan bestandsextensies wijzigen."
 general.phrase.options: "Opties"
-general.phrase.or: "of"
 general.phrase.order: "Volgorde"
 general.phrase.order-colon-sort: "Volgorde: %sort%"
 general.phrase.other-content: "Andere content"
@@ -395,6 +390,7 @@ general.phrase.stack: "Stapel"
 general.phrase.stack-add: "Plaats op stack"
 general.phrase.stack-empty: "Nog geen bestanden op de Stack."
 general.phrase.stack-files: "Bestanden op de Stack"
+general.phrase.status: "Status"
 general.phrase.status-change-draft: "Zet status op 'klad'"
 general.phrase.status-change-held: "Zet status op 'niet gepubliceerd'"
 general.phrase.status-colon: "Status:"

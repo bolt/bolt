@@ -59,6 +59,8 @@ class Builder
     /**
      * Gets the metadata instance.
      *
+     * @throws \Bolt\Exception\StorageException
+     *
      * @return ClassMetadata $classMetadata
      */
     public function getClassMetadata()
@@ -88,6 +90,8 @@ class Builder
      *
      * @param object|null $entity
      *
+     * @throws \Bolt\Exception\StorageException
+     *
      * @return object
      */
     public function getEntity($entity = null)
@@ -98,7 +102,12 @@ class Builder
         }
 
         if ($entity instanceof Content && !$entity->getContenttype() && $ct = $this->getClassMetadata()->getBoltName()) {
-            $entity->setContenttype($ct);
+            $contentType = $this->metadata->createContentType($ct);
+            if ($contentType) {
+                $entity->setContenttype($contentType);
+            } else {
+                $entity->setContenttype($ct);
+            }
         }
 
         return $entity;
@@ -107,6 +116,8 @@ class Builder
     /**
      * Uses either the class default or the supplied ClassMetadata to return
      * a list of fields for this entity.
+     *
+     * @throws \Bolt\Exception\StorageException
      *
      * @return array
      */
@@ -120,6 +131,8 @@ class Builder
      *
      * @param array|object $data   data to load into the entity
      * @param object|null  $entity
+     *
+     * @throws \Bolt\Exception\StorageException
      *
      * @return object $entity
      */
@@ -137,11 +150,11 @@ class Builder
             $handler = isset($this->transformers[$mappedType]) ? $this->transformers[$mappedType] : null;
 
             if ($handler) {
-                call_user_func($handler, $entity, $data[$key]);
+                $handler($entity, $data[$key]);
             } else {
                 $val = isset($data[$key]) ? $data[$key] : null;
                 if ($fieldType instanceof FieldTypeInterface) {
-                    call_user_func([$fieldType, 'set'], $entity, $val);
+                    $fieldType->set($entity, $val);
                 }
             }
         }
@@ -155,6 +168,8 @@ class Builder
      * @param array       $data
      * @param object|null $entity
      *
+     * @throws \Bolt\Exception\StorageException
+     *
      * @return object $entity
      */
     public function createFromDatabaseValues($data, $entity = null)
@@ -163,10 +178,10 @@ class Builder
         $fields = $this->getFields();
 
         // set fields
-        foreach ((array) $fields as $key => $mapping) {
+        foreach ($fields as $key => $mapping) {
             $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
             if ($fieldType instanceof FieldTypeInterface) {
-                call_user_func([$fieldType, 'hydrate'], $data, $entity);
+                $fieldType->hydrate($data, $entity);
             }
         }
 
@@ -177,17 +192,19 @@ class Builder
      * Refresh an entities values.
      *
      * @param object|null $entity
+     *
+     * @throws \Bolt\Exception\StorageException
      */
     public function refresh($entity)
     {
         $fields = $this->getFields();
 
-        foreach ((array) $fields as $key => $mapping) {
+        foreach ($fields as $key => $mapping) {
             $fieldType = $this->fieldManager->get($mapping['fieldtype'], $mapping);
             $getter = 'get' . ucfirst($key);
             $value = $entity->$getter();
             if ($value) {
-                call_user_func([$fieldType, 'set'], $entity, $value);
+                $fieldType->set($entity, $value);
             }
         }
     }
@@ -197,6 +214,8 @@ class Builder
      * @param string      $field
      * @param string|null $subField
      * @param string|null $block
+     *
+     * @throws \Bolt\Exception\StorageException
      *
      * @return FieldValue|bool
      */

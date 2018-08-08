@@ -9,6 +9,7 @@ use Bolt\Asset\Target;
 use Bolt\Helpers\Input;
 use Bolt\Response\TemplateResponse;
 use Bolt\Storage\Entity\Taxonomy;
+use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\Repository\TaxonomyRepository;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -523,19 +524,20 @@ class Frontend extends ConfigurableBase
      *  - we let `getContent()` sort by itself
      *  - we explicitly set it to sort on the general/listing_sort setting
      *
-     * @param array $contentType
+     * @param ContentType|array $contentType
      *
      * @return null|string
      */
-    private function getListingOrder(array $contentType)
+    private function getListingOrder($contentType)
     {
         // An empty default isn't set in config yet, arrays got to hate them.
-        $contentType += ['taxonomy' => []];
-        $taxonomies = $this->getOption('taxonomy');
-        foreach ($contentType['taxonomy'] as $taxonomyName) {
-            if ($taxonomies[$taxonomyName]['has_sortorder']) {
-                // Let getContent() handle it
-                return null;
+        if (isset($contentType['taxonomy'])) {
+            $taxonomies = $this->getOption('taxonomy');
+            foreach ($contentType['taxonomy'] as $taxonomyName) {
+                if ($taxonomies[$taxonomyName]['has_sortorder']) {
+                    // Let getContent() handle it
+                    return null;
+                }
             }
         }
 
