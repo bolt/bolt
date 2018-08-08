@@ -31,12 +31,12 @@ class CronEvent extends Event
         $this->output = $output;
 
         // Add listeners
-        $this->app['dispatcher']->addListener(CronEvents::CRON_MINUTELY, [$this, 'doRunScheduledJobs']);
-        $this->app['dispatcher']->addListener(CronEvents::CRON_HOURLY,   [$this, 'doRunScheduledJobs']);
-        $this->app['dispatcher']->addListener(CronEvents::CRON_DAILY,    [$this, 'doRunScheduledJobs']);
-        $this->app['dispatcher']->addListener(CronEvents::CRON_WEEKLY,   [$this, 'doRunScheduledJobs']);
-        $this->app['dispatcher']->addListener(CronEvents::CRON_MONTHLY,  [$this, 'doRunScheduledJobs']);
-        $this->app['dispatcher']->addListener(CronEvents::CRON_YEARLY,   [$this, 'doRunScheduledJobs']);
+        $this->app['dispatcher']->addListener(CronEvents::CRON_MINUTE,  [$this, 'doRunScheduledJobs']);
+        $this->app['dispatcher']->addListener(CronEvents::CRON_HOURLY,  [$this, 'doRunScheduledJobs']);
+        $this->app['dispatcher']->addListener(CronEvents::CRON_DAILY,   [$this, 'doRunScheduledJobs']);
+        $this->app['dispatcher']->addListener(CronEvents::CRON_WEEKLY,  [$this, 'doRunScheduledJobs']);
+        $this->app['dispatcher']->addListener(CronEvents::CRON_MONTHLY, [$this, 'doRunScheduledJobs']);
+        $this->app['dispatcher']->addListener(CronEvents::CRON_YEARLY,  [$this, 'doRunScheduledJobs']);
     }
 
     /**
@@ -48,8 +48,8 @@ class CronEvent extends Event
     public function doRunScheduledJobs(Event $event, $eventName)
     {
         switch ($eventName) {
-            case CronEvents::CRON_MINUTELY:
-                $this->cronMinutely();
+            case CronEvents::CRON_MINUTE:
+                $this->cronMinute();
                 break;
             case CronEvents::CRON_HOURLY:
                 $this->cronHourly();
@@ -71,9 +71,9 @@ class CronEvent extends Event
 
 
     /**
-     * Minutely jobs.
+     * Minute by minute jobs.
      */
-    private function cronMinutely()
+    private function cronMinute()
     {
         $timedRecords = $this->app['storage.event_processor.timed'];
         if ($timedRecords->isDuePublish()) {
