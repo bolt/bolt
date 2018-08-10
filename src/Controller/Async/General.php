@@ -457,12 +457,17 @@ class General extends AsyncBase
         ];
 
         if ($this->getOption('general/httpProxy')) {
-            $options['proxy'] = sprintf(
-                '%s:%s@%s',
-                $this->getOption('general/httpProxy/user'),
-                $this->getOption('general/httpProxy/password'),
-                $this->getOption('general/httpProxy/host')
-            );
+            if ($this->getOption('general/httpProxy/user') != '') {
+                $options['proxy'] = sprintf(
+                    '%s:%s@%s',
+                    $this->getOption('general/httpProxy/user'),
+                    $this->getOption('general/httpProxy/password'),
+                    $this->getOption('general/httpProxy/host')
+                );
+            }
+            else {
+                $options['proxy'] = $this->getOption('general/httpProxy/host');
+            }
         }
 
         return $options;
