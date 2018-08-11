@@ -464,8 +464,7 @@ class General extends AsyncBase
                     $this->getOption('general/httpProxy/password'),
                     $this->getOption('general/httpProxy/host')
                 );
-            }
-            else {
+            } else {
                 $options['proxy'] = $this->getOption('general/httpProxy/host');
             }
         }
