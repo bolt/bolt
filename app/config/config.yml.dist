@@ -434,9 +434,9 @@ hash_strength: 10
 
 # If you want Bolt installation get news through a proxy
 # httpProxy:
-#     host: my.proxy.server
-#     user: usr
-#     password: pwd
+#     host: scheme://my.proxy.server:port
+#     user: [usr]
+#     password: [pwd]
 
 # Options for backend user interface
 # backend:
