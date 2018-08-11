@@ -457,7 +457,7 @@ class General extends AsyncBase
         ];
 
         if ($this->getOption('general/httpProxy')) {
-            if ($this->getOption('general/httpProxy/user') != '') {
+            if ($this->getOption('general/httpProxy/user')) {
                 $options['proxy'] = sprintf(
                     '%s:%s@%s',
                     $this->getOption('general/httpProxy/user'),
