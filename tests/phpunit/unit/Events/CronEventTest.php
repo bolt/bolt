@@ -36,6 +36,7 @@ class CronEventTest extends BoltUnitTest
 
         $listeningEvent = new CronEvent($app, $output);
 
+        $app['dispatcher']->dispatch(CronEvents::CRON_MINUTE, $listeningEvent);
         $app['dispatcher']->dispatch(CronEvents::CRON_HOURLY, $listeningEvent);
         $app['dispatcher']->dispatch(CronEvents::CRON_DAILY, $listeningEvent);
         $app['dispatcher']->dispatch(CronEvents::CRON_WEEKLY, $listeningEvent);
