@@ -21,7 +21,7 @@
         "bolt/thumbs": "^3.1.1",
         "brandonwamboldt/utilphp": "^1.0",
         "carbondate/carbon": "^1.20",
-        "cocur/slugify": "^1.0",
+        "cocur/slugify": "^3.1",
         "composer/composer": "^1.2",
         "doctrine/cache": "^1.5",
         "doctrine/dbal": "^2.5",
