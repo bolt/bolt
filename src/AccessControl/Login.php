@@ -14,6 +14,7 @@ use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use PasswordLib\Password\Factory;
 use PasswordLib\Password\Implementation\Blowfish;
 use Silex\Application;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 /**
  * Login authentication handling.
@@ -26,6 +27,8 @@ class Login extends AccessChecker
     protected $passwordFactory;
     /** @var string */
     protected $authTokenName;
+    /** @var CsrfTokenManagerInterface */
+    private $csrfTokenManager;
 
     /**
      * Constructor.
@@ -47,6 +50,7 @@ class Login extends AccessChecker
         );
         $this->passwordFactory = $app['password_factory'];
         $this->authTokenName = $app['token.authentication.name'];
+        $this->csrfTokenManager = $app['csrf'];
     }
 
     /**
@@ -129,6 +133,9 @@ class Login extends AccessChecker
             }
         }
 
+        // Ensure we have a CSRF token, to prevent timing issues when the user opens multiple pages at once.
+        $this->csrfTokenManager->getToken('content_edit');
+
         $this->dispatcher->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
 
         return $this->loginFinish($userEntity);
@@ -164,6 +171,10 @@ class Login extends AccessChecker
             $userTokenEntity->setLastseen(Carbon::now());
             $this->getRepositoryAuthtoken()->save($userTokenEntity);
             $this->flashLogger->success(Trans::__('general.phrase.session-resumed-colon'));
+
+            // Ensure we have a CSRF token, to prevent timing issues when the user opens multiple pages at once.
+            $this->csrfTokenManager->getToken('content_edit');
+
             $this->dispatcher->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
 
             return $this->loginFinish($userEntity);
