@@ -79,8 +79,8 @@ class Excerpt
                 }
                 // We need non-empty strings that don't look like serialized JSON.
                 // Otherwise, Twig Markup is also OK.
-                if ((is_string($value) && !empty($value) && ($value[0]!='{')) ||
-                    (is_object($value) && ($value instanceof Markup))) {
+                if (is_string($value) && !empty($value) && !in_array($value[0], ['{', '[']) ||
+                    $value instanceof Markup) {
                     $excerpt .= (string) $value . ' ';
                 }
             });
