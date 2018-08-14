@@ -169,6 +169,9 @@ class MetadataDriver implements MappingDriver
      */
     public function resolveClassName($alias)
     {
+        // Make sure we have string, type-cast Contenttype if needed.
+        $alias = (string) $alias;
+
         if (class_exists($alias)) {
             return $alias;
         }
