@@ -167,7 +167,7 @@ class MetadataDriver implements MappingDriver
      *
      * @return string Fully Qualified Class Name
      */
-    public function resolveClassName($alias)
+    public function resolveClassName(string $alias)
     {
         if (class_exists($alias)) {
             return $alias;

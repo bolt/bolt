@@ -7,6 +7,7 @@ use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\FilesystemInterface;
 use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
+use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\Repository\ContentRepository;
 use Cocur\Slugify\Slugify;
 use GuzzleHttp\Exception\RequestException;
@@ -179,12 +180,12 @@ class RecordContentGenerator
     }
 
     /**
-     * @param Entity\Content $contentEntity
-     * @param array          $contentType
-     * @param string         $fieldName
-     * @param array          $values
+     * @param Entity\Content    $contentEntity
+     * @param array|Contenttype $contentType
+     * @param string            $fieldName
+     * @param array             $values
      */
-    private function setFieldValue(Entity\Content $contentEntity, array $contentType, $fieldName, array $values)
+    private function setFieldValue(Entity\Content $contentEntity, $contentType, $fieldName, array $values)
     {
         $type = $values['type'];
         if (!array_key_exists($type, $this->fieldMap)) {
@@ -236,12 +237,12 @@ class RecordContentGenerator
     }
 
     /**
-     * @param Entity\Content $contentEntity
-     * @param string         $fieldName
-     * @param string         $type
-     * @param array          $contentType
+     * @param Entity\Content    $contentEntity
+     * @param string            $fieldName
+     * @param string            $type
+     * @param array|ContentType $contentType
      */
-    private function addText(Entity\Content $contentEntity, $fieldName, $type, array $contentType)
+    private function addText(Entity\Content $contentEntity, $fieldName, $type, $contentType)
     {
         if ($type === 'text') {
             if ($fieldName === 'title' && $this->defaultTitles->has($contentType['slug'])) {
@@ -304,10 +305,10 @@ class RecordContentGenerator
     /**
      * Add some random taxonomy entries on the record.
      *
-     * @param Entity\Content $contentEntity
-     * @param array          $contentType
+     * @param Entity\Content    $contentEntity
+     * @param array|ContentType $contentType
      */
-    private function setTaxonomyCollection(Entity\Content $contentEntity, array $contentType)
+    private function setTaxonomyCollection(Entity\Content $contentEntity, $contentType)
     {
         if (empty($contentType['taxonomy'])) {
             return;
