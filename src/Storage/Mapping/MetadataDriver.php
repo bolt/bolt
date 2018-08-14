@@ -163,7 +163,7 @@ class MetadataDriver implements MappingDriver
      * Method will try to find an entity class name to handle data,
      * alternatively falling back to $this->fallbackEntity.
      *
-     * @param string $alias
+     * @param string|ContentType $alias
      *
      * @return string Fully Qualified Class Name
      */
