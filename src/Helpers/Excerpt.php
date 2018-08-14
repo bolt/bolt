@@ -7,6 +7,7 @@ use Bolt\Collection\MutableBag;
 use Bolt\Legacy\Content as LegacyContent;
 use Bolt\Storage\Entity\Content;
 use Parsedown;
+use Twig\Markup;
 
 class Excerpt
 {
@@ -73,8 +74,14 @@ class Excerpt
 
             $excerpt = '';
             array_walk($this->body, function ($value, $key) use (&$excerpt, $stripKeys) {
-                if (is_string($value) && !in_array($key, $stripKeys)) {
-                    $excerpt .= $value . ' ';
+                if (in_array($key, $stripKeys)) {
+                    return;
+                }
+                // We need non-empty strings that don't look like serialized JSON.
+                // Otherwise, Twig Markup is also OK.
+                if ((is_string($value) && !empty($value) && ($value[0]!='{')) ||
+                    (is_object($value) && ($value instanceof Markup))) {
+                    $excerpt .= (string) $value . ' ';
                 }
             });
         } elseif (is_string($this->body) || (is_object($this->body) && method_exists($this->body, '__toString'))) {
