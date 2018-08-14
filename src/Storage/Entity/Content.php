@@ -356,7 +356,7 @@ class Content extends Entity
     public function getExcerpt($length = 200, $includeTitle = false, $focus = null)
     {
         $excerpter = new Excerpt($this);
-        $excerpt = $excerpter->getExcerpt($length, false, $focus);
+        $excerpt = $excerpter->getExcerpt($length, $includeTitle, $focus);
 
         return $excerpt;
     }
