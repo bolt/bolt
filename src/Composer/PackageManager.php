@@ -267,7 +267,11 @@ class PackageManager
             // Handle non-Bolt packages
             if ($extension) {
                 $title = $extension->getDisplayName();
-                $constraint = $extension->getDescriptor()->getConstraint() ?: Bolt\Version::VERSION;
+                if ($extension->isManaged()) {
+                    $constraint = $extension->getDescriptor()->getConstraint() ?: Bolt\Version::VERSION;
+                } else {
+                    $constraint = Bolt\Version::VERSION;
+                }
                 $readme = $this->linkReadMe($extension);
                 $config = $this->linkConfig($extension);
                 $valid = $extension->isValid();
