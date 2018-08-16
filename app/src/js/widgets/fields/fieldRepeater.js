@@ -109,6 +109,18 @@
                 self._renumber();
             });
 
+            // Sortable repeaters
+            self.element.find('.repeater-slot').sortable({
+                cursor: "move",
+                handle: ".panel-heading",
+                classes: {
+                    "ui-sortable": "highlight"
+                },
+                stop: function () {
+                    self._renumber();
+                }
+            });
+
             self.element.on('click', '.delete-button', function () {
                 var setToDelete = $(this).closest('.repeater-group');
 
@@ -154,6 +166,17 @@
                 $container.find('.repeater-collapse').removeClass('collapsed');
 
                 setToShow.slideDown();
+            });
+
+            self.element.on('keyup change', 'input[type=text]', function () {
+                if ($(this).closest('.bolt-field-text').length) {
+                    var $container = $(this).closest('.repeater-group');
+                    var fieldToUse = $container.find('.bolt-field-text input:first');
+                    var headingToUpdate = $container.find('.repeater-heading');
+                    var fallback = headingToUpdate.data('default');
+
+                    headingToUpdate.text($(fieldToUse).val().substring(0,60) || fallback);
+                }
             });
 
             // Add initial groups until minimum number is reached.
