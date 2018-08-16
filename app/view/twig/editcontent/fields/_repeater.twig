@@ -38,8 +38,7 @@
     {% endif %}
 
     <div class="repeater-slot">
-        <script type="text/template" class="hidden">
-        {# ^^ Added class="hidden" to prevent jittery behavior when drag-sorting repeaters, if not hidden it becomes a "sortable" element, which causes the jittery behavior #}
+        <script type="text/template">
             {% set index = '#' %}
             {{ include('@bolt/editcontent/fields/_repeater-group.twig', {'content': repeatfieldvals.getEmptySet, 'index': index}) }}
         </script>
