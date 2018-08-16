@@ -173,8 +173,9 @@
                     var $container = $(this).closest('.repeater-group');
                     var fieldToUse = $container.find('.bolt-field-text input:first');
                     var headingToUpdate = $container.find('.repeater-heading');
+                    var fallback = headingToUpdate.data('default');
 
-                    headingToUpdate.text($(fieldToUse).val());
+                    headingToUpdate.text($(fieldToUse).val().substring(0,60) || fallback);
                 }
             });
 
