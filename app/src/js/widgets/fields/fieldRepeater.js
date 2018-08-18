@@ -113,11 +113,9 @@
             self.element.find('.repeater-slot').sortable({
                 cursor: "move",
                 handle: ".panel-heading",
-                classes: {
-                    "ui-sortable": "highlight"
-                },
-                stop: function () {
+                stop: function (event, ui) {
                     self._renumber();
+                    self._resetEditors(ui.item);
                 }
             });
 
