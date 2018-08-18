@@ -429,7 +429,7 @@ class Frontend extends ConfigurableBase
                 ->setTotalpages(ceil($result['no_of_results'] / $pageSize))
                 ->setCurrent($page)
                 ->setShowingFrom($offset + 1)
-                ->setShowingTo($offset + count($result['results']))
+                ->setShowingTo($offset + ($result ? count($result['results']) : 0));
             ;
 
             $manager->setLink($this->generateUrl('search', ['q' => $q]) . '&page_search=');
