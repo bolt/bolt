@@ -8,6 +8,7 @@ use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\Mapping;
 use Bolt\Storage\Mapping\ContentTypeTitleTrait;
 use Carbon\Carbon;
+use Twig\Markup;
 
 /**
  * Entity for Content.
@@ -358,7 +359,7 @@ class Content extends Entity
         $excerpter = new Excerpt($this);
         $excerpt = $excerpter->getExcerpt($length, $includeTitle, $focus);
 
-        return $excerpt;
+        return new Markup($excerpt, 'UTF-8');
     }
 
     /**
