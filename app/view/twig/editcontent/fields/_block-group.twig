@@ -1,7 +1,6 @@
 {% if field.fields[block] is defined %}
 <div class="repeater-group block-group panel panel-default">
-    {% set grouplabel = field.fields[block].label|default('') %}
-    <div class="panel-heading" title="{{ grouplabel }}">
+    <div class="panel-heading">
         <div class="row">
             <div class="col-xs-8 col-md-9">
                 <label class="main">
@@ -9,11 +8,12 @@
                     {% for fieldname, f in field.fields[block].fields if f['type'] == 'text' and grouptitle == false %}
                         {% set grouptitle = content.get(fieldname) %}
                     {% endfor %}
+                    {% set grouplabel = field.fields[block].label|default('') %}
                     <span class="text-muted">
                         <i class="fa fa-ellipsis-v"></i>
                         {% set groupicon = field.fields[block].icon|default('') %}
                         {% if groupicon[:3] == 'fa:' %}
-                            <i class="fa fa-{{ groupicon[3:] }}"></i>
+                            <i class="fa fa-{{ groupicon[3:] }}" title="{{ grouplabel }}"></i>
                         {% endif %}
                     </span> &nbsp;
                     <span class="block-heading">{{ grouptitle|default(grouplabel) }}</span>
