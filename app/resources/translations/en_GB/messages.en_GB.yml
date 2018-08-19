@@ -224,6 +224,7 @@ general.phrase.confirm-remove-files: "Are you sure you want to remove these file
 general.phrase.confirm-remove-image: "Are you sure you want to remove this image?"
 general.phrase.confirm-remove-images: "Are you sure you want to remove these images?"
 general.phrase.confirm-remove-record: "Are you sure you wish to delete this record? There is no undo."
+general.phrase.confirm-remove-set: "Are you sure you wish to delete this set?"
 general.phrase.content: "Content"
 general.phrase.content-type-permissions: "ContentType Permissions"
 general.phrase.content-types: "ContentTypes"
