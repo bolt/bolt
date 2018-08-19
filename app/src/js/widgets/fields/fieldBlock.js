@@ -77,8 +77,16 @@
             self.element.on('click', '.delete-button', function () {
                 var setToDelete = $(this).closest('.block-group');
 
-                setToDelete.remove();
-                self._renumber();
+                bootbox.confirm(
+                    bolt.data('editcontent.deleteset'),
+                    function (confirmed) {
+                        $('.alert').alert(); // Dismiss alert messages
+                        if (confirmed === true) {
+                            setToDelete.remove();
+                            self._renumber();
+                        }
+                    }
+                );
             });
 
             self.element.on('click', '.move-up', function () {
