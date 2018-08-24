@@ -8,7 +8,7 @@
                         {% set grouptitle = content.get(fieldname) %}
                     {% endfor %}
                     <span class="text-muted"><i class="fa fa-ellipsis-v"></i></span> &nbsp;
-                    <span class="repeater-heading" data-default="{{ defaultcaption }}">
+                    <span class="repeater-heading" data-default="{{ field.label }}">
                         {{ grouptitle|default(field.label) }}
                     </span>
                 </label>
