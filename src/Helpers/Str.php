@@ -25,12 +25,17 @@ class Str extends \Bolt\Common\Str
             $extrachars = preg_quote($extrachars, $delim);
         }
         if ($strict) {
-            $slugify = Slugify::create('/[^a-z0-9_' . $extrachars . ' -]+/');
+            $slugify = Slugify::create([
+                'regexp' => '/[^a-z0-9_' . $extrachars . ' -]+/'
+            ]);
             $str = $slugify->slugify($str, '');
             $str = str_replace(' ', '-', $str);
         } else {
             // Allow Uppercase and don't convert spaces to dashes
-            $slugify = Slugify::create('/[^a-zA-Z0-9_.,' . $extrachars . ' -]+/', ['lowercase' => false]);
+            $slugify = Slugify::create([
+                'regexp' => '/[^a-zA-Z0-9_.,' . $extrachars . ' -]+/',
+                'lowercase' => false
+            ]);
             $str = $slugify->slugify($str, '');
         }
 

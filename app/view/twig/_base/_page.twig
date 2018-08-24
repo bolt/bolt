@@ -37,7 +37,7 @@
 
 {# Determine locale include for ckeditor #}
 {% set page_locale_long_bcp47 = page_locale_long|replace({'_': '-'})|lower %}
-{% if app.filesystem.has("bolt_assets://js/locale/ckeditor#{page_locale_long_bcp47}.js") %}
+{% if app.filesystem.has("bolt_assets://js/locale/ckeditor/#{page_locale_long_bcp47}.js") %}
     {% set ckeditor_lang = page_locale_long_bcp47 %}
 {% else %}
     {% set ckeditor_lang = page_locale_short %}

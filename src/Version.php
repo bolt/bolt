@@ -19,7 +19,11 @@ final class Version
      *   Stable      — 3.0.0
      *   Development — 3.1.0 alpha 1
      */
+<<<<<<< HEAD
     const VERSION = '3.6.0 alpha 0';
+=======
+    const VERSION = '3.6.0 beta 3';
+>>>>>>> 3.6
 
     /**
      * Whether this release is a stable one.

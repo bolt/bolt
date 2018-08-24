@@ -10,8 +10,8 @@
 #   2 Unused messages
 #  27 Legacy untranslated messages
 # 391 Untranslated messages
-#  14 Legacy translation messages
-# 179 Translation messages
+#  12 Legacy translation messages
+# 181 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -245,7 +245,7 @@ general.phrase.select-file: # "Select file …"
 general.phrase.select-none: # "Select none"
 general.phrase.selection: # "Selection"
 general.phrase.show-proposed-alterations: # "Show proposed alterations"
-general.phrase.slug-colon: # "Slug:"
+general.phrase.slug: # "Slug"
 general.phrase.something-went-wrong: # "Something went wrong"
 general.phrase.something-went-wrong-after-first-user: # "Something went wrong with logging in after first user creation!"
 general.phrase.stack-empty: # "There are no items on the Stack, yet."
@@ -480,7 +480,6 @@ panel.user-actions.button.add: # "Add a new user"
 
 "(default template)": "(standard mal)"
 "(no category)": "(ingen kategori)"
-"(no group)": "(ingen gruppe)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Legg til litt <a href='%url%' class='btn btn-default'>eksempelinnhold med Loripsum-tekst</a>"
 "Added to <tt>%key%</tt> '%title%'": "La til i <tt>%key%</tt> «%title%»"
 "Everybody": "Alle"
@@ -490,7 +489,6 @@ panel.user-actions.button.add: # "Add a new user"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug-en '%slug%' brukes i mer enn en innholdstype. Rediger contenttypes.yml slik at alle er forskjellige."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Oversettelsesfila «%s» kan ikke opprettes. Du må bruke ditt eget skriveprogram for å endre denne fila."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Dette nettstedet er <a href='%url%' target='_blank' title='Sofistikert, lett og enkelt CMS'>Bygd med Bolt</a>."
-"Title": "Tittel"
 "You've been logged on successfully.": "Du er vellykket logget ut."
 
 #--- Translation messages -----------------------------------------------------
@@ -593,6 +591,7 @@ general.phrase.missing-root-jackpot: "Det bør alltid være minst en «root»-br
 general.phrase.modifications-database-colon: "Endringer gjort i databasen:"
 general.phrase.modifications-needed-colon: "Endringer som trengs:"
 general.phrase.modified: "Endret"
+general.phrase.no-group-parens: "(ingen gruppe)"
 general.phrase.no-result-for-search-term: "Ingen resultat funnet for «%SEARCHTERM%». Prøv et annet søk."
 general.phrase.no-such-action-for-user: "Ingen slik handling for bruker «%s»."
 general.phrase.none: "ingen"
@@ -637,6 +636,7 @@ general.phrase.status-current-colon: "Gjeldende status:"
 general.phrase.stay-classy-colon: "Klasse:"
 general.phrase.taxonomy: "Taksonomi"
 general.phrase.tip-colon: "Tips:"
+general.phrase.title: "Tittel"
 general.phrase.translations: "Oversettelser"
 general.phrase.update-database: "Oppdater databasen"
 general.phrase.upload: "Last opp"

@@ -364,12 +364,14 @@ class Permissions
      * @param string $permissionName
      * @param string $contenttype
      *
+     * @throws \Bolt\Exception\StorageException
+     *
      * @return bool
      */
     private function checkRoleContentTypePermission($roleName, $permissionName, $contenttype)
     {
         // Actions on non-existing contenttypes are not allowed.
-        if (!$this->app['storage']->getContentType($contenttype)) {
+        if (!$this->app['storage.metadata']->createContentType($contenttype)) {
             return false;
         }
 
@@ -688,7 +690,7 @@ class Permissions
                 // If content was not passed but our rule contains the content
                 // we need, lets fetch the Content object @see #3909
                 if (is_string($content) || ($contenttype && $contentId)) {
-                    $content = $this->app['storage']->getContent("$contenttype/$contentId", ['hydrate' => false]);
+                    $content = $this->app['query']->getContent("$contenttype/$contentId", ['hydrate' => false]);
                 }
 
                 if ((int) ($content['ownerid']) && ((int) ($content['ownerid']) === (int) ($user['id']))) {

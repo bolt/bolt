@@ -10,8 +10,8 @@
 #   2 Unused messages
 #   6 Legacy untranslated messages
 #  46 Untranslated messages
-#  35 Legacy translation messages
-# 524 Translation messages
+#  33 Legacy translation messages
+# 526 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -94,7 +94,6 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 
 "(default template)": "(modèle par défaut)"
 "(no category)": "(aucune catégorie)"
-"(no group)": "(non groupé)"
 "(none)": "(néant)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-default'>Ajouter des enregistrements de démonstration</a>"
 "Added to <tt>%key%</tt> '%title%'": "Contenu '%title%' ajouté à <tt>%key%</tt>"
@@ -115,7 +114,6 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Le même type de slug '%slug%' est défini dans plusieurs types de contenu. Merci de modifier le fichier contenttypes.yml pour distinguer les usages."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Le fichier de traduction '%s' n'a pu être créé. Vous devrez utiliser votre propre éditeur de texte pour le modifier."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ce site est propulsé par <a href='%url%' target='_blank' title='Un CMS simple, léger et sophistiqué'>Bolt</a>."
-"Title": "Titre"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Veuillez vous connecter avec votre client FTP et rendre ce fichier accessible en lecture. Sinon, revenez à la page précédente."
 "Unable to create directory: %DIR%": "Création du répertoire %DIR% impossible"
 "Unable to create file: %FILE%": "Impossible de créer le fichier %FILE%"
@@ -359,6 +357,7 @@ general.phrase.move-up: "Déplacer vers le haut"
 general.phrase.no-content: "sans contenu …"
 general.phrase.no-content-found: "Aucun contenu trouvé"
 general.phrase.no-files-in-list: "Aucun fichier dans la liste"
+general.phrase.no-group-parens: "(non groupé)"
 general.phrase.no-images-in-list: "Aucune image dans la liste"
 general.phrase.no-preview: "Aucun aperçu"
 general.phrase.no-result-for-search-term: "Aucun résultat pour la recherche de '%SEARCHTERM%'. Veuillez réessayer."
@@ -428,7 +427,7 @@ general.phrase.show-all: "afficher tout"
 general.phrase.show-proposed-alterations: "Afficher les modifications envisagées"
 general.phrase.showing: "Affichage"
 general.phrase.size: "Taille"
-general.phrase.slug-colon: "Slug :"
+general.phrase.slug: "Slug"
 general.phrase.something-went-wrong: "Une erreur est survenue"
 general.phrase.something-went-wrong-after-first-user: "Une erreur est survenue à la connexion de l'utilisateur initial !"
 general.phrase.stack: "Pile"
@@ -448,6 +447,7 @@ general.phrase.template-detail: "Modèle du détail"
 general.phrase.thumbnail: "Miniature"
 general.phrase.time-format-24-12: "Heure au format 12h/24h"
 general.phrase.tip-colon: "Astuce :"
+general.phrase.title: "Titre"
 general.phrase.toggle-all: "Tout sélectionner / désélectionner"
 general.phrase.translations: "Traductions"
 general.phrase.types: "Types"

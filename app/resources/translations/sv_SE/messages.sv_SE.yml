@@ -10,8 +10,8 @@
 #   2 Unused messages
 #  11 Legacy untranslated messages
 #  92 Untranslated messages
-#  30 Legacy translation messages
-# 478 Translation messages
+#  28 Legacy translation messages
+# 480 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -147,7 +147,6 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 
 "(default template)": "(standardmall)"
 "(no category)": "(ingen kategori)"
-"(no group)": "(ingen grupp)"
 "(none)": "(ingen)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Lägg till <a href='%url%' class='btn btn-default'>exempeldokument med Lorem Ipsum text</a>"
 "Added to <tt>%key%</tt> '%title%'": "Tillagt i <tt>%key%</tt> '%title%'"
@@ -165,7 +164,6 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Permalänken '%slug%' används i mer än en innehållstyp. Redigera contenttypes.yml så att de är unika."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Översättningsfilen '%s' kunde inte skapas. Du behöver använda din egen textredigerare för att ändra på filen."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Denna sidan är <a href='%url%' target='_blank' title='Sofistikerat, snabbt & smidigt CMS'>byggd med Bolt</a>."
-"Title": "Titel"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Prova att logga in med din FTP-klient och gör filen läsbar. Annars gå <a>bak</a> till senaste sidan."
 "Unable to create directory: %DIR%": "Det gick inte att skapa katalogen: %DIR%"
 "Unable to create file: %FILE%": "Det gick inte att skapa filen: %FILE%"
@@ -392,6 +390,7 @@ general.phrase.modified: "Modifierad"
 general.phrase.no-content: "inget innehåll …"
 general.phrase.no-content-found: "Inget innehåll funnet."
 general.phrase.no-files-in-list: "Inga filer i listan ännu."
+general.phrase.no-group-parens: "(ingen grupp)"
 general.phrase.no-images-in-list: "Inga bilder i listan ännu."
 general.phrase.no-result-for-search-term: "Vi kunde inte hitta något för sökningen '%SEARCHTERM%'. Försök att söka efter något annat."
 general.phrase.no-such-action-for-user: "Det finns ingen sådan åtgärd för användaren '%s'."
@@ -453,7 +452,7 @@ general.phrase.settings: "Inställningar"
 general.phrase.show-all: "visa alla"
 general.phrase.showing: "Visar"
 general.phrase.size: "Storlek"
-general.phrase.slug-colon: "Permalänk:"
+general.phrase.slug: "Permalänk"
 general.phrase.something-went-wrong: "Något blev fel"
 general.phrase.something-went-wrong-after-first-user: "Något gick fel med inloggningen efter skapandet av första användaren!"
 general.phrase.stack: "Filhög"
@@ -472,6 +471,7 @@ general.phrase.template-detail: "Tema"
 general.phrase.thumbnail: "Miniatyrbild"
 general.phrase.time-format-24-12: "Tid i 24h/12h format"
 general.phrase.tip-colon: "Tips:"
+general.phrase.title: "Titel"
 general.phrase.translations: "Översättningar"
 general.phrase.types: "Typer"
 general.phrase.update-database: "Uppdatera databasen"

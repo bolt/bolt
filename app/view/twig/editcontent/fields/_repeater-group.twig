@@ -1,27 +1,37 @@
-<div class="repeater-group row panel panel-default">
-    <div class="panel-heading text-right">
-        <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-default move-up">
-                <i class="fa fa-arrow-up" title="{{ __('general.phrase.move-up') }}"></i>
-            </button>
-            <button type="button" class="btn btn-sm btn-default move-down">
-                <i class="fa fa-arrow-down" title="{{ __('general.phrase.move-down') }}"></i>
-            </button>
-            {% if field.collapsible is not defined or field.collapsible %}
-                <button type="button" class="btn btn-sm btn-default repeater-collapse">
-                    <span class="collapsible" title="{{ __('field.repeater.collapse') }}">
-                        <i class="fa fa-compress"></i>
+<div class="repeater-group panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-8 col-md-9">
+                <label class="main">
+                    {% set grouptitle = false %}
+                    {% for fieldname, f in field.fields if f['type'] == 'text' and grouptitle == false %}
+                        {% set grouptitle = content.get(fieldname) %}
+                    {% endfor %}
+                    <span class="text-muted"><i class="fa fa-ellipsis-v"></i></span> &nbsp;
+                    <span class="repeater-heading" data-default="{{ field.label }}">
+                        {{ grouptitle|default(field.label) }}
                     </span>
-                    <span class="expandible" title="{{ __('field.repeater.expand') }}">
-                        <i class="fa fa-expand"></i>
-                    </span>
-                </button>
-            {% endif %}
-        </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-silent-danger delete-button" title="{{ __('field.repeater.delete-set') }}">
-                <i class="fa fa-trash"></i>
-            </button>
+                </label>
+            </div>
+            <div class="col-xs-4 col-md-3 text-right">
+                <div class="btn-group">
+                    {% if field.collapsible is not defined or field.collapsible %}
+                        <button type="button" class="btn btn-sm btn-default repeater-collapse">
+                            <span class="collapsible" title="{{ __('field.repeater.collapse') }}">
+                                <i class="fa fa-compress"></i>
+                            </span>
+                            <span class="expandible" title="{{ __('field.repeater.expand') }}">
+                                <i class="fa fa-expand"></i>
+                            </span>
+                        </button>
+                    {% endif %}
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-silent-danger delete-button" title="{{ __('field.repeater.delete-set') }}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 

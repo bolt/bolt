@@ -17,6 +17,7 @@ use Symfony\Component\EventDispatcher\Event;
  *      $this->app['dispatcher']->addListener(CronEvents::CRON_INTERVAL, [$this, 'myJobCallbackMethod']);
  *
  * CRON_INTERVAL should be replace with one of the following:
+ *      * CRON_MINUTE
  *      * CRON_HOURLY
  *      * CRON_DAILY
  *      * CRON_WEEKLY
@@ -45,6 +46,7 @@ class Cron extends Event
     private $cronHour;
     /** @var array The next elegible run time for each interim. */
     private $jobs = [
+        CronEvents::CRON_MINUTE  => ['increment' => 'PT1M', 'message' => 'Running Cron Every Minute jobs'],
         CronEvents::CRON_HOURLY  => ['increment' => 'PT1H', 'message' => 'Running Cron Hourly Jobs'],
         CronEvents::CRON_DAILY   => ['increment' => 'P1D',  'message' => 'Running Cron Daily Jobs'],
         CronEvents::CRON_WEEKLY  => ['increment' => 'P1W',  'message' => 'Running Cron Weekly Jobs'],

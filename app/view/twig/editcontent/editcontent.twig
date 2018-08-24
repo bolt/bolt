@@ -84,7 +84,7 @@
             {% endif %}
 
             {{ form_start(context.form, {'attr': attr_form}) }}
-                {{ form_widget(context.form._token) }}
+                {{ form_widget(context.form._token, { 'attr': { 'autocomplete': 'off' } }) }}
 
                 <input{{ macro.attr(attributes.hid_editreferrer) }}>
                 <input{{ macro.attr(attributes.hid_contenttype) }}>

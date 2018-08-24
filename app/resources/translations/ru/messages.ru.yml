@@ -10,8 +10,8 @@
 #   2 Unused messages
 #   3 Legacy untranslated messages
 # 101 Untranslated messages
-#  38 Legacy translation messages
-# 469 Translation messages
+#  36 Legacy translation messages
+# 471 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -61,7 +61,7 @@ general.phrase.related-content: # "Related content"
 general.phrase.required-is-bang: # "Is required!"
 general.phrase.selection: # "Selection"
 general.phrase.show-proposed-alterations: # "Show proposed alterations"
-general.phrase.slug-colon: # "Slug:"
+general.phrase.slug: # "Slug"
 general.phrase.something-went-wrong-after-first-user: # "Something went wrong with logging in after first user creation!"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 general.phrase.system-config-checks: # "System Configuration Checks"
@@ -144,7 +144,6 @@ panel.latest-activity.by: # "by"
 
 "(default template)": "(шаблон по умолчанию)"
 "(no category)": "(без категории)"
-"(no group)": "(нет группы)"
 "(none)": "(отсутствует)"
 "Added to <tt>%key%</tt> '%title%'": "Добавлено <tt>%key%</tt> '%title%'"
 "An error occured while updating `%TABLE%`. The error is %ERROR%": "Произошла ошибка при попытке обновить `%TABLE%`. Ошибка: %ERROR%"
@@ -168,7 +167,6 @@ panel.latest-activity.by: # "by"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug '%slug%' уже используется для одной из сущностей. Пожалуйста, отредактируйте contenttypes.yml, и сделайте их различным друг от друга."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Файл перевода '%s' не может быть создан. Вам необходимо используя свой редактор чтобы сделать изменения для этого файла."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Сайт <a href='%url%' target='_blank' title='Мощная, лёгкая и простая CMS'>использует Bolt CMS</a>."
-"Title": "Заголовок"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Попробуйте зайти при помощи ftp-клиента и сделать эти файл доступными для чтения. Или пройдите <a>назад</a> на последнюю страницу."
 "Unable to create directory: %DIR%": "Невозможно создать папку: %DIR%"
 "Unable to create file: %FILE%": "Невозможно создать файл: %FILE%"
@@ -417,6 +415,7 @@ general.phrase.move-down: "Вниз"
 general.phrase.move-up: "Вверх"
 general.phrase.no-content: "нет контента …"
 general.phrase.no-files-in-list: "Список файлов пока что пуст."
+general.phrase.no-group-parens: "(нет группы)"
 general.phrase.no-images-in-list: "Список изображений пока что пуст."
 general.phrase.no-preview: "Предпросмотра нет."
 general.phrase.no-result-for-search-term: "Нет результатов для '%SEARCHTERM%'. Попробуйте другой поиск."
@@ -491,6 +490,7 @@ general.phrase.template-detail: "Сведения о шаблоне"
 general.phrase.thumbnail: "Миниатюрка"
 general.phrase.time-format-24-12: "Время в формате 24ч/12ч"
 general.phrase.tip-colon: "Подсказка:"
+general.phrase.title: "Заголовок"
 general.phrase.toggle-all: "Выбрать всё/ничего"
 general.phrase.translations: "Переводы"
 general.phrase.types: "Типы"

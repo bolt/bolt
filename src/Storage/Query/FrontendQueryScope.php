@@ -30,23 +30,7 @@ class FrontendQueryScope implements QueryScopeInterface
     }
 
     /**
-     * Get the config of all fields for a given content type.
-     *
-     * @param string $contentType
-     *
-     * @return array|false
-     */
-    public function getConfig($contentType)
-    {
-        if (array_key_exists($contentType, $this->searchableTypes)) {
-            return $this->searchableTypes[$contentType];
-        }
-
-        return false;
-    }
-
-    /**
-     * Get the config of one given field for a given content type.
+     * Get the default order setting for a given content type.
      *
      * @param string $contentType
      *
@@ -62,27 +46,24 @@ class FrontendQueryScope implements QueryScopeInterface
     }
 
     /**
-     * Iterates over the main config and delegates weighting to both
-     * searchable columns and searchable taxonomies.
+     * Iterates over the main config and sets up what the default ordering should be
      */
     protected function parseContenttypes()
     {
         $contentTypes = $this->config->get('contenttypes');
-
         foreach ($contentTypes as $type => $values) {
-            if (isset($values['sort'])) {
-                $this->orderBys[$type] = $values['sort'];
-                if (isset($values['singular_slug'])) {
-                    $this->orderBys[$values['singular_slug']] = $values['sort'];
-                }
+            $sort = $values['sort'] ?: '-datepublish';
+            $this->orderBys[$type] = $sort;
+            if (isset($values['singular_slug'])) {
+                $this->orderBys[$values['singular_slug']] = $sort;
             }
         }
     }
 
     /**
-     * @param QueryInterface $query
+     * @param ContentQueryInterface $query
      */
-    public function onQueryExecute(QueryInterface $query)
+    public function onQueryExecute(ContentQueryInterface $query)
     {
         $ct = $query->getContentType();
 
