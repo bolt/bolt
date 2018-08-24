@@ -133,7 +133,6 @@ field.image.label.alt: "Alt"
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Preview"
 
-field.repeater.caption: "Repeater set"
 field.repeater.collapse: "Collapse this set"
 field.repeater.collapse-all: "Collapse all"
 field.repeater.delete-set: "Delete Set"

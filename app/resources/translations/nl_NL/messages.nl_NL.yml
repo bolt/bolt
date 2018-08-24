@@ -128,7 +128,6 @@ field.image.label.alt: "Alt."
 field.markdown.label.markedview: "Markdown"
 field.markdown.label.preview: "Voorvertoning"
 
-field.repeater.caption: "Repeater set"
 field.repeater.collapse: "Klap deze set in"
 field.repeater.collapse-all: "Klap alles in"
 field.repeater.delete-set: "Verwijder Set"

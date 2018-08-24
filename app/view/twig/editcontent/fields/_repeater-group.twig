@@ -7,10 +7,9 @@
                     {% for fieldname, f in field.fields if f['type'] == 'text' and grouptitle == false %}
                         {% set grouptitle = content.get(fieldname) %}
                     {% endfor %}
-                    {% set defaultcaption = __('field.repeater.caption') %}
                     <span class="text-muted"><i class="fa fa-ellipsis-v"></i></span> &nbsp;
-                    <span class="repeater-heading" data-default="{{ defaultcaption }}">
-                        {{ grouptitle|default(defaultcaption) }}
+                    <span class="repeater-heading" data-default="{{ field.label }}">
+                        {{ grouptitle|default(field.label) }}
                     </span>
                 </label>
             </div>
