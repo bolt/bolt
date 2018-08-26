@@ -29,7 +29,7 @@
                     key: 'templatefields-' ~ templatekey,
                     contentkey: templatekey,
                     values: values|default(),
-                    context: context|merge({ content: context.content.get('templatefields') }),
+                    context: context|merge({ content: context.content.get('templatefields'), selectvalues: values|default([]) }),
                     name: 'templatefields[' ~ templatekey ~ ']',
                     labelkey:  templatelabelkey
                 } %}
