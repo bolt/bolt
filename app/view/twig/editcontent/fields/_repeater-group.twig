@@ -45,7 +45,7 @@
         {% for rkey, rfield in field.fields %}
             {# Ugly hack to be removed with Forms cutover … kittens are crying #}
             {% if rfield.type == 'select' %}
-                {% set values = context.values.select_choices[name][rkey] %}
+                {% set values = (context.selectvalues is defined) ? context.selectvalues[rkey] : context.values.select_choices[name][rkey] %}
             {% endif %}
             {% set rfield = defaults|merge(rfield) %}
             {% set rcontext = {
