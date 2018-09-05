@@ -71,7 +71,7 @@ class SimpleExtensionTest extends BoltUnitTest
         $this->assertSame($expected, $events);
     }
 
-    public function testRegisterRepositoryMappings()
+    public function testStorageTraitHasBeenImported()
     {
         $ext = new NormalExtension();
         $storageTraitHasBeenImported = method_exists($ext, 'extendRepositoryMapping');
