@@ -7,7 +7,12 @@
                     {% for fieldname, f in field.fields if f['type'] == 'text' and grouptitle == false %}
                         {% set grouptitle = content.get(fieldname) %}
                     {% endfor %}
-                    <span class="text-muted"><i class="fa fa-ellipsis-v"></i></span> &nbsp;
+                    <span class="text-muted"><i class="fa fa-ellipsis-v"></i>
+                    {% set groupicon = field.fields[block].icon|default('') %}
+                    {% if groupicon[:3] == 'fa:' %}
+                        <i class="fa fa-{{ groupicon[3:] }}" title="{{ grouplabel }}"></i>
+                    {% endif %}
+                    </span> &nbsp;
                     <span class="repeater-heading" data-default="{{ field.label }}">
                         {{ grouptitle|default(field.label) }}
                     </span>
@@ -45,7 +50,7 @@
         {% for rkey, rfield in field.fields %}
             {# Ugly hack to be removed with Forms cutover … kittens are crying #}
             {% if rfield.type == 'select' %}
-                {% set values = (context.selectvalues is defined) ? context.selectvalues[rkey] : context.values.select_choices[name][rkey] %}
+                {% set values = context.values.select_choices[name][rkey] %}
             {% endif %}
             {% set rfield = defaults|merge(rfield) %}
             {% set rcontext = {
