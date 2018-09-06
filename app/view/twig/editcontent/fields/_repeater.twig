@@ -50,6 +50,7 @@
     </div>
 
     <button type="button" class="btn btn-default add-button">
+        {% set groupicon = field.icon|default('') %}
         {% if groupicon[:3] == 'fa:' %}
             <i class="fa fa-{{ groupicon[3:] }} fa-fw"></i> {{  __('field.repeater.label.add-set', {'%label%': labelkey}) }}
         {% else %}
