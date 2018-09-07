@@ -68,7 +68,7 @@
                         {% set groupicon = block.icon|default('') %}
                         {% set grouplabel = block.label|default(blockname) %}
                         {% if groupicon[:3] == 'fa:' %}
-                            <i class="fa fa-{{ groupicon[3:] }}"></i> {{  __('field.block.label.add-set', {'%label%': grouplabel}) }}
+                            <i class="fa fa-{{ groupicon[3:] }} fa-fw"></i> {{  __('field.block.label.add-set', {'%label%': grouplabel}) }}
                         {% else %}
                             <i class="fa fa-plus"></i> {{  __('field.block.label.add-set', {'%label%': grouplabel}) }}
                         {% endif %}

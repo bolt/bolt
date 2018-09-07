@@ -211,6 +211,7 @@ showcases:
             type: repeater
             group: repeater
             label: Simple repeater example
+            icon: fa:repeat
             limit: 3
             prefix: "<p>This allows you to create multiple sets of fields. Use the add button at the bottom to create a new empty set.</p>"
             fields:
