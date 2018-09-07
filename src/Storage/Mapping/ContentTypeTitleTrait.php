@@ -46,7 +46,7 @@ trait ContentTypeTitleTrait
         }
 
         $names = [
-            'title', 'name', 'caption', 'subject', //EN
+            'title', 'name', 'caption', 'subject', 'heading', //EN
             'titel', 'naam', 'onderwerp', // NL
             'nom', 'sujet', // FR
             'nombre', 'sujeto', // ES
