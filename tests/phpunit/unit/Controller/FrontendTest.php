@@ -378,12 +378,6 @@ class FrontendTest extends ControllerUnitTest
     {
         $this->setRequest(Request::create('/faketaxonomy/main'));
 
-        $storage = $this->getMockStorage();
-        $storage->expects($this->once())
-            ->method('getTaxonomyType')
-            ->will($this->returnValue(false));
-        $this->setService('storage', $storage);
-
         $response = $this->controller()->taxonomy($this->getRequest(), 'faketaxonomy', 'main');
         $this->assertFalse($response);
     }
