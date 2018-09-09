@@ -38,6 +38,7 @@ class TaxonomyRepository extends Repository
         $results = $query->execute()->fetchAll();
         $set = new TaxonomyQueryResultset();
         $set->setEntityManager($this->getEntityManager());
+        $set->setEntityManager($this->getEntityManager());
         $set->add($results);
         $executeEvent = new QueryEvent($query, $set);
         $this->getEntityManager()->getEventManager()->dispatch(QueryEvents::EXECUTE, $executeEvent);
