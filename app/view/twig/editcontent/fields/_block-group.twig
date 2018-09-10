@@ -10,12 +10,12 @@
                     {% endfor %}
                     {% set grouplabel = field.fields[block].label|default('') %}
                     <span class="text-muted">
-                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i> &nbsp;
                         {% set groupicon = field.fields[block].icon|default('') %}
                         {% if groupicon[:3] == 'fa:' %}
                             <i class="fa fa-{{ groupicon[3:] }}" title="{{ grouplabel }}"></i>
                         {% endif %}
-                    </span> &nbsp;
+                    </span>
                     <span class="block-heading">{{ grouptitle|default(grouplabel) }}</span>
                 </label>
             </div>
