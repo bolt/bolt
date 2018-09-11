@@ -136,6 +136,10 @@ class Edit
                 continue;
             }
             $fromContentType = $relation->getFromContenttype();
+
+            if ($this->query) {
+                $this->em->setQueryService($this->query);
+            }
             $record = $this->em->getContent($fromContentType . '/' . $relation->getFromId());
 
             if ($record) {

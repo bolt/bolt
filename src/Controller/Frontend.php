@@ -9,6 +9,7 @@ use Bolt\Asset\Target;
 use Bolt\Helpers\Input;
 use Bolt\Response\TemplateResponse;
 use Bolt\Storage\Entity\Taxonomy;
+use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\Repository\TaxonomyRepository;
 use Bolt\Translation\Translator as Trans;
@@ -200,7 +201,15 @@ class Frontend extends ConfigurableBase
         }
 
         $contenttype = $this->getContentType($contenttypeslug);
-        $content = $this->storage()->getContentObject($contenttypeslug, [], false);
+
+        $storage = $this->storage();
+        if ($storage instanceof EntityManager) {
+            // @todo find a better way to initiate Content object from POST data (current approach doesn't fill relations for example)
+            /** @var EntityManager $storage */
+            $content = $storage->create($contenttypeslug, $request->request->all());
+        } else {
+            $content = $storage->getContentObject($contenttypeslug, [], false);
+        }
 
         $content->setFromPost($request->request->all(), $contenttype);
 
