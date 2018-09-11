@@ -487,7 +487,13 @@ class EntityManager implements EntityManagerInterface
      */
     public function getContent($textquery, $parameters = [], &$pager = [], $whereparameters = [])
     {
-        return $this->legacy()->getContent($textquery, $parameters, $pager, $whereparameters);
+        if ($this->legacyStorage !== null) {
+            return $this->legacy()->getContent($textquery, $parameters, $pager, $whereparameters);
+        } elseif ($this->queryService !== null) {
+            return $this->queryService->getContent($textquery, array_merge($parameters, $whereparameters));
+        }
+
+        throw new \Exception('Query service not loaded');
     }
 
     /**
