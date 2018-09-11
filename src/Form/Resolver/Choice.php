@@ -41,7 +41,7 @@ final class Choice
         $select = new ArrayObject();
 
         $this->build($select, $contentType->getFields());
-        $this->build($select, $templateFields, true);
+        $this->build($select, $templateFields, 'templatefields');
 
         return iterator_to_array($select) ?: null;
     }
@@ -53,28 +53,37 @@ final class Choice
      * @param array       $fields
      * @param bool        $isTemplateFields
      */
-    private function build(ArrayObject $select, array $fields, $isTemplateFields = false)
+    private function build(ArrayObject $select, array $fields, $prefix = null)
     {
         foreach ($fields as $name => $field) {
             if ($field['type'] === 'repeater') {
                 $subField = new ArrayObject();
                 $this->build($subField, $field['fields']);
-                $select[$name] = iterator_to_array($subField);
+                if ($prefix) {
+                    $select[$prefix][$name] = iterator_to_array($subField);
+                } else {
+                    $select[$name] = iterator_to_array($subField);
+                }
+
             }
             if ($field['type'] === 'block') {
                 foreach ($field['fields'] as $blockName => $block) {
                     $subField = new ArrayObject();
                     $this->build($subField, $block['fields']);
-                    $select[$name][$blockName] = iterator_to_array($subField);
+                    if ($prefix) {
+                        $select[$prefix][$name][$blockName] = iterator_to_array($subField);
+                    } else {
+                        $select[$name][$blockName] = iterator_to_array($subField);
+                    }
                 }
             }
             $values = $this->getValues($field);
             if ($values !== null) {
-                if ($isTemplateFields) {
-                    $select['templatefields'][$name] = $values;
-                    continue;
+                if ($prefix) {
+                    $select[$prefix][$name] = $values;
+                } else {
+                    $select[$name] = $values;
                 }
-                $select[$name] = $values;
             }
         }
     }

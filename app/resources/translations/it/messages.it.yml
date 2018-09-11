@@ -10,8 +10,8 @@
 #   2 Unused messages
 #  31 Legacy untranslated messages
 # 372 Untranslated messages
-#  10 Legacy translation messages
-# 198 Translation messages
+#   8 Legacy translation messages
+# 200 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -245,7 +245,7 @@ general.phrase.select-file: # "Select file …"
 general.phrase.select-none: # "Select none"
 general.phrase.selection: # "Selection"
 general.phrase.show-proposed-alterations: # "Show proposed alterations"
-general.phrase.slug-colon: # "Slug:"
+general.phrase.slug: # "Slug"
 general.phrase.something-went-wrong: # "Something went wrong"
 general.phrase.something-went-wrong-after-first-user: # "Something went wrong with logging in after first user creation!"
 general.phrase.stack: # "Stack"
@@ -464,7 +464,6 @@ permissions.roles.label.owner: # "Owner"
 
 #--- Legacy translation messages ----------------------------------------------
 
-"(no group)": "(nessun gruppo)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Aggiungi un po di <a href='%url%' class='btn btn-default'>Contenuti con il testo Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Aggiunto a <tt>%key%</tt> '%title%'"
 "Excerpt": "Estratto"
@@ -472,7 +471,6 @@ permissions.roles.label.owner: # "Owner"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Lo slug '%slug%' è utilizzato in più di un tipo di contenuto. Modifica contenttypes.yml e rendili differenti."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Il file di traduzione '%s' non può essere creato. Dovrai utilizzare un editor sul server per creare il file."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Questo sito web è <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>realizzato con Bolt</a>."
-"Title": "Titolo"
 "You've been logged on successfully.": "Accesso effettuato con successo."
 
 #--- Translation messages -----------------------------------------------------
@@ -587,6 +585,7 @@ general.phrase.missing-about-page: "Accipicchia, nessuna pagina about!"
 general.phrase.modifications-database-colon: "Modifiche eseguite al database:"
 general.phrase.modifications-needed-colon: "Modifiche necessarie:"
 general.phrase.modified: "Modificato"
+general.phrase.no-group-parens: "(nessun gruppo)"
 general.phrase.no-result-for-search-term: "Nessun risultato per '%SEARCHTERM%'. Prova una ricerca differente."
 general.phrase.no-such-action-for-user: "Azione non disponibile per l'utente '%s'"
 general.phrase.none: "nessuno"
@@ -622,6 +621,7 @@ general.phrase.status-change-held: "Cambio lo stato in 'in attesa'"
 general.phrase.status-colon: "Stato:"
 general.phrase.status-current-colon: "Stato Corrente"
 general.phrase.taxonomy: "Tassonomia"
+general.phrase.title: "Titolo"
 general.phrase.translations: "Traduzioni"
 general.phrase.update-database: "Aggiorna il database"
 general.phrase.upload-image: "Upload immagine"

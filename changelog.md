@@ -6,6 +6,31 @@ but are usually only listed here against the lowest version applied to.
 
 ----
 
+Bolt 3.5.7
+----------
+
+Released: 2018-08-15. Notable changes
+
+ - Added: Ability to get 'news' through a proxy without authentication. [#7593](https://github.com/bolt/bolt/pull/7593)
+ - Changed: Splitting up the "New Issue" template. [#7591](https://github.com/bolt/bolt/pull/7591)
+ - Fixed: Cleanup sessions list on "Users" screen. Show 'displayname' consistently. [#7583](https://github.com/bolt/bolt/pull/7583)
+ - Fixed: Ensure Firefox updates the CSRF value, even on a "soft refresh". [#7588](https://github.com/bolt/bolt/pull/7588)
+ - Fixed: Ensure we have a CSRF login on session start and resume. [#7603](https://github.com/bolt/bolt/pull/7603)
+ - Fixed: Finetuning the alt-texts in menus.
+ - Updated: Update and standardise some translations. [#7580](https://github.com/bolt/bolt/pull/7580)
+
+Bolt 3.5.6
+----------
+
+Released: 2018-08-02. Notable changes
+
+ - Fixed: Fix for undefined property in `FieldCollection::$collection`. [#7566](https://github.com/bolt/bolt/pull/7566)
+ - Fixed: Twig exception request santitisation handling. [#7569](https://github.com/bolt/bolt/pull/7569)
+ - Fixed: Workaround around DBAL Sqlite schema diff bug. [#7570](https://github.com/bolt/bolt/pull/7570)
+ - Security: [packaged version] Updated Symfony components updated to [2.8.44](http://symfony.com/blog/symfony-2-8-44-released).
+ - Tests: Set `database:repair` command call to non-interactive. [#7565](https://github.com/bolt/bolt/pull/7565)
+ - Updated: Base 2018 updated to [2.0.8](https://github.com/bolt/themes/releases/tag/v2.0.8).
+
 Bolt 3.5.5
 ----------
 

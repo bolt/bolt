@@ -10,8 +10,8 @@
 #   2 Unused messages
 #  25 Legacy untranslated messages
 # 308 Untranslated messages
-#  16 Legacy translation messages
-# 262 Translation messages
+#  14 Legacy translation messages
+# 264 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -390,7 +390,6 @@ panel.user-actions.button.add: # "Add a new user"
 
 "(default template)": "（デフォルトテンプレート）"
 "(no category)": "（カテゴリなし）"
-"(no group)": "（グループなし）"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "サンプルを追加<a href='%url%' class='btn btn-default'>ダミーテキスト（Loripsum）のレコード</a>"
 "Added to <tt>%key%</tt> '%title%'": "<tt>%key%</tt> '%title%' に追加しました"
 "Current (saved) status:": "現在の（保存された）ステータス："
@@ -402,7 +401,6 @@ panel.user-actions.button.add: # "Add a new user"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "スラッグ '%slug%' は２つ以上のコンテンツで利用されています。contenttypes.ymlを編集して、別々のスラッグにしてください。"
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "翻訳ファイル '%s' を作成できません。エディタを使ってあなたの手でこのファイルを修正してください。"
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "このWebサイトは<a href='%url%' target='_blank' title='洗練された軽量でシンプルなCMS'>Bolt</a>を利用して制作されています。"
-"Title": "タイトル"
 "You've been logged on successfully.": "正常にログインしました。"
 
 #--- Translation messages -----------------------------------------------------
@@ -545,6 +543,7 @@ general.phrase.missing-root-jackpot: "少なくとも１つの'root'ユーザー
 general.phrase.modifications-database-colon: "データベースを修正しました："
 general.phrase.modifications-needed-colon: "修正が必要です。"
 general.phrase.modified: "修正された"
+general.phrase.no-group-parens: "（グループなし）"
 general.phrase.no-result-for-search-term: "'%SEARCHTERM%'に対する検索結果は見つかりません。違うキーワードで検索してみてください。"
 general.phrase.no-such-action-for-user: "ユーザー '%s' に対してそのアクションはありません。"
 general.phrase.none: "なし"
@@ -585,7 +584,7 @@ general.phrase.settings: "設定"
 general.phrase.show-all: "全てを表示"
 general.phrase.showing: "表示しています"
 general.phrase.size: "サイズ"
-general.phrase.slug-colon: "スラッグ："
+general.phrase.slug: "スラッグ"
 general.phrase.something-went-wrong: "不具合が発生しました。"
 general.phrase.stack: "スタック"
 general.phrase.stack-add: "スタックに追加"
@@ -597,6 +596,7 @@ general.phrase.status-current-colon: "現在のステータス："
 general.phrase.stay-classy-colon: "クラス："
 general.phrase.taxonomy: "タクソノミー"
 general.phrase.tip-colon: "Tip："
+general.phrase.title: "タイトル"
 general.phrase.translations: "翻訳"
 general.phrase.types: "種類"
 general.phrase.update-database: "データベースをアップデート"

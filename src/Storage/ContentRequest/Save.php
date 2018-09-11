@@ -4,11 +4,13 @@ namespace Bolt\Storage\ContentRequest;
 
 use Bolt\Config;
 use Bolt\Exception\AccessControlException;
+use Bolt\Exception\InvalidRepositoryException;
 use Bolt\Helpers\Input;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Mapping\ContentType;
 use Bolt\Translation\Translator as Trans;
 use Bolt\Users;
 use Carbon\Carbon;
@@ -83,18 +85,19 @@ class Save
     /**
      * Do the save for a POSTed record.
      *
-     * @param array  $formValues
-     * @param array  $contentType  The ContentType data
-     * @param int    $id           The record ID
-     * @param bool   $new          If TRUE this is a new record
+     * @param array $formValues
+     * @param array|ContentType $contentType The ContentType data
+     * @param int $id The record ID
+     * @param bool $new If TRUE this is a new record
      * @param string $returnTo
      * @param string $editReferrer
      *
      * @throws AccessControlException
+     * @throws InvalidRepositoryException
      *
      * @return Response
      */
-    public function action(array $formValues, array $contentType, $id, $new, $returnTo, $editReferrer)
+    public function action(array $formValues, $contentType, $id, $new, $returnTo, $editReferrer)
     {
         $contentTypeSlug = $contentType['slug'];
         $repo = $this->em->getRepository($contentTypeSlug);
@@ -245,17 +248,18 @@ class Save
     /**
      * Commit the record to the database.
      *
-     * @param Entity\Content      $content
+     * @param Entity\Content $content
      * @param Entity\Content|null $oldContent
-     * @param array               $contentType
-     * @param bool                $new
-     * @param string              $comment
-     * @param string              $returnTo
-     * @param string              $editReferrer
+     * @param array|ContentType $contentType
+     * @param bool $new
+     * @param string $comment
+     * @param string $returnTo
+     * @param string $editReferrer
      *
      * @return Response|null
+     * @throws InvalidRepositoryException
      */
-    private function saveContentRecord(Entity\Content $content, $oldContent, array $contentType, $new, $comment, $returnTo, $editReferrer)
+    private function saveContentRecord(Entity\Content $content, $oldContent, $contentType, $new, $comment, $returnTo, $editReferrer)
     {
         // Save the record
         $repo = $this->em->getRepository($contentType['slug']);

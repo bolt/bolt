@@ -29,6 +29,9 @@ class Sqlite extends BaseComparator
             $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'string', 'guid');
             $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'type', 'json', 'string');
         }
+        if (DBAL\Version::compare('2.9.0') > 0) {
+            $this->ignoredChanges[] = new IgnoredChange('changedColumns', 'default', 'json', 'json');
+        }
     }
 
     /**

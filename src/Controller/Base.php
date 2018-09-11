@@ -426,9 +426,7 @@ abstract class Base implements ControllerProviderInterface
         $params = array_merge($parameters, $whereParameters);
         unset($params['log_not_found']); // New storage system removes this functionality from the query engine
 
-        return $this->app['twig.records.view']->createView(
-            $this->app['query']->getContentByScope('frontend', $textQuery, $params)
-        );
+        return $this->app['query']->getContentForTwig($textQuery, $params);
     }
 
     /**

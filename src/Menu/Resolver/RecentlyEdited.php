@@ -100,7 +100,7 @@ final class RecentlyEdited
         // Each of the ContentType record entries.
         foreach ($entities as $entity) {
             $contentType = Bag::from($contentTypes->get($contentTypeKey));
-            $label = Str::replaceFirst(Excerpt::createFromEntity($entity, $contentTypes, 80, $this->markdown), '</b>', '&nbsp;</b>');
+            $label = Str::replaceFirst(Excerpt::createFromEntity($entity, $contentTypes, 80, $this->markdown), '</b>', '</b>');
 
             /**@var Entity\Content $entity */
             $listingMenu->add(

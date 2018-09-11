@@ -109,12 +109,30 @@
                 self._renumber();
             });
 
+            // Sortable repeaters
+            self.element.find('.repeater-slot').sortable({
+                cursor: "move",
+                handle: ".panel-heading",
+                stop: function (event, ui) {
+                    self._renumber();
+                    self._resetEditors(ui.item);
+                }
+            });
+
             self.element.on('click', '.delete-button', function () {
                 var setToDelete = $(this).closest('.repeater-group');
 
-                setToDelete.remove();
-                self._setCount(-1);
-                self._renumber();
+                bootbox.confirm(
+                    bolt.data('editcontent.deleteset'),
+                    function (confirmed) {
+                        $('.alert').alert(); // Dismiss alert messages
+                        if (confirmed === true) {
+                            setToDelete.remove();
+                            self._setCount(-1);
+                            self._renumber();
+                        }
+                    }
+                );
             });
 
             self.element.on('click', '.move-up', function () {
@@ -154,6 +172,17 @@
                 $container.find('.repeater-collapse').removeClass('collapsed');
 
                 setToShow.slideDown();
+            });
+
+            self.element.on('keyup change', 'input[type=text]', function () {
+                if ($(this).closest('.bolt-field-text').length) {
+                    var $container = $(this).closest('.repeater-group');
+                    var fieldToUse = $container.find('.bolt-field-text input:first');
+                    var headingToUpdate = $container.find('.repeater-heading');
+                    var fallback = headingToUpdate.data('default');
+
+                    headingToUpdate.text($(fieldToUse).val().substring(0,60) || fallback);
+                }
             });
 
             // Add initial groups until minimum number is reached.

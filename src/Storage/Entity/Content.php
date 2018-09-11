@@ -2,11 +2,13 @@
 
 namespace Bolt\Storage\Entity;
 
+use Bolt\Helpers\Excerpt;
 use Bolt\Storage\Collection;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\Mapping;
 use Bolt\Storage\Mapping\ContentTypeTitleTrait;
 use Carbon\Carbon;
+use Twig\Markup;
 
 /**
  * Entity for Content.
@@ -341,6 +343,23 @@ class Content extends Entity
         $allValues = $this->toArray();
 
         return array_intersect_key($allValues, ($contentType['fields']));
+    }
+
+    /**
+     * Create an excerpt for the Entity.
+     *
+     * @param int               $length
+     * @param bool              $includeTitle
+     * @param array|string|null $focus
+     *
+     * @return string|null
+     */
+    public function getExcerpt($length = 200, $includeTitle = false, $focus = null)
+    {
+        $excerpter = new Excerpt($this);
+        $excerpt = $excerpter->getExcerpt($length, $includeTitle, $focus);
+
+        return new Markup($excerpt, 'UTF-8');
     }
 
     /**

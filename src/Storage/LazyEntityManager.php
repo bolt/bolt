@@ -54,6 +54,11 @@ class LazyEntityManager implements EntityManagerInterface
      */
     public function getContent($textQuery, $parameters = [], &$pager = [], $whereParameters = [])
     {
-        return $this->getEntityManager()->legacy()->getContent($textQuery, $parameters, $pager, $whereParameters);
+        $entity = $this->getEntityManager()->legacy();
+        if ($entity) {
+            return $entity->getContent($textQuery, $parameters, $pager, $whereParameters);
+        } else {
+            return false;
+        }
     }
 }

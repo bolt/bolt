@@ -13,11 +13,11 @@
 {# The header line #}
 {% block listing_header %}
     <th style="width:50%">
-        <a href="{{ link }}title {% if global.request.get('order') == "title ASC" %}DESC{% else %}ASC{% endif %}">{{ __('Title') }}</a>
+        <a href="{{ link }}title {% if global.request.get('order') == "title ASC" %}DESC{% else %}ASC{% endif %}">{{ __('general.phrase.title') }}</a>
     </th>
 
     <th>
-        <a href="{{ link }}slug {% if global.request.get('order') == "slug ASC" %}DESC{% else %}ASC{% endif %}">{{ __('Slug') }}</a>
+        <a href="{{ link }}slug {% if global.request.get('order') == "slug ASC" %}DESC{% else %}ASC{% endif %}">{{ __('general.phrase.slug') }}</a>
     </th>
 
     <th>

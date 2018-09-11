@@ -3,6 +3,7 @@
 namespace Bolt\Extension;
 
 use Bolt\Events\ControllerEvents;
+use Bolt\Extension\StorageTrait;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -23,6 +24,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
     use NutTrait;
     use TwigTrait;
     use TranslationTrait;
+    use StorageTrait;
 
     /**
      * {@inheritdoc}
@@ -35,6 +37,7 @@ abstract class SimpleExtension extends AbstractExtension implements ServiceProvi
         $this->extendAssetServices();
         $this->extendNutService();
         $this->extendTranslatorService();
+        $this->extendRepositoryMapping();
 
         $this->registerServices($app);
     }
