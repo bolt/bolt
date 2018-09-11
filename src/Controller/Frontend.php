@@ -11,6 +11,7 @@ use Bolt\Response\TemplateResponse;
 use Bolt\Storage\Entity\Taxonomy;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ContentType;
+use Bolt\Storage\Query\QueryResultset;
 use Bolt\Storage\Repository\TaxonomyRepository;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -283,7 +284,7 @@ class Frontend extends ConfigurableBase
      */
     public function taxonomy(Request $request, $taxonomytype, $slug)
     {
-        $taxonomy = $this->storage()->getTaxonomyType($taxonomytype);
+        $taxonomy = $this->app['config']->get('taxonomy/' . $taxonomytype);
         // No taxonomytype, no possible content.
         if (empty($taxonomy)) {
             return false;
@@ -316,7 +317,11 @@ class Frontend extends ConfigurableBase
             ;
 
             $results = $repo->getContentByTaxonomy($query);
-            $content = $results->getCollection();
+            $set = new QueryResultset();
+            foreach ($results->getCollection() as $record) {
+                $set->add([$record]);
+            }
+            $content = $this->app['twig.records.view']->createView($set);
         }
 
         if (!$this->isTaxonomyValid($content, $slug, $taxonomy)) {
