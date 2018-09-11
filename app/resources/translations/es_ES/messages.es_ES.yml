@@ -10,8 +10,8 @@
 #   4 Unused messages
 #   1 Legacy untranslated messages
 #   4 Untranslated messages
-#  40 Legacy translation messages
-# 566 Translation messages
+#  38 Legacy translation messages
+# 568 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -35,7 +35,6 @@ field.repeater.expand-all: # "Expand all"
 
 "(default template)": "(plantilla por defecto)"
 "(no category)": "(no hay categoría)"
-"(no group)": "(no hay grupos)"
 "(none)": "(ninguno)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Agregar algunas <a href='%url%' class='btn btn-default'>entradas con texto Loripsum</a> de ejemplo"
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": "Registros añadidos al TipoContenido titulado <tt>%CONTENTYPE%</tt>"
@@ -61,7 +60,6 @@ field.repeater.expand-all: # "Expand all"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "La ficha %slug%está siendo usada en más de un TipodeContenido. Por favor edita TiposdeContenidos.yml, y hazlas diferentes."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "El archivo de traducciones '%s' no puede ser creado. Necesitas usar tu propio editor para hacer modificaciones al archivo."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Este sitio web está hecho con <a href='%url%' target='_blank' title='CMS sofisticado, ligero y simple'>Bolt</a>."
-"Title": "Título"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Intente iniciar sesión con su cliente FTP y hacer el archivo legible. Sino trate de <a>volver</a> a la última página."
 "Unable to create directory: %DIR%": "No se puede crear la carpeta: %DIR%"
 "Unable to create file: %FILE%": "El archivo: %FILE% no ha podido ser creado"
@@ -326,6 +324,7 @@ general.phrase.move-up: "Mover hacia arriba"
 general.phrase.no-content: "sin contenido"
 general.phrase.no-content-found: "No se ha encontrado el contenido"
 general.phrase.no-files-in-list: "Todavía no hay archivos en la lista"
+general.phrase.no-group-parens: "(no hay grupos)"
 general.phrase.no-images-in-list: "Todavía no hay imágenes en la lista"
 general.phrase.no-preview: "Sin Vista previa"
 general.phrase.no-result-for-search-term: "No hay resultados para %SEARCHTERM%. Prueba otra búsqueda. "
@@ -395,7 +394,7 @@ general.phrase.show-all: "mostrar todo"
 general.phrase.show-proposed-alterations: "Mostrar alteraciones propuestas"
 general.phrase.showing: "Mostrando"
 general.phrase.size: "Tamaño"
-general.phrase.slug-colon: "Slug"
+general.phrase.slug: "Slug"
 general.phrase.something-went-wrong: "Algo salió mal"
 general.phrase.something-went-wrong-after-first-user: "¡Algo salió mal con el inicio de sesión después de la creación del primer usuario!"
 general.phrase.stack: "Pila"
@@ -415,6 +414,7 @@ general.phrase.template-detail: "Detalles de la plantilla"
 general.phrase.thumbnail: "Miniatura"
 general.phrase.time-format-24-12: "Tiempo en formato 24h/12h"
 general.phrase.tip-colon: "Tip:"
+general.phrase.title: "Título"
 general.phrase.toggle-all: "Seleccionar / deseleccionar todos"
 general.phrase.translations: "Traducciones"
 general.phrase.types: "Tipos"

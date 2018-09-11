@@ -10,8 +10,8 @@
 #   2 Unused messages
 #   3 Legacy untranslated messages
 #   0 Untranslated messages
-#  38 Legacy translation messages
-# 570 Translation messages
+#  36 Legacy translation messages
+# 572 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -28,7 +28,6 @@
 
 "(default template)": "(default template)"
 "(no category)": "(no category)"
-"(no group)": "(no group)"
 "(none)": "(none)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>"
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled"
@@ -52,7 +51,6 @@
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "The slug '%slug%' is used in more than one ContentType. Please edit contenttypes.yml, and make them distinct."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>."
-"Title": "Title"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page."
 "Unable to create directory: %DIR%": "Unable to create directory: %DIR%"
 "Unable to create file: %FILE%": "Unable to create file: %FILE%"
@@ -225,6 +223,7 @@ general.phrase.confirm-remove-files: "Are you sure you want to remove these file
 general.phrase.confirm-remove-image: "Are you sure you want to remove this image?"
 general.phrase.confirm-remove-images: "Are you sure you want to remove these images?"
 general.phrase.confirm-remove-record: "Are you sure you wish to delete this record? There is no undo."
+general.phrase.confirm-remove-set: "Are you sure you wish to delete this set?"
 general.phrase.content: "Content"
 general.phrase.content-type-permissions: "ContentType Permissions"
 general.phrase.content-types: "ContentTypes"
@@ -321,6 +320,7 @@ general.phrase.move-up: "Move Up"
 general.phrase.no-content: "no content …"
 general.phrase.no-content-found: "No content found."
 general.phrase.no-files-in-list: "No files in the list, yet."
+general.phrase.no-group-parens: "(no group)"
 general.phrase.no-images-in-list: "No images in the list, yet."
 general.phrase.no-preview: "No Preview"
 general.phrase.no-result-for-search-term: "No results found for '%SEARCHTERM%'. Please try another search."
@@ -390,13 +390,14 @@ general.phrase.show-all: "show all"
 general.phrase.show-proposed-alterations: "Show proposed alterations"
 general.phrase.showing: "Showing"
 general.phrase.size: "Size"
-general.phrase.slug-colon: "Slug:"
+general.phrase.slug: "Slug"
 general.phrase.something-went-wrong: "Something went wrong"
 general.phrase.something-went-wrong-after-first-user: "Something went wrong with logging in after first user creation!"
 general.phrase.stack: "Stack"
 general.phrase.stack-add: "Place on stack"
 general.phrase.stack-empty: "There are no items on the Stack, yet."
 general.phrase.stack-files: "Files on the stack"
+general.phrase.status: "Status"
 general.phrase.status-change-draft: "Change status to 'draft'"
 general.phrase.status-change-held: "Change status to 'held'"
 general.phrase.status-colon: "Status:"
@@ -410,6 +411,7 @@ general.phrase.template-detail: "Detail template"
 general.phrase.thumbnail: "Thumbnail"
 general.phrase.time-format-24-12: "Time in 24h/12h format"
 general.phrase.tip-colon: "Tip:"
+general.phrase.title: "Title"
 general.phrase.toggle-all: "Check/Uncheck all"
 general.phrase.translations: "Translations"
 general.phrase.types: "Types"

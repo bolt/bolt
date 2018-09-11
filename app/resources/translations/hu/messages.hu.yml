@@ -10,8 +10,8 @@
 #   2 Unused messages
 #  11 Legacy untranslated messages
 # 120 Untranslated messages
-#  30 Legacy translation messages
-# 450 Translation messages
+#  28 Legacy translation messages
+# 452 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -107,7 +107,7 @@ general.phrase.related-content: # "Related content"
 general.phrase.search-results-for-variable: # "Search results for <b>%search%</b>."
 general.phrase.selection: # "Selection"
 general.phrase.show-proposed-alterations: # "Show proposed alterations"
-general.phrase.slug-colon: # "Slug:"
+general.phrase.slug: # "Slug"
 general.phrase.something-went-wrong-after-first-user: # "Something went wrong with logging in after first user creation!"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
 general.phrase.toggle-all: # "Check/Uncheck all"
@@ -179,7 +179,6 @@ panel.latest-activity.system: # "Latest system activity"
 
 "(default template)": "(alapértelmezett sablon)"
 "(no category)": "(nincs kategória)"
-"(no group)": "(nincs csoport)"
 "(none)": "(nincs)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Néhány <a href='%url%' class='btn btn-default'>Lorem ipsum bejegyzés</a> felvétele"
 "Added to <tt>%key%</tt> '%title%'": "Hozzáadva a <tt>%key%</tt> '%title%'"
@@ -197,7 +196,6 @@ panel.latest-activity.system: # "Latest system activity"
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "A '%slug%' slug több, mint egy tartalomtípusban használt. Szerkeszd úgy a contenttypes.yml fájlt, hogy különbözzenek."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "A '%s' nyelvi fájl nem hozható létre. Egy szerkesztőt kell használnod ahhoz, hogy módosítani tudd."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Ez a weboldal a <a href='%url%' target='_blank' title='Kifinomult, korszerű és egyszerű tartalomkezelő'>Boltra épül</a>."
-"Title": "Cím"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Próbálj bejelentkezni az FTP klienseddel és állítsd a fájlt olvashatóvá vagy lépj <a>vissza</a> a legutóbbi oldalra."
 "Unable to create directory: %DIR%": "%DIR% mappa létrehozása sikertelen"
 "Unable to create file: %FILE%": "%FILE% fájl nem hozható létre"
@@ -405,6 +403,7 @@ general.phrase.modified: "Módosítva"
 general.phrase.no-content: "nincs tartalom…"
 general.phrase.no-content-found: "Nem található tartalom."
 general.phrase.no-files-in-list: "A listában még nincs fájl."
+general.phrase.no-group-parens: "(nincs csoport)"
 general.phrase.no-images-in-list: "A listában még nincs kép."
 general.phrase.no-result-for-search-term: "Nincs találat a '%SEARCHTERM%' keresésre. Próbálkozzon új kereséssel."
 general.phrase.no-such-action-for-user: "Nincs ilyen művelet a '%s' felhasználóhoz."
@@ -481,6 +480,7 @@ general.phrase.template-detail: "Részletek sablon"
 general.phrase.thumbnail: "Miniatűr"
 general.phrase.time-format-24-12: "Idő 24/12 fromátumban"
 general.phrase.tip-colon: "Tipp:"
+general.phrase.title: "Cím"
 general.phrase.translations: "Fordítások"
 general.phrase.types: "Típusok"
 general.phrase.update-database: "Adatbázis frissítése"

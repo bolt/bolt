@@ -9,6 +9,7 @@ use Bolt\Asset\Target;
 use Bolt\Helpers\Input;
 use Bolt\Response\TemplateResponse;
 use Bolt\Storage\Entity\Taxonomy;
+use Bolt\Storage\Mapping\ContentType;
 use Bolt\Storage\Repository\TaxonomyRepository;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -199,13 +200,7 @@ class Frontend extends ConfigurableBase
         }
 
         $contenttype = $this->getContentType($contenttypeslug);
-
-        $id = $request->request->get('id');
-        if ($id) {
-            $content = $this->storage()->getContent($contenttype['slug'], ['id' => $id, 'returnsingle' => true, 'status' => '!undefined']);
-        } else {
-            $content = $this->storage()->getContentObject($contenttypeslug);
-        }
+        $content = $this->storage()->getContentObject($contenttypeslug, [], false);
 
         $content->setFromPost($request->request->all(), $contenttype);
 
@@ -428,7 +423,7 @@ class Frontend extends ConfigurableBase
                 ->setTotalpages(ceil($result['no_of_results'] / $pageSize))
                 ->setCurrent($page)
                 ->setShowingFrom($offset + 1)
-                ->setShowingTo($offset + count($result['results']))
+                ->setShowingTo($offset + ($result ? count($result['results']) : 0));
             ;
 
             $manager->setLink($this->generateUrl('search', ['q' => $q]) . '&page_search=');
@@ -523,19 +518,20 @@ class Frontend extends ConfigurableBase
      *  - we let `getContent()` sort by itself
      *  - we explicitly set it to sort on the general/listing_sort setting
      *
-     * @param array $contentType
+     * @param ContentType|array $contentType
      *
      * @return null|string
      */
-    private function getListingOrder(array $contentType)
+    private function getListingOrder($contentType)
     {
         // An empty default isn't set in config yet, arrays got to hate them.
-        $contentType += ['taxonomy' => []];
-        $taxonomies = $this->getOption('taxonomy');
-        foreach ($contentType['taxonomy'] as $taxonomyName) {
-            if ($taxonomies[$taxonomyName]['has_sortorder']) {
-                // Let getContent() handle it
-                return null;
+        if (isset($contentType['taxonomy'])) {
+            $taxonomies = $this->getOption('taxonomy');
+            foreach ($contentType['taxonomy'] as $taxonomyName) {
+                if ($taxonomies[$taxonomyName]['has_sortorder']) {
+                    // Let getContent() handle it
+                    return null;
+                }
             }
         }
 

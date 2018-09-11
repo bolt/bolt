@@ -39,7 +39,7 @@
     <div class="block-slot">
         {% set blockfieldvals = context.content.get(contentkey) %}
         {% for blockname,block in field.fields %}
-            <script type="text/template" data-block-type="{{ blockname }}">
+            <script type="text/template" data-block-type="{{ blockname }}" class="hidden">
                 {% set index = '#' %}
                 {{ include('@bolt/editcontent/fields/_block-group.twig', {'content': blockfieldvals.getEmptySet, 'index': index, 'block': blockname}) }}
             </script>
@@ -65,7 +65,13 @@
                 {% endif %}
                 <li>
                     <a class="add-button" data-block-type="{{ blockname }}">
-                        <i class="fa fa-plus"></i> {{  __('field.block.label.add-set', {'%label%': block.label}) }}
+                        {% set groupicon = block.icon|default('') %}
+                        {% set grouplabel = block.label|default(blockname) %}
+                        {% if groupicon[:3] == 'fa:' %}
+                            <i class="fa fa-{{ groupicon[3:] }} fa-fw"></i> {{  __('field.block.label.add-set', {'%label%': grouplabel}) }}
+                        {% else %}
+                            <i class="fa fa-plus"></i> {{  __('field.block.label.add-set', {'%label%': grouplabel}) }}
+                        {% endif %}
                     </a>
                 </li>
             {% endfor %}

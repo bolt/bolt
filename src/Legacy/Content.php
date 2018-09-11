@@ -3,6 +3,7 @@
 namespace Bolt\Legacy;
 
 use Bolt\Common\Json;
+use Bolt\Helpers\Excerpt;
 use Bolt\Storage\Entity;
 use Silex;
 use Twig\Markup;
@@ -204,6 +205,23 @@ class Content implements \ArrayAccess
     public function getRenderedValue($fieldName)
     {
         return $this->getDecodedValue($fieldName);
+    }
+
+    /**
+     * Create an excerpt for the Record.
+     *
+     * @param int               $length
+     * @param bool              $includeTitle
+     * @param array|string|null $focus
+     *
+     * @return string|null
+     */
+    public function getExcerpt($length = 200, $includeTitle = false, $focus = null)
+    {
+        $excerpter = new Excerpt($this);
+        $excerpt = $excerpter->getExcerpt($length, $includeTitle, $focus);
+
+        return new Markup($excerpt, 'UTF-8');
     }
 
     /**
