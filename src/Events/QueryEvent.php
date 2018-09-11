@@ -16,7 +16,7 @@ class QueryEvent extends Event
     protected $query;
     protected $result;
 
-    public function __construct(ContentQueryParser $query, $result = null)
+    public function __construct($query, $result = null)
     {
         $this->query = $query;
         $this->result = $result;
