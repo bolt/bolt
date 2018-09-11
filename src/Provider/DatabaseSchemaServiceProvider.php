@@ -2,6 +2,7 @@
 
 namespace Bolt\Provider;
 
+use Bolt\Filesystem\Exception\IOException;
 use Bolt\Helpers\Deprecated;
 use Bolt\Storage\Database\Schema\Builder;
 use Bolt\Storage\Database\Schema\Comparison;
@@ -203,7 +204,13 @@ class DatabaseSchemaServiceProvider implements ServiceProviderInterface
 
         $app['schema.timer'] = $app->share(
             function ($app) {
-                return new Timer($app['filesystem']->getFile('cache://dbcheck.ts'));
+                try {
+                    $file = $app['filesystem']->getFile('cache://dbcheck.ts');
+                } catch (IOException $e) {
+                    $app['filesystem']->write('cache://dbcheck.ts', '');
+                    $file = $app['filesystem']->getFile('cache://dbcheck.ts');
+                }
+                return new Timer($file);
             }
         );
 
