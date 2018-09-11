@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Bolt\Storage\Entity;
 
 use Bolt\Legacy\AppSingleton;
@@ -9,6 +7,9 @@ use Silex\Application;
 
 trait AppAwareTrait
 {
+    /**
+     * @var Application
+     */
     protected $app;
 
     public function __get($name)
@@ -20,6 +21,9 @@ trait AppAwareTrait
         return is_callable(['parent', '__get']) ? parent::__get($name) : null;
     }
 
+    /**
+     * @return Application
+     */
     protected function getApp()
     {
         if (!$this->app) {
@@ -29,6 +33,9 @@ trait AppAwareTrait
         return $this->app;
     }
 
+    /**
+     * @param Application|null $app
+     */
     protected function setApp(Application $app = null)
     {
         $this->app = $app ?: AppSingleton::get();
