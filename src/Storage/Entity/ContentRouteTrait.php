@@ -70,10 +70,6 @@ trait ContentRouteTrait
      */
     public function getRouteNameAndParams()
     {
-        if (empty($this->app)) {
-            $this->app = AppSingleton::get();
-        }
-
         if (empty($this->id)) {
             return null;
         }

@@ -10,27 +10,18 @@ trait AppAwareTrait
     /**
      * @var Application
      */
-    protected $app;
-
-    public function __get($name)
-    {
-        if ($name === 'app') {
-            $this->getApp();
-        }
-
-        return is_callable(['parent', '__get']) ? parent::__get($name) : null;
-    }
+    protected $_app;
 
     /**
      * @return Application
      */
     protected function getApp()
     {
-        if (!$this->app) {
+        if (!$this->_app) {
             $this->setApp();
         }
 
-        return $this->app;
+        return $this->_app;
     }
 
     /**
@@ -38,6 +29,6 @@ trait AppAwareTrait
      */
     protected function setApp(Application $app = null)
     {
-        $this->app = $app ?: AppSingleton::get();
+        $this->_app = $app ?: AppSingleton::get();
     }
 }

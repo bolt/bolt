@@ -12,12 +12,17 @@ use Bolt\Storage\CaseTransformTrait;
  */
 trait MagicAttributeTrait
 {
+    use AppAwareTrait;
     use CaseTransformTrait;
 
     public $_fields = [];
 
     public function __get($key)
     {
+        if ($key === 'app') {
+            return $this->getApp();
+        }
+
         $method = 'get' . ucfirst($key);
         if (in_array($key, $this->getFields())) {
             return $this->$method();

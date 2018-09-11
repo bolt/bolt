@@ -15,7 +15,6 @@ use Twig\Markup;
  */
 class Content extends Entity
 {
-    use AppAwareTrait;
     use ContentRouteTrait;
     use ContentTypeTrait;
     use ContentTypeTitleTrait;
