@@ -16,7 +16,7 @@ trait AppAwareTrait
         if ($name === 'app') {
             $this->getApp();
         }
-        return is_callable(['parent', '__get']) ? parent::__get($method, $parameters) : null;
+        return is_callable(['parent', '__get']) ? parent::__get($name) : null;
     }
 
     protected function getApp()
