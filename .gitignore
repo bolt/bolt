@@ -54,4 +54,5 @@ Vagrantfile
 .swp
 *.lock
 .buildpath
+.idea
 
