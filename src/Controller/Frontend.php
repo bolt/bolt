@@ -274,53 +274,56 @@ class Frontend extends ConfigurableBase
      */
     public function taxonomy(Request $request, $taxonomytype, $slug)
     {
-        $taxonomy = $this->storage()->getTaxonomyType($taxonomytype);
-        // No taxonomytype, no possible content.
-        if (empty($taxonomy)) {
-            return false;
-        }
-        $taxonomyslug = $taxonomy['slug'];
-
-        // First, get some content
-        $context = $taxonomy['singular_slug'] . '_' . $slug;
-        $page = $this->app['pager']->getCurrentPage($context);
         // Theme value takes precedence over default config @see https://github.com/bolt/bolt/issues/3951
         $amount = $this->getOption('theme/listing_records', false) ?: $this->getOption('general/listing_records');
 
-        // Handle case where listing records has been override for specific taxonomy
-        if (array_key_exists('listing_records', $taxonomy) && is_int($taxonomy['listing_records'])) {
-            $amount = $taxonomy['listing_records'];
-        }
+        // Get a display value for slug. This should be moved from 'slug' context key to 'name' in v4.0.
+        $name = $slug;
 
-        $order = $this->getOption('theme/listing_sort', false) ?: $this->getOption('general/listing_sort');
         $isLegacy = $this->getOption('general/compatibility/setcontent_legacy', true);
         if ($isLegacy) {
+            $taxonomy = $this->storage()->getTaxonomyType($taxonomytype);
+            // No taxonomytype, no possible content.
+            if (empty($taxonomy)) {
+                return false;
+            }
+            $taxonomyslug = $taxonomy['slug'];
+
+            // First, get some content
+            $context = $taxonomy['singular_slug'] . '_' . $slug;
+            $page = $this->app['pager']->getCurrentPage($context);
+
+            // Handle case where listing records has been override for specific taxonomy
+            if (array_key_exists('listing_records', $taxonomy) && is_int($taxonomy['listing_records'])) {
+                $amount = $taxonomy['listing_records'];
+            }
+
+            if ($taxonomy['behaves_like'] !== 'tags' && isset($taxonomy['options'][$slug])) {
+                $name = $taxonomy['options'][$slug];
+            }
+
+            $order = $this->getOption('theme/listing_sort', false) ?: $this->getOption('general/listing_sort');
             $content = $this->storage()->getContentByTaxonomy($taxonomytype, $slug, ['limit' => $amount, 'order' => $order, 'page' => $page]);
+
+            if (!$this->isTaxonomyValid($content, $slug, $taxonomy)) {
+                $this->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
+            }
         } else {
             $page = $this->app['pager']->getCurrentPage('taxonomy');
-            $appCt = array_keys($this->app['query.search_config']->getSearchableTypes());
+            $appContentTypes = array_keys($this->app['query.search_config']->getSearchableTypes());
             /** @var TaxonomyRepository $repo */
             $repo = $this->app['storage']->getRepository(Taxonomy::class);
-            $query = $repo->queryContentByTaxonomy($appCt, [$taxonomytype => $slug])
+            $query = $repo->queryContentByTaxonomy($appContentTypes, [$taxonomytype => $slug])
                 ->setFirstResult(($page - 1) * $amount)
                 ->setMaxResults($amount)
             ;
 
             $results = $repo->getContentByTaxonomy($query);
             $content = $results->getCollection();
-        }
-
-        if (!$this->isTaxonomyValid($content, $slug, $taxonomy)) {
-            $this->abort(Response::HTTP_NOT_FOUND, "No slug '$slug' in taxonomy '$taxonomyslug'");
+            $taxonomyslug = $taxonomytype;
         }
 
         $template = $this->templateChooser()->taxonomy($taxonomyslug);
-
-        // Get a display value for slug. This should be moved from 'slug' context key to 'name' in v4.0.
-        $name = $slug;
-        if ($taxonomy['behaves_like'] !== 'tags' && isset($taxonomy['options'][$slug])) {
-            $name = $taxonomy['options'][$slug];
-        }
 
         $globals = [
             'records'      => $content,

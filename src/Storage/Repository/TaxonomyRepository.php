@@ -39,8 +39,10 @@ class TaxonomyRepository extends Repository
         $set = new TaxonomyQueryResultset();
         $set->setEntityManager($this->getEntityManager());
         $set->add($results);
-        $executeEvent = new QueryEvent($query, $set);
-        $this->getEntityManager()->getEventManager()->dispatch(QueryEvents::EXECUTE, $executeEvent);
+
+        // @todo Type error: Argument 1 passed to Bolt\Events\QueryEvent::__construct() must be an instance of Bolt\Storage\Query\ContentQueryParser, instance of Doctrine\DBAL\Query\QueryBuilder given
+        //$executeEvent = new QueryEvent($query, $set);
+        //$this->getEntityManager()->getEventManager()->dispatch(QueryEvents::EXECUTE, $executeEvent);
 
         return $set;
     }
