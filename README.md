@@ -1,4 +1,4 @@
-Bolt
+Bolt ONLY FOR NAJK PROJECT
 ====
 
 A [Sophisticated, lightweight & simple CMS][bolt-cm] released under the open
