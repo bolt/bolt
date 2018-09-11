@@ -469,6 +469,8 @@ class EntityManager implements EntityManagerInterface
     {
         if ($this->legacyStorage !== null) {
             return call_user_func_array([$this->legacy(), $method], $args);
+        } else {
+            throw new \Exception('Legacy storage not loaded');
         }
     }
 
