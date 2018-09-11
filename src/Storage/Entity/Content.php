@@ -375,7 +375,7 @@ class Content extends Entity
         $fields = $this->_fields;
 
         if (array_key_exists('title', $fields)) {
-            return $fields['title'];
+            return (string) $fields['title'];
         }
 
         $fieldNames = $this->getTitleColumnNames($this->contenttype);
