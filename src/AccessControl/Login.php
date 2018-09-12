@@ -146,7 +146,7 @@ class Login extends AccessChecker
         }
 
         // Passwords can be ignored if you log in via loginAsUser()
-        if(!$ignorePassword){
+        if (!$ignorePassword) {
             $isValid = $this->passwordFactory->verifyHash($password, $userAuth->getPassword());
 
             if (!$isValid) {
