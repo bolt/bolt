@@ -73,7 +73,35 @@ class Login extends AccessChecker
         $this->getRepositoryAuthtoken()->deleteExpiredTokens();
 
         if ($userName !== null && $password !== null) {
-            return $this->loginCheckPassword($userName, $password, $event);
+            return $this->loginCheckUser($userName, $password, $event);
+        } elseif ($authCookie !== null) {
+            return $this->loginCheckAuthtoken($authCookie, $event);
+        }
+
+        $this->systemLogger->error('Login function called with empty username/password combination, or no authentication token.', ['event' => 'security']);
+        throw new AccessControlException('Invalid login parameters.');
+    }
+
+    /**
+     * Attempt to login a user with the given password. Accepts username or
+     * email.
+     *
+     * @param string             $userName
+     * @param AccessControlEvent $event
+     *
+     * @throws AccessControlException
+     *
+     * @return bool
+     */
+    public function loginAsUser($userName, AccessControlEvent $event)
+    {
+        $authCookie = $this->requestStack->getCurrentRequest()->cookies->get($this->authTokenName);
+
+        // Remove expired tokens
+        $this->getRepositoryAuthtoken()->deleteExpiredTokens();
+
+        if ($userName !== null) {
+            return $this->loginCheckUser($userName, null, $event, true);
         } elseif ($authCookie !== null) {
             return $this->loginCheckAuthtoken($authCookie, $event);
         }
@@ -91,7 +119,7 @@ class Login extends AccessChecker
      *
      * @return bool
      */
-    protected function loginCheckPassword($userName, $password, AccessControlEvent $event)
+    protected function loginCheckUser($userName, $password, AccessControlEvent $event, $ignorePassword = false)
     {
         if (!$userEntity = $this->getUserEntity($userName)) {
             $this->dispatcher->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_INVALID));
@@ -116,7 +144,9 @@ class Login extends AccessChecker
             return $this->loginFailed($userEntity);
         }
 
-        $isValid = $this->passwordFactory->verifyHash($password, $userAuth->getPassword());
+        // Passwords can be ignored if you log in via loginAsUser()
+        $isValid = $ignorePassword ? true : $this->passwordFactory->verifyHash($password, $userAuth->getPassword());
+
         if (!$isValid) {
             $this->dispatcher->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_PASSWORD));
 
