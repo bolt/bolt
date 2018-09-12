@@ -267,13 +267,12 @@ class Frontend extends ConfigurableBase
     private function fixBlockFieldsForPreview($record)
     {
         foreach ($record->contenttype['fields'] as $fieldSlug => $fieldSettings) {
-
             if ($fieldSettings['type'] === 'block') {
                 $fieldValue = $this->getBlockFieldValue($record, $fieldSlug);
                 if ($fieldValue) {
                     $newArray = [];
                     foreach ($fieldValue as $item) {
-                        if ( ! empty($item)) {
+                        if (!empty($item)) {
                             foreach ($item as $k => &$v) {
                                 $v['block'] = $k;
                             }
