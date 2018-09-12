@@ -8,6 +8,8 @@ use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Helpers\Input;
 use Bolt\Response\TemplateResponse;
+use Bolt\Storage\Entity\Content;
+use Bolt\Storage\Entity\Relations;
 use Bolt\Storage\Entity\Taxonomy;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ContentType;
@@ -202,17 +204,27 @@ class Frontend extends ConfigurableBase
         }
 
         $contenttype = $this->getContentType($contenttypeslug);
+        $formValues = $request->request->all();
 
         $storage = $this->storage();
         if ($storage instanceof EntityManager) {
-            // @todo find a better way to initiate Content object from POST data (current approach doesn't fill relations for example)
             /** @var EntityManager $storage */
-            $content = $storage->create($contenttypeslug, $request->request->all());
+            /** @var Content $content */
+            $content = $storage->create($contenttypeslug, $formValues);
+
+            /** @var Collection\Relations $related */
+            $related = $storage->createCollection(Relations::class);
+            $related->setFromPost($formValues, $content);
+            $content->setRelation($related);
+
+            /** @var Collection\Taxonomy $taxonomies */
+            $taxonomies = $storage->createCollection(Taxonomy::class);
+            $taxonomies->setFromPost($formValues, $content);
+            $content->setTaxonomy($taxonomies);
         } else {
             $content = $storage->getContentObject($contenttypeslug, [], false);
+            $content->setFromPost($formValues, $contenttype);
         }
-
-        $content->setFromPost($request->request->all(), $contenttype);
 
         $liveEditor = $request->get('_live-editor-preview');
         if (!empty($liveEditor)) {
