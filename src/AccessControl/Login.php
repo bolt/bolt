@@ -146,21 +146,23 @@ class Login extends AccessChecker
         }
 
         // Passwords can be ignored if you log in via loginAsUser()
-        $isValid = $ignorePassword ? true : $this->passwordFactory->verifyHash($password, $userAuth->getPassword());
+        if(!$ignorePassword){
+            $isValid = $this->passwordFactory->verifyHash($password, $userAuth->getPassword());
 
-        if (!$isValid) {
-            $this->dispatcher->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_PASSWORD));
+            if (!$isValid) {
+                $this->dispatcher->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_PASSWORD));
 
-            return $this->loginFailed($userEntity);
-        }
+                return $this->loginFailed($userEntity);
+            }
 
-        // Rehash password if not using Blowfish algorithm
-        if (!Blowfish::detect($userAuth->getPassword())) {
-            $userEntity->setPassword($this->passwordFactory->createHash($password, '$2y$'));
-            try {
-                $this->getRepositoryUsers()->update($userEntity);
-            } catch (NotNullConstraintViolationException $e) {
-                // Database needs updating
+            // Rehash password if not using Blowfish algorithm
+            if (!Blowfish::detect($userAuth->getPassword())) {
+                $userEntity->setPassword($this->passwordFactory->createHash($password, '$2y$'));
+                try {
+                    $this->getRepositoryUsers()->update($userEntity);
+                } catch (NotNullConstraintViolationException $e) {
+                    // Database needs updating
+                }
             }
         }
 
