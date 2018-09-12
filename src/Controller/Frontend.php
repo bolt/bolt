@@ -221,10 +221,13 @@ class Frontend extends ConfigurableBase
             $taxonomies = $storage->createCollection(Taxonomy::class);
             $taxonomies->setFromPost($formValues, $content);
             $content->setTaxonomy($taxonomies);
+
         } else {
             $content = $storage->getContentObject($contenttypeslug, [], false);
             $content->setFromPost($formValues, $contenttype);
         }
+
+        $this->fixBlockFieldsForPreview($content);
 
         $liveEditor = $request->get('_live-editor-preview');
         if (!empty($liveEditor)) {
@@ -254,6 +257,58 @@ class Frontend extends ConfigurableBase
         ];
 
         return $this->render($template, [], $globals);
+    }
+
+    /**
+     * Helper function to prefill `block` fields with an additional `block` field per item.
+     *
+     * This is needed to make previewing content with block fields fully working.
+     */
+    private function fixBlockFieldsForPreview($record)
+    {
+        foreach ($record->contenttype['fields'] as $fieldSlug => $fieldSettings) {
+
+            if ($fieldSettings['type'] === 'block') {
+                $fieldValue = $this->getBlockFieldValue($record, $fieldSlug);
+                if ($fieldValue) {
+                    $newArray = [];
+                    foreach ($fieldValue as $item) {
+                        if ( ! empty($item)) {
+                            foreach ($item as $k => &$v) {
+                                $v['block'] = $k;
+                            }
+                            $newArray[] = $v;
+                        }
+                    }
+                    $this->setBlockFieldValue($record, $fieldSlug, $newArray);
+                }
+            }
+        }
+
+        return $record;
+    }
+
+    private function getBlockFieldValue($record, $field)
+    {
+        if ($record instanceof Content) {
+            $value = $record->get($field);
+            if (is_array($value)) {
+                return $value;
+            }
+        } elseif (isset($record->values[$field]) && is_array($record->values[$field])) {
+            return $record->values[$field];
+        }
+
+        return null;
+    }
+
+    private function setBlockFieldValue($record, $field, array $value)
+    {
+        if ($record instanceof Content) {
+            $record->set($field, $value);
+        } else {
+            $record->values[$field] = $value;
+        }
     }
 
     /**
