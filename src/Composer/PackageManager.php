@@ -267,7 +267,8 @@ class PackageManager
             // Handle non-Bolt packages
             if ($extension instanceof ResolvedExtension) {
                 $title = $extension->getDisplayName();
-                $constraint = $extension->getDescriptor() ? $extension->getDescriptor()->getConstraint() : null;
+                $descriptor = $extension->getDescriptor();
+                $constraint = $descriptor ? $descriptor->getConstraint() : null;
                 $readme = $this->linkReadMe($extension);
                 $config = $this->linkConfig($extension);
                 $valid = $extension->isValid();
