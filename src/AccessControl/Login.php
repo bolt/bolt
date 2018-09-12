@@ -83,7 +83,7 @@ class Login extends AccessChecker
     }
 
     /**
-     * Attempt to login a user with the given password. Accepts username or
+     * Attempt to login as a user with the given username without checking the password. Accepts username or
      * email.
      *
      * @param string             $userName
@@ -106,7 +106,7 @@ class Login extends AccessChecker
             return $this->loginCheckAuthtoken($authCookie, $event);
         }
 
-        $this->systemLogger->error('Login function called with empty username/password combination, or no authentication token.', ['event' => 'security']);
+        $this->systemLogger->error('LoginAsUser function called with empty username, or no authentication token.', ['event' => 'security']);
         throw new AccessControlException('Invalid login parameters.');
     }
 
