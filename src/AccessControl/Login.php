@@ -114,7 +114,7 @@ class Login extends AccessChecker
      * Check a user login request for username/password combinations.
      *
      * @param string $userName
-     * @param string $password
+     * @param string|null $password
      * @param AccessControlEvent $event
      * @param bool $ignorePassword
      *
