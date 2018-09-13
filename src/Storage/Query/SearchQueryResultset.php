@@ -49,4 +49,35 @@ class SearchQueryResultset extends QueryResultset
 
         $this->results[$label] = $sorted;
     }
+
+    /**
+     * @return array
+     */
+    public function getSortedResults()
+    {
+        $results = [];
+        foreach ($this->results as $type => $records) {
+            $scores = $this->scores[$type];
+
+            foreach ($records as $i => $record) {
+                $results[] = [
+                    'record' => $record,
+                    'score'  => $scores[$i],
+                ];
+            }
+        }
+
+        usort($results, function ($a, $b) {
+            if ($a['score'] == $b['score']) {
+                return 0;
+            }
+            return ($a['score'] < $b['score']) ? -1 : 1;
+        });
+
+        $results = array_map(function ($item) {
+            return $item['record'];
+        }, $results);
+
+        return $results;
+    }
 }
