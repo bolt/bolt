@@ -469,9 +469,11 @@ class EntityManager implements EntityManagerInterface
     {
         if ($this->legacyStorage !== null) {
             return call_user_func_array([$this->legacy(), $method], $args);
-        } else {
-            throw new \Exception('Legacy storage not loaded');
+        } elseif ($this->queryService !== null) {
+            return call_user_func_array([$this->queryService, $method], $args);
         }
+
+        throw new \Exception('Legacy service nor Query service loaded');
     }
 
     /**
@@ -495,7 +497,7 @@ class EntityManager implements EntityManagerInterface
             return $this->queryService->getContent($textquery, array_merge($parameters, $whereparameters));
         }
 
-        throw new \Exception('Query service not loaded');
+        throw new \Exception('Legacy service nor Query service loaded');
     }
 
     /**

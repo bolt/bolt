@@ -19,6 +19,7 @@ class Content extends Entity
     use ContentTypeTrait;
     use ContentTypeTitleTrait;
     use ContentUserTrait;
+    use ContentUriTrait;
 
     /** @var string|Mapping\ContentType */
     protected $contenttype;
