@@ -33,7 +33,7 @@ class OrderDirective
             } else {
                 $direction = null;
             }
-            $query->getQueryBuilder()->addOrderBy($order, $direction);
+            $query->getQueryBuilder()->orderBy($order, $direction);
         }
     }
 
