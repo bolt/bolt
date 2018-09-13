@@ -133,9 +133,11 @@ class Pager extends AbstractPager
     public function asArray()
     {
         $a = get_object_vars($this);
-        unset($a['manager']);
         $a['showing_from'] = $this->showingFrom;
         $a['showing_to'] = $this->showingTo;
+
+        // remove manager object from array
+        unset($a['manager']);
 
         return $a;
     }

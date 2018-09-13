@@ -391,7 +391,6 @@ class PagerManager implements \ArrayAccess
     protected function findInitializedPagerId()
     {
         foreach ($this->pagers as $key => $pager) {
-            dump(['pager', $key, property_exists($pager, 'totalpages'), $pager->totalpages]);
             if (isset($pager->totalpages)) {
                 return $key;
             }
