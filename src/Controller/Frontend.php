@@ -221,7 +221,6 @@ class Frontend extends ConfigurableBase
             $taxonomies = $storage->createCollection(Taxonomy::class);
             $taxonomies->setFromPost($formValues, $content);
             $content->setTaxonomy($taxonomies);
-
         } else {
             $content = $storage->getContentObject($contenttypeslug, [], false);
             $content->setFromPost($formValues, $contenttype);
