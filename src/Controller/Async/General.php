@@ -209,14 +209,18 @@ class General extends AsyncBase
      */
     public function makeUri(Request $request)
     {
-        return $this->storage()->getUri(
-            $request->query->get('title'),
-            $request->query->get('id'),
+        $content = $this->storage()->create(
             $request->query->get('contenttypeslug'),
+            $request->query->all()
+        );
+
+        $uri = $content->getUri(
+            $request->query->get('id'),
             $request->query->getBoolean('fulluri'),
-            true,
             $request->query->get('slugfield') //for multipleslug support
         );
+
+        return $uri;
     }
 
     /**
