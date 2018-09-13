@@ -518,7 +518,7 @@ class Frontend extends ConfigurableBase
             $searchResult = $this->getContent($textQuery, $params);
 
             $result = [
-                'results' => $searchResult,
+                'results' => $searchResult->getSortedResults(),
                 'query'   => [
                     'sanitized_q' => strip_tags($q),
                 ],
