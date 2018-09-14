@@ -18,6 +18,7 @@ class Pager extends AbstractPager
     public $current;
     public $showingFrom;
     public $showingTo;
+
     /**
      * @var PagerManager
      */
@@ -134,6 +135,9 @@ class Pager extends AbstractPager
         $a = get_object_vars($this);
         $a['showing_from'] = $this->showingFrom;
         $a['showing_to'] = $this->showingTo;
+
+        // remove manager object from array
+        unset($a['manager']);
 
         return $a;
     }
