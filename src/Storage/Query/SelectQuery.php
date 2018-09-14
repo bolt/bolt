@@ -150,7 +150,7 @@ class SelectQuery implements ContentQueryInterface
     {
         return array_intersect_key(
             $this->getWhereParameters(),
-            array_flip(preg_grep('/^' . $fieldName . '_/', array_keys($this->getWhereParameters())))
+            array_flip(preg_grep('/^' . $fieldName . '_\d+$/', array_keys($this->getWhereParameters())))
         );
     }
 
