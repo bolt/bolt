@@ -31,6 +31,10 @@ trait EntityArrayAccessTrait
      */
     public function offsetExists($offset)
     {
+        if (method_exists($this, 'has')) {
+            // from MagicAttributeTrait
+            return $this->has($offset);
+        }
         $accessor = 'get' . ucfirst($offset);
         $result = $this->$accessor();
 

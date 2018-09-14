@@ -68,8 +68,7 @@ class FrontendQueryScope implements QueryScopeInterface
         $ct = $query->getContentType();
 
         // Setup default ordering of queries on a per-contenttype basis
-        $existing = $query->getParameter('order');
-        if (!$existing && isset($this->orderBys[$ct])) {
+        if (empty($query->getQueryBuilder()->getQueryPart('orderBy')) && isset($this->orderBys[$ct])) {
             $handler = new OrderDirective();
             $handler($query, $this->orderBys[$ct]);
         }

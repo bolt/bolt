@@ -21,6 +21,9 @@ class OrderDirective
             return;
         }
 
+        // remove default order
+        $query->getQueryBuilder()->resetQueryPart('orderBy');
+
         $separatedOrders = $this->getOrderBys($order);
         foreach ($separatedOrders as $order) {
             $order = trim($order);
