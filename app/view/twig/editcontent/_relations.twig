@@ -15,7 +15,7 @@
 {# Output 'incoming' relations #}
 {% if context.has.incoming_relations %}
     {% for incoming_contenttype, incoming_records in context.incoming_not_inv if incoming_contenttype not in context.contenttype.relations|default([])|keys %}
-        {% set name = __(['contenttypes', incoming_contenttype, 'name', 'plural'], {DEFAULT: incoming_contenttype}) %}
+        {% set name = __(['contenttypes', incoming_contenttype, 'name', 'plural'], {DEFAULT: config.get('contenttypes')[incoming_contenttype].name }) %}
 
         <p>{{ __('general.phrase.record-related-to-variable', {'%CTNAME%': name}) }}</p>
         <div class="buic-listing" data-bolt-widget="buicListing">
