@@ -338,6 +338,9 @@ liveeditor: false
 #
 # Protip: If your webhost does not support SMTP, sign up for a (free) Sparkpost
 # account at https://www.sparkpost.com/pricing/ for sending emails reliably.
+#
+# The mail defaults use bolt@yourhostname with the site title as a default.
+# Override this with the senderName and senderMail fields
 
 # mailoptions:
 #     transport: smtp
