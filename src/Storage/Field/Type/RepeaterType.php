@@ -98,6 +98,9 @@ class RepeaterType extends FieldTypeBase
                         ->add(
                             $q->expr()->{$parsed['operator']}('f.value_string', ':' . $placeholder)
                         )
+                        ->add(
+                            $q->expr()->{$parsed['operator']}('f.value_json_array', ':' . $placeholder)
+                        )
                 );
             $filter->setParameter($placeholder, $parsed['value']);
             $count++;
