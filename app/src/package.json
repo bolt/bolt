@@ -32,7 +32,7 @@
         "deep-extend": "~0.6.0",
         "grunt": "~1.0.3",
         "grunt-bom-removal": "~1.0.1",
-        "grunt-bootlint": "~0.10.2",
+        "grunt-bootlint": "~0.11.1",
         "grunt-contrib-concat": "~1.0.1",
         "grunt-contrib-copy": "~1.0.0",
         "grunt-contrib-uglify": "~3.4.0",
