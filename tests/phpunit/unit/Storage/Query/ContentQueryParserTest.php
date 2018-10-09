@@ -273,12 +273,14 @@ class ContentQueryParserTest extends BoltUnitTest
 
         $qb = new ContentQueryParser($app['storage'], $app['query.select']);
         $qb->setQuery('pages/5');
-        $qb->setParameter('printquery', true);
         $qb->parse();
         $this->assertEquals(['pages'], $qb->getContentTypes());
         $this->assertEquals('namedselect', $qb->getOperation());
         $this->assertEquals('5', $qb->getIdentifier());
 
+        $qb = new ContentQueryParser($app['storage'], $app['query.select']);
+        $qb->setQuery('pages/5');
+        $qb->setParameter('printquery', true);
         $this->expectOutputString('SELECT _pages.* FROM bolt_pages _pages WHERE _pages.id = :id_1');
         $res = $qb->fetch();
         $this->assertInstanceOf(Entity\Content::class, $res);
