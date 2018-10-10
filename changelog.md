@@ -4,7 +4,7 @@ Changelog for Bolt 3.x
 Bolt 3.6.0
 ----------
 
-Released: 2018-10-XX. Notable changes:
+Released: 2018-10-10. Notable changes:
 
  - Feature: Add cron "Minute", for timed publish [#7598](https://github.com/bolt/bolt/pull/7598)
  - Feature: Drag-n-drop sorting for Content Blocks [#7621](https://github.com/bolt/bolt/pull/7621)
