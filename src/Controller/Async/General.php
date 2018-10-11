@@ -106,6 +106,8 @@ class General extends AsyncBase
      */
     public function changeLogRecord($contenttype, $contentid)
     {
+        $contenttype = $this->getContentType($contenttype);
+
         $options = [
             'contentid' => $contentid,
             'limit'     => 4,
@@ -118,7 +120,7 @@ class General extends AsyncBase
 
         $context = [
             'contenttype' => $contenttype,
-            'entries'     => $repo->getChangeLogByContentType($contenttype, $options),
+            'entries'     => $repo->getChangeLogByContentType($contenttype['slug'], $options),
         ];
 
         return $this->render('@bolt/components/panel-change-record.twig', ['context' => $context]);

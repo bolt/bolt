@@ -9,7 +9,7 @@
     <h3>
         "<a href="{{ path('editcontent', {'contenttypeslug': context.entry.contenttype, 'id': context.entry.contentid}) }}">{{ context.entry.title }}</a>"
         <em><span class="time">{{ changelog_mutation(context.entry.mutation_type) }} {{ buic_moment(context.entry.date) }}</span>
-            {{ __('general.phrase.by') }}</em> <strong>{{ userlink(entry.ownerid|default('')) }}</strong>
+            {{ __('general.phrase.by') }}</em> <strong>{{ userlink(context.entry.ownerid|default('')) }}</strong>
     </h3>
 
     <div class="changelog-details">
@@ -38,16 +38,16 @@
                     <tr>
                         <td><strong>{{ field.label }}</strong></td>
 
-                        {% if field.type == 'html' %}
+                        {% if field.type in ['html', 'text', 'integer', 'float', 'slug', 'file' ] %}
                             <td class="change-log-item">
-                                {{ field.before.render|raw }}
+                                {{ field.before|raw }}
                             </td>
                             <td class="change-log-item">
-                                {{ field.after.render|raw }}
+                                {{ field.after|raw }}
                             </td>
                         {% elseif field.type == 'filelist' %}
                             <td class="change-log-item">
-                                {% for file in field.before.render %}
+                                {% for file in field.before %}
                                     <strong>File:</strong> {{ file.filename }}<br>
                                     <strong>Title:</strong> {{ file.title }}
 
@@ -57,7 +57,7 @@
                                 {% endfor %}
                             </td>
                             <td class="change-log-item">
-                                {% for file in field.after.render %}
+                                {% for file in field.after %}
                                     <strong>File:</strong> {{ file.filename }}<br>
                                     <strong>Title:</strong> {{ file.title }}
 
@@ -68,41 +68,41 @@
                             </td>
                         {% elseif field.type == 'geolocation' %}
                             <td class="change-log-item">
-                                <strong>Address:</strong> {{ field.before.render.address|default }}<br>
-                                <strong>Latitude:</strong> {{ field.before.render.latitude|default }}<br>
-                                <strong>Longitude:</strong> {{ field.before.render.longitude|default }}<br>
-                                <strong>Matched address:</strong> {{ field.before.render.formatted_address|default }}
+                                <strong>Address:</strong> {{ field.before.address|default }}<br>
+                                <strong>Latitude:</strong> {{ field.before.latitude|default }}<br>
+                                <strong>Longitude:</strong> {{ field.before.longitude|default }}<br>
+                                <strong>Matched address:</strong> {{ field.before.formatted_address|default }}
                             </td>
                             <td class="change-log-item">
-                                <strong>Address:</strong> {{ field.after.render.address|default }}<br>
-                                <strong>Latitude:</strong> {{ field.after.render.latitude|default }}<br>
-                                <strong>Longitude:</strong> {{ field.after.render.longitude|default }}<br>
-                                <strong>Matched address:</strong> {{ field.after.render.formatted_address|default }}
+                                <strong>Address:</strong> {{ field.after.address|default }}<br>
+                                <strong>Latitude:</strong> {{ field.after.latitude|default }}<br>
+                                <strong>Longitude:</strong> {{ field.after.longitude|default }}<br>
+                                <strong>Matched address:</strong> {{ field.after.formatted_address|default }}
                             </td>
                         {% elseif field.type == 'image' %}
                             <td class="change-log-item">
-                                <strong>File:</strong> {{ field.before.render.file|default }}<br>
-                                <strong>Title:</strong> {{ field.before.render.title|default }}<br>
+                                <strong>File:</strong> {{ field.before.file|default }}<br>
+                                <strong>Title:</strong> {{ field.before.title|default }}<br>
                                 <div class="content-preview imageholder" id="thumbnail-{{ key }}">
-                                    {% if field.before.render.file|default %}
-                                        {% set preview_path = field.before.render.file|thumbnail(preview_w, preview_h, 'c') %}
+                                    {% if field.before.file|default %}
+                                        {% set preview_path = field.before.file|thumbnail(preview_w, preview_h, 'c') %}
                                         <img src="{{ preview_path }}" alt="Preview" width="{{ preview_w }}" height="{{ preview_h }}">
                                     {% endif %}
                                 </div>
                             </td>
                             <td class="change-log-item">
-                                <strong>File:</strong> {{ field.after.render.file|default }}<br>
-                                <strong>Title:</strong> {{ field.after.render.title|default }}<br>
+                                <strong>File:</strong> {{ field.after.file|default }}<br>
+                                <strong>Title:</strong> {{ field.after.title|default }}<br>
                                 <div class="content-preview imageholder" id="thumbnail-{{ key }}">
-                                    {% if field.after.render.file|default %}
-                                        {% set preview_path = field.after.render.file|thumbnail(preview_w, preview_h, 'c') %}
+                                    {% if field.after.file|default %}
+                                        {% set preview_path = field.after.file|thumbnail(preview_w, preview_h, 'c') %}
                                         <img src="{{ preview_path }}" alt="Preview" width="{{ preview_w }}" height="{{ preview_h }}">
                                     {% endif %}
                                 </div>
                             </td>
                         {% elseif field.type == 'imagelist' %}
                             <td class="change-log-item">
-                                {% for image in field.before.render %}
+                                {% for image in field.before %}
                                     <strong>File:</strong> {{ image.filename }}<br>
                                     <strong>Title:</strong> {{ image.title }}<br>
                                     <div class="content-preview imageholder" id="thumbnail-{{ key }}">
@@ -118,7 +118,7 @@
                                 {% endfor %}
                             </td>
                             <td class="change-log-item">
-                                {% for image in field.after.render %}
+                                {% for image in field.after %}
                                     <strong>File:</strong> {{ image.filename }}<br>
                                     <strong>Title:</strong> {{ image.title }}<br>
                                     <div class="content-preview imageholder" id="thumbnail-{{ key }}">
@@ -135,63 +135,82 @@
                             </td>
                         {% elseif field.type == 'markdown' or field.type == 'textarea' %}
                             <td class="change-log-item">
-                                <pre style="white-space: pre-wrap; background-color: inherit; border: 0;">{{ field.before.render }}</pre>
+                                <pre style="white-space: pre-wrap; background-color: inherit; border: 0;">{{ field.before }}</pre>
                             </td>
                             <td class="change-log-item">
-                                <pre style="white-space: pre-wrap; background-color: inherit; border: 0;">{{ field.after.render }}</pre>
+                                <pre style="white-space: pre-wrap; background-color: inherit; border: 0;">{{ field.after }}</pre>
                             </td>
                         {% elseif field.type == 'select' %}
                             <td class="change-log-item">
-                                {% if field.before.render is iterable %}
+                                {% if field.before is iterable %}
                                     <ul>
-                                        {% for select in field.before.render %}
+                                        {% for select in field.before %}
                                             <li>{{ select }}</li>
                                         {% endfor %}
                                     </ul>
                                 {% else %}
-                                    {{ field.before.render }}
+                                    {{ field.before }}
                                 {% endif %}
                             </td>
                             <td class="change-log-item">
-                                {% if field.after.render is iterable %}
+                                {% if field.after is iterable %}
                                     <ul>
-                                        {% for select in field.after.render %}
+                                        {% for select in field.after %}
                                             <li>{{ select }}</li>
                                         {% endfor %}
                                     </ul>
                                 {% else %}
-                                    {{ field.after.render }}
+                                    {{ field.after }}
                                 {% endif %}
                             </td>
                         {% elseif field.type == 'video' %}
                             <td class="change-log-item">
-                                <strong>Title:</strong> {{ field.before.render.title|default }}<br>
-                                <strong>URL:</strong> {{ field.before.render.url|default }}<br>
-                                <strong>Size:</strong> {{ field.before.render.width|default }} x {{ field.before.render.height|default }}<br>
+                                <strong>Title:</strong> {{ field.before.title|default }}<br>
+                                <strong>URL:</strong> {{ field.before.url|default }}<br>
+                                <strong>Size:</strong> {{ field.before.width|default }} x {{ field.before.height|default }}<br>
                                 <div class="imageholder" id="thumbnail-{{ key }}">
-                                    {% if field.before.render.thumbnail|default %}
-                                        <img src="{{ field.before.render.thumbnail }}" width="200" height="150">
+                                    {% if field.before.thumbnail|default %}
+                                        <img src="{{ field.before.thumbnail }}" width="200" height="150">
                                     {% endif %}
                                 </div>
-                                <div class="hidden video" id="{{ key }}">{{ field.after.render.html|raw }}</div>
+                                <div class="hidden video" id="{{ key }}">{{ field.after.html|raw }}</div>
                             </td>
                             <td class="change-log-item">
-                                <strong>Title:</strong> {{ field.after.render.title }}<br>
-                                <strong>URL:</strong> {{ field.after.render.url }}<br>
-                                <strong>Size:</strong> {{ field.after.render.width }} x {{ field.after.render.height }}<br>
+                                <strong>Title:</strong> {{ field.after.title }}<br>
+                                <strong>URL:</strong> {{ field.after.url }}<br>
+                                <strong>Size:</strong> {{ field.after.width }} x {{ field.after.height }}<br>
                                 <div class="imageholder" id="thumbnail-{{ key }}">
-                                    {% if field.after.render.thumbnail|default('') %}
-                                        <img src="{{ field.after.render.thumbnail }}" width="{{ preview_w }}" height="{{ preview_h }}">
+                                    {% if field.after.thumbnail|default('') %}
+                                        <img src="{{ field.after.thumbnail }}" width="{{ preview_w }}" height="{{ preview_h }}">
                                     {% endif %}
                                 </div>
-                                <div class="hidden video" id="{{ key }}">{{ field.after.render.html|raw }}</div>
+                                <div class="hidden video" id="{{ key }}">{{ field.after.html|raw }}</div>
                             </td>
+                        {% elseif field.type == 'other' %}
+                                <td class="change-log-item">
+                                    {% if field.before is json %}
+                                        {% for key, value in field.before|json_decode %}
+                                            <strong>{{ key }}: </strong> {{ value|join() }}
+                                        {% endfor %}
+                                    {% else %}
+                                        {{ field.before }}
+                                    {% endif %}
+                                </td>
+                                <td class="change-log-item">
+                                    {% if field.after is json %}
+                                        {% for key, value in field.after|json_decode %}
+                                            <strong>{{ key }}: </strong> {{ value|join() }}<br>
+                                        {% endfor %}
+                                    {% else %}
+                                        {{ field.after }}
+                                    {% endif %}
+                                </td>
                         {% else %}
                             <td class="change-log-item">
-                                {{ field.before.render }}
+                                <em>Changes for field <code>{{ field.type }}</code> can not be shown.</em>
                             </td>
                             <td class="change-log-item">
-                                {{ field.after.render }}
+                                &nbsp;
                             </td>
                         {% endif %}
                     </tr>

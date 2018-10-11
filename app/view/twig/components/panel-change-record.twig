@@ -10,7 +10,7 @@
 
 {% block panel_icon 'fa-clock-o' %}
 
-{% block panel_head __('contenttypes.generic.recent-changes-one',{'%contenttype%': context.contenttype}) %}
+{% block panel_head __('contenttypes.generic.recent-changes-one',{'%contenttype%': context.contenttype.singular_name }) %}
 
 {% block panel_body %}
     {% from '@bolt/_buic/_moment.twig' import buic_moment %}
