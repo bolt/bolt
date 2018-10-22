@@ -188,10 +188,10 @@
                             </td>
                         {% else %}
                             <td class="change-log-item">
-                                {{ field.before.render }}
+                                {{ dump(field.before.render) }}
                             </td>
                             <td class="change-log-item">
-                                {{ field.after.render }}
+                                {{ dump(field.after.render) }}
                             </td>
                         {% endif %}
                     </tr>
