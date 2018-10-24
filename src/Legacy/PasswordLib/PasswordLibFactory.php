@@ -22,7 +22,7 @@ final class PasswordLibFactory extends Factory
     /**
      * {@inheritdoc}
      */
-    public function createHash($password, $prefix = '$2a$')
+    public function createHash($password, $prefix = '$2a$', array $options = array())
     {
         if ($prefix === false) {
             throw new \DomainException('Unsupported Prefix Supplied');
@@ -30,7 +30,7 @@ final class PasswordLibFactory extends Factory
         foreach ($this->implementations as $impl) {
             if ($impl::getPrefix() == $prefix) {
                 /** @var AbstractPassword $instance */
-                $instance = new $impl();
+                $instance = new $impl($options);
                 $instance->setGenerator($this->getGenerator());
 
                 return $instance->create($password);
