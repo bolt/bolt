@@ -68,7 +68,7 @@ class SetcontentNode extends Node
 
         if ($this->hasNode('wherearguments')) {
             $compiler
-                ->raw(', $pager, ')
+                ->raw(', ')
                 ->subcompile($this->getNode('wherearguments'))
             ;
         }

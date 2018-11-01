@@ -45,7 +45,7 @@ class DateType extends FieldTypeBase
         foreach ($dateParams as $key => $val) {
             $time = strtotime($val);
             if (!$time) {
-                throw new QueryParseException('Unable to query $field = $val, not a valid date search', 1);
+                throw new QueryParseException("Unable to query $field = $val, not a valid date search", 1);
             }
             $replacement = date('Y-m-d H:i:s', $time);
             $query->setWhereParameter($key, $replacement);

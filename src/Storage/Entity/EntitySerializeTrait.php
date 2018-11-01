@@ -22,12 +22,21 @@ trait EntitySerializeTrait
                 continue;
             }
             $method = 'serialize' . $k;
-            $data[$k] = $this->$method();
+            $v = $this->$method();
+            if ($v instanceof \Serializable) {
+                $v = $v->serialize();
+            }
+            $data[$k] = $v;
+
         }
 
         foreach ($this->_fields as $k => $v) {
             $method = 'serialize' . $k;
-            $data[$k] = $this->$method();
+            $v = $this->$method();
+            if ($v instanceof \Serializable) {
+                $v = $v->serialize();
+            }
+            $data[$k] = $v;
         }
 
         return $data;

@@ -12,15 +12,31 @@ use Bolt\Storage\CaseTransformTrait;
  */
 trait MagicAttributeTrait
 {
+    use AppAwareTrait;
     use CaseTransformTrait;
 
     public $_fields = [];
+    private $_specialFields = ['app', 'values'];
 
     public function __get($key)
     {
-        $method = 'get' . ucfirst($key);
-        if (in_array($key, $this->getFields())) {
-            return $this->$method();
+        if (is_string($key)) {
+            if ($key === 'app') {
+                return $this->getApp();
+            } elseif ($key === 'values') {
+                // backport for old legacy storage, fixes BC break
+                if (method_exists($this, 'toArray')) {
+                    // from EntitySerializeTrait
+                    return $this->toArray();
+                } else {
+                    return $this->_fields;
+                }
+            }
+
+            $method = 'get' . ucfirst($key);
+            if (in_array($key, $this->getFields())) {
+                return $this->$method();
+            }
         }
     }
 
@@ -129,6 +145,6 @@ trait MagicAttributeTrait
      */
     protected function has($field)
     {
-        return in_array($field, $this->getFields());
+        return in_array($field, array_merge($this->getFields(), $this->_specialFields));
     }
 }

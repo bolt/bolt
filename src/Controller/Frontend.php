@@ -8,8 +8,12 @@ use Bolt\Asset\Snippet\Snippet;
 use Bolt\Asset\Target;
 use Bolt\Helpers\Input;
 use Bolt\Response\TemplateResponse;
+use Bolt\Storage\Entity\Content;
+use Bolt\Storage\Entity\Relations;
 use Bolt\Storage\Entity\Taxonomy;
+use Bolt\Storage\EntityManager;
 use Bolt\Storage\Mapping\ContentType;
+use Bolt\Storage\Query\QueryResultset;
 use Bolt\Storage\Repository\TaxonomyRepository;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
@@ -200,9 +204,30 @@ class Frontend extends ConfigurableBase
         }
 
         $contenttype = $this->getContentType($contenttypeslug);
-        $content = $this->storage()->getContentObject($contenttypeslug, [], false);
+        $formValues = $request->request->all();
 
-        $content->setFromPost($request->request->all(), $contenttype);
+        $storage = $this->storage();
+        if ($storage instanceof EntityManager) {
+            /** @var EntityManager $storage */
+            /** @var Content $content */
+            $content = $storage->create($contenttypeslug, $formValues);
+
+            /** @var Collection\Relations $related */
+            $related = $storage->createCollection(Relations::class);
+            $related->setFromPost($formValues, $content);
+            $content->setRelation($related);
+
+            /** @var Collection\Taxonomy $taxonomies */
+            $taxonomies = $storage->createCollection(Taxonomy::class);
+            $taxonomies->setFromPost($formValues, $content);
+            $content->setTaxonomy($taxonomies);
+
+        } else {
+            $content = $storage->getContentObject($contenttypeslug, [], false);
+            $content->setFromPost($formValues, $contenttype);
+        }
+
+        $this->fixBlockFieldsForPreview($content);
 
         $liveEditor = $request->get('_live-editor-preview');
         if (!empty($liveEditor)) {
@@ -232,6 +257,57 @@ class Frontend extends ConfigurableBase
         ];
 
         return $this->render($template, [], $globals);
+    }
+
+    /**
+     * Helper function to prefill `block` fields with an additional `block` field per item.
+     *
+     * This is needed to make previewing content with block fields fully working.
+     */
+    private function fixBlockFieldsForPreview($record)
+    {
+        foreach ($record->contenttype['fields'] as $fieldSlug => $fieldSettings) {
+            if ($fieldSettings['type'] === 'block') {
+                $fieldValue = $this->getBlockFieldValue($record, $fieldSlug);
+                if ($fieldValue) {
+                    $newArray = [];
+                    foreach ($fieldValue as $item) {
+                        if (!empty($item)) {
+                            foreach ($item as $k => &$v) {
+                                $v['block'] = $k;
+                            }
+                            $newArray[] = $v;
+                        }
+                    }
+                    $this->setBlockFieldValue($record, $fieldSlug, $newArray);
+                }
+            }
+        }
+
+        return $record;
+    }
+
+    private function getBlockFieldValue($record, $field)
+    {
+        if ($record instanceof Content) {
+            $value = $record->get($field);
+            if (is_array($value)) {
+                return $value;
+            }
+        } elseif (isset($record->values[$field]) && is_array($record->values[$field])) {
+            return $record->values[$field];
+        }
+
+        return null;
+    }
+
+    private function setBlockFieldValue($record, $field, array $value)
+    {
+        if ($record instanceof Content) {
+            $record->set($field, $value);
+        } else {
+            $record->values[$field] = $value;
+        }
     }
 
     /**
@@ -274,7 +350,7 @@ class Frontend extends ConfigurableBase
      */
     public function taxonomy(Request $request, $taxonomytype, $slug)
     {
-        $taxonomy = $this->storage()->getTaxonomyType($taxonomytype);
+        $taxonomy = $this->app['config']->get('taxonomy/' . $taxonomytype);
         // No taxonomytype, no possible content.
         if (empty($taxonomy)) {
             return false;
@@ -307,7 +383,11 @@ class Frontend extends ConfigurableBase
             ;
 
             $results = $repo->getContentByTaxonomy($query);
-            $content = $results->getCollection();
+            $set = new QueryResultset();
+            foreach ($results->getCollection() as $record) {
+                $set->add([$record]);
+            }
+            $content = $this->app['twig.records.view']->createView($set);
         }
 
         if (!$this->isTaxonomyValid($content, $slug, $taxonomy)) {
@@ -438,7 +518,7 @@ class Frontend extends ConfigurableBase
             $searchResult = $this->getContent($textQuery, $params);
 
             $result = [
-                'results' => $searchResult,
+                'results' => $searchResult->getSortedResults(),
                 'query'   => [
                     'sanitized_q' => strip_tags($q),
                 ],

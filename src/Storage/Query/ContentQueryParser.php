@@ -202,11 +202,11 @@ class ContentQueryParser
      */
     protected function parseDirectives()
     {
+        $this->directives = [];
+
         if (!$this->params) {
             return;
         }
-
-        $this->directives = [];
 
         foreach ($this->params as $key => $value) {
             if ($this->hasDirectiveHandler($key)) {

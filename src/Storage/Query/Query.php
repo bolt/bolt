@@ -98,6 +98,13 @@ class Query
      */
     public function getContentForTwig($textQuery, array $parameters = [])
     {
+        // fix BC break
+        if (func_num_args() === 3) {
+            $whereparameters = func_get_arg(2);
+            if (is_array($whereparameters) && !empty($whereparameters)) {
+                $parameters = array_merge($parameters, $whereparameters);
+            }
+        }
         return $this->recordsView->createView(
             $this->getContentByScope('frontend', $textQuery, $parameters)
         );
