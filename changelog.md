@@ -1,6 +1,18 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.6.1
+----------
+
+Released: 2018-11-02. Notable changes:
+
+ - Fixed: Temporary fix for repeater fields in changelog. #7683
+ - Fixed: Stop stack being queried in `_macro.twig` when stack is disabled. #7698
+ - Fixed: Fix for Select values inside repeaters inside templatefields. #7636
+ - Fixed: Add missing part of select field values in repeaters. #7701
+ - Fixed: Fix for field type blocks with translation extension. #7705
+ - Updated: Javascript dependencies, including `blueimp-file-upload`. 
+
 Bolt 3.6.0
 ----------
 
