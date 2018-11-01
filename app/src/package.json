@@ -48,7 +48,7 @@
         "load-grunt-config": "~0.19.2",
         "load-grunt-tasks": "~4.0.0",
         "napa": "~3.0.0",
-        "node-sass": "~4.9.3",
+        "node-sass": "~4.9.4",
         "postcss-single-charset": "~2.0.0",
         "request": "~2.88.0"
     },
