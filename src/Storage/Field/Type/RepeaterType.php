@@ -189,7 +189,7 @@ class RepeaterType extends FieldTypeBase
 
             return;
         }
-
+ 
         // This block separately handles JSON content for Templatefields
         if (isset($data[$key]) && Json::test($data[$key])) {
 
