@@ -189,20 +189,41 @@ class RepeaterType extends FieldTypeBase
 
             return;
         }
-
+ 
         // This block separately handles JSON content for Templatefields
         if (isset($data[$key]) && Json::test($data[$key])) {
-            $originalMapping[$key]['fields'] = $this->mapping['fields'];
-            $originalMapping[$key]['type'] = 'repeater';
+
+            if (isset($this->mapping['fields'])) {
+                $originalMapping[$key]['fields'] = $this->mapping['fields'];
+                $originalMapping[$key]['type'] = 'repeater';
+            } else {
+                $originalMapping[$key]['fields'] = $this->mapping['data']['fields'];
+                $originalMapping[$key]['type'] = 'block';
+            }
+
             $mapping = $this->em->getMapper()->getRepeaterMapping($originalMapping);
 
             $decoded = Json::parse($data[$key]);
             $collection = new RepeatingFieldCollection($this->em, $mapping);
             $collection->setName($key);
 
-            if (isset($decoded) && count($decoded)) {
-                foreach ($decoded as $group => $repdata) {
-                    $collection->addFromArray($repdata, $group);
+            if (isset($this->mapping['fields'])) {
+                if (isset($decoded) && count($decoded)) {
+                    foreach ($decoded as $group => $repdata) {
+                        $collection->addFromArray($repdata, $group);
+                    }
+                }
+            } else { 
+                if (isset($decoded) && count($decoded)) {
+                    foreach ($decoded as $group => $block) {
+                        foreach ($block as $blockName => $fields) {
+                            $fields = $fields;
+                            array_shift($fields);
+                            if (is_array($fields)) {
+                                $collection->addFromArray($fields, $group, $entity, $blockName);
+                            }
+                        }
+                    }
                 }
             }
 
