@@ -32,9 +32,6 @@ class Queue implements QueueInterface
     /** @var \Bolt\Configuration\ResourceManager */
     protected $resources;
 
-    /** @var array */
-    private $matchedComments;
-
     /**
      * Constructor.
      *
@@ -79,11 +76,6 @@ class Queue implements QueueInterface
      */
     public function process(Request $request, Response $response)
     {
-        // First, gather all html <!-- comments -->, because they shouldn't be
-        // considered for replacements. We use a callback, so we can fill our
-        // $this->matchedComments array
-        preg_replace_callback('/<!--(.*)-->/Uis', [$this, 'pregCallback'], $response->getContent());
-
         /** @var Snippet $asset */
         foreach ($this->queue as $key => $asset) {
             if ($asset->getZone() === Zone::get($request)) {
@@ -94,12 +86,6 @@ class Queue implements QueueInterface
 
         // Conditionally add jQuery
         $this->addJquery($request, $response);
-
-        // Finally, replace back ###comment### with its original comment.
-        if (!empty($this->matchedComments)) {
-            $html = preg_replace(array_keys($this->matchedComments), $this->matchedComments, $response->getContent(), 1);
-            $response->setContent($html);
-        }
     }
 
     /**
@@ -147,24 +133,5 @@ class Queue implements QueueInterface
             ;
             $this->injector->inject($asset, $asset->getLocation(), $response);
         }
-    }
-
-    /**
-     * Callback method to identify comments and store them in the
-     * matchedComments array.
-     *
-     * These will be put back after the replacements on the HTML are finished.
-     *
-     * @param string $c
-     *
-     * @return string The key under which the comment is stored
-     */
-    private function pregCallback($c)
-    {
-        $key = '###bolt-comment-' . count($this->matchedComments) . '###';
-        // Add it to the array of matched comments.
-        $this->matchedComments['/' . $key . '/'] = $c[0];
-
-        return $key;
     }
 }
