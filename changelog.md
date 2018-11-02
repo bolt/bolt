@@ -1,12 +1,15 @@
 Changelog for Bolt 3.x
 ======================
 
-Bolt 3.2.20
+Bolt 3.2.21
 -----------
 
-Released 2017-09-29. Notable changes:
+Released 2018-11-05. Notable changes:
 
  - Security: Added Request listener to prevent access to `_profiler` routes.
+ - Updated `doctrine` to recent version.
+ - Prevent breakage on PHP 7.2.
+ - Raise minimum PHP version to PHP `^7.1`.
 
 Bolt 3.2.19
 -----------
