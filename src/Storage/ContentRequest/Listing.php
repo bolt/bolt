@@ -129,6 +129,7 @@ class Listing
             $queryCopy->setMaxResults(null);
             $queryCopy->setFirstResult(null);
             $queryCopy->resetQueryPart('orderBy');
+            $queryCopy->resetQueryPart('join');
 
             $totalResults = (int) count($queryCopy->execute()->fetchAll());
             $start = $query->getFirstResult() ? $query->getFirstResult() : 0;
