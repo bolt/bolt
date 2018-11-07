@@ -1,10 +1,6 @@
 <?php
 
-namespace Bolt;
 
-use Bolt\Configuration\Composer;
-use Bolt\Configuration\Standard;
-use Bolt\Exception\BootException;
 
 /**
  * Second stage loader. Do bootstrapping within a new local scope to avoid
