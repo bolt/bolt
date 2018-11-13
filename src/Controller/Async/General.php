@@ -214,6 +214,9 @@ class General extends AsyncBase
             $request->query->all()
         );
 
+        // Spoof the title, for contenttypes that have a different `uses:`
+        $content->set('title', $request->query->get('title'));
+
         $uri = $content->getUri(
             $request->query->get('id'),
             $request->query->getBoolean('fulluri'),

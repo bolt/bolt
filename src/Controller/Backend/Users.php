@@ -432,7 +432,8 @@ class Users extends BackendBase
         );
 
         $name = $this->getOption('general/mailoptions/senderName', $this->getOption('general/sitename'));
-        $from = ['bolt@' . $request->getHost() => $name];
+        $sendermail = $this->getOption('general/mailoptions/senderMail', 'bolt@' . $request->getHost());
+        $from = [$sendermail => $name];
         $email = $this->getOption('general/mailoptions/senderMail', $email);
         try {
             /** @var Message $message */

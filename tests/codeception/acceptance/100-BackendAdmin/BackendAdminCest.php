@@ -437,7 +437,7 @@ class BackendAdminCest extends AbstractAcceptanceTest
         $I->submitForm('form[name="content_edit"]', ['content_edit' => ['save' => 1]]);
 
         $I->see('The new Showcase has been saved.');
-        $I->seeLink('A Strange Drop Bear', '/bolt/editcontent/showcases/');
+        $I->seeLink('A Strange Drop Bear', '/bolt/editcontent/showcases/1');
     }
 
     /**

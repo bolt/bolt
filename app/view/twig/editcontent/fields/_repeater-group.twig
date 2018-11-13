@@ -1,7 +1,7 @@
 <div class="repeater-group panel panel-default">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-xs-8 col-md-9">
+            <div class="col-xs-7 col-md-8">
                 <label class="main">
                     {% set grouptitle = false %}
                     {% for fieldname, f in field.fields if f['type'] == 'text' and grouptitle == false %}
@@ -19,8 +19,14 @@
                     </span>
                 </label>
             </div>
-            <div class="col-xs-4 col-md-3 text-right">
+            <div class="col-xs-5 col-md-4 text-right">
                 <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-default move-up">
+                        <i class="fa fa-arrow-up" title="{{ __('general.phrase.move-up') }}"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default move-down">
+                        <i class="fa fa-arrow-down" title="{{ __('general.phrase.move-down') }}"></i>
+                    </button>
                     {% if field.collapsible is not defined or field.collapsible %}
                         <button type="button" class="btn btn-sm btn-default repeater-collapse">
                             <span class="collapsible" title="{{ __('field.repeater.collapse') }}">
@@ -51,7 +57,7 @@
         {% for rkey, rfield in field.fields %}
             {# Ugly hack to be removed with Forms cutover … kittens are crying #}
             {% if rfield.type == 'select' %}
-                {% set values = context.values.select_choices[name][rkey] %}
+                {% set values = (context.selectvalues is defined) ? context.selectvalues[rkey] : context.values.select_choices[name][rkey] %}
             {% endif %}
             {% set rfield = defaults|merge(rfield) %}
             {% set rcontext = {

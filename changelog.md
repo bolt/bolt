@@ -1,10 +1,69 @@
 Changelog for Bolt 3.x
 ======================
 
-**NOTE:** Changes from earlier releases are merged into newer releases as well,
-but are usually only listed here against the lowest version applied to.
+Bolt 3.6.2
+----------
 
-----
+Released: 2018-11-09. Notable changes:
+
+- Fixed: Fix slugs for contenttypes that use a field other than 'title'. [#7708](https://github.com/bolt/bolt/pull/7708)
+- Fixed: Handle Empty Search Parameter Error. [#7712](https://github.com/bolt/bolt/pull/7712)
+- Fixed: Fix styling of panel actions. [#7707](https://github.com/bolt/bolt/pull/7707)
+
+Bolt 3.6.1
+----------
+
+Released: 2018-11-02. Notable changes:
+
+ - Fixed: Add missing part of select field values in repeaters. [#7701](https://github.com/bolt/bolt/pull/7701)
+ - Fixed: Fix for field type blocks with translation extension. [#7705](https://github.com/bolt/bolt/pull/7705)
+ - Fixed: Fix for Select values inside repeaters inside templatefields. [#7636](https://github.com/bolt/bolt/pull/7636)
+ - Fixed: Stop stack being queried in `_macro.twig` when stack is disabled. [#7698](https://github.com/bolt/bolt/pull/7698)
+ - Fixed: Temporary fix for repeater fields in changelog. [#7683](https://github.com/bolt/bolt/pull/7683)
+ - Updated: Javascript dependencies, including `blueimp-file-upload`.
+
+Bolt 3.6.0
+----------
+
+Released: 2018-10-10. Notable changes:
+
+ - Feature: Add cron "Minute", for timed publish [#7598](https://github.com/bolt/bolt/pull/7598)
+ - Feature: Drag-n-drop sorting for Content Blocks [#7621](https://github.com/bolt/bolt/pull/7621)
+ - Feature: Drag-n-drop sorting for Repeaters [#7617](https://github.com/bolt/bolt/pull/7617), [#7630](https://github.com/bolt/bolt/pull/7630), [#7648](https://github.com/bolt/bolt/pull/7648)
+ - Added: Add a Taxonomy repo and allow query content by taxonomy types [#7522](https://github.com/bolt/bolt/pull/7522)
+ - Added: Add class support to new storage and where applicable disable all legacy polyfills [#7571](https://github.com/bolt/bolt/pull/7571)
+ - Added: Add confirmation when deleting repeater / block set [#7627](https://github.com/bolt/bolt/pull/7627)
+ - Added: Add upload autoconfirm option [#7511](https://github.com/bolt/bolt/pull/7511)
+ - Added: Adding status to the listing page filter [#7577](https://github.com/bolt/bolt/pull/7577)
+ - Added: Enable the query listener and create pager instances for limited queries [#7526](https://github.com/bolt/bolt/pull/7526)
+ - Added: For BC content methods - Add default parameter values [#7555](https://github.com/bolt/bolt/pull/7555)
+ - Added: More improvements to New Storage Layer Compatibility [#7291](https://github.com/bolt/bolt/pull/7291), [#7654](https://github.com/bolt/bolt/pull/7654), [#7657](https://github.com/bolt/bolt/pull/7657)
+ - Added: Port across relations get from old storage [#7527](https://github.com/bolt/bolt/pull/7527)
+ - Added: Use senderMail in outgoing mail [#7675](https://github.com/bolt/bolt/pull/7675)
+ - Change: add 'heading' to the list of title-like field names. [#7647](https://github.com/bolt/bolt/pull/7647)
+ - Change: Use `nesbot/carbon` [#7633](https://github.com/bolt/bolt/pull/7633)
+ - Change: Use stable Passwordlib [#7632](https://github.com/bolt/bolt/pull/7632)
+ - Fixed: Add getUri for new storage [#7668](https://github.com/bolt/bolt/pull/7668)
+ - Fixed: Allow Methods To work with array or ContentType [#7599](https://github.com/bolt/bolt/pull/7599)
+ - Fixed: directives should always be cleared before re-parsing [#7681](https://github.com/bolt/bolt/pull/7681)
+ - Fixed: Don't use `getContent` on non-existing legacy items. [#7584](https://github.com/bolt/bolt/pull/7584)
+ - Fixed: Fix 'generate Lorem Ipsum' dummy content [#7605](https://github.com/bolt/bolt/pull/7605)
+ - Fixed: Fix error when searching for empty string [#7625](https://github.com/bolt/bolt/pull/7625)
+ - Fixed: Fix excerpts in new Storage [#7604](https://github.com/bolt/bolt/pull/7604),  [#7624](https://github.com/bolt/bolt/pull/7624)
+ - Fixed: Fix issue with html fields [#7619](https://github.com/bolt/bolt/pull/7619)
+ - Fixed: Fix New Content BC break (content->values) [#7671](https://github.com/bolt/bolt/pull/7671)
+ - Fixed: Fix preview [#7660](https://github.com/bolt/bolt/pull/7660),  [#7663](https://github.com/bolt/bolt/pull/7663)
+ - Fixed: Fix search results (Frontend, Omnisearch, Async) [#7670](https://github.com/bolt/bolt/pull/7670)
+ - Fixed: Fix that allows default sorting to work when using singular slug [#7525](https://github.com/bolt/bolt/pull/7525)
+ - Fixed: Handle ArrayAccess & array the same as 'taxonomy' key might not exist in either [#7586](https://github.com/bolt/bolt/pull/7586)
+ - Fixed: Improving relation get set interface [#7506](https://github.com/bolt/bolt/pull/7506)
+ - Fixed: Make `getListingOrder()` behave correctly on new Storage Layer. [#7585](https://github.com/bolt/bolt/pull/7585)
+ - Fixed: Minor Query Handler tweaks [#7524](https://github.com/bolt/bolt/pull/7524)
+ - Fixed: Two minor query parser bugs [#7523](https://github.com/bolt/bolt/pull/7523)
+ - Fixed:Fix for default ordering (plus code quality updates) [#7564](https://github.com/bolt/bolt/pull/7564)
+ - Updated: Update `cocur/slugify` to latest `^3.1.0` [#7600](https://github.com/bolt/bolt/pull/7600)
+ - Updated: Update Yarn dependencies, CKeditor and Codemirror [#7601](https://github.com/bolt/bolt/pull/7601)
+
 
 Bolt 3.5.7
 ----------
