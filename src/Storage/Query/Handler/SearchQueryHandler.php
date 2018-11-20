@@ -32,6 +32,11 @@ class SearchQueryHandler
             $query->setContentType($contentType);
 
             $searchParam = $contentQuery->getParameter('filter');
+            /** If we have an empty search filter then we need to return early */
+            if (empty($searchParam)) {
+                return $set;
+            }
+
             $query->setParameters($contentQuery->getParameters());
             $query->setSearch($searchParam);
 
