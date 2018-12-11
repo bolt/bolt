@@ -62,13 +62,10 @@ class Queue implements QueueInterface
             $asset->setPackageName('extensions');
         }
 
-        $url = $this->packages->getUrl($asset->getPath(), $asset->getPackageName());
-        $asset->setUrl($url);
-
         if ($asset->getType() === 'javascript') {
-            $this->javascript[$url] = $asset;
+            $this->javascript[$asset->getPath()] = $asset;
         } elseif ($asset->getType() === 'stylesheet') {
-            $this->stylesheet[$url] = $asset;
+            $this->stylesheet[$asset->getPath()] = $asset;
         } else {
             throw new \InvalidArgumentException(sprintf('Requested asset type %s is not valid.', $asset->getType()));
         }
@@ -126,6 +123,9 @@ class Queue implements QueueInterface
      */
     protected function processAsset(FileAssetInterface $asset, Request $request, Response $response)
     {
+        $url = $this->packages->getUrl($asset->getPath(), $asset->getPackageName());
+        $asset->setUrl($url);
+
         if ($asset->getZone() !== Zone::get($request)) {
             return;
         } elseif ($asset->isLate()) {
