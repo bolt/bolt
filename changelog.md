@@ -1,14 +1,26 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.6.3
+----------
+
+Released: 2018-12-12. Notable changes:
+
+ - Fixed: Add missing status filter. [#7719](https://github.com/bolt/bolt/pull/7719)
+ - Fixed: Add whitespace between status label and value. [#7717](https://github.com/bolt/bolt/pull/7717)
+ - Fixed: Allow for `$locale` optional parameter in `localedatetime`. [#7723](https://github.com/bolt/bolt/pull/7723)
+ - Fixed: Fix filters for Content without taxonomy. [#7722](https://github.com/bolt/bolt/pull/7722)
+ - Fixed: Fix listing without owner. [#7716](https://github.com/bolt/bolt/pull/7716)
+ - Fixed: Fix setting up legacy Contenttype object. [#7720](https://github.com/bolt/bolt/pull/7720)
+
 Bolt 3.6.2
 ----------
 
 Released: 2018-11-09. Notable changes:
 
-- Fixed: Fix slugs for contenttypes that use a field other than 'title'. [#7708](https://github.com/bolt/bolt/pull/7708)
-- Fixed: Handle Empty Search Parameter Error. [#7712](https://github.com/bolt/bolt/pull/7712)
-- Fixed: Fix styling of panel actions. [#7707](https://github.com/bolt/bolt/pull/7707)
+ - Fixed: Fix slugs for contenttypes that use a field other than 'title'. [#7708](https://github.com/bolt/bolt/pull/7708)
+ - Fixed: Handle Empty Search Parameter Error. [#7712](https://github.com/bolt/bolt/pull/7712)
+ - Fixed: Fix styling of panel actions. [#7707](https://github.com/bolt/bolt/pull/7707)
 
 Bolt 3.6.1
 ----------
