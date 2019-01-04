@@ -209,14 +209,21 @@ class General extends AsyncBase
      */
     public function makeUri(Request $request)
     {
-        return $this->storage()->getUri(
-            $request->query->get('title'),
-            $request->query->get('id'),
+        $content = $this->storage()->create(
             $request->query->get('contenttypeslug'),
+            $request->query->all()
+        );
+
+        // Spoof the title, for contenttypes that have a different `uses:`
+        $content->set('title', $request->query->get('title'));
+
+        $uri = $content->getUri(
+            $request->query->get('id'),
             $request->query->getBoolean('fulluri'),
-            true,
             $request->query->get('slugfield') //for multipleslug support
         );
+
+        return $uri;
     }
 
     /**
@@ -457,12 +464,16 @@ class General extends AsyncBase
         ];
 
         if ($this->getOption('general/httpProxy')) {
-            $options['proxy'] = sprintf(
-                '%s:%s@%s',
-                $this->getOption('general/httpProxy/user'),
-                $this->getOption('general/httpProxy/password'),
-                $this->getOption('general/httpProxy/host')
-            );
+            if ($this->getOption('general/httpProxy/user')) {
+                $options['proxy'] = sprintf(
+                    '%s:%s@%s',
+                    $this->getOption('general/httpProxy/user'),
+                    $this->getOption('general/httpProxy/password'),
+                    $this->getOption('general/httpProxy/host')
+                );
+            } else {
+                $options['proxy'] = $this->getOption('general/httpProxy/host');
+            }
         }
 
         return $options;

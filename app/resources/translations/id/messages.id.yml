@@ -10,8 +10,8 @@
 #   2 Unused messages
 #  36 Legacy untranslated messages
 # 424 Untranslated messages
-#   5 Legacy translation messages
-# 146 Translation messages
+#   3 Legacy translation messages
+# 148 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -277,7 +277,7 @@ general.phrase.select-file: # "Select file …"
 general.phrase.select-none: # "Select none"
 general.phrase.selection: # "Selection"
 general.phrase.show-proposed-alterations: # "Show proposed alterations"
-general.phrase.slug-colon: # "Slug:"
+general.phrase.slug: # "Slug"
 general.phrase.something-went-wrong: # "Something went wrong"
 general.phrase.something-went-wrong-after-first-user: # "Something went wrong with logging in after first user creation!"
 general.phrase.stack-add: # "Place on stack"
@@ -523,11 +523,9 @@ permissions.roles.label.anonymous: # "Anonymous"
 
 #--- Legacy translation messages ----------------------------------------------
 
-"(no group)": "(Tidak ada kelompok)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Tambah contoh<a href='%url%' class='btn btn-default'>Isian dengan teks Loripsum</a>"
 "Everybody": "Semua"
 "Excerpt": "Ringkasan"
-"Title": "Judul"
 
 #--- Translation messages -----------------------------------------------------
 
@@ -613,6 +611,7 @@ general.phrase.messages: "Pesan"
 general.phrase.meta-information: "Informasi Meta"
 general.phrase.missing-about-page: "Waduh, tidak ada tentang kami!"
 general.phrase.modified: "Dimodifikasi"
+general.phrase.no-group-parens: "(Tidak ada kelompok)"
 general.phrase.none: "Tidak ada"
 general.phrase.not-published: "Tidak diterbitkan"
 general.phrase.of: "dari"
@@ -648,6 +647,7 @@ general.phrase.status-current-colon: "Status sekarang"
 general.phrase.stay-classy-colon: "Kelas"
 general.phrase.taxonomy: "Taksonomi"
 general.phrase.tip-colon: "Saran"
+general.phrase.title: "Judul"
 general.phrase.translations: "Terjemahan"
 general.phrase.update-database: "Perbarui basis data"
 general.phrase.upload: "Unggah\""

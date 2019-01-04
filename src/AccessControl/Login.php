@@ -14,6 +14,7 @@ use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use PasswordLib\Password\Factory;
 use PasswordLib\Password\Implementation\Blowfish;
 use Silex\Application;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 /**
  * Login authentication handling.
@@ -26,6 +27,8 @@ class Login extends AccessChecker
     protected $passwordFactory;
     /** @var string */
     protected $authTokenName;
+    /** @var CsrfTokenManagerInterface */
+    private $csrfTokenManager;
 
     /**
      * Constructor.
@@ -47,6 +50,7 @@ class Login extends AccessChecker
         );
         $this->passwordFactory = $app['password_factory'];
         $this->authTokenName = $app['token.authentication.name'];
+        $this->csrfTokenManager = $app['csrf'];
     }
 
     /**
@@ -69,7 +73,7 @@ class Login extends AccessChecker
         $this->getRepositoryAuthtoken()->deleteExpiredTokens();
 
         if ($userName !== null && $password !== null) {
-            return $this->loginCheckPassword($userName, $password, $event);
+            return $this->loginCheckUser($userName, $password, $event);
         } elseif ($authCookie !== null) {
             return $this->loginCheckAuthtoken($authCookie, $event);
         }
@@ -79,15 +83,44 @@ class Login extends AccessChecker
     }
 
     /**
-     * Check a user login request for username/password combinations.
+     * Attempt to login as a user with the given username without checking the password. Accepts username or
+     * email.
      *
      * @param string             $userName
-     * @param string             $password
      * @param AccessControlEvent $event
+     *
+     * @throws AccessControlException
      *
      * @return bool
      */
-    protected function loginCheckPassword($userName, $password, AccessControlEvent $event)
+    public function loginAsUser($userName, AccessControlEvent $event)
+    {
+        $authCookie = $this->requestStack->getCurrentRequest()->cookies->get($this->authTokenName);
+
+        // Remove expired tokens
+        $this->getRepositoryAuthtoken()->deleteExpiredTokens();
+
+        if ($userName !== null) {
+            return $this->loginCheckUser($userName, null, $event, true);
+        } elseif ($authCookie !== null) {
+            return $this->loginCheckAuthtoken($authCookie, $event);
+        }
+
+        $this->systemLogger->error('LoginAsUser function called with empty username, or no authentication token.', ['event' => 'security']);
+        throw new AccessControlException('Invalid login parameters.');
+    }
+
+    /**
+     * Check a user login request for username/password combinations.
+     *
+     * @param string $userName
+     * @param string|null $password
+     * @param AccessControlEvent $event
+     * @param bool $ignorePassword
+     *
+     * @return bool
+     */
+    protected function loginCheckUser($userName, $password, AccessControlEvent $event, $ignorePassword = false)
     {
         if (!$userEntity = $this->getUserEntity($userName)) {
             $this->dispatcher->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_INVALID));
@@ -112,22 +145,29 @@ class Login extends AccessChecker
             return $this->loginFailed($userEntity);
         }
 
-        $isValid = $this->passwordFactory->verifyHash($password, $userAuth->getPassword());
-        if (!$isValid) {
-            $this->dispatcher->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_PASSWORD));
+        // Passwords can be ignored if you log in via loginAsUser()
+        if (!$ignorePassword) {
+            $isValid = $this->passwordFactory->verifyHash($password, $userAuth->getPassword());
 
-            return $this->loginFailed($userEntity);
-        }
+            if (!$isValid) {
+                $this->dispatcher->dispatch(AccessControlEvents::LOGIN_FAILURE, $event->setReason(AccessControlEvents::FAILURE_PASSWORD));
 
-        // Rehash password if not using Blowfish algorithm
-        if (!Blowfish::detect($userAuth->getPassword())) {
-            $userEntity->setPassword($this->passwordFactory->createHash($password, '$2y$'));
-            try {
-                $this->getRepositoryUsers()->update($userEntity);
-            } catch (NotNullConstraintViolationException $e) {
-                // Database needs updating
+                return $this->loginFailed($userEntity);
+            }
+
+            // Rehash password if not using Blowfish algorithm
+            if (!Blowfish::detect($userAuth->getPassword())) {
+                $userEntity->setPassword($this->passwordFactory->createHash($password, '$2y$'));
+                try {
+                    $this->getRepositoryUsers()->update($userEntity);
+                } catch (NotNullConstraintViolationException $e) {
+                    // Database needs updating
+                }
             }
         }
+
+        // Ensure we have a CSRF token, to prevent timing issues when the user opens multiple pages at once.
+        $this->csrfTokenManager->getToken('content_edit');
 
         $this->dispatcher->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
 
@@ -164,6 +204,10 @@ class Login extends AccessChecker
             $userTokenEntity->setLastseen(Carbon::now());
             $this->getRepositoryAuthtoken()->save($userTokenEntity);
             $this->flashLogger->success(Trans::__('general.phrase.session-resumed-colon'));
+
+            // Ensure we have a CSRF token, to prevent timing issues when the user opens multiple pages at once.
+            $this->csrfTokenManager->getToken('content_edit');
+
             $this->dispatcher->dispatch(AccessControlEvents::LOGIN_SUCCESS, $event->setDispatched());
 
             return $this->loginFinish($userEntity);

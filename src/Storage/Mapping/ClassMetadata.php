@@ -51,6 +51,16 @@ class ClassMetadata implements ClassMetadataInterface
     }
 
     /**
+     * Allows overriding the Entity Name for this mapping
+     *
+     * @param $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * Gets the fully-qualified class name of this persistent class.
      *
      * @return string

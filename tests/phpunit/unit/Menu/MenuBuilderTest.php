@@ -191,8 +191,10 @@ class MenuBuilderTest extends BoltUnitTest
      * @param array|null $content
      * @param array      $item
      * @param string     $link
+     *
+     * @throws \ReflectionException
      */
-    public function testpopulateItemFromRecord($expected, $content, $item, $link)
+    public function testPopulateItemFromRecord($expected, $content, $item, $link)
     {
         $app = $this->getApp();
         $app['request'] = Request::createFromGlobals();
@@ -225,6 +227,7 @@ class MenuBuilderTest extends BoltUnitTest
         $this->setService('storage', $storage);
 
         $mb = new MenuBuilder($app);
+
         $method = new \ReflectionMethod(
             get_class($mb),
             'populateItemFromRecord'

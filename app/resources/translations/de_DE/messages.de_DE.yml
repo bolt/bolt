@@ -10,8 +10,8 @@
 #   2 Unused messages
 #   4 Legacy untranslated messages
 #  40 Untranslated messages
-#  37 Legacy translation messages
-# 530 Translation messages
+#  35 Legacy translation messages
+# 532 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -83,7 +83,6 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 
 "(default template)": "(Standardvorlage)"
 "(no category)": "(keine Kategorie vergeben)"
-"(no group)": "(keine Gruppe)"
 "(none)": "(nichts)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Einige Beispieldatensätze mit <a href='%url%' class='btn btn-default'>mit Loripsum Text</a> hinzufügen."
 "Added to <tt>%key%</tt> '%title%'": "Hinzugefügt zu <tt>%key%</tt> '%title%'"
@@ -106,7 +105,6 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Das Kürzel '%slug%' wird in mehreren Datentypen verwendet. Bitte sorgen Sie in contenttypes.yml für Einzigartigkeit."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Die Übersetzungsdatei '%s' konnte nicht erstellt werden. Änderungen bitte mit einem eigenen Editor vornehmen."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Erstellt mit <a href='%url%' target='_blank' title='Anspruchsvolles, leichtgewichtiges & simples CMS'>Bolt</a>."
-"Title": "Titel"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Versuchen Sie sich mit ihrem FTP-Programm einzuloggen und die Datei lesbar zu machen oder gehen sie <a>zurück</a> zur letzen Seite."
 "Unable to create directory: %DIR%": "Ordner konnte nicht erstellt werden: %DIR%"
 "Unable to create file: %FILE%": "Datei konnte nicht erstellt werden: %FILE%"
@@ -353,6 +351,7 @@ general.phrase.move-up: "Hoch bewegen"
 general.phrase.no-content: "kein Inhalt"
 general.phrase.no-content-found: "Kein Inhalt gefunden."
 general.phrase.no-files-in-list: "Zur Zeit befinden sich keine Dateien in der Liste."
+general.phrase.no-group-parens: "(keine Gruppe)"
 general.phrase.no-images-in-list: "Zur Zeit befinden sich keine Bilder in der Liste."
 general.phrase.no-preview: "Keine Vorschau"
 general.phrase.no-result-for-search-term: "Keine Ergebnisse für %SEARCHTERM% gefunden. Bitte einen anderen Suchbegriff probieren."
@@ -422,7 +421,7 @@ general.phrase.show-all: "alle anzeigen"
 general.phrase.show-proposed-alterations: "Zeige geplante Änderungen"
 general.phrase.showing: "Zeige an"
 general.phrase.size: "Größe"
-general.phrase.slug-colon: "Slug:"
+general.phrase.slug: "Slug"
 general.phrase.something-went-wrong: "Etwas ist schiefgegangen"
 general.phrase.something-went-wrong-after-first-user: "Etwas ist schief gelaufen mit dem Login nach der Erstellung des ersten Benutzers!"
 general.phrase.stack: "Stapel"
@@ -442,6 +441,7 @@ general.phrase.template-detail: "Anzeigevorlage"
 general.phrase.thumbnail: "Thumbnail"
 general.phrase.time-format-24-12: "Zeit im 24/12 Stunden Format"
 general.phrase.tip-colon: "Tipp:"
+general.phrase.title: "Titel"
 general.phrase.toggle-all: "Alle aus/abwählen"
 general.phrase.translations: "Übersetzungen"
 general.phrase.types: "Typen"
@@ -588,7 +588,7 @@ page.extend.headline.installation-complete: "Installation beendet"
 page.extend.headline.installing-package: "Paket Installieren"
 page.extend.headline.latest-version: "Letzte stabile version"
 page.extend.headline.stable-versions: "Stabile Versionen"
-page.extend.headline.test-versions: "Instabiele Testversionen"
+page.extend.headline.test-versions: "Instabile Testversionen"
 page.extend.headline.theme-installation-complete: "Theme-Installation abgeschlossen"
 page.extend.headline.updates: "Updates"
 page.extend.listheader.actions: "Aktionen"

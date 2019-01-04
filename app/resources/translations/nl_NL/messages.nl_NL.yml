@@ -7,15 +7,11 @@
 #          process and your PR so that it will eventually be necessary to
 #          re-map your translations.
 
-#   1 Unused messages
+#   0 Unused messages
 #   1 Legacy untranslated messages
 #   0 Untranslated messages
-#  40 Legacy translation messages
-# 570 Translation messages
-
-#--- Unused messages ----------------------------------------------------------
-
-"contenttypes.generic.no-proper-type": "In het contenttype voor '%contenttype%' heeft het veld '%field%' type: %type%, wat geen geldig veld type is. Pas contenttypes.yml aan en corrigeer dit."
+#  38 Legacy translation messages
+# 572 Translation messages
 
 #--- Legacy untranslated messages ---------------------------------------------
 
@@ -25,7 +21,6 @@
 
 "(default template)": "(standaard template)"
 "(no category)": "(geen categorie)"
-"(no group)": "(geen groep)"
 "(none)": "(geen)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Voeg een aantal <a href='%url%' class='btn btn-default'>Records met Loripsum tekst toe</a>"
 "Added records to the ContentType <tt>%CONTENTYPE%</tt> titled": "Toegevoegde records aan het ContentType <tt>%CONTENTYPE%</tt>"
@@ -51,7 +46,6 @@
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "De slug '%slug%' wordt gebruikt in meerdere contenttypes. Bewerk contenttypes.yml, en maak ze verschillend."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Het vertalingenbestand '%s' is niet schrijfbaar. Gebruik je eigen editor om wijzigingen aan dit bestand aan te brengen."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Deze website is <a href='%url%' target='_blank' title='Weldoordacht, lichtgewicht en eenvoudig CMS'>Gebouwd met Bolt</a>."
-"Title": "Titel"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Log in met je ftp-account en maak het bestand leesbaar, of ga <a>terug</a> naar de vorige pagina."
 "Unable to create directory: %DIR%": "Directory %DIR% kan niet worden aangemaakt"
 "Unable to create file: %FILE%": "Bestand %FILE% kan niet worden aangemaakt"
@@ -215,15 +209,16 @@ general.phrase.code-colon: "Code"
 general.phrase.collapse-sidebar: "Zijbalk invouwen"
 general.phrase.configuration: "Configuratie"
 general.phrase.configuration-main: "Algemene configuratie"
-general.phrase.confirm-delete-file: "Weet je zeker dat je %FILENAME% wil verwijderen?"
+general.phrase.confirm-delete-file: "Weet je zeker dat je %FILENAME% wilt verwijderen?"
 general.phrase.confirm-delete-user: "Weet je zeker dat je gebruiker %username% wilt verwijderen?"
-general.phrase.confirm-record-multiple: "Weet je zeker dat je dit voor %NUMBER% records wil uitvoeren?"
+general.phrase.confirm-record-multiple: "Weet je zeker dat je dit voor %NUMBER% records wilt uitvoeren?"
 general.phrase.confirm-record-single: "Weet je zeker dat je dit wilt uitvoeren voor 1 record?"
-general.phrase.confirm-remove-file: "Weet je zeker dat je dit bestand wil verwijderen?"
-general.phrase.confirm-remove-files: "Weet je zeker dat je deze bestanden wil verwijderen?"
-general.phrase.confirm-remove-image: "Weet je zeker dat je deze afbeelding wil verwijderen?"
-general.phrase.confirm-remove-images: "Weet je zeker dat je deze afbeeldingen wil verwijderen?"
-general.phrase.confirm-remove-record: "Weet je zeker dat je dit gegeven wil verwijderen? Dit kun je niet ongedaan maken."
+general.phrase.confirm-remove-file: "Weet je zeker dat je dit bestand wilt verwijderen?"
+general.phrase.confirm-remove-files: "Weet je zeker dat je deze bestanden wilt verwijderen?"
+general.phrase.confirm-remove-image: "Weet je zeker dat je deze afbeelding wilt verwijderen?"
+general.phrase.confirm-remove-images: "Weet je zeker dat je deze afbeeldingen wilt verwijderen?"
+general.phrase.confirm-remove-record: "Weet je zeker dat je dit gegeven wilt verwijderen? Dit kun je niet ongedaan maken."
+general.phrase.confirm-remove-set: "Weet je zeker dat je deze set wilt verwijderen?"
 general.phrase.content: "Content"
 general.phrase.content-type-permissions: "Content type permissies"
 general.phrase.content-types: "Contenttypen"
@@ -320,6 +315,7 @@ general.phrase.move-up: "Omhoog"
 general.phrase.no-content: "geen content …"
 general.phrase.no-content-found: "Geen content gevonden."
 general.phrase.no-files-in-list: "De lijst bevat nog geen bestanden."
+general.phrase.no-group-parens: "(geen groep)"
 general.phrase.no-images-in-list: "De lijst bevat nog geen afbeeldingen."
 general.phrase.no-preview: "Geen Voorbeeld Beschikbaar"
 general.phrase.no-result-for-search-term: "Geen resultaat gevonden voor '%SEARCHTERM%'. Probeer het met een andere zoekterm."
@@ -335,7 +331,6 @@ general.phrase.of: "van"
 general.phrase.omnisearch: "Omnisearch"
 general.phrase.only-root-change-file-extensions: "Alleen root kan bestandsextensies wijzigen."
 general.phrase.options: "Opties"
-general.phrase.or: "of"
 general.phrase.order: "Volgorde"
 general.phrase.order-colon-sort: "Volgorde: %sort%"
 general.phrase.other-content: "Andere content"
@@ -389,13 +384,14 @@ general.phrase.show-all: "Toon alle"
 general.phrase.show-proposed-alterations: "Toon voorgestelde wijzigingen"
 general.phrase.showing: "Toont"
 general.phrase.size: "Grootte"
-general.phrase.slug-colon: "Slug:"
+general.phrase.slug: "Slug:"
 general.phrase.something-went-wrong: "Er ging iets mis"
 general.phrase.something-went-wrong-after-first-user: "Er ging iets mis met het inloggen na het aanmaken van de eerste gebruiker!"
 general.phrase.stack: "Stapel"
 general.phrase.stack-add: "Plaats op stack"
 general.phrase.stack-empty: "Nog geen bestanden op de Stack."
 general.phrase.stack-files: "Bestanden op de Stack"
+general.phrase.status: "Status"
 general.phrase.status-change-draft: "Zet status op 'klad'"
 general.phrase.status-change-held: "Zet status op 'niet gepubliceerd'"
 general.phrase.status-colon: "Status:"
@@ -409,6 +405,7 @@ general.phrase.template-detail: "Detail sjabloon"
 general.phrase.thumbnail: "Thumbnail"
 general.phrase.time-format-24-12: "Tijd in 24h/12h notering"
 general.phrase.tip-colon: "Tip:"
+general.phrase.title: "Titel"
 general.phrase.toggle-all: "Selecteer / deselecteer alles"
 general.phrase.translations: "Vertalingen"
 general.phrase.types: "Types"

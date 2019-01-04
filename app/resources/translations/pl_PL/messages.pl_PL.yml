@@ -10,8 +10,8 @@
 #   2 Unused messages
 #  17 Legacy untranslated messages
 # 185 Untranslated messages
-#  24 Legacy translation messages
-# 385 Translation messages
+#  22 Legacy translation messages
+# 387 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -116,7 +116,7 @@ general.phrase.order: # "Order"
 general.phrase.other-content: # "Other content"
 general.phrase.others: # "Others"
 general.phrase.publish: # "Publish"
-general.phrase.record-related-to-variable: # "This record is related to the following %CTNAME%:"
+general.phrase.record-related-to-variable: "Z tym rekordem powiązane są następujące %CTNAME%:"
 general.phrase.records: # "Records"
 general.phrase.redirect-detected: # "Redirect detected. Check if you are still logged on."
 general.phrase.related-content: # "Related content"
@@ -124,7 +124,7 @@ general.phrase.required-character-count: # "At least %NUM% characters required"
 general.phrase.search-results-for-variable: # "Search results for <b>%search%</b>."
 general.phrase.selection: # "Selection"
 general.phrase.show-proposed-alterations: # "Show proposed alterations"
-general.phrase.slug-colon: # "Slug:"
+general.phrase.slug: # "Slug"
 general.phrase.something-went-wrong-after-first-user: # "Something went wrong with logging in after first user creation!"
 general.phrase.status-colon: # "Status:"
 general.phrase.status-explanation: # "The status defines whether or not this record is published. Select 'Timed publish' to automatically publish on the set Publication Date."
@@ -251,7 +251,6 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 
 "(default template)": "(domyślny szablon)"
 "(no category)": "(bez kategorii)"
-"(no group)": "(bez grupy)"
 "(none)": "(żaden)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "Dodaj trochę przykładowych <a href='%url%' class='btn btn-default'>wpisów z tekstem Loripsum</a>"
 "Added to <tt>%key%</tt> '%title%'": "Dodano do <tt>%key%</tt> '%title%'"
@@ -269,7 +268,6 @@ page.prefill.skipped-singleton: # "Skipped singleton <code>%key%</code> (already
 "The slug '%slug%' is used in more than one contenttype. Please edit contenttypes.yml, and make them distinct.": "Slug '%slug%' jest używany w więcej niż jednym typie zawartości. Proszę przeedytować contenttypes.yml, i uczynić je różnymi."
 "The translations file '%s' can't be created. You will have to use your own editor to make modifications to this file.": "Plik tłumaczeń '%s' nie może zostać utworzony. Będziesz musiał użyć własnego edytora aby wprowadzać zmiany do tego pliku."
 "This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.": "Tą witrynę stworzono z użyciem <a href='%url%' target='_blank' title='Wyrafinowany, lekki i prosty CMS'>Bolt</a>."
-"Title": "Tytuł"
 "Try logging in with your ftp-client and make the file readable. Else try to go <a>back</a> to the last page.": "Spróbuj zalogować się za pomocą swojego klienta ftp i nadać prawa odczytu pliku. W przeciwnym wypadku spróbuj przejść <a>z powrotem</a> do ostatniej strony."
 "View (saved version) on site": "Przeglądaj (zapisaną wersję) na witrynie"
 "You've been logged on successfully.": "Zostałeś zalogowany."
@@ -468,6 +466,7 @@ general.phrase.modified: "Zmodyfikowany"
 general.phrase.no-content: "brak treści …"
 general.phrase.no-content-found: "Nie znaleziono treści."
 general.phrase.no-files-in-list: "Jeszcze nie ma żadnych plików."
+general.phrase.no-group-parens: "(bez grupy)"
 general.phrase.no-images-in-list: "Jeszcze nie ma żadnych obrazów."
 general.phrase.no-such-action-for-user: "Nie ma takiej akcji dla użytkownika '%s'."
 general.phrase.no-title: "brak tytułu …"
@@ -534,6 +533,7 @@ general.phrase.taxonomy: "Taksonomia"
 general.phrase.template-detail: "Szczegóły szablonu"
 general.phrase.time-format-24-12: "Czas w formacie 24h/12h"
 general.phrase.tip-colon: "Wskazówka:"
+general.phrase.title: "Tytuł"
 general.phrase.translations: "Tłumaczenia"
 general.phrase.types: "Typy"
 general.phrase.update-database: "Zaktualizuj bazę danych"

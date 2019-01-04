@@ -129,6 +129,8 @@ class QueryParameterParser
      * @param string            $value
      * @param ExpressionBuilder $expr
      *
+     * @throws QueryParseException
+     *
      * @return Filter|null
      */
     public function multipleKeyAndValueHandler($key, $value, $expr)
@@ -150,7 +152,7 @@ class QueryParameterParser
             $multipleValue = $this->multipleValueHandler($key, $val, $this->expr);
             if ($multipleValue) {
                 $filter = $multipleValue->getExpression();
-                $filterParams = $filterParams + $multipleValue->getParameters();
+                $filterParams += $multipleValue->getParameters();
             } else {
                 $val = $this->parseValue($val);
                 $placeholder = $key . '_' . $count;
@@ -182,6 +184,8 @@ class QueryParameterParser
      * @param string            $key
      * @param string            $value
      * @param ExpressionBuilder $expr
+     *
+     * @throws QueryParseException
      *
      * @return Filter|null
      */
@@ -233,6 +237,8 @@ class QueryParameterParser
      * @param string|array      $value
      * @param ExpressionBuilder $expr
      *
+     * @throws QueryParseException
+     *
      * @return Filter
      */
     public function defaultFilterHandler($key, $value, $expr)
@@ -257,16 +263,16 @@ class QueryParameterParser
             $filter->setExpression($composite);
 
             return $filter;
-        } else {
-            $val = $this->parseValue($value);
-            $placeholder = $key . '_1';
-            $exprMethod = $val['operator'];
-
-            $filter->setExpression($expr->andX($expr->$exprMethod($this->alias . $key, ':' . $placeholder)));
-            $filter->setParameters([$placeholder => $val['value']]);
-
-            return $filter;
         }
+
+        $val = $this->parseValue($value);
+        $placeholder = $key . '_1';
+        $exprMethod = $val['operator'];
+
+        $filter->setExpression($expr->andX($expr->$exprMethod($this->alias . $key, ':' . $placeholder)));
+        $filter->setParameters([$placeholder => $val['value']]);
+
+        return $filter;
     }
 
     /**
@@ -330,7 +336,7 @@ class QueryParameterParser
      * @param array  $params   Options to provide to the matched param
      * @param bool   $priority If set item will be prepended to start of list
      */
-    public function addValueMatcher($token, $params = [], $priority = null)
+    public function addValueMatcher($token, array $params = [], $priority = null)
     {
         if ($priority) {
             array_unshift($this->valueMatchers, ['token' => $token, 'params' => $params]);

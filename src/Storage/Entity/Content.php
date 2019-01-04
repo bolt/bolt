@@ -2,11 +2,13 @@
 
 namespace Bolt\Storage\Entity;
 
+use Bolt\Helpers\Excerpt;
 use Bolt\Storage\Collection;
 use Bolt\Storage\ContentLegacyService;
 use Bolt\Storage\Mapping;
 use Bolt\Storage\Mapping\ContentTypeTitleTrait;
 use Carbon\Carbon;
+use Twig\Markup;
 
 /**
  * Entity for Content.
@@ -16,6 +18,8 @@ class Content extends Entity
     use ContentRouteTrait;
     use ContentTypeTrait;
     use ContentTypeTitleTrait;
+    use ContentUserTrait;
+    use ContentUriTrait;
 
     /** @var string|Mapping\ContentType */
     protected $contenttype;
@@ -344,6 +348,23 @@ class Content extends Entity
     }
 
     /**
+     * Create an excerpt for the Entity.
+     *
+     * @param int               $length
+     * @param bool              $includeTitle
+     * @param array|string|null $focus
+     *
+     * @return string|null
+     */
+    public function getExcerpt($length = 200, $includeTitle = false, $focus = null)
+    {
+        $excerpter = new Excerpt($this);
+        $excerpt = $excerpter->getExcerpt($length, $includeTitle, $focus);
+
+        return new Markup($excerpt, 'UTF-8');
+    }
+
+    /**
      * Getter for a record's 'title' field.
      *
      * If there is no field called 'title' then we just return the first text
@@ -356,7 +377,7 @@ class Content extends Entity
         $fields = $this->_fields;
 
         if (array_key_exists('title', $fields)) {
-            return $fields['title'];
+            return (string) $fields['title'];
         }
 
         $fieldNames = $this->getTitleColumnNames($this->contenttype);

@@ -10,8 +10,8 @@
 #   2 Unused messages
 #  31 Legacy untranslated messages
 # 389 Untranslated messages
-#  10 Legacy translation messages
-# 181 Translation messages
+#   8 Legacy translation messages
+# 183 Translation messages
 
 #--- Unused messages ----------------------------------------------------------
 
@@ -246,7 +246,7 @@ general.phrase.search-results-for-variable: # "Search results for <b>%search%</b
 general.phrase.select-file: # "Select file …"
 general.phrase.selection: # "Selection"
 general.phrase.show-proposed-alterations: # "Show proposed alterations"
-general.phrase.slug-colon: # "Slug:"
+general.phrase.slug: # "Slug"
 general.phrase.something-went-wrong-after-first-user: # "Something went wrong with logging in after first user creation!"
 general.phrase.stack: # "Stack"
 general.phrase.stack-empty: # "There are no items on the Stack, yet."
@@ -486,13 +486,11 @@ permissions.roles.description.root: # "Built-in superuser role, automatically gr
 
 "(default template)": "(standardní šablona)"
 "(no category)": "(χωρίς κατηγορία)"
-"(no group)": "(χωρίς ομάδα)"
 "Add some sample <a href='%url%' class='btn btn-default'>Records with Loripsum text</a>": "<a href='%url%' class='btn btn-default'>Προσθέστε</a> εγγραφές με χαζό περιεχόμενο Lorem Ipsum."
 "Added to <tt>%key%</tt> '%title%'": "Προστεθηκε στο <tt>%key%</tt> '%title%'"
 "Current (saved) status:": "Τρέχουσα (αποθηκευμένη) κατάσταση:"
 "Everybody": "Όλοι"
 "Excerpt": "Απόσπασμα"
-"Title": "Τίτλος"
 "You've been logged on successfully.": "Συνδεθήκατε επιτυχώς."
 
 #--- Translation messages -----------------------------------------------------
@@ -597,6 +595,7 @@ general.phrase.meta-information: "Meta πληροφορίες"
 general.phrase.modifications-database-colon: "Αλλαγές στην Βάση Δεδομένων:"
 general.phrase.modifications-needed-colon: "Αλλαγές που χρειάστηκαν:"
 general.phrase.modified: "Τροποποιήθηκε"
+general.phrase.no-group-parens: "(χωρίς ομάδα)"
 general.phrase.no-result-for-search-term: "Δεν βρήθηκαν αποτελέσματα για '%SEARCHTERM%'. Προσπαθήστε άλλη αναζήτηση."
 general.phrase.no-such-action-for-user: "Δεν υπάρχει τέτοια επιλογή για τον χρήστη '%s'."
 general.phrase.none: "Κανένα"
@@ -642,6 +641,7 @@ general.phrase.status-colon: "Κατάσταση:"
 general.phrase.status-current-colon: "Τρέχουσα κατάσταση:"
 general.phrase.stay-classy-colon: "Κλάση:"
 general.phrase.tip-colon: "Μυστικό:"
+general.phrase.title: "Τίτλος"
 general.phrase.translations: "Μεταφράσεις"
 general.phrase.types: "Τύποι"
 general.phrase.update-database: "Ανανέωση της Βασης Δεδομένων"

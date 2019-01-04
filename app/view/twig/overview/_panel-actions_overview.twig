@@ -16,45 +16,58 @@
         </a>
     {% endif %}
 
-    <p style="margin-top: 15px;"><strong>{{ __('general.phrase.filter') }}</strong></p>
-
     <form class="form-inline">
-
-        {% set taxonomyfilter = false %}
-
         <div class="form-group">
-        {% for taxonomy in context.contenttype.taxonomy|default([]) %}
-            {% if config.get('taxonomy/' ~ taxonomy ~ '/options') is iterable %}
-                {% set tax_query = global.request.query.get('taxonomy-' ~ taxonomy ) %}
-                {% if tax_query %}
-                    {% set taxonomyfilter = true %}
-                {% endif %}
-                <select name='taxonomy-{{taxonomy}}' class='form-control'>
-                    <option value=''>
-                        ({{ config.get('taxonomy/' ~ taxonomy ~ '/name')|default(taxonomy) }})
-                    </option>
-                {% for slug, name in config.get('taxonomy/' ~ taxonomy ~ '/options') %}
-                    <option value='{{slug}}' {% if tax_query == slug %}selected{% endif %}>
-                        {{name}}
-                    </option>
-                {% endfor %}
-                </select>
-                {{ __('general.phrase.or') }}
-            {% endif %}
-        {% endfor %}
-        {% set filter_query = global.request.query.get('filter') %}
-        {% set order_query = global.request.query.get('order') %}
-            <input type="text" class="form-control" value="{{ filter_query }}" name="filter" style="width: 110px;" placeholder="{{ __('general.phrase.keyword-ellipsis') }}">
-        </div>
 
+            {% set filter_query = global.request.query.get('filter') %}
+            {% set order_query = global.request.query.get('order') %}
+            {% set status_query = global.request.query.get('status') %}
+            {% set taxonomyfilter = false %}
+
+            {% if context.contenttype.taxonomy|default([]) %}
+                <p style="margin-top: 15px;"><strong>{{ __('general.phrase.taxonomy') }}</strong>:
+                    {% for taxonomy in context.contenttype.taxonomy %}
+                        {% if config.get('taxonomy/' ~ taxonomy ~ '/options') is iterable %}
+                            {% set tax_query = global.request.query.get('taxonomy-' ~ taxonomy ) %}
+                            {% if tax_query %}
+                                {% set taxonomyfilter = true %}
+                            {% endif %}
+                            <select name='taxonomy-{{taxonomy}}' class='form-control'>
+                                <option value=''>
+                                    ({{ config.get('taxonomy/' ~ taxonomy ~ '/name')|default(taxonomy) }})
+                                </option>
+                                {% for slug, name in config.get('taxonomy/' ~ taxonomy ~ '/options') %}
+                                    <option value='{{slug}}' {% if tax_query == slug %}selected{% endif %}>
+                                        {{name}}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                    {% endfor %}
+                </p>
+            {% endif %}
+
+            <p style="margin-top: 15px;"><strong>{{ __('general.phrase.status') }}</strong>:
+                <select name='status' class='form-control'>
+                    <option value=''>All</option>
+                    {% set status_list = { 'published' : 'Published', 'held' : 'Not Published', 'draft' : 'Draft' } %}
+                    {% for key, value in status_list %}
+                        <option value='{{ key }}' {% if status_query == key %}selected{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+    
+            <p style="margin-top: 15px;"><strong>{{ __('general.phrase.title') }}</strong>:
+                <input type="text" class="form-control" value="{{ filter_query }}" name="filter" style="width: 150px;" placeholder="{{ __('general.phrase.keyword-ellipsis') }}">
+            </p>
+        </div>
         <div class="form-group" style="display: block; margin-top: 12px;">
             <button type="submit" class="btn btn-tertiary"><i class="fa fa-filter"></i> {{ __('general.phrase.filter') }}</button>
 
-            {% if filter_query or order_query or taxonomyfilter %}
+            {% if filter_query or order_query or taxonomyfilter or status_query %}
                 <a class="btn btn-tertiary" href="?"><i class="fa fa-close"></i> {{ __('general.phrase.clear-filter-sort') }}</a>
             {% endif %}
         </div>
-
     </form>
 
     {# Use the `description:` from contenttypes.yml if set, otherwise fall back

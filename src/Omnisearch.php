@@ -14,7 +14,7 @@ use Symfony\Component\Finder\Finder;
  * - permissions
  * - a config.yml for search options
  *
- * @author Xiao-HuTai, xiao@twokings.nl
+ * @author Xiao-Hu Tai, xiao@twokings.nl
  */
 class Omnisearch
 {
@@ -366,9 +366,24 @@ class Omnisearch
         }
         $user = $this->app['users']->getCurrentUser();
 
-        $searchresults = $this->app['storage']->searchContent($query);
-        /** @var Content[] $searchresults */
-        $searchresults = $searchresults['results'];
+        $isLegacy = $this->app['config']->get('general/compatibility/setcontent_legacy', true);
+
+        if ($isLegacy) {
+            $searchresults = $this->app['storage']->searchContent($query);
+
+            /** @var Content[] $searchresults */
+            $searchresults = $searchresults['results'];
+        } else {
+            $appCt = array_keys($this->app['query.search_config']->getSearchableTypes());
+            $textQuery = '(' . join(',', $appCt) . ')/search';
+            $params = [
+                'filter' => $query,
+            ];
+
+            /** @var \Bolt\Storage\Query\SearchQueryResultset $searchresults */
+            $searchresults = $this->app['query']->getContentForTwig($textQuery, $params);
+            $searchresults = $searchresults->getSortedResults();
+        }
 
         $index = 0;
         foreach ($searchresults as $result) {

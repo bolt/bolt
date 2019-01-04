@@ -47,7 +47,7 @@ locale: en_GB
 # with this option using your own theme.
 #
 # Note: If you've changed the filename, and your changes do not show up on the
-#       website, be sure to check for a config.ymlfile in your theme's folder.
+#       website, be sure to check for a config.yml file in your theme's folder.
 #       If a template is set there, it will override the setting here.
 maintenance_mode: false
 maintenance_template: maintenance_default.twig
@@ -338,6 +338,9 @@ liveeditor: false
 #
 # Protip: If your webhost does not support SMTP, sign up for a (free) Sparkpost
 # account at https://www.sparkpost.com/pricing/ for sending emails reliably.
+#
+# The mail defaults use bolt@yourhostname with the site title as a default.
+# Override this with the senderName and senderMail fields
 
 # mailoptions:
 #     transport: smtp
@@ -439,9 +442,9 @@ hash_strength: 10
 
 # If you want Bolt installation get news through a proxy
 # httpProxy:
-#     host: my.proxy.server
-#     user: usr
-#     password: pwd
+#     host: scheme://my.proxy.server:port
+#     user: [usr]
+#     password: [pwd]
 
 # Options for backend user interface
 # backend:

@@ -4,6 +4,7 @@ namespace Bolt\Helpers;
 
 use Bolt\Collection\Bag;
 use Bolt\Collection\MutableBag;
+use Bolt\Common\Json;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -46,7 +47,12 @@ final class RequestSanitiser
         foreach ($bag as $k => $v) {
             /** @var Bag $v */
             if (is_array($v) && !is_callable($v)) {
-                $bag[$k] = Bag::from($v)->join(' ');
+                $bag[$k] = Bag::from($v)
+                    ->call(function (array $a) {
+                        return [Json::dump($a)];
+                    })
+                    ->join(' ')
+                ;
             } elseif (is_string($v) || (is_object($v) && method_exists($v, '__toString'))) {
                 $bag[$k] = (string) $v;
             } else {

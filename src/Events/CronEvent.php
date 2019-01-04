@@ -31,6 +31,7 @@ class CronEvent extends Event
         $this->output = $output;
 
         // Add listeners
+        $this->app['dispatcher']->addListener(CronEvents::CRON_MINUTE,  [$this, 'doRunScheduledJobs']);
         $this->app['dispatcher']->addListener(CronEvents::CRON_HOURLY,  [$this, 'doRunScheduledJobs']);
         $this->app['dispatcher']->addListener(CronEvents::CRON_DAILY,   [$this, 'doRunScheduledJobs']);
         $this->app['dispatcher']->addListener(CronEvents::CRON_WEEKLY,  [$this, 'doRunScheduledJobs']);
@@ -47,6 +48,9 @@ class CronEvent extends Event
     public function doRunScheduledJobs(Event $event, $eventName)
     {
         switch ($eventName) {
+            case CronEvents::CRON_MINUTE:
+                $this->cronMinute();
+                break;
             case CronEvents::CRON_HOURLY:
                 $this->cronHourly();
                 break;
@@ -65,10 +69,11 @@ class CronEvent extends Event
         }
     }
 
+
     /**
-     * Hourly jobs.
+     * Minute by minute jobs.
      */
-    private function cronHourly()
+    private function cronMinute()
     {
         $timedRecords = $this->app['storage.event_processor.timed'];
         if ($timedRecords->isDuePublish()) {
@@ -79,6 +84,13 @@ class CronEvent extends Event
             $this->notify('De-publishing timed records');
             $timedRecords->holdExpiredRecords();
         }
+    }
+
+    /**
+     * Hourly jobs.
+     */
+    private function cronHourly()
+    {
     }
 
     /**

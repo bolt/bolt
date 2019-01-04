@@ -8,6 +8,7 @@ use Bolt\Legacy\Storage;
 use Bolt\Storage\Collection\CollectionManager;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Mapping\MetadataDriver;
+use Bolt\Storage\Query\Query;
 use Bolt\Storage\Repository\ContentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
@@ -24,7 +25,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * Legacy methods:
  *
- * @method array getContentType($contenttypeslug)
  * @method void  publishTimedRecords($contenttype)
  * @method void  depublishExpiredRecords($contenttype)
  */
@@ -54,6 +54,8 @@ class EntityManager implements EntityManagerInterface
     protected $defaultRepositoryFactory;
     /** @var  ContentLegacyService */
     protected $legacyService;
+    /** @var Query */
+    private $queryService;
 
     /**
      * Creates a new EntityManager that operates on the given database connection
@@ -94,6 +96,8 @@ class EntityManager implements EntityManagerInterface
      * @param string                 $className The type of entity to create
      * @param array                  $data      The data to use to hydrate the new entity
      * @param ClassMetadataInterface $metadata
+     *
+     * @throws InvalidRepositoryException
      *
      * @return Entity\Entity
      */
@@ -200,6 +204,8 @@ class EntityManager implements EntityManagerInterface
      * @param string     $className class name of the object to find
      * @param int|string $id        identity of the object to find
      *
+     * @throws InvalidRepositoryException
+     *
      * @return object the found object
      */
     public function find($className, $id)
@@ -213,6 +219,8 @@ class EntityManager implements EntityManagerInterface
      * The object will be entered into the database as a result of this operation.
      *
      * @param object $object the instance to persist to storage
+     *
+     * @throws InvalidRepositoryException
      *
      * @return bool
      */
@@ -234,6 +242,8 @@ class EntityManager implements EntityManagerInterface
      * Passed in object will be removed from the database as a result of this operation.
      *
      * @param object $object the object instance to remove
+     *
+     * @throws InvalidRepositoryException
      *
      * @return bool
      */
@@ -308,7 +318,7 @@ class EntityManager implements EntityManagerInterface
             $repo = new Repository($this, $classMetadata);
         }
 
-        if ($repo instanceof Repository\ContentRepository) {
+        if ($repo instanceof Repository\ContentRepository && $this->legacyService !== null) {
             /** @var ContentRepository $repo */
             $repo->setLegacyService($this->legacyService);
         }
@@ -440,6 +450,11 @@ class EntityManager implements EntityManagerInterface
         return $this->logger;
     }
 
+    public function setQueryService($queryService)
+    {
+        $this->queryService = $queryService;
+    }
+
     /******* Deprecated functions ******/
 
     /**
@@ -452,7 +467,13 @@ class EntityManager implements EntityManagerInterface
      */
     public function __call($method, array $args)
     {
-        return call_user_func_array([$this->legacy(), $method], $args);
+        if ($this->legacyStorage !== null) {
+            return call_user_func_array([$this->legacy(), $method], $args);
+        } elseif ($this->queryService !== null) {
+            return call_user_func_array([$this->queryService, $method], $args);
+        }
+
+        throw new \Exception('Legacy service nor Query service loaded');
     }
 
     /**
@@ -464,10 +485,34 @@ class EntityManager implements EntityManagerInterface
      * @param array  $pager
      * @param array  $whereparameters
      *
-     * @return \Bolt\Legacy\Content|\Bolt\Legacy\Content[]
+     * @deprecated
+     *
+     * @return mixed
      */
     public function getContent($textquery, $parameters = [], &$pager = [], $whereparameters = [])
     {
-        return $this->legacy()->getContent($textquery, $parameters, $pager, $whereparameters);
+        if ($this->legacyStorage !== null) {
+            return $this->legacy()->getContent($textquery, $parameters, $pager, $whereparameters);
+        } elseif ($this->queryService !== null) {
+            return $this->queryService->getContent($textquery, array_merge($parameters, $whereparameters));
+        }
+
+        throw new \Exception('Legacy service nor Query service loaded');
+    }
+
+    /**
+     * Drop in replacement for the legacy storage getContentType method.
+     *
+     * @param string $alias
+     *
+     * @return Mapping\ContentType|array
+     */
+    public function getContentType($alias)
+    {
+        if ($this->legacyStorage !== null) {
+            return $this->legacy()->getContentType($alias);
+        }
+
+        return $this->mapping->createContentType($alias);
     }
 }

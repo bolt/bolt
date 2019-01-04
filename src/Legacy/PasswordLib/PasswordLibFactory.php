@@ -22,7 +22,7 @@ final class PasswordLibFactory extends Factory
     /**
      * {@inheritdoc}
      */
-    public function createHash($password, $prefix = '$2a$')
+    public function createHash($password, $prefix = '$2a$', array $options = [])
     {
         if ($prefix === false) {
             throw new \DomainException('Unsupported Prefix Supplied');

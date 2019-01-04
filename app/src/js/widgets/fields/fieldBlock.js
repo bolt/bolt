@@ -65,11 +65,28 @@
                 self._append(el);
             });
 
+            self.element.find('.block-slot').sortable({
+                cursor: "move",
+                handle: ".panel-heading",
+                stop: function (event, ui) {
+                    self._renumber();
+                    self._resetEditors(ui.item);
+                }
+            });
+
             self.element.on('click', '.delete-button', function () {
                 var setToDelete = $(this).closest('.block-group');
 
-                setToDelete.remove();
-                self._renumber();
+                bootbox.confirm(
+                    bolt.data('editcontent.deleteset'),
+                    function (confirmed) {
+                        $('.alert').alert(); // Dismiss alert messages
+                        if (confirmed === true) {
+                            setToDelete.remove();
+                            self._renumber();
+                        }
+                    }
+                );
             });
 
             self.element.on('click', '.move-up', function () {
@@ -110,6 +127,18 @@
 
                 setToShow.slideDown();
             });
+
+            self.element.on('keyup change', 'input[type=text]', function () {
+                if ($(this).closest('.bolt-field-text').length) {
+                    var $container = $(this).closest('.block-group');
+                    var fieldToUse = $container.find('.bolt-field-text input:first');
+                    var headingToUpdate = $container.find('.block-heading');
+                    var fallback = headingToUpdate.data('default');
+
+                    headingToUpdate.text($(fieldToUse).val().substring(0,60) || fallback);
+                }
+            });
+
         },
 
         /**

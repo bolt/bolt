@@ -70,7 +70,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
             {% if internal.heading|default() %}
                 {{ internal.heading }}
             {% else %}
-                {{ content.group.name|default(__('(no group)')) }}
+                {{ content.group.name|default(__('general.phrase.no-group-parens')) }}
             {% endif %}
         </th>
     </tr>
@@ -120,7 +120,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
             <th class="hidden-xs">{{ buic_listing_slink('id', __('general.phrase.id'))}}</th>
 
             {# COLUMN: Content #}
-            <th style="width:80%">{{ buic_listing_slink(content.getTitleColumnName(content.contenttype), __('Title') ~ ' / ' ~ __('Excerpt')) }}</th>
+            <th style="width:80%">{{ buic_listing_slink(content.getTitleColumnName(content.contenttype), __('general.phrase.title') ~ ' / ' ~ __('Excerpt')) }}</th>
 
             {# COLUMN: Thumbnail #}
             <th class="listthumb"></th>
@@ -195,13 +195,15 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
             {# COLUMN: Meta #}
             <td class="username hidden-sm hidden-xs">
                 <i class="fa fa-user fa-fw"></i>
-                {% set owner = app.users.user(content.ownerid) %}
-
-                {% if owner %}
-                    {{ owner.displayname[:15] }}
-                {% else %}
-                <s>{{ content.ownerid }}</s>
-                {% endif %}<br>
+                {% if content.ownerid %}
+                    {% set owner = app.users.user(content.ownerid) %}
+                    {% if owner %}
+                        {{ owner.displayname[:15] }}
+                    {% else %}
+                        <s>{{ content.ownerid }}</s>
+                    {% endif %}
+                    <br>
+                {% endif %}
                 {% if content.status == 'timed' %}
                     <i class="fa fa-clock-o status-timed fa-fw"></i> {{ buic_moment(content.datepublish) }}<br>
                 {% else %}
@@ -282,10 +284,10 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                         </a>
                     </li>
                     <li>
-                        <a class="nolink">{{ __('general.phrase.status-current-colon') }}<strong>{{ content.status }}</strong></a>
+                        <a class="nolink">{{ __('general.phrase.status-current-colon') }} <strong>{{ content.status }}</strong></a>
                     </li>
                     <li>
-                        <a class="nolink">{{ __('general.phrase.slug-colon') }}
+                        <a class="nolink">{{ __('general.phrase.slug') }}:
                             <code title="{{ content.slug }}">{{ content.slug[:24] }}</code>
                         </a>
                     </li>

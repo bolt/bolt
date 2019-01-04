@@ -573,7 +573,7 @@ trait ContentValuesTrait
         }
 
         // Sets the names of some 'common' names for the 'title' column.
-        $names = ['title', 'name', 'caption', 'subject'];
+        $names = ['title', 'name', 'caption', 'subject', 'heading'];
 
         // Some localised options as well
         $names = array_merge($names, ['titel', 'naam', 'onderwerp']); // NL

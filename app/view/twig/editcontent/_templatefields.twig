@@ -20,7 +20,7 @@
                 {% set templatelabelkey = templatefield.label ?: templatekey|capitalize %}
 
                 {# Ugly hack to be removed with Forms cutover … kittens are crying #}
-                {% if templatefield.type == 'select' %}
+                {% if templatefield.type in ['select', 'repeater', 'block'] %}
                     {% set values = context.values.select_choices.templatefields[templatekey] %}
                 {% endif %}
 
@@ -29,7 +29,7 @@
                     key: 'templatefields-' ~ templatekey,
                     contentkey: templatekey,
                     values: values|default(),
-                    context: context|merge({ content: context.content.get('templatefields') }),
+                    context: context|merge({ content: context.content.get('templatefields'), selectvalues: values|default([]) }),
                     name: 'templatefields[' ~ templatekey ~ ']',
                     labelkey:  templatelabelkey
                 } %}

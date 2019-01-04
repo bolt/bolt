@@ -17,7 +17,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  *
  *  @author Ross Riley <riley.ross@gmail.com>
  */
-class SelectQuery implements QueryInterface
+class SelectQuery implements ContentQueryInterface
 {
     /** @var QueryBuilder */
     protected $qb;
@@ -150,7 +150,7 @@ class SelectQuery implements QueryInterface
     {
         return array_intersect_key(
             $this->getWhereParameters(),
-            array_flip(preg_grep('/^' . $fieldName . '_/', array_keys($this->getWhereParameters())))
+            array_flip(preg_grep('/^' . $fieldName . '_\d+$/', array_keys($this->getWhereParameters())))
         );
     }
 
@@ -202,7 +202,7 @@ class SelectQuery implements QueryInterface
             $query->where($this->getWhereExpression());
         }
         foreach ($this->getWhereParameters() as $key => $param) {
-            $query->setParameter($key, $param, (is_array($param)) ? Connection::PARAM_STR_ARRAY : null);
+            $query->setParameter($key, $param, is_array($param) ? Connection::PARAM_STR_ARRAY : null);
         }
 
         return $query;
@@ -262,6 +262,8 @@ class SelectQuery implements QueryInterface
      * Internal method that runs the individual key/value input through
      * the QueryParameterParser. This allows complicated expressions to
      * be turned into simple sql expressions.
+     *
+     * @throws \Bolt\Exception\QueryParseException
      */
     protected function processFilters()
     {

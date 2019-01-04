@@ -18,6 +18,7 @@ class Query
      * Constructor.
      *
      * @param ContentQueryParser $parser
+     * @param TwigRecordsView    $recordsView
      */
     public function __construct(ContentQueryParser $parser, TwigRecordsView $recordsView)
     {
@@ -69,15 +70,15 @@ class Query
 
     /**
      * @param string $scopeName
-     * @param string $textquery
+     * @param string $textQuery
      * @param array  $parameters
      *
      * @return QueryResultset|null
      */
-    public function getContentByScope($scopeName, $textquery, $parameters = [])
+    public function getContentByScope($scopeName, $textQuery, array $parameters = [])
     {
         if ($scope = $this->getScope($scopeName)) {
-            $this->parser->setQuery($textquery);
+            $this->parser->setQuery($textQuery);
             $this->parser->setParameters($parameters);
             $this->parser->setScope($scope);
 
@@ -90,15 +91,22 @@ class Query
     /**
      * Helper to be called from Twig that is passed via a TwigRecordsView rather than the raw records.
      *
-     * @param $textquery
+     * @param $textQuery
      * @param array $parameters
      *
      * @return QueryResultset|null
      */
-    public function getContentForTwig($textquery, $parameters = [])
+    public function getContentForTwig($textQuery, array $parameters = [])
     {
+        // fix BC break
+        if (func_num_args() === 3) {
+            $whereparameters = func_get_arg(2);
+            if (is_array($whereparameters) && !empty($whereparameters)) {
+                $parameters = array_merge($parameters, $whereparameters);
+            }
+        }
         return $this->recordsView->createView(
-            $this->getContentByScope('frontend', $textquery, $parameters)
+            $this->getContentByScope('frontend', $textQuery, $parameters)
         );
     }
 }

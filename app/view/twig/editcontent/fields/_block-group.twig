@@ -1,13 +1,25 @@
 {% if field.fields[block] is defined %}
-<div class="repeater-group block-group row panel panel-default">
+<div class="repeater-group block-group panel panel-default">
     <div class="panel-heading">
         <div class="row">
-            <div class="col-xs-5">
+            <div class="col-xs-7 col-md-8">
                 <label class="main">
-                    {{ field.fields[block].label }}
+                    {% set grouptitle = false %}
+                    {% for fieldname, f in field.fields[block].fields if f['type'] == 'text' and grouptitle == false %}
+                        {% set grouptitle = content.get(fieldname) %}
+                    {% endfor %}
+                    {% set grouplabel = field.fields[block].label|default('') %}
+                    <span class="text-muted">
+                        <i class="fa fa-ellipsis-v"></i> &nbsp;
+                        {% set groupicon = field.fields[block].icon|default('') %}
+                        {% if groupicon[:3] == 'fa:' %}
+                            <i class="fa fa-{{ groupicon[3:] }}" title="{{ grouplabel }}"></i>
+                        {% endif %}
+                    </span>
+                    <span class="block-heading">{{ grouptitle|default(grouplabel) }}</span>
                 </label>
             </div>
-            <div class="col-xs-7 text-right">
+            <div class="col-xs-5 col-md-4 text-right">
                 <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-default move-up">
                         <i class="fa fa-arrow-up" title="{{ __('general.phrase.move-up') }}"></i>
