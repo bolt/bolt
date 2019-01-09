@@ -143,9 +143,9 @@ class QueueTest extends TestCase
     public function testProcessLateWithLocation()
     {
         list($css1, $css2, $js) = $this->getAssets();
-        $css1->setZone('backend')->setLate(false)->setLocation(Target::AFTER_HEAD_CSS);;
-        $css2->setZone('backend')->setLate(false)->setLocation(Target::AFTER_HEAD_CSS);;
-        $js->setZone('backend')->setLate(false)->setLocation(Target::AFTER_HEAD_JS);;
+        $css1->setZone('backend')->setLate(false)->setLocation(Target::AFTER_HEAD_CSS);
+        $css2->setZone('backend')->setLate(false)->setLocation(Target::AFTER_HEAD_CSS);
+        $js->setZone('backend')->setLate(false)->setLocation(Target::AFTER_HEAD_JS);
         $queue = $this->getQueue();
         $queue->add($css1);
         $queue->add($css2);
