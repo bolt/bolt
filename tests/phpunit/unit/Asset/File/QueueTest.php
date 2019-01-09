@@ -28,15 +28,17 @@ class QueueTest extends TestCase
 
     public function testAdd()
     {
-        list($css, $js) = $this->getAssets();
+        list($css1, $css2, $js) = $this->getAssets();
         $queue = $this->getQueue();
-        $queue->add($css);
+        $queue->add($css1);
+        $queue->add($css2);
         $queue->add($js);
 
         $queued = $queue->getQueue();
 
-        self::assertSame($css, $queued['stylesheet']['https://koala.com.au/koala.css']);
-        self::assertSame($js, $queued['javascript']['https://koala.com.au/dropbear.js']);
+        self::assertSame($css1, $queued['stylesheet']['gum-tree/koala.css']);
+        self::assertSame($css2, $queued['stylesheet']['sameNameDifferentPackage/koala.css']);
+        self::assertSame($js, $queued['javascript']['danger/dropbear.js']);
     }
 
     public function testAddMissingPackageName()
@@ -71,9 +73,10 @@ class QueueTest extends TestCase
 
     public function testClear()
     {
-        list($css, $js) = $this->getAssets();
+        list($css1, $css2, $js) = $this->getAssets();
         $queue = $this->getQueue();
-        $queue->add($css);
+        $queue->add($css1);
+        $queue->add($css2);
         $queue->add($js);
 
         $queue->clear();
@@ -85,11 +88,13 @@ class QueueTest extends TestCase
 
     public function testProcess()
     {
-        list($css, $js) = $this->getAssets();
-        $css->setZone('backend');
+        list($css1, $css2, $js) = $this->getAssets();
+        $css1->setZone('backend');
+        $css2->setZone('backend');
         $js->setZone('backend');
         $queue = $this->getQueue();
-        $queue->add($css);
+        $queue->add($css1);
+        $queue->add($css2);
         $queue->add($js);
 
         $response = new Response();
@@ -104,7 +109,12 @@ class QueueTest extends TestCase
         $this->injector
             ->expects($this->at(1))
             ->method('inject')
-            ->with($css, Target::END_OF_HEAD, $response)
+            ->with($css1, Target::END_OF_HEAD, $response)
+        ;
+        $this->injector
+            ->expects($this->at(2))
+            ->method('inject')
+            ->with($css2, Target::END_OF_HEAD, $response)
         ;
 
         $queue->process($request, $response);
@@ -112,38 +122,33 @@ class QueueTest extends TestCase
 
     public function testProcessLateNoLocation()
     {
-        list($css, $js) = $this->getAssets();
-        $css->setZone('backend')->setLate(true);
+        list($css1, $css2, $js) = $this->getAssets();
+        $css1->setZone('backend')->setLate(true);
+        $css2->setZone('backend')->setLate(true);
         $js->setZone('backend')->setLate(true);
         $queue = $this->getQueue();
-        $queue->add($css);
+        $queue->add($css1);
+        $queue->add($css2);
         $queue->add($js);
 
         $response = new Response();
         $request = new Request();
         Zone::set($request, 'backend');
 
-        $this->injector
-            ->expects($this->at(0))
-            ->method('inject')
-            ->with($js, Target::END_OF_BODY, $response)
-        ;
-        $this->injector
-            ->expects($this->at(1))
-            ->method('inject')
-            ->with($css, Target::END_OF_BODY, $response)
-        ;
-
         $queue->process($request, $response);
+
+
     }
 
     public function testProcessLateWithLocation()
     {
-        list($css, $js) = $this->getAssets();
-        $css->setZone('backend')->setLate(false)->setLocation(Target::AFTER_HEAD_CSS);
-        $js->setZone('backend')->setLate(false)->setLocation(Target::AFTER_HEAD_JS);
+        list($css1, $css2, $js) = $this->getAssets();
+        $css1->setZone('backend')->setLate(false)->setLocation(Target::AFTER_HEAD_CSS);;
+        $css2->setZone('backend')->setLate(false)->setLocation(Target::AFTER_HEAD_CSS);;
+        $js->setZone('backend')->setLate(false)->setLocation(Target::AFTER_HEAD_JS);;
         $queue = $this->getQueue();
-        $queue->add($css);
+        $queue->add($css1);
+        $queue->add($css2);
         $queue->add($js);
 
         $response = new Response();
@@ -158,7 +163,12 @@ class QueueTest extends TestCase
         $this->injector
             ->expects($this->at(1))
             ->method('inject')
-            ->with($css, Target::AFTER_HEAD_CSS, $response)
+            ->with($css1, Target::AFTER_HEAD_CSS, $response)
+        ;
+        $this->injector
+            ->expects($this->at(2))
+            ->method('inject')
+            ->with($css2, Target::AFTER_HEAD_CSS, $response)
         ;
 
         $queue->process($request, $response);
@@ -166,12 +176,14 @@ class QueueTest extends TestCase
 
     public function testProcessInvalidZone()
     {
-        list($css, $js) = $this->getAssets();
+        list($css1, $css2, $js) = $this->getAssets();
 
-        $css->setZone('backend');
+        $css1->setZone('backend');
+        $css2->setZone('backend');
         $js->setZone('backend');
         $queue = $this->getQueue();
-        $queue->add($css);
+        $queue->add($css1);
+        $queue->add($css2);
         $queue->add($js);
 
         $this->injector
@@ -184,20 +196,11 @@ class QueueTest extends TestCase
 
     protected function getAssets()
     {
-        $this->packages
-            ->expects($this->at(0))
-            ->method('getUrl')
-            ->willReturn('https://koala.com.au/koala.css')
-        ;
-        $this->packages
-            ->expects($this->at(1))
-            ->method('getUrl')
-            ->willReturn('https://koala.com.au/dropbear.js')
-        ;
-        $css = Stylesheet::create('koala.css', 'gum-tree');
+        $css1 = Stylesheet::create('koala.css', 'gum-tree');
+        $css2 = Stylesheet::create('koala.css', 'sameNameDifferentPackage');
         $js = JavaScript::create('dropbear.js', 'danger');
 
-        return [$css, $js];
+        return [$css1, $css2, $js];
     }
 
     protected function getQueue()
