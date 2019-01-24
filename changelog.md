@@ -1,6 +1,17 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.6.4
+----------
+
+Released: 2019-01-24. Notable changes:
+
+ - Fixed asset url generation for Bolt install in subfolder. [#7725](https://github.com/bolt/bolt/pull/7725)
+ - Fixed: DBAL Sqlite schema diff bug, still needed on DBAL 2.9. [#7733](https://github.com/bolt/bolt/pull/7733)
+ - Fixed: Ignore default value alteration for MySQL `TEXT` and `BLOB` types. [#7477](https://github.com/bolt/bolt/pull/7477)
+ - Updated: Updates to `bolt/thumbs` and `bolt/filesystem`.
+ - Updated: Various updates to Symfony components, Composer packages and Front-end dependencies.
+
 Bolt 3.6.3
 ----------
 
