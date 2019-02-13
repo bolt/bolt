@@ -146,6 +146,7 @@ final class Choice
 
         $filter = $field->get('filter');
         $filter['order'] = $field->get('sort');
+        $filter['limit'] = $field->get('limit') ?? 500;
         /** @var QueryResultset $entities */
         $entities = $this->query->getContent($contentType, $filter);
         if (!$entities) {
