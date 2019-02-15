@@ -54,7 +54,7 @@
 
 {% set attribute_fields = [] %}
 {% for attrib in option.attrib|default([]) %}
-    {% set aid = attrib|lower|replace({'alt text': 'alt'}) %}
+    {% set aid = attrib|lower|replace({' ': '_'}) %}
 
     {% if aid is not empty %}
         {% if aid == 'title' %}
@@ -62,7 +62,7 @@
         {% elseif aid == 'alt' %}
             {% set atitle = __('field.image.label.alt') %}
         {% else %}
-            {% set atitle = aid %}
+            {% set atitle = attrib %}
         {% endif %}
 
         {% set uid = key ~ '-' ~ aid %}
