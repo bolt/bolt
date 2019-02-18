@@ -115,7 +115,7 @@ final class Choice
      */
     private function getYamlValues(Bag $field)
     {
-        $values = array_slice($field->get('values', []), 0, $field->get('limit', DEFAULT_LIMIT), true);
+        $values = array_slice($field->get('values', []), 0, $field->get('limit', self::DEFAULT_LIMIT), true);
         if ($field->get('sortable')) {
             asort($values, SORT_REGULAR);
         }
@@ -148,7 +148,7 @@ final class Choice
 
         $filter = $field->get('filter');
         $filter['order'] = $field->get('sort');
-        $filter['limit'] = $field->get('limit', DEFAULT_LIMIT);
+        $filter['limit'] = $field->get('limit', self::DEFAULT_LIMIT);
         /** @var QueryResultset $entities */
         $entities = $this->query->getContent($contentType, $filter);
         if (!$entities) {
