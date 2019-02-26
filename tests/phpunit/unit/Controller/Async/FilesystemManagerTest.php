@@ -5,6 +5,7 @@ namespace Bolt\Tests\Controller\Async;
 use Bolt\Common\Json;
 use Bolt\Filesystem\Handler\HandlerInterface;
 use Bolt\Response\TemplateView;
+use Bolt\Storage\Entity\Users;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,7 @@ class FilesystemManagerTest extends ControllerUnitTest
     const FILESYSTEM = 'files';
 
     const FILE_NAME = '__phpunit_test_file_delete_me';
+    const FILE_NAME_NOT_ALLOWED = '__phpunit_test_file_delete_me.exe';
     const FILE_NAME_2 = '__phpunit_test_file_2_delete_me';
     const FOLDER_NAME = '__phpunit_test_folder_delete_me';
     const FOLDER_NAME_2 = '__phpunit_test_folder_2_delete_me';
@@ -112,8 +114,24 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
-        // Test whether the new folder actually exists
+        // Test whether the new file actually exists
         $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME));
+    }
+
+    public function testCreateFileInvalidExtension()
+    {
+        $this->setRequest(Request::create('/async/file/create', 'POST', [
+            'namespace'  => self::FILESYSTEM,
+            'parentPath' => '',
+            'filename'   => self::FILE_NAME_NOT_ALLOWED,
+        ]));
+        $response = $this->controller()->createFile($this->getRequest());
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+
+        // Test whether the new file is not saved
+        $this->assertFalse($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME_NOT_ALLOWED));
     }
 
     /**
@@ -233,6 +251,20 @@ class FilesystemManagerTest extends ControllerUnitTest
             $this->assertInstanceOf(JsonResponse::class, $response);
             $this->assertEquals(Response::HTTP_CONFLICT, $response->getStatusCode());
         }
+    }
+
+    public function testRenameToInvalidExtension()
+    {
+        $this->setSessionUser(new Users($this->getService('users')->getUser('admin')));
+
+        $this->createObject('file', self::FILE_NAME);
+        $response = $this->renameObject('file', self::FILE_NAME, self::FILE_NAME_NOT_ALLOWED);
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+
+        $this->assertFalse($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME_NOT_ALLOWED));
+        $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME));
     }
 
     public function testFilesAutoComplete()
