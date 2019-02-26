@@ -5,6 +5,7 @@ namespace Bolt\Tests\Controller\Async;
 use Bolt\Common\Json;
 use Bolt\Filesystem\Handler\HandlerInterface;
 use Bolt\Response\TemplateView;
+use Bolt\Storage\Entity\Users;
 use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -254,6 +255,8 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testRenameToInvalidExtension()
     {
+        $this->setSessionUser(new Users($this->getService('users')->getUser('admin')));
+
         $this->createObject('file', self::FILE_NAME);
         $response = $this->renameObject('file', self::FILE_NAME, self::FILE_NAME_NOT_ALLOWED);
 

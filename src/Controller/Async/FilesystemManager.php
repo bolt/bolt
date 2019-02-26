@@ -405,7 +405,7 @@ class FilesystemManager extends AsyncBase
     private function isExtensionChangedAndIsChangeAllowed($oldName, $newName)
     {
         $user = $this->getUser();
-        if ($this->users()->hasRole($user['id'], 'root')) {
+        if ($this->users()->hasRole($user['id'], 'root') || $this->users()->hasRole($user['id'], 'admin')) {
             return true;
         }
 
@@ -446,7 +446,7 @@ class FilesystemManager extends AsyncBase
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
         $allowedExtensions = $this->getAllowedUploadExtensions();
 
-        return in_array($extension, $allowedExtensions);
+        return $extension === '' || in_array($extension, $allowedExtensions);
     }
 
     /**
