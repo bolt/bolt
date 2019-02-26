@@ -1,6 +1,19 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.6.5
+----------
+
+This release comes with special thanks to Andrea Santese (medu554) for responsibly
+reporting a security issue to us, and to @JarJak for providing a fix.
+
+Released: 2019-02-26. Notable changes:
+
+ - Security: Fix filemanager file extensions. [#7745](https://github.com/bolt/bolt/pull/7745)
+ - Added: Allow custom attributes for image fields. [#7743](https://github.com/bolt/bolt/pull/7742)
+ - Added: Limit when values of a select is an entity [#7742](https://github.com/bolt/bolt/pull/7742)
+ - Fixed: use the correct `<sup>` tag in `allowed_tags`. [#7737](https://github.com/bolt/bolt/pull/7737)
+
 Bolt 3.6.4
 ----------
 
