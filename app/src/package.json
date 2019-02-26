@@ -14,7 +14,7 @@
     "dependencies": {
         "blueimp-file-upload": "9.28.0",
         "bootbox": "~4.4.0",
-        "bootstrap-sass": "~3.4.0",
+        "bootstrap-sass": "~3.4.1",
         "dropzone": "^5.5.1",
         "font-awesome": "~4.7.0",
         "jquery": "~2.2.4",
@@ -26,13 +26,13 @@
         "select2": "4.0.0"
     },
     "devDependencies": {
-        "autoprefixer": "~9.4.6",
+        "autoprefixer": "~9.4.9",
         "css-mqpacker": "~7.0.0",
         "csswring": "~7.0.0",
         "deep-extend": "~0.6.0",
         "grunt": "~1.0.3",
         "grunt-bom-removal": "~1.0.1",
-        "grunt-bootlint": "~0.12.0",
+        "grunt-bootlint": "~0.12.1",
         "grunt-contrib-concat": "~1.0.1",
         "grunt-contrib-copy": "~1.0.0",
         "grunt-contrib-uglify": "~3.4.0",
