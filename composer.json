@@ -19,7 +19,7 @@
         "bolt/requirements": "^1.0.2",
         "bolt/session": "^1.0",
         "bolt/themes": "^2.0",
-        "bolt/thumbs": "^3.1.1",
+        "bolt/thumbs": "^3.4",
         "brandonwamboldt/utilphp": "^1.0",
         "cocur/slugify": "^3.1",
         "composer/composer": "^1.2",

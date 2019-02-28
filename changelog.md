@@ -1,14 +1,50 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.6.5
+----------
+
+This release comes with special thanks to Andrea Santese (medu554) for responsibly
+reporting a security issue to us, and to @JarJak for providing a fix.
+
+Released: 2019-02-26. Notable changes:
+
+ - Security: Fix filemanager file extensions. [#7745](https://github.com/bolt/bolt/pull/7745)
+ - Added: Allow custom attributes for image fields. [#7743](https://github.com/bolt/bolt/pull/7743)
+ - Added: Limit when values of a select is an entity [#7742](https://github.com/bolt/bolt/pull/7742)
+ - Fixed: use the correct `<sup>` tag in `allowed_tags`. [#7737](https://github.com/bolt/bolt/pull/7737)
+
+Bolt 3.6.4
+----------
+
+Released: 2019-01-24. Notable changes:
+
+ - Fixed asset url generation for Bolt install in subfolder. [#7725](https://github.com/bolt/bolt/pull/7725)
+ - Fixed: DBAL Sqlite schema diff bug, still needed on DBAL 2.9. [#7733](https://github.com/bolt/bolt/pull/7733)
+ - Fixed: Ignore default value alteration for MySQL `TEXT` and `BLOB` types. [#7477](https://github.com/bolt/bolt/pull/7477)
+ - Updated: Updates to `bolt/thumbs` and `bolt/filesystem`.
+ - Updated: Various updates to Symfony components, Composer packages and Front-end dependencies.
+
+Bolt 3.6.3
+----------
+
+Released: 2018-12-12. Notable changes:
+
+ - Fixed: Add missing status filter. [#7719](https://github.com/bolt/bolt/pull/7719)
+ - Fixed: Add whitespace between status label and value. [#7717](https://github.com/bolt/bolt/pull/7717)
+ - Fixed: Allow for `$locale` optional parameter in `localedatetime`. [#7723](https://github.com/bolt/bolt/pull/7723)
+ - Fixed: Fix filters for Content without taxonomy. [#7722](https://github.com/bolt/bolt/pull/7722)
+ - Fixed: Fix listing without owner. [#7716](https://github.com/bolt/bolt/pull/7716)
+ - Fixed: Fix setting up legacy Contenttype object. [#7720](https://github.com/bolt/bolt/pull/7720)
+
 Bolt 3.6.2
 ----------
 
 Released: 2018-11-09. Notable changes:
 
-- Fixed: Fix slugs for contenttypes that use a field other than 'title'. [#7708](https://github.com/bolt/bolt/pull/7708)
-- Fixed: Handle Empty Search Parameter Error. [#7712](https://github.com/bolt/bolt/pull/7712)
-- Fixed: Fix styling of panel actions. [#7707](https://github.com/bolt/bolt/pull/7707)
+ - Fixed: Fix slugs for contenttypes that use a field other than 'title'. [#7708](https://github.com/bolt/bolt/pull/7708)
+ - Fixed: Handle Empty Search Parameter Error. [#7712](https://github.com/bolt/bolt/pull/7712)
+ - Fixed: Fix styling of panel actions. [#7707](https://github.com/bolt/bolt/pull/7707)
 
 Bolt 3.6.1
 ----------

@@ -130,6 +130,13 @@ class FilesystemManager extends AsyncBase
         $parentPath = $request->request->get('parentPath');
         $filename = $request->request->get('filename');
 
+        if ($this->validateFileExtension($filename) === false) {
+            return $this->json(
+                sprintf("File extension not allowed: %s", $filename),
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
         try {
             $file = $this->filesystem()->getFile("$namespace://$parentPath/$filename");
             $file->put('');
@@ -315,8 +322,15 @@ class FilesystemManager extends AsyncBase
         $oldName = $request->request->get('oldname');
         $newName = $request->request->get('newname');
 
-        if (!$this->isMatchingExtension($oldName, $newName)) {
+        if (!$this->isExtensionChangedAndIsChangeAllowed($oldName, $newName)) {
             return $this->json(Trans::__('general.phrase.only-root-change-file-extensions'), Response::HTTP_FORBIDDEN);
+        }
+
+        if ($this->validateFileExtension($newName) === false) {
+            return $this->json(
+                sprintf("File extension not allowed: %s", $newName),
+                Response::HTTP_BAD_REQUEST
+            );
         }
 
         try {
@@ -354,6 +368,13 @@ class FilesystemManager extends AsyncBase
         $newName = $request->request->get('newname');
 
         try {
+            $dir = $this->filesystem()->getDir("$namespace://$parent/$oldName");
+            if (!$dir) {
+                return $this->json(
+                    sprintf("Only directories are allowed to be renamed with this method"),
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
             $this->filesystem()->rename("$namespace://$parent/$oldName", "$parent/$newName");
 
             return $this->json($newName, Response::HTTP_OK);
@@ -381,10 +402,10 @@ class FilesystemManager extends AsyncBase
      *
      * @return bool
      */
-    private function isMatchingExtension($oldName, $newName)
+    private function isExtensionChangedAndIsChangeAllowed($oldName, $newName)
     {
         $user = $this->getUser();
-        if ($this->users()->hasRole($user['id'], 'root')) {
+        if ($this->users()->hasRole($user['id'], 'root') || $this->users()->hasRole($user['id'], 'admin')) {
             return true;
         }
 
@@ -408,5 +429,33 @@ class FilesystemManager extends AsyncBase
             $message . ': ' . $exception->getMessage(),
             ['event' => 'exception', 'exception' => $exception]
         );
+    }
+
+    /**
+     * @param string $filename
+     *
+     * @return bool
+     */
+    private function validateFileExtension($filename)
+    {
+        // no UNIX-hidden files
+        if ($filename[0] === '.') {
+            return false;
+        }
+        // only whitelisted extensions
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        $allowedExtensions = $this->getAllowedUploadExtensions();
+
+        return $extension === '' || in_array($extension, $allowedExtensions);
+    }
+
+    /**
+     * Get the array of configured acceptable file extensions.
+     *
+     * @return array
+     */
+    private function getAllowedUploadExtensions()
+    {
+        return $this->app['config']->get('general/accept_file_types');
     }
 }

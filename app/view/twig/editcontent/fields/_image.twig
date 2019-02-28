@@ -54,13 +54,15 @@
 
 {% set attribute_fields = [] %}
 {% for attrib in option.attrib|default([]) %}
-    {% set aid = attrib|lower|replace({'alt text': 'alt'}) %}
+    {% set aid = attrib|lower|replace({' ': '_'}) %}
 
-    {% if aid in ['title', 'alt'] %}
+    {% if aid is not empty %}
         {% if aid == 'title' %}
             {% set atitle = __('general.phrase.title') %}
         {% elseif aid == 'alt' %}
             {% set atitle = __('field.image.label.alt') %}
+        {% else %}
+            {% set atitle = attrib %}
         {% endif %}
 
         {% set uid = key ~ '-' ~ aid %}

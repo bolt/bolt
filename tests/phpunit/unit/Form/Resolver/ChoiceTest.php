@@ -320,7 +320,7 @@ class ChoiceTest extends TestCase
         $mockQuery
             ->expects($this->at(0))
             ->method('getContent')
-            ->with('contenttype', ['order' => $expected])
+            ->with('contenttype', ['order' => $expected, 'limit' => Choice::DEFAULT_LIMIT])
         ;
 
         $resolver = new Choice($mockQuery);
