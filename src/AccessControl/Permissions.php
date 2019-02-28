@@ -321,7 +321,7 @@ class Permissions
                 );
             }
 
-            return false;
+            return true;
         }
 
         return in_array($roleName, $roles);
