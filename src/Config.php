@@ -309,10 +309,10 @@ class Config
             $general['accept_file_types'] = array_unique(
                 array_merge(
                     $general['accept_file_types'],
-                    array_map(function($extension) {
+                    array_map(function ($extension) {
                         return strtolower($extension);
                     }, $general['accept_file_types']),
-                    array_map(function($extension) {
+                    array_map(function ($extension) {
                         return strtoupper($extension);
                     }, $general['accept_file_types'])
                 )
