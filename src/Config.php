@@ -299,10 +299,25 @@ class Config
         $tempconfiglocal = $this->parseConfigYaml('config_local.yml');
         $general = Arr::replaceRecursive($tempconfig, $tempconfiglocal);
 
-        // Make sure old settings for 'accept_file_types' are not still picked up. Before 1.5.4 we used to store them
-        // as a regex-like string, and we switched to an array. If we find the old style, fall back to the defaults.
-        if (isset($general['accept_file_types']) && !is_array($general['accept_file_types'])) {
-            unset($general['accept_file_types']);
+        if (isset($general['accept_file_types']) === true) {
+            if (is_array($general['accept_file_types']) === false) {
+                // Make sure old settings for 'accept_file_types' are not still picked up. Before 1.5.4 we used to store them
+                // as a regex-like string, and we switched to an array. If we find the old style, fall back to the defaults.
+                unset($general['accept_file_types']);
+            }
+            // accept uppercase and lowercase file extensions
+            $general['accept_file_types'] = array_unique(
+                array_merge(
+                    $general['accept_file_types'],
+                    array_map(function($extension) {
+                        return strtolower($extension);
+                    }, $general['accept_file_types']),
+                    array_map(function($extension) {
+                        return strtoupper($extension);
+                    }, $general['accept_file_types'])
+                )
+            );
+
         }
 
         // Merge the array with the defaults. Setting the required values that aren't already set.
