@@ -315,7 +315,7 @@ class Permissions
         if (!is_array($roles)) {
             // We log it, unless the permission name is 'root'.
             if ($roleName !== self::ROLE_ROOT) {
-                $this->app['logger.system']->info(
+                $this->app['logger.system']->warn(
                     "Configuration error: Permission '$permissionName' is not granted to any roles. You should add a role for this permission to <tt>permissions.yml</tt>.",
                     ['event' => 'authentication']
                 );
