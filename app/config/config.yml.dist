@@ -88,7 +88,7 @@ homepage_template: index.twig
 # Note: The record specified in this parameter must be set to 'published'.
 notfound: [ not-found.twig, block/404-not-found ]
 
-# The default template and amount of records to use for listing-pages on the
+# The default template for single record pages on the
 # site.
 #
 # Can be overridden for each contenttype and for each record, if it has a
