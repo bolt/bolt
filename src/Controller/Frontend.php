@@ -228,7 +228,6 @@ class Frontend extends ConfigurableBase
         }
 
         $this->fixBlockFieldsForPreview($content);
-
         $this->fixHTMLFieldsForPreview($content);
 
         $liveEditor = $request->get('_live-editor-preview');
@@ -294,7 +293,7 @@ class Frontend extends ConfigurableBase
      * an image. Like they are in a "real" page.
      *
      * This is needed to make previewing content with block fields fully working.
-     * See:
+     * See: https://github.com/bolt/bolt/issues/7753
      */
     private function fixHTMLFieldsForPreview($record)
     {
