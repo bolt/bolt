@@ -1,6 +1,17 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.6.6
+----------
+
+Released: 2019-03-07. Notable changes:
+
+ - Change: Allow lower and upper case file extensions [#7751](https://github.com/bolt/bolt/pull/7751)
+ - Change: Log a warning instead of info when permissions are not configured [#7749](https://github.com/bolt/bolt/pull/7749)
+ - Fixed: Add extra workaround for HTML-like and Image fields in preview [#7754](https://github.com/bolt/bolt/pull/7754)
+ - Updated: Update `config.yml.dist` [#7748](https://github.com/bolt/bolt/pull/7748)
+ - Updated: Update `messages.pl_PL.yml` [#7747](https://github.com/bolt/bolt/pull/7747)
+
 Bolt 3.6.5
 ----------
 
