@@ -306,7 +306,9 @@ class Frontend extends ConfigurableBase
             if ($fieldSettings['type'] === 'image') {
                 $fieldValue = $this->getFieldValue($record, $fieldSlug);
 
-                $this->setFieldValue($record, $fieldSlug, $fieldValue['file']);
+                if (is_array($fieldValue) && isset($fieldValue['file'])) {
+                    $this->setFieldValue($record, $fieldSlug, $fieldValue['file']);
+                }
             }
         }
 
