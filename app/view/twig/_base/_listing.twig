@@ -168,7 +168,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                         {{ title|raw }}
                     {% endif %}
                 </strong>
-                {{ content|excerpt(excerptlength - title|length, false, filter|default()) }}
+                {{ content.excerpt(excerptlength - title|length, false, filter|default()) }}
             </span>
         </td>
 
