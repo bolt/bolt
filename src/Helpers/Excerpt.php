@@ -34,10 +34,11 @@ class Excerpt
      * @param int               $length
      * @param bool              $includeTitle
      * @param array|string|null $focus
+     * @param array             $stripFields
      *
      * @return string|null
      */
-    public function getExcerpt($length = 200, $includeTitle = false, $focus = null)
+    public function getExcerpt($length = 200, $includeTitle = false, $focus = null, array $stripFields = [])
     {
         $title = null;
         if ($includeTitle && $this->title !== null) {
@@ -54,8 +55,10 @@ class Excerpt
         }
 
         if (is_array($this->body)) {
-            // Assume it's an array, strip some common fields that we don't need, implode the rest.
-            $stripKeys = [
+            // Assume it's an array, strip some common
+            // fields that we don't need, merge with
+            // the unwanted fields , implode the rest.
+            $stripKeys = array_merge([
                 'id',
                 'slug',
                 'datepublish',
@@ -70,7 +73,7 @@ class Excerpt
                 'taxonomy',
                 'templatefields',
                 'sortorder',
-            ];
+            ], $stripFields);
 
             $excerpt = '';
             array_walk($this->body, function ($value, $key) use (&$excerpt, $stripKeys) {

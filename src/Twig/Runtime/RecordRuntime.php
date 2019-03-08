@@ -130,15 +130,15 @@ class RecordRuntime
      * @param \Bolt\Legacy\Content|array|string $content
      * @param int                               $length  Defaults to 200 characters
      * @param array|string|null                 $focus
+     * @param array                             $stripFields
      *
      * @return string Resulting excerpt
      */
-    public function excerpt($content, $length = 200, $focus = null)
+    public function excerpt($content, $length = 200, $focus = null, array $stripFields = [])
     {
         $excerpter = new Excerpt($content);
-        $excerpt = $excerpter->getExcerpt($length, false, $focus);
 
-        return $excerpt;
+        return $excerpter->getExcerpt($length, false, $focus, $stripFields);
     }
 
     /**
