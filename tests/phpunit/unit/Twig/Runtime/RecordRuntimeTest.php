@@ -368,10 +368,10 @@ GRINGALET;
 
         /** @var Content $content */
         $content = $app['storage']->getEmptyContent('pages');
-        $content->setValue('body', 'This should not appears in the excerpt');
+        $content->setValue('body', 'This should not appear in the excerpt');
 
-        $result = $handler->excerpt($content, 2000, null, ['body']);
-        $this->assertNotContains('This should not appears in the excerpt', (string) $result);
+        $result = $handler->excerpt($content, 200, null, ['body']);
+        $this->assertNotContains('This should not appear in the excerpt', (string) $result);
     }
 
     public function testExcerptArrayStripFields()
@@ -379,7 +379,7 @@ GRINGALET;
         $handler = $this->getRecordRuntime();
 
         $content = [
-            'dummy'       => 'This should not appears in the excerpt',
+            'dummy'       => 'This should not appear in the excerpt',
             'id'          => 42,
             'slug'        => 'clippy-inc',
             'datecreated' => null,
@@ -394,7 +394,7 @@ GRINGALET;
         ];
 
         $result = $handler->excerpt($content, 200, null, ['dummy']);
-        $this->assertNotContains('This should not appears in the excerpt', (string) $result);
+        $this->assertNotContains('This should not appear in the excerpt', (string) $result);
     }
 
     public function testListTemplatesAll()
