@@ -213,11 +213,11 @@ class Content implements \ArrayAccess
      * @param int               $length
      * @param bool              $includeTitle
      * @param array|string|null $focus
-     * @param array             $stripFields
+     * @param array|null        $stripFields
      *
      * @return string|null
      */
-    public function getExcerpt($length = 200, $includeTitle = false, $focus = null, array $stripFields = [])
+    public function getExcerpt($length = 200, $includeTitle = false, $focus = null, $stripFields = null)
     {
         $excerpter = new Excerpt($this);
         $excerpt = $excerpter->getExcerpt($length, $includeTitle, $focus, $stripFields);

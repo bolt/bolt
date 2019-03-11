@@ -34,11 +34,11 @@ class Excerpt
      * @param int               $length
      * @param bool              $includeTitle
      * @param array|string|null $focus
-     * @param array             $stripFields
+     * @param array|null        $stripFields
      *
      * @return string|null
      */
-    public function getExcerpt($length = 200, $includeTitle = false, $focus = null, array $stripFields = [])
+    public function getExcerpt($length = 200, $includeTitle = false, $focus = null, $stripFields = null)
     {
         $title = null;
         if ($includeTitle && $this->title !== null) {
@@ -52,6 +52,11 @@ class Excerpt
 
         if ($this->body instanceof LegacyContent) {
             $this->body = $this->body->getValues();
+        }
+
+        if (null !== $stripFields && !is_array($stripFields)) {
+            trigger_error(sprintf('Wrong type for "stripField" parameter. Expected array, got %s. Ignoring "stripField".', gettype($stripFields)), E_USER_DEPRECATED);
+            $stripFields = [];
         }
 
         if (is_array($this->body)) {
