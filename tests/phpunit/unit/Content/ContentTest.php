@@ -173,4 +173,43 @@ class ContentTest extends BoltUnitTest
     public function testoffsetUnset()
     {
     }
+
+    public function testExcerptGracefulMiscallOfStripFields()
+    {
+        $app = $this->getApp();
+
+        /** @var Content $content */
+        $content = $app['storage']->getEmptyContent('pages');
+        $content->setValue('body', 'dummy body');
+        /** @var \Twig_Markup $result */
+        $result = $content->getExcerpt(200, null, null, 'miscall stripfield as string');
+
+        $this->assertEquals('dummy body', (string) $result);
+    }
+
+    public function testExcerptStripFields()
+    {
+        $app = $this->getApp();
+
+        /** @var Content $content */
+        $content = $app['storage']->getEmptyContent('pages');
+        $content->setValue('body', 'dummy body');
+        $content->setValue('title', 'dummy title');
+
+        $result = $content->getExcerpt(200, null, null, ['body']);
+
+        $this->assertNotContains('dummy body', (string) $result);
+    }
+
+    public function testNullExcerptStripFields()
+    {
+        $app = $this->getApp();
+
+        /** @var Content $content */
+        $content = $app['storage']->getEmptyContent('pages');
+        $content->setValue('body', 'dummy');
+        $result = $content->getExcerpt();
+
+        $this->assertEquals('dummy', (string) $result);
+    }
 }
