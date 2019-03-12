@@ -34,11 +34,11 @@ class Excerpt
      * @param int               $length
      * @param bool              $includeTitle
      * @param array|string|null $focus
-     * @param array|null        $stripFields
+     * @param array             $stripFields
      *
      * @return string|null
      */
-    public function getExcerpt($length = 200, $includeTitle = false, $focus = null, $stripFields = null)
+    public function getExcerpt($length = 200, $includeTitle = false, $focus = null, $stripFields = [])
     {
         $title = null;
         if ($includeTitle && $this->title !== null) {
@@ -52,10 +52,6 @@ class Excerpt
 
         if ($this->body instanceof LegacyContent) {
             $this->body = $this->body->getValues();
-        }
-
-        if (null === $stripFields) {
-            $stripFields = [];
         }
 
         if (!is_array($stripFields)) {
