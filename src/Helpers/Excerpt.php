@@ -54,7 +54,7 @@ class Excerpt
             $this->body = $this->body->getValues();
         }
 
-        if (null !== $stripFields && !is_array($stripFields)) {
+        if (null === $stripFields || !is_array($stripFields)) {
             trigger_error(sprintf('Wrong type for "stripField" parameter. Expected array, got %s. Ignoring "stripField".', gettype($stripFields)), E_USER_DEPRECATED);
             $stripFields = [];
         }
