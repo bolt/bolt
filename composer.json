@@ -37,7 +37,7 @@
         "ext-xml": "*",
         "ext-zip": "*",
         "filp/whoops": "^2.0",
-        "guzzlehttp/guzzle": "^5.3.1 || ^6.2.1",
+        "guzzlehttp/guzzle": "^6.2.1",
         "ircmaxell/random-lib": "^1.1",
         "jdorn/sql-formatter": "^1.2",
         "monolog/monolog": "^1.12",
