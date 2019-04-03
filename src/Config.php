@@ -308,16 +308,18 @@ class Config
                 // as a regex-like string, and we switched to an array. If we find the old style, fall back to the defaults.
                 unset($general['accept_file_types']);
             }
-            // accept uppercase and lowercase file extensions
-            $general['accept_file_types'] = array_unique(
-                array_merge(
-                    $general['accept_file_types'],
-                    array_map(function ($extension) {
-                        return strtolower($extension);
-                    }, $general['accept_file_types']),
-                    array_map(function ($extension) {
-                        return strtoupper($extension);
-                    }, $general['accept_file_types'])
+            // accept uppercase and lowercase file extensions.
+            $general['accept_file_types'] = array_values(
+                array_unique(
+                    array_merge(
+                        $general['accept_file_types'],
+                        array_map(function ($extension) {
+                            return strtolower($extension);
+                        }, $general['accept_file_types']),
+                        array_map(function ($extension) {
+                            return strtoupper($extension);
+                        }, $general['accept_file_types'])
+                    )
                 )
             );
         }

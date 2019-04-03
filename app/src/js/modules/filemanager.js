@@ -152,7 +152,7 @@
         var DropzoneTarget = new Dropzone(document.body, {
             url: bolt.conf('uploadConfig.url'),
             previewsContainer: "#dropzone-preview",
-            acceptedFiles: '.' + bolt.conf('uploadConfig.acceptFilesTypes').join(',.'),
+            acceptedFiles: '.' + bolt.conf('uploadConfig.acceptFileTypes').join(',.'),
             uploadMultiple: 'true',
             enqueueForUpload: 'true',
             hiddenInputContainer: '.form-horizontal',
