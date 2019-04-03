@@ -118,7 +118,7 @@ class EntityManager implements EntityManagerInterface
      */
     public function getEntityBuilder($className = null, ClassMetadata $classMetadata = null)
     {
-        $builder = new Entity\Builder($this->getMapper(), $this->getFieldManager());
+        $builder = $this->createEntityBuilder();
 
         if ($className !== null) {
             $builder->setClass($className);
@@ -129,6 +129,18 @@ class EntityManager implements EntityManagerInterface
         }
 
         return $builder;
+    }
+
+    /**
+     * @return Entity\Builder
+     */
+    private function createEntityBuilder()
+    {
+        if (! $this->builder) {
+            return new Entity\Builder($this->getMapper(), $this->getFieldManager());
+        }
+        $builderClass = get_class($this->builder);
+        return new $builderClass($this->getMapper(), $this->getFieldManager());
     }
 
     /**
