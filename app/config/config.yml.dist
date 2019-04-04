@@ -320,6 +320,7 @@ wysiwyg:
         disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
         allowNbsp: false     # If set to 'false', the editor will strip out `&nbsp;` characters. If set to 'true', it will allow them. ¯\_(ツ)_/¯
         #stylesSet: "custom:/path/to/your/custom/styles.js" see https://ckeditor.com/docs/ckeditor4/latest/guide/dev_styles.html for more informations
+
 # Bolt uses the Google maps API for it's geolocation field and Google now
 # requires that it be loaded with an API key on new domains. You can generate
 # a key at https://developers.google.com/maps/documentation/javascript/get-api-key
