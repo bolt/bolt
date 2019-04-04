@@ -310,7 +310,7 @@ class Config
                 unset($general['accept_file_types']);
             }
 
-            // To remove unacceptable / unwanted extensions from out list of Acceptable File Types
+            // To remove unacceptable / unwanted extensions from the list of Acceptable File Types
             $removeFromAllowedFileTypes = explode('|', 'sh|asp|cgi|php|php3|ph3|php4|ph4|php5|ph5|phtm|phtml');
 
             // Create a bag with lowercased extensions
