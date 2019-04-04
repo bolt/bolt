@@ -310,7 +310,10 @@ class Config
             }
 
             // Just.. Say no to these.
-            $general['accept_file_types'] = array_diff($general['accept_file_types'], ['sh', 'asp', 'cgi', 'php', 'php3', 'ph3', 'php4', 'ph4', 'php5', 'ph5' ,'phtm', 'phtml']);
+            $general['accept_file_types'] = array_diff(
+                $general['accept_file_types'],
+                explode('|', 'sh|asp|cgi|php|php3|ph3|php4|ph4|php5|ph5|phtm|phtml')
+            );
 
             // accept uppercase and lowercase file extensions.
             $general['accept_file_types'] = array_values(
