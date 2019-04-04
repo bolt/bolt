@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\Collection\Arr;
+use Bolt\Collection\Bag;
 use Bolt\Common\Deprecated;
 use Bolt\Controller\Zone;
 use Bolt\Filesystem\Exception\FileNotFoundException;
@@ -309,26 +310,21 @@ class Config
                 unset($general['accept_file_types']);
             }
 
-            // Just.. Say no to these.
-            $general['accept_file_types'] = array_diff(
-                $general['accept_file_types'],
-                explode('|', 'sh|asp|cgi|php|php3|ph3|php4|ph4|php5|ph5|phtm|phtml')
-            );
+            // To remove unacceptable / unwanted extensions from out list of Acceptable File Types
+            $removeFromAllowedFileTypes = explode('|', 'sh|asp|cgi|php|php3|ph3|php4|ph4|php5|ph5|phtm|phtml');
 
-            // accept uppercase and lowercase file extensions.
-            $general['accept_file_types'] = array_values(
-                array_unique(
-                    array_merge(
-                        $general['accept_file_types'],
-                        array_map(function ($extension) {
-                            return strtolower($extension);
-                        }, $general['accept_file_types']),
-                        array_map(function ($extension) {
-                            return strtoupper($extension);
-                        }, $general['accept_file_types'])
-                    )
-                )
-            );
+            // Create a bag with lowercased extensions
+            $bag = Bag::from($general['accept_file_types']);
+            $bag = $bag->map(function($key, $ext) use ($removeFromAllowedFileTypes) {
+                if (!in_array(mb_strtolower($ext), $removeFromAllowedFileTypes)) {
+                    return mb_strtolower($ext);
+                }
+            })->clean();
+
+            // Set accept_file_types, with the previous bag _and_ uppercased alternatives.
+            $general['accept_file_types'] = $bag->merge($bag->map(function($key, $ext) {
+                return mb_strtoupper($ext);
+            }))->toArray();
         }
 
         // Make sure Bolt's mount point is OK:
