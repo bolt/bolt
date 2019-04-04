@@ -300,6 +300,7 @@ debuglog:
 # responsibility not to break the layout.
 wysiwyg:
     images: false            # Allow users to insert images in the content.
+    styles: false            # Allow users to use the custom styles you have defined (you need to set the "stylesSet" param in the ck section bellow)
     anchor: false            # Adds a button to create internal anchors to link to.
     tables: false            # Adds a button to insert and modify tables in the content.
     fontcolor: false         # Allow users to mess around with font coloring.
@@ -318,6 +319,7 @@ wysiwyg:
         autoParagraph: true  # If set to 'true', any pasted content is wrapped in `<p>`-tags for multiple line-breaks
         disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
         allowNbsp: false     # If set to 'false', the editor will strip out `&nbsp;` characters. If set to 'true', it will allow them. ¯\_(ツ)_/¯
+        #stylesSet: "custom:/path/to/your/custom/styles.js" see https://ckeditor.com/docs/ckeditor4/latest/guide/dev_styles.html for more informations
 
 # Bolt uses the Google maps API for it's geolocation field and Google now
 # requires that it be loaded with an API key on new domains. You can generate
