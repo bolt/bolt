@@ -315,14 +315,14 @@ class Config
 
             // Create a bag with lowercased extensions
             $bag = Bag::from($general['accept_file_types']);
-            $bag = $bag->map(function($key, $ext) use ($removeFromAllowedFileTypes) {
+            $bag = $bag->map(function ($key, $ext) use ($removeFromAllowedFileTypes) {
                 if (!in_array(mb_strtolower($ext), $removeFromAllowedFileTypes)) {
                     return mb_strtolower($ext);
                 }
             })->clean();
 
             // Set accept_file_types, with the previous bag _and_ uppercased alternatives.
-            $general['accept_file_types'] = $bag->merge($bag->map(function($key, $ext) {
+            $general['accept_file_types'] = $bag->merge($bag->map(function ($key, $ext) {
                 return mb_strtoupper($ext);
             }))->toArray();
         }
