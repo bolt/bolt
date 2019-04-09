@@ -318,13 +318,13 @@ class Config
             $bag = $bag->map(function ($key, $ext) use ($removeFromAllowedFileTypes) {
                 if (!in_array(mb_strtolower($ext), $removeFromAllowedFileTypes)) {
                     return mb_strtolower($ext);
+                } else {
+                    return null;
                 }
             })->clean();
 
             // Set accept_file_types, with the previous bag _and_ uppercased alternatives.
-            $general['accept_file_types'] = $bag->merge($bag->map(function ($key, $ext) {
-                return mb_strtoupper($ext);
-            }))->toArray();
+            $general['accept_file_types'] = array_values($bag->toArray());
         }
 
         // Make sure Bolt's mount point is OK:
