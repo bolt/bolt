@@ -235,7 +235,8 @@ htmlcleaner:
 
 # Define the file types (extensions to be exact) that are acceptable for upload
 # in either 'file' fields or through the 'files' screen. Note that certain file-
-# types like `.php` are never acceptable, even if they are in this list.
+# types are never acceptable, even if they are in this list. These types are
+# never allowed: sh, asp, cgi, php, php3, ph3, php4, ph4, php5, ph5, phtm, phtml
 accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
 
 # Alternatively, if you wish to limit these, uncomment the following list
