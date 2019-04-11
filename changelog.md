@@ -1,6 +1,20 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.6.7
+----------
+
+Released: 2019-04-11. Notable changes:
+
+ - Added: "Strip keys" option to excerpt of fields. [#7759](https://github.com/bolt/bolt/pull/7759)
+ - Added: Add information about how to set up custom CKeditor styles. [#7769](https://github.com/bolt/bolt/pull/7769)
+ - Change: Make sure `accept_file_types` is an INDEXED array, and disallow certain filetypes to be whitelisted. [#7768](https://github.com/bolt/bolt/pull/7768)
+ - Change: Make the bootstrap more robust. [#7763](https://github.com/bolt/bolt/pull/7763)
+ - Fixed: Remove unsupported guzzlehttp version. [#7762](https://github.com/bolt/bolt/pull/7762)
+
+This release comes with special thanks to Felipe Gaspar (fgaspar) for
+responsibly reporting a potential security issue to us.
+
 Bolt 3.6.6
 ----------
 
