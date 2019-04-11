@@ -323,7 +323,6 @@ class Config
                 }
             })->clean();
 
-            // Set accept_file_types, with the previous bag _and_ uppercased alternatives.
             $general['accept_file_types'] = array_values($bag->toArray());
         }
 
