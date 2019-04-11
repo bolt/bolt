@@ -446,7 +446,7 @@ class FilesystemManager extends AsyncBase
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
         $allowedExtensions = $this->getAllowedUploadExtensions();
 
-        return $extension === '' || in_array($extension, $allowedExtensions);
+        return $extension === '' || in_array(mb_strtolower($extension), $allowedExtensions);
     }
 
     /**
