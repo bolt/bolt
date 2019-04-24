@@ -19,6 +19,7 @@ use Bolt\Storage\Database;
 use Bolt\Translation\Translator;
 use Bolt\Translation\Translator as Trans;
 use Cocur\Slugify\Slugify;
+use Dotenv\Dotenv;
 use InvalidArgumentException;
 use RuntimeException;
 use Silex;
@@ -847,6 +848,19 @@ class Config
 
         // Merge in defaults
         $params = array_replace($defaults, $params);
+
+        // Load environment variables
+        $dotenv = Dotenv::create(__DIR__.'/../../../../');
+        $dotenv->load();
+
+        // Merge any environment variables
+        foreach (['user', 'password', 'host', 'port', 'dbname'] as $param) {
+            if (getenv('DATABASE_'.strtoupper($param)) === false) {
+                continue;
+            }
+
+            $params[$param] = getenv('DATABASE_'.strtoupper($param));
+        }
 
         // Filter out invalid keys
         $validKeys = [

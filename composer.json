@@ -75,7 +75,8 @@
         "symfony/yaml": "^2.8",
         "tdammers/htmlmaid": "~0.7",
         "twig/twig": "^1.35",
-        "ua-parser/uap-php": "^3.4"
+        "ua-parser/uap-php": "^3.4",
+        "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
         "bolt/codingstyle": "^2.0@dev",
