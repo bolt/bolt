@@ -353,11 +353,11 @@ class Content extends Entity
      * @param int               $length
      * @param bool              $includeTitle
      * @param array|string|null $focus
-     * @param array|null        $stripFields
+     * @param array             $stripFields
      *
      * @return string|null
      */
-    public function getExcerpt($length = 200, $includeTitle = false, $focus = null, $stripFields = null)
+    public function getExcerpt($length = 200, $includeTitle = false, $focus = null, $stripFields = [])
     {
         $excerpter = new Excerpt($this);
         $excerpt = $excerpter->getExcerpt($length, $includeTitle, $focus, $stripFields);
