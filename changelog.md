@@ -1,6 +1,13 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.6.8
+----------
+
+Released: 2019-05-23. Notable changes:
+
+ - Fixed: Make sure stripFields is set to array by default [#7776](https://github.com/bolt/bolt/pull/7766)
+
 Bolt 3.6.7
 ----------
 
