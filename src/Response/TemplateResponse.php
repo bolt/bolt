@@ -73,7 +73,7 @@ class TemplateResponse extends Response
      */
     protected function setContext($context)
     {
-        Assert::isTraversable($context);
+        Assert::isIterable($context);
 
         $this->context = Bag::from($context);
     }
