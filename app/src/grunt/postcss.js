@@ -12,7 +12,7 @@ module.exports = function (grunt, options) {
         },
         opt = {
             autoprefixer: {
-                browsers: 'last 2 versions, > 5%, IE >= 9'
+                overrideBrowserslist: 'last 2 versions, > 5%, IE >= 9'
             }
         },
         optMap = false;
