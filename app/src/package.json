@@ -12,7 +12,7 @@
         "npm": ">=3.0.0"
     },
     "dependencies": {
-        "blueimp-file-upload": "9.31.0",
+        "blueimp-file-upload": "9.32.0",
         "bootbox": "~4.4.0",
         "bootstrap-sass": "~3.4.1",
         "dropzone": "^5.5.1",
