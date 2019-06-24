@@ -1,6 +1,14 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.6.9
+----------
+
+Released: 2019-06-24. Notable changes:
+
+ - Added: Add abbreviations to CKeditor, using `<abbr>`-tag. [#7783](https://github.com/bolt/bolt/pull/7783)
+ - Fixed: Use isIterable over Traversable [#7778](https://github.com/bolt/bolt/pull/7778)
+
 Bolt 3.6.8
 ----------
 
