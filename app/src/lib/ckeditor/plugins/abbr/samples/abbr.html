@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2014-2018, CKSource - Frederico Knabben. All rights reserved.
+Licensed under the terms of the MIT License (see LICENSE.md).
+-->
+<html>
+<head>
+	<title>Tutorial &mdash; ACF Integration with the Abbreviation Plugin</title>
+	<meta charset="utf-8">
+	<script src="../../../ckeditor.js"></script>
+	<link href="../../../samples/sample.css" rel="stylesheet">
+</head>
+<body>
+	<h1 class="samples">
+		CKEditor Tutorial &mdash; ACF Integration with the Abbreviation Plugin
+	</h1>
+
+	<p>
+		This sample demonstrates the integration of <a href="http://docs.ckeditor.com/ckeditor4/docs/#!/guide/dev_acf">Advanced Content Filter (ACF)</a>
+		with a custom <strong>Abbreviation</strong> plugin, as explained in the
+		<a href="http://docs.ckeditor.com/ckeditor4/docs/#!/guide/plugin_sdk_integration_with_acf">Integrating Plugins with Advanced Content Filter</a>
+		article.
+	</p>
+
+	<p>
+		Advanced Content Filter (ACF) is a CKEditor core feature that <strong>filters incoming HTML content</strong> by transforming and deleting disallowed elements, attributes, classes and styles. The introduction of content filtering have impacted the plugin development process and slightly changed the data processing model of CKEditor. With ACF plugins can take control over the content available in the editor and adaptively adjust the user interface when allowed content changes.
+	</p>
+
+	<p>
+		The custom Abbreviation plugin created in the tutorials lets the users insert abbreviations into their documents.
+		The abbreviations use the <code>&lt;abbr&gt;</code> HTML element and its attributes, so content filtering rules needed
+		to be adjusted to allow these elements.
+	</p>
+
+	<p>
+		<strong>Note:</strong> Advanced Content Filter was introduced in <strong>CKEditor 4.1</strong>.
+	</p>
+
+	<textarea id="editor1" cols="10" rows="10">
+		&lt;p&gt;This is some sample text. You are using &lt;a href=&quot;http://ckeditor.com&quot;&gt;CKEditor&lt;/a&gt;, an online &lt;abbr title=&quot;What You See Is What You Get&quot;&gt;WYSIWYG&lt;/abbr&gt;&amp;nbsp;editor. This editor instance implements&amp;nbsp;&lt;abbr title=&quot;Advanced Content Filter&quot;&gt;ACF&lt;/abbr&gt;.&lt;/p&gt;
+	</textarea>
+
+	<script>
+
+		CKEDITOR.replace( 'editor1', {
+			// Load the abbr plugin.
+			extraPlugins: 'abbr',
+
+			// The following options are set to make the sample more clear for demonstration purposes.
+
+			// Rearrange toolbar groups and remove unnecessary plugins.
+			toolbarGroups: [
+				{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+				{ name: 'links' },
+				{ name: 'insert' },
+				{ name: 'document',	   groups: [ 'mode' ] },
+				'/',
+				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+				{ name: 'paragraph',   groups: [ 'list', 'indent' ] },
+				{ name: 'styles' },
+				{ name: 'about' }
+			],
+			removePlugins: 'font,iframe,pagebreak,flash,stylescombo,print,preview,save,smiley,pastetext,pastefromword',
+			removeButtons: 'Anchor,Font,Strike,Subscript,Superscript'
+		} );
+
+	</script>
+
+</body>
+</html>

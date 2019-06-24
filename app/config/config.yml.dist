@@ -317,6 +317,7 @@ wysiwyg:
     specialchar: false       # Adds a button to insert special chars like '€' or '™'.
     clipboard: false         # Adds buttons to 'undo' and 'redo'.
     copypaste: false         # Adds buttons to 'cut', 'copy' and 'paste'.
+    abbr: true               # Adds button to insert abbreviations using the `<abbr>`-tag
     ck:
         autoParagraph: true  # If set to 'true', any pasted content is wrapped in `<p>`-tags for multiple line-breaks
         disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
