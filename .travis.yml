@@ -53,3 +53,5 @@ script:
 cache:
   directories:
     - $HOME/.composer/cache/files
+
+dist: trusty
