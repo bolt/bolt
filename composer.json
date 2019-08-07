@@ -25,7 +25,7 @@
         "composer/composer": "^1.2",
         "doctrine/cache": "^1.5",
         "doctrine/dbal": "^2.5",
-        "embed/embed": "^3.2",
+        "embed/embed": "3.3.*",
         "erusev/parsedown-extra": "~0.7",
         "ext-curl": "*",
         "ext-exif": "*",
@@ -75,7 +75,8 @@
         "symfony/yaml": "^2.8",
         "tdammers/htmlmaid": "~0.7",
         "twig/twig": "^1.35",
-        "ua-parser/uap-php": "^3.4"
+        "ua-parser/uap-php": "^3.4",
+        "guzzlehttp/psr7": "1.5.*"
     },
     "require-dev": {
         "bolt/codingstyle": "^2.0@dev",
