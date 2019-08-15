@@ -6,6 +6,7 @@ use Bolt\Config;
 use Bolt\Exception\AccessControlException;
 use Bolt\Exception\InvalidRepositoryException;
 use Bolt\Helpers\Input;
+use Bolt\Helpers\Str;
 use Bolt\Logger\FlashLoggerInterface;
 use Bolt\Storage\Collection;
 use Bolt\Storage\Entity;
@@ -272,14 +273,15 @@ class Save
 
         // Create the change log entry if configured
         $this->logChange($contentType, $content->getId(), $content, $oldContent, $comment);
+        $sanitizedTitle = Str::makeSafe($content->getTitle(), false, '()[]!@$%&*~`^-_=+{},.~<>:; /?');
 
         // Log the change
         if ($new) {
             $this->loggerFlash->success(Trans::__('contenttypes.generic.saved-new', ['%contenttype%' => $contentType['singular_name']]));
-            $this->loggerSystem->info('Created: ' . $content->getTitle(), ['event' => 'content']);
+            $this->loggerSystem->info('Created: ' . $sanitizedTitle, ['event' => 'content']);
         } else {
             $this->loggerFlash->success(Trans::__('contenttypes.generic.saved-changes', ['%contenttype%' => $contentType['singular_name']]));
-            $this->loggerSystem->info('Saved: ' . $content->getTitle(), ['event' => 'content']);
+            $this->loggerSystem->info('Saved: ' . $sanitizedTitle, ['event' => 'content']);
         }
 
         if ($new && ($returnTo === 'save')) {
