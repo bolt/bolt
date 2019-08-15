@@ -7,6 +7,7 @@ use Bolt\Filesystem\Exception\FileExistsException;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Listing;
+use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
@@ -101,8 +102,8 @@ class FilesystemManager extends AsyncBase
     public function createFolder(Request $request)
     {
         $namespace = $request->request->get('namespace');
-        $parentPath = $request->request->get('parent');
-        $folderName = $request->request->get('foldername');
+        $parentPath = Str::makeSafe($request->request->get('parent'), false, '()[]!@$^-_=+{},.~');
+        $folderName = Str::makeSafe($request->request->get('foldername'), false, '()[]!@$^-_=+{},.~');
 
         try {
             $dir = $this->filesystem()->getDir("$namespace://$parentPath/$folderName");
@@ -127,8 +128,8 @@ class FilesystemManager extends AsyncBase
     public function createFile(Request $request)
     {
         $namespace = $request->request->get('namespace');
-        $parentPath = $request->request->get('parentPath');
-        $filename = $request->request->get('filename');
+        $parentPath = Str::makeSafe($request->request->get('parentPath'), false, '()[]!@$^-_=+{},.~');
+        $filename = Str::makeSafe($request->request->get('filename'), false, '()[]!@$^-_=+{},.~');
 
         if ($this->validateFileExtension($filename) === false) {
             return $this->json(
