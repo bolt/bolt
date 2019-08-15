@@ -1,6 +1,21 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.6.10
+-----------
+
+Released: 2019-08-15. Notable changes:
+
+ - Security: Prevent XSS in system log (for authenticated users) [#7802](https://github.com/bolt/bolt/pull/7802)
+ - Security: Prevent XSS in image alt/title (for authenticated users) [#7801](https://github.com/bolt/bolt/pull/7801)
+ - Security: Prevent XSS in "Create file" in file manager (for authenticated users) [#7800](https://github.com/bolt/bolt/pull/7800)
+ - Fixes: Prevent update of `guzzlehttp/psr7` to 1.6, fixes tests [#7798](https://github.com/bolt/bolt/pull/7798)
+ - Fixed: Fix taxonomy name collision [#7799](https://github.com/bolt/bolt/pull/7799)
+ - Fixed: Rebuilding assets, fixing tags cloud [#7794](https://github.com/bolt/bolt/pull/7794)
+
+Special thanks go out to @marcingajda for his contributions, and to @KotatuBot 
+for responsibly disclosing the XSS issues to us. 
+
 Bolt 3.6.9
 ----------
 

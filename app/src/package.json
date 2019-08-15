@@ -23,7 +23,7 @@
         "magnific-popup": "~1.1.0",
         "modernizr": "~3.7.1",
         "moment": "~2.24.0",
-        "select2": "4.0.7"
+        "select2": "4.0.8"
     },
     "devDependencies": {
         "autoprefixer": "~9.6.0",
@@ -46,7 +46,7 @@
         "grunt-postcss": "~0.9.0",
         "grunt-remove": "~0.1.0",
         "load-grunt-config": "~2.0.0",
-        "load-grunt-tasks": "~5.0.0",
+        "load-grunt-tasks": "~5.1.0",
         "napa": "~3.0.0",
         "node-sass": "^4.12.0",
         "postcss-single-charset": "~2.0.0",
