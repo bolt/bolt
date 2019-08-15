@@ -2,6 +2,8 @@
 
 namespace Bolt\Helpers\Image;
 
+use Bolt\Helpers\Str;
+
 /**
  * Thumbnail helper class.
  *
@@ -73,10 +75,10 @@ class Thumbnail
     public function getTitle()
     {
         if ($this->title) {
-            return $this->title;
+            return $this->sanitize($this->title);
         }
 
-        return $this->altTitle;
+        return $this->sanitize($this->altTitle);
     }
 
     /**
@@ -101,10 +103,10 @@ class Thumbnail
     public function getAltTitle()
     {
         if ($this->altTitle) {
-            return $this->altTitle;
+            return $this->sanitize($this->altTitle);
         }
 
-        return $this->title;
+        return $this->sanitize($this->title);
     }
 
     /**
@@ -221,5 +223,10 @@ class Thumbnail
         $this->scale = $scale;
 
         return $this;
+    }
+
+    private function sanitize($str)
+    {
+        return Str::makeSafe($str, false, '()[]!@$%&*~`^-_=+{},.~<>:; /?');
     }
 }
