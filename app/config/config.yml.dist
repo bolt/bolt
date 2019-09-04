@@ -442,7 +442,7 @@ hash_strength: 10
 #       If you do not understand what this does, it is probably best to not
 #       touch it.
 # trustProxies:
-#     - 127.0.0.1
+#     - 127.0.0.1          # Required. Otherwise internal subrequests break.
 #     - 10.0.0.0/8
 
 # If you want Bolt installation get news through a proxy
