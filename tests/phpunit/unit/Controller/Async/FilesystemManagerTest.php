@@ -10,6 +10,11 @@ use Bolt\Tests\Controller\ControllerUnitTest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Csrf\TokenStorage\SessionTokenStorage;
 
 /**
  * Class to test correct operation of src/Controller/Async/FileManager.
@@ -27,6 +32,16 @@ class FilesystemManagerTest extends ControllerUnitTest
     const FOLDER_NAME_2 = '__phpunit_test_folder_2_delete_me';
 
     private $oldFiles = [];
+
+    /** @var CsrfToken */
+    private $token;
+
+    protected function setUp()
+    {
+        $tokenManager = new CsrfTokenManager(null, new SessionTokenStorage(new Session(new MockArraySessionStorage())));
+        $this->setService('csrf', $tokenManager);
+        $this->token = $tokenManager->refreshToken('bolt');
+    }
 
     /**
      * Store the list of files in the files folder so we can delete any added files after we're done testing.
@@ -73,6 +88,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             'namespace'  => self::FILESYSTEM,
             'parent'     => '',
             'foldername' => self::FOLDER_NAME,
+            'token'      => $this->token,
         ]));
         $response = $this->controller()->createFolder($this->getRequest());
 
@@ -89,6 +105,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             'namespace'  => self::FILESYSTEM,
             'parent'     => '',
             'foldername' => self::FOLDER_NAME,
+            'token'      => $this->token,
         ]));
 
         // The folder should exist before deleting
@@ -108,6 +125,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             'namespace'  => self::FILESYSTEM,
             'parentPath' => '',
             'filename'   => self::FILE_NAME,
+            'token'      => $this->token,
         ]));
         $response = $this->controller()->createFile($this->getRequest());
 
@@ -124,6 +142,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             'namespace'  => self::FILESYSTEM,
             'parentPath' => '',
             'filename'   => self::FILE_NAME_NOT_ALLOWED,
+            'token'      => $this->token,
         ]));
         $response = $this->controller()->createFile($this->getRequest());
 
@@ -159,6 +178,7 @@ class FilesystemManagerTest extends ControllerUnitTest
                 $this->setRequest(Request::create('/async/file/duplicate', 'POST', [
                     'namespace' => self::FILESYSTEM,
                     'filename'  => $filename,
+                    'token'      => $this->token,
                 ]));
 
                 $response = $this->controller()->duplicateFile($this->getRequest());
@@ -176,6 +196,7 @@ class FilesystemManagerTest extends ControllerUnitTest
         $this->setRequest(Request::create('/async/file/delete', 'POST', [
             'namespace' => 'files',
             'filename'  => self::FILE_NAME,
+            'token'      => $this->token,
         ]));
 
         // The file should still exist before deleting
@@ -255,13 +276,11 @@ class FilesystemManagerTest extends ControllerUnitTest
 
     public function testRenameToInvalidExtension()
     {
-        $this->setSessionUser(new Users($this->getService('users')->getUser('admin')));
-
         $this->createObject('file', self::FILE_NAME);
         $response = $this->renameObject('file', self::FILE_NAME, self::FILE_NAME_NOT_ALLOWED);
 
         $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
 
         $this->assertFalse($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME_NOT_ALLOWED));
         $this->assertTrue($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME));
@@ -323,6 +342,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             'parent'     => '',
             'filename'   => $name,
             'foldername' => $name,
+            'token'      => $this->token,
         ]));
         switch ($object) {
             case 'file':
@@ -349,6 +369,7 @@ class FilesystemManagerTest extends ControllerUnitTest
             'parent'    => '',
             'oldname'   => $old,
             'newname'   => $new,
+            'token'     => $this->token,
         ]));
         switch ($object) {
             case 'file':

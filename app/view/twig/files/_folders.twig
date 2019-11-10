@@ -43,6 +43,7 @@
                                        data-action="bolt.files.renameFolder('{{ directory.mountPoint }}',
                                                                         '{{ directory.dirname|e('js') }}',
                                                                         '{{ directory.filename|e('js') }}',
+                                                                        '{{ token() }}',
                                                                         this);">
 
                                         <i class="fa fa-keyboard-o"></i>
@@ -52,6 +53,7 @@
                                        data-action="bolt.files.deleteFolder('{{ directory.mountPoint }}',
                                                                         '{{ directory.dirname|e('js') }}',
                                                                         '{{ directory.filename|e('js') }}',
+                                                                        '{{ token() }}',
                                                                         this);">
 
                                         <i class="fa fa-ban"></i>
