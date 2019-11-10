@@ -96,7 +96,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" data-action="Bolt.files.duplicateFile('{{ file.mountPoint }}', '{{ file.path|e('js') }}'), '{{ token() }}'">
+                                    <a href="#" data-action="Bolt.files.duplicateFile('{{ file.mountPoint }}', '{{ file.path|e('js') }}', '{{ token() }}');">
                                         <i class="fa fa-files-o"></i>
                                         {{ __('general.phrase.duplicate-file-name', {'%filename%': file.filename }) }}
                                     </a>
