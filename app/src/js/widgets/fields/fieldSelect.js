@@ -32,6 +32,11 @@
          */
         _create: function () {
             var select = this.element.find('select');
+            // Regigger firefoxes form cache kagigger
+            // See https://stackoverflow.com/questions/1479233/why-doesnt-firefox-show-the-correct-default-select-option
+            var selected = select.find('option[selected]');
+            select.find('option').removeAttr('selected');
+            selected.prop('selected', 'selected');
             var options = {
                 width: '100%',
                 placeholder: {
