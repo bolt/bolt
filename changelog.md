@@ -1,6 +1,21 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.6.11
+-----------
+
+Released: 2019-11-10. Notable changes:
+
+ - Fixed: Fix tags in non-english languages and firefox caching selected options [#7822](https://github.com/bolt/bolt/pull/7822)
+ - Fixed: Fix typo in `AccessControlListener.php` [#7809](https://github.com/bolt/bolt/pull/7809)
+ - Security: Fix CRSF issues in file operations [#7823](https://github.com/bolt/bolt/pull/7823)
+ - Updated: Add `download` to `allowed_attributes` in HTML cleaner [#7808](https://github.com/bolt/bolt/pull/7808)
+ - Updated: Added comment about required IP in `trustProxies` [#7807](https://github.com/bolt/bolt/pull/7807)
+ - Updated: Export improvements [#7812](https://github.com/bolt/bolt/pull/7812)
+ - Updates: Update tests for Doctrine 2.10 compatibility [#7824](https://github.com/bolt/bolt/pull/7824)
+
+Special thanks go out f4h4dbt for responsibly disclosing the CSRF issue to us. 
+
 Bolt 3.6.10
 -----------
 
