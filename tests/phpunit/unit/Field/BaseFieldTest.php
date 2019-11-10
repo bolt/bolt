@@ -24,7 +24,7 @@ class BaseFieldTest extends BoltUnitTest
         $this->assertEquals('test.twig', $field->getTemplate());
 
         // This tests the default returns for base
-        $this->assertEquals('Text', (string) $field->getStorageType());
+        $this->assertEquals('Doctrine\\DBAL\\Types\\TextType', get_class($field->getStorageType()));
         $this->assertEquals([], $field->getStorageOptions());
     }
 }
