@@ -1,6 +1,22 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.7.0
+-----------
+
+Released: 2019-11-12. Notable changes:
+
+ - Change: Dropped support for PHP 5.5, 5.6 and 7.0. [#7826](https://github.com/bolt/bolt/pull/7826)
+ 
+This means the minimum requirement for Bolt 3.7 is now PHP 7.1. Because of this,
+the default distributions will now include more recent versions of libraries,
+providing better support for more recent versions of PHP 7.1 and higher 
+out-of-the-box. This is most noticeable with Doctrine, our database library. 
+
+If you're stuck on an older PHP version, you can keep using Bolt 3.6 for the 
+foreseeable future. 
+ 
+
 Bolt 3.6.11
 -----------
 
