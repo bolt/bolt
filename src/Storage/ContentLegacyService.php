@@ -50,7 +50,13 @@ class ContentLegacyService
     {
         $contentType = $entity->getContenttype();
         if (is_string($contentType)) {
-            $entity->contenttype = new ContentType($contentType, $this->app['storage']->getContenttype($contentType));
+            $contentTypeData = $this->app['storage']->getContenttype($contentType);
+            if ($contentTypeData instanceof ContentType) {
+                $contentTypeObject = $contentTypeData;
+            } else {
+                $contentTypeObject = new ContentType($contentType, $contentTypeData);
+            }
+            $entity->contenttype = $contentTypeObject;
         }
     }
 

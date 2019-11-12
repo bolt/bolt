@@ -214,6 +214,9 @@ class General extends AsyncBase
             $request->query->all()
         );
 
+        // Spoof the title, for contenttypes that have a different `uses:`
+        $content->set('title', $request->query->get('title'));
+
         $uri = $content->getUri(
             $request->query->get('id'),
             $request->query->getBoolean('fulluri'),
@@ -257,7 +260,7 @@ class General extends AsyncBase
         $table .= 'taxonomy';
 
         $query = $this->createQueryBuilder()
-            ->select('name, COUNT(slug) AS count')
+            ->select('slug, name, COUNT(slug) AS count')
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
             ->groupBy('name')
@@ -272,11 +275,11 @@ class General extends AsyncBase
         usort(
             $results,
             function ($a, $b) {
-                if ($a['name'] == $b['name']) {
+                if ($a['slug'] == $b['slug']) {
                     return 0;
                 }
 
-                return ($a['name'] < $b['name']) ? -1 : 1;
+                return ($a['slug'] < $b['slug']) ? -1 : 1;
             }
         );
 
@@ -330,7 +333,7 @@ class General extends AsyncBase
         $table .= 'taxonomy';
 
         $query = $this->createQueryBuilder()
-            ->select("DISTINCT $table.name")
+            ->select("DISTINCT slug, name")
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
             ->orderBy('name', 'ASC')

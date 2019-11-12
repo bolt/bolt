@@ -168,7 +168,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                         {{ title|raw }}
                     {% endif %}
                 </strong>
-                {{ content|excerpt(excerptlength - title|length, false, filter|default()) }}
+                {{ content.excerpt(excerptlength - title|length, false, filter|default()) }}
             </span>
         </td>
 
@@ -195,13 +195,15 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
             {# COLUMN: Meta #}
             <td class="username hidden-sm hidden-xs">
                 <i class="fa fa-user fa-fw"></i>
-                {% set owner = app.users.user(content.ownerid) %}
-
-                {% if owner %}
-                    {{ owner.displayname[:15] }}
-                {% else %}
-                <s>{{ content.ownerid }}</s>
-                {% endif %}<br>
+                {% if content.ownerid %}
+                    {% set owner = app.users.user(content.ownerid) %}
+                    {% if owner %}
+                        {{ owner.displayname[:15] }}
+                    {% else %}
+                        <s>{{ content.ownerid }}</s>
+                    {% endif %}
+                    <br>
+                {% endif %}
                 {% if content.status == 'timed' %}
                     <i class="fa fa-clock-o status-timed fa-fw"></i> {{ buic_moment(content.datepublish) }}<br>
                 {% else %}
@@ -282,7 +284,7 @@ row_header:     prop.extended and (prop.first or (prop.has_groupname and prop.ne
                         </a>
                     </li>
                     <li>
-                        <a class="nolink">{{ __('general.phrase.status-current-colon') }}<strong>{{ content.status }}</strong></a>
+                        <a class="nolink">{{ __('general.phrase.status-current-colon') }} <strong>{{ content.status }}</strong></a>
                     </li>
                     <li>
                         <a class="nolink">{{ __('general.phrase.slug') }}:

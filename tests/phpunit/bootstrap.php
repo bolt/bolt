@@ -2,13 +2,19 @@
 
 if (file_exists(__DIR__ . '/../../vendor/autoload.php')) {
     require_once __DIR__ . '/../../vendor/autoload.php';
-} else {
+} elseif (file_exists(__DIR__ . '/../../../vendor/autoload.php')) {
+    require_once __DIR__ . '/../../../vendor/autoload.php';
+} elseif (file_exists(__DIR__ . '/../../../../vendor/autoload.php')) {
     require_once __DIR__ . '/../../../../vendor/autoload.php';
+} elseif (file_exists(__DIR__ . '/../../../../../vendor/autoload.php')) {
+    require_once __DIR__ . '/../../../../../vendor/autoload.php';
+} else {
+    exit('Could not find the vendor autoloader');
 }
 
 // Install base location
 if (!defined('TEST_ROOT')) {
-    define('TEST_ROOT', realpath(__DIR__ . '/../../'));
+    define('TEST_ROOT', dirname(dirname(__DIR__)));
 }
 
 // PHPUnit's base location

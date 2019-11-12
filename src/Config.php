@@ -3,6 +3,7 @@
 namespace Bolt;
 
 use Bolt\Collection\Arr;
+use Bolt\Collection\Bag;
 use Bolt\Common\Deprecated;
 use Bolt\Controller\Zone;
 use Bolt\Filesystem\Exception\FileNotFoundException;
@@ -299,14 +300,31 @@ class Config
         $tempconfiglocal = $this->parseConfigYaml('config_local.yml');
         $general = Arr::replaceRecursive($tempconfig, $tempconfiglocal);
 
-        // Make sure old settings for 'accept_file_types' are not still picked up. Before 1.5.4 we used to store them
-        // as a regex-like string, and we switched to an array. If we find the old style, fall back to the defaults.
-        if (isset($general['accept_file_types']) && !is_array($general['accept_file_types'])) {
-            unset($general['accept_file_types']);
-        }
-
         // Merge the array with the defaults. Setting the required values that aren't already set.
         $general = Arr::replaceRecursive($this->defaultConfig, $general);
+
+        if (isset($general['accept_file_types']) === true) {
+            if (is_array($general['accept_file_types']) === false) {
+                // Make sure old settings for 'accept_file_types' are not still picked up. Before 1.5.4 we used to store them
+                // as a regex-like string, and we switched to an array. If we find the old style, fall back to the defaults.
+                unset($general['accept_file_types']);
+            }
+
+            // To remove unacceptable / unwanted extensions from the list of Acceptable File Types
+            $removeFromAllowedFileTypes = explode('|', 'sh|asp|cgi|php|php3|ph3|php4|ph4|php5|ph5|phtm|phtml');
+
+            // Create a bag with lowercased extensions
+            $bag = Bag::from($general['accept_file_types']);
+            $bag = $bag->map(function ($key, $ext) use ($removeFromAllowedFileTypes) {
+                if (!in_array(mb_strtolower($ext), $removeFromAllowedFileTypes)) {
+                    return mb_strtolower($ext);
+                } else {
+                    return null;
+                }
+            })->clean();
+
+            $general['accept_file_types'] = array_values($bag->toArray());
+        }
 
         // Make sure Bolt's mount point is OK:
         $general['branding']['path'] = '/' . Str::makeSafe($general['branding']['path']);

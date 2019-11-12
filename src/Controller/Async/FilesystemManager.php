@@ -7,10 +7,12 @@ use Bolt\Filesystem\Exception\FileExistsException;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Listing;
+use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Csrf\CsrfToken;
 use Webmozart\PathUtil\Path;
 
 /**
@@ -100,9 +102,12 @@ class FilesystemManager extends AsyncBase
      */
     public function createFolder(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
-        $parentPath = $request->request->get('parent');
-        $folderName = $request->request->get('foldername');
+        $parentPath = Str::makeSafe($request->request->get('parent'), false, '()[]!@$^-_=+{},.~');
+        $folderName = Str::makeSafe($request->request->get('foldername'), false, '()[]!@$^-_=+{},.~');
 
         try {
             $dir = $this->filesystem()->getDir("$namespace://$parentPath/$folderName");
@@ -126,9 +131,19 @@ class FilesystemManager extends AsyncBase
      */
     public function createFile(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
-        $parentPath = $request->request->get('parentPath');
-        $filename = $request->request->get('filename');
+        $parentPath = Str::makeSafe($request->request->get('parentPath'), false, '()[]!@$^-_=+{},.~');
+        $filename = Str::makeSafe($request->request->get('filename'), false, '()[]!@$^-_=+{},.~');
+
+        if ($this->validateFileExtension($filename) === false) {
+            return $this->json(
+                sprintf("File extension not allowed: %s", $filename),
+                Response::HTTP_BAD_REQUEST
+            );
+        }
 
         try {
             $file = $this->filesystem()->getFile("$namespace://$parentPath/$filename");
@@ -152,6 +167,9 @@ class FilesystemManager extends AsyncBase
      */
     public function deleteFile(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
 
@@ -179,6 +197,9 @@ class FilesystemManager extends AsyncBase
      */
     public function duplicateFile(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
 
@@ -284,6 +305,9 @@ class FilesystemManager extends AsyncBase
      */
     public function removeFolder(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
         $parent = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
@@ -310,13 +334,23 @@ class FilesystemManager extends AsyncBase
      */
     public function renameFile(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
         $parent = $request->request->get('parent');
         $oldName = $request->request->get('oldname');
         $newName = $request->request->get('newname');
 
-        if (!$this->isMatchingExtension($oldName, $newName)) {
+        if (!$this->isExtensionChangedAndIsChangeAllowed($oldName, $newName)) {
             return $this->json(Trans::__('general.phrase.only-root-change-file-extensions'), Response::HTTP_FORBIDDEN);
+        }
+
+        if ($this->validateFileExtension($newName) === false) {
+            return $this->json(
+                sprintf("File extension not allowed: %s", $newName),
+                Response::HTTP_BAD_REQUEST
+            );
         }
 
         try {
@@ -348,12 +382,22 @@ class FilesystemManager extends AsyncBase
      */
     public function renameFolder(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
         $parent = $request->request->get('parent');
         $oldName = $request->request->get('oldname');
         $newName = $request->request->get('newname');
 
         try {
+            $dir = $this->filesystem()->getDir("$namespace://$parent/$oldName");
+            if (!$dir) {
+                return $this->json(
+                    sprintf("Only directories are allowed to be renamed with this method"),
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
             $this->filesystem()->rename("$namespace://$parent/$oldName", "$parent/$newName");
 
             return $this->json($newName, Response::HTTP_OK);
@@ -381,10 +425,10 @@ class FilesystemManager extends AsyncBase
      *
      * @return bool
      */
-    private function isMatchingExtension($oldName, $newName)
+    private function isExtensionChangedAndIsChangeAllowed($oldName, $newName)
     {
         $user = $this->getUser();
-        if ($this->users()->hasRole($user['id'], 'root')) {
+        if ($this->users()->hasRole($user['id'], 'root') || $this->users()->hasRole($user['id'], 'admin')) {
             return true;
         }
 
@@ -408,5 +452,48 @@ class FilesystemManager extends AsyncBase
             $message . ': ' . $exception->getMessage(),
             ['event' => 'exception', 'exception' => $exception]
         );
+    }
+
+    /**
+     * @param string $filename
+     *
+     * @return bool
+     */
+    private function validateFileExtension($filename)
+    {
+        // no UNIX-hidden files
+        if ($filename[0] === '.') {
+            return false;
+        }
+        // only whitelisted extensions
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        $allowedExtensions = $this->getAllowedUploadExtensions();
+
+        return $extension === '' || in_array(mb_strtolower($extension), $allowedExtensions);
+    }
+
+    /**
+     * Get the array of configured acceptable file extensions.
+     *
+     * @return array
+     */
+    private function getAllowedUploadExtensions()
+    {
+        return $this->app['config']->get('general/accept_file_types');
+    }
+
+    /**
+     * Check if the passed in token was valid
+     *
+     * @param Request $request
+     */
+    private function checkToken(Request $request)
+    {
+        $token = new CsrfToken('bolt', $request->request->get('token'));
+
+        if (! $this->app['csrf']->isTokenValid($token)) {
+            $msg = 'Token not valid';
+            $this->abort(Response::HTTP_UNAUTHORIZED, $msg);
+        }
     }
 }

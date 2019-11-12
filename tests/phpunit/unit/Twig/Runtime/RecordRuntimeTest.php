@@ -361,6 +361,42 @@ GRINGALET;
         $this->assertSame('', $result);
     }
 
+    public function testExcerptContentClassObjectStripFields()
+    {
+        $app = $this->getApp();
+        $handler = $this->getRecordRuntime();
+
+        /** @var Content $content */
+        $content = $app['storage']->getEmptyContent('pages');
+        $content->setValue('body', 'This should not appear in the excerpt');
+
+        $result = $handler->excerpt($content, 200, null, ['body']);
+        $this->assertNotContains('This should not appear in the excerpt', (string) $result);
+    }
+
+    public function testExcerptArrayStripFields()
+    {
+        $handler = $this->getRecordRuntime();
+
+        $content = [
+            'dummy'       => 'This should not appear in the excerpt',
+            'id'          => 42,
+            'slug'        => 'clippy-inc',
+            'datecreated' => null,
+            'datechanged' => null,
+            'username'    => 'clippy',
+            'ownerid'     => null,
+            'title'       => 'Attack of the Drop Bear',
+            'contenttype' => 'koala',
+            'status'      => 'published',
+            'taxonomy'    => null,
+            'body'        => $this->original,
+        ];
+
+        $result = $handler->excerpt($content, 200, null, ['dummy']);
+        $this->assertNotContains('This should not appear in the excerpt', (string) $result);
+    }
+
     public function testListTemplatesAll()
     {
         $app = $this->getApp();

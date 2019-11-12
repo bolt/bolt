@@ -7,7 +7,7 @@
 
 {# Build the select options array #}
 {% set options = [] %}
-{% for tag in context.content.get(taxonomy.slug)|default([]) %}
+{% for tag in context.content.taxonomy.getField(taxonomy.slug)|default([]) %}
     {% set options = options|merge([{
         value:     tag.slug,
         text:      tag.name,

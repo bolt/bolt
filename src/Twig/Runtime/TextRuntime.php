@@ -58,7 +58,7 @@ class TextRuntime
      *
      * @return string Formatted date and time
      */
-    public function localeDateTime($dateTime, $format = '%B %e, %Y %H:%M')
+    public function localeDateTime($dateTime, $format = '%B %e, %Y %H:%M', $locale = 0)
     {
         if (!$dateTime instanceof \DateTime) {
             $dateTime = new \DateTime($dateTime);
@@ -72,7 +72,8 @@ class TextRuntime
         // According to http://php.net/manual/en/function.setlocale.php manual
         // if the second parameter is "0", the locale setting is not affected,
         // only the current setting is returned.
-        $result = setlocale(LC_ALL, 0);
+        $result = setlocale(LC_ALL, $locale);
+
         if ($result === false) {
             // This shouldn't occur, but.. Dude!
             // You ain't even got locale or English on your platform??
