@@ -134,8 +134,9 @@
                     var fieldToUse = $container.find('.bolt-field-text input:first');
                     var headingToUpdate = $container.find('.block-heading');
                     var fallback = headingToUpdate.data('default');
-
-                    headingToUpdate.text($(fieldToUse).val().substring(0,60) || fallback);
+                    if (headingToUpdate.data('heading') !== 1) {
+                        headingToUpdate.text($(fieldToUse).val().substring(0, 60) || fallback);
+                    }
                 }
             });
 
