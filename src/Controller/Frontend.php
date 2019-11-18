@@ -227,6 +227,7 @@ class Frontend extends ConfigurableBase
         }
 
         $this->fixBlockFieldsForPreview($content);
+        $this->fixHTMLFieldsForPreview($content);
 
         $liveEditor = $request->get('_live-editor-preview');
         if (!empty($liveEditor)) {
@@ -278,7 +279,34 @@ class Frontend extends ConfigurableBase
                             $newArray[] = $v;
                         }
                     }
-                    $this->setBlockFieldValue($record, $fieldSlug, $newArray);
+                    $this->setFieldValue($record, $fieldSlug, $newArray);
+                }
+            }
+        }
+
+        return $record;
+    }
+
+    /**
+     * Helper function to make sure HTML-like fields are Twig_Markup, and image fields are
+     * an image. Like they are in a "real" page.
+     *
+     * This is needed to make previewing content with block fields fully working.
+     * See: https://github.com/bolt/bolt/issues/7753
+     */
+    private function fixHTMLFieldsForPreview($record)
+    {
+        foreach ($record->contenttype['fields'] as $fieldSlug => $fieldSettings) {
+            if (in_array($fieldSettings['type'], ['html', 'text', 'textarea', 'markdown'])) {
+                $fieldValue = new \Twig_Markup($this->getFieldValue($record, $fieldSlug), "UTF-8");
+
+                $this->setFieldValue($record, $fieldSlug, $fieldValue);
+            }
+            if ($fieldSettings['type'] === 'image') {
+                $fieldValue = $this->getFieldValue($record, $fieldSlug);
+
+                if (is_array($fieldValue) && isset($fieldValue['file'])) {
+                    $this->setFieldValue($record, $fieldSlug, $fieldValue['file']);
                 }
             }
         }
@@ -300,7 +328,18 @@ class Frontend extends ConfigurableBase
         return null;
     }
 
-    private function setBlockFieldValue($record, $field, array $value)
+    private function getFieldValue($record, $field)
+    {
+        if ($record instanceof Content) {
+            return $record->get($field);
+        } elseif (isset($record->values[$field]) && is_array($record->values[$field])) {
+            return $record->values[$field];
+        }
+
+        return null;
+    }
+
+    private function setFieldValue($record, $field, $value)
     {
         if ($record instanceof Content) {
             $record->set($field, $value);

@@ -4,10 +4,12 @@ namespace Bolt\Storage\Migration;
 
 use Bolt\Collection\Bag;
 use Bolt\Collection\MutableBag;
+use Bolt\Exception\StorageException;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Entity\Entity;
 use Bolt\Storage\Entity\Users;
 use Bolt\Storage\EntityManager;
+use Bolt\Storage\Field\Type\RelationType;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\Query;
 use Bolt\Storage\Repository\ContentRepository;
@@ -126,6 +128,10 @@ final class Export
         $contentTypeBag = $exportData->get($contentTypeName);
 
         foreach ($entities as $key => $entity) {
+            if (!$entity->getSlug()) {
+                throw new StorageException("Cannot export an entity that does not have a slug. Check contenttype/id {$contentTypeName}/{$entity->id} to make sure it has a slug!");
+            }
+
             $this->addRecord($contentTypeBag, $metadata, $entity);
         }
 
@@ -149,6 +155,19 @@ final class Export
             $val = $entity->$fieldName;
             if (in_array($field['type'], ['date', 'datetime'])) {
                 $val = (string) $entity->$fieldName;
+            }
+            if ($fieldName === 'incomingrelation') {
+                // There's no need to store the incoming end of a relation.
+                continue;
+            }
+            if ($field['fieldtype'] === RelationType::class) {
+                $val = $entity->getRelation($fieldName)
+                    ->map(
+                        function ($item) use ($fieldName) {
+                            return "$fieldName/{$item->slug}";
+                        }
+                    )
+                    ->getValues();
             }
             if (is_callable([$val, 'serialize'])) {
                 /** @var Entity $val */

@@ -61,7 +61,7 @@
      * @param {string} namespace - The namespace.
      * @param {string} parentPath - Parent path of the folder to rename.
      */
-    files.createFile = function (namespace, parentPath)
+    files.createFile = function (namespace, parentPath, token)
     {
         var fileName = window.prompt(bolt.data('files.msg.create_file'));
 
@@ -71,7 +71,8 @@
                 {
                     filename: fileName,
                     parentPath: parentPath,
-                    namespace: namespace
+                    namespace: namespace,
+                    token: token,
                 },
                 'Something went wrong creating this file!'
             );
@@ -89,7 +90,7 @@
      * @param {string} parentPath - Parent path of the folder to rename.
      * @param {string} name - Old name of the file to be renamed.
      */
-    files.renameFile = function (namespace, parentPath, name)
+    files.renameFile = function (namespace, parentPath, name, token)
     {
         var newName = window.prompt(bolt.data('files.msg.rename_file'), name);
 
@@ -100,7 +101,8 @@
                     namespace: namespace,
                     parent: parentPath,
                     oldname: name,
-                    newname: newName
+                    newname: newName,
+                    token: token,
                 },
                 'Something went wrong renaming this file!'
             );
@@ -118,14 +120,15 @@
      * @param {string} filename - The filename.
      * @param {Object} element - The object that calls this function, usually of type HTMLAnchorElement.
      */
-    files.deleteFile = function (namespace, filename, element)
+    files.deleteFile = function (namespace, filename, token, element)
     {
         if (confirm(bolt.data('files.msg.delete_file', {'%FILENAME%': filename}))) {
             exec(
                 bolt.data('url.file.delete'),
                 {
                     namespace: namespace,
-                    filename: filename
+                    filename: filename,
+                    token: token,
                 },
                 'Failed to delete the file from the server',
                 function () {
@@ -150,12 +153,13 @@
      * @param {string} namespace - The namespace.
      * @param {string} filename - The filename.
      */
-    files.duplicateFile = function (namespace, filename) {
+    files.duplicateFile = function (namespace, filename, token) {
         exec(
             bolt.data('url.file.duplicate'),
             {
                 namespace: namespace,
-                filename: filename
+                filename: filename,
+                token: token,
             },
             'Something went wrong duplicating this file!'
         );
@@ -171,7 +175,7 @@
      * @param {string} namespace - The namespace.
      * @param {string} parentPath - Parent path of the folder to create.
      */
-    files.createFolder = function (namespace, parentPath)
+    files.createFolder = function (namespace, parentPath, token)
     {
         var newName = window.prompt(bolt.data('files.msg.create_folder'));
 
@@ -181,7 +185,8 @@
                 {
                     parent: parentPath,
                     foldername: newName,
-                    namespace: namespace
+                    namespace: namespace,
+                    token: token,
                 },
                 'Something went wrong renaming this folder!'
             );
@@ -199,7 +204,7 @@
      * @param {string} parentPath - Parent path of the folder to rename.
      * @param {string} name - Old name of the folder to be renamed.
      */
-    files.renameFolder = function (namespace, parentPath, name)
+    files.renameFolder = function (namespace, parentPath, name, token)
     {
         var newName = window.prompt(bolt.data('files.msg.rename_folder'), name);
 
@@ -210,7 +215,8 @@
                     namespace: namespace,
                     parent: parentPath,
                     oldname: name,
-                    newname: newName
+                    newname: newName,
+                    token: token,
                 },
                 'Something went wrong renaming this folder!'
             );
@@ -228,14 +234,15 @@
      * @param {string} parentPath - Parent path of the folder to remove.
      * @param {string} name - Name of the folder to remove.
      */
-    files.deleteFolder = function (namespace, parentPath, name) {
+    files.deleteFolder = function (namespace, parentPath, name, token) {
         if (window.confirm(bolt.data('files.msg.delete_folder', {'%FOLDERNAME%': name}))) {
             exec(
                 bolt.data('url.folder.delete'),
                 {
                     namespace: namespace,
                     parent: parentPath,
-                    foldername: name
+                    foldername: name,
+                    token: token,
                 },
                 'Something went wrong renaming this folder!'
             );

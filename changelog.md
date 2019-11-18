@@ -1,6 +1,78 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.6.11
+-----------
+
+Released: 2019-11-10. Notable changes:
+
+ - Fixed: Fix tags in non-english languages and firefox caching selected options [#7822](https://github.com/bolt/bolt/pull/7822)
+ - Fixed: Fix typo in `AccessControlListener.php` [#7809](https://github.com/bolt/bolt/pull/7809)
+ - Security: Fix CRSF issues in file operations [#7823](https://github.com/bolt/bolt/pull/7823)
+ - Updated: Add `download` to `allowed_attributes` in HTML cleaner [#7808](https://github.com/bolt/bolt/pull/7808)
+ - Updated: Added comment about required IP in `trustProxies` [#7807](https://github.com/bolt/bolt/pull/7807)
+ - Updated: Export improvements [#7812](https://github.com/bolt/bolt/pull/7812)
+ - Updates: Update tests for Doctrine 2.10 compatibility [#7824](https://github.com/bolt/bolt/pull/7824)
+
+Special thanks go out f4h4dbt for responsibly disclosing the CSRF issue to us. 
+
+Bolt 3.6.10
+-----------
+
+Released: 2019-08-15. Notable changes:
+
+ - Security: Prevent XSS in system log (for authenticated users) [#7802](https://github.com/bolt/bolt/pull/7802)
+ - Security: Prevent XSS in image alt/title (for authenticated users) [#7801](https://github.com/bolt/bolt/pull/7801)
+ - Security: Prevent XSS in "Create file" in file manager (for authenticated users) [#7800](https://github.com/bolt/bolt/pull/7800)
+ - Fixes: Prevent update of `guzzlehttp/psr7` to 1.6, fixes tests [#7798](https://github.com/bolt/bolt/pull/7798)
+ - Fixed: Fix taxonomy name collision [#7799](https://github.com/bolt/bolt/pull/7799)
+ - Fixed: Rebuilding assets, fixing tags cloud [#7794](https://github.com/bolt/bolt/pull/7794)
+
+Special thanks go out to @marcingajda for his contributions, and to @KotatuBot 
+for responsibly disclosing the XSS issues to us. 
+
+Bolt 3.6.9
+----------
+
+Released: 2019-06-24. Notable changes:
+
+ - Added: Add abbreviations to CKeditor, using `<abbr>`-tag. [#7783](https://github.com/bolt/bolt/pull/7783)
+ - Fixed: Use isIterable over Traversable [#7778](https://github.com/bolt/bolt/pull/7778)
+ - Updated: Select2 updated to 4.0.7, since it _finally_ works on IE 11 again. [#7783](https://github.com/bolt/bolt/pull/7783)
+
+Bolt 3.6.8
+----------
+
+Released: 2019-05-23. Notable changes:
+
+ - Fixed: Make sure stripFields is set to array by default [#7776](https://github.com/bolt/bolt/pull/7766)
+
+Bolt 3.6.7
+----------
+
+Released: 2019-04-11. Notable changes:
+
+ - Added: "Strip keys" option to excerpt of fields. [#7759](https://github.com/bolt/bolt/pull/7759)
+ - Added: Add information about how to set up custom CKeditor styles. [#7769](https://github.com/bolt/bolt/pull/7769)
+ - Change: Make sure `accept_file_types` is an INDEXED array, and disallow certain filetypes to be whitelisted. [#7768](https://github.com/bolt/bolt/pull/7768)
+ - Change: Make the bootstrap more robust. [#7763](https://github.com/bolt/bolt/pull/7763)
+ - Fixed: Compare filename extension lowercased [#7772](https://github.com/bolt/bolt/pull/7772)
+ - Fixed: Remove unsupported guzzlehttp version. [#7762](https://github.com/bolt/bolt/pull/7762)
+
+This release comes with special thanks to Felipe Gaspar (fgaspar) for
+responsibly reporting a potential security issue to us.
+
+Bolt 3.6.6
+----------
+
+Released: 2019-03-07. Notable changes:
+
+ - Change: Allow lower and upper case file extensions [#7751](https://github.com/bolt/bolt/pull/7751)
+ - Change: Log a warning instead of info when permissions are not configured [#7749](https://github.com/bolt/bolt/pull/7749)
+ - Fixed: Add extra workaround for HTML-like and Image fields in preview [#7754](https://github.com/bolt/bolt/pull/7754)
+ - Updated: Update `config.yml.dist` [#7748](https://github.com/bolt/bolt/pull/7748)
+ - Updated: Update `messages.pl_PL.yml` [#7747](https://github.com/bolt/bolt/pull/7747)
+
 Bolt 3.6.5
 ----------
 

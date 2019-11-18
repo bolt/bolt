@@ -35,11 +35,17 @@
                 tagcloud = this.element.find('.tagcloud'),
                 separators = [','],
                 tags = {};
+            // Regigger firefoxes form cache kagigger
+            // See https://stackoverflow.com/questions/1479233/why-doesnt-firefox-show-the-correct-default-select-option
+            var selected = taxonomy.find('option[selected]');
+            taxonomy.find('option').removeAttr('selected');
+            selected.prop('selected', 'selected');
 
             // Initialize the tag selector.
             if (!this.options.allowSpaces) {
                 separators.push(' ');
             }
+
             taxonomy.select2({
                 width: '100%',
                 tags: tags,
@@ -56,9 +62,9 @@
                     var arrayLength = data.length;
                     var optionsHTML = '';
                     for (var i = 0; i < arrayLength; i++) {
-                        if (options.indexOf(data[i].name) < 0) {
-                            options.push(data[i].name);
-                            optionsHTML += '<option value="' + data[i].name + '">' + data[i].name + '</option>';
+                        if (options.indexOf(data[i].slug) < 0) {
+                            options.push(data[i].slug);
+                            optionsHTML += '<option value="' + data[i].slug + '">' + data[i].name + '</option>';
                         }
                     }
                     taxonomy.append($(optionsHTML)).trigger('change');
@@ -80,14 +86,16 @@
                                     .append($('<button/>', {
                                         type: 'button',
                                         text: item.name,
-                                        rel: item.count
+                                        rel: item.count,
+                                        value: item.slug
                                     }))
                                     .append('');
                             });
 
                             tagcloud.find('button').on('click', function () {
-                                var text = $(this).text(),
-                                    option = taxonomy.find('option[value="' + text + '"]');
+                                var slug = $(this).data('slug'),
+                                    text = $(this).text(),
+                                    option = taxonomy.find('option[value="' + slug + '"]');
 
                                 if (option.length > 0) {
                                     // Just select if tag exists…
@@ -96,7 +104,7 @@
                                     // … otherwise add.
                                     taxonomy
                                         .append($('<option/>', {
-                                            value: text,
+                                            value: slug,
                                             text: text,
                                             selected: true
                                         }))

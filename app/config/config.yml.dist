@@ -88,7 +88,7 @@ homepage_template: index.twig
 # Note: The record specified in this parameter must be set to 'published'.
 notfound: [ not-found.twig, block/404-not-found ]
 
-# The default template and amount of records to use for listing-pages on the
+# The default template for single record pages on the
 # site.
 #
 # Can be overridden for each contenttype and for each record, if it has a
@@ -217,7 +217,7 @@ thumbnails:
 # will be allowed, regardless of it being in the `allowed_tags` setting.
 htmlcleaner:
     allowed_tags: [ div, span, p, br, hr, s, u, strong, em, i, b, li, ul, ol, mark, blockquote, pre, code, tt, h1, h2, h3, h4, h5, h6, dd, dl, dt, table, tbody, thead, tfoot, th, td, tr, a, img, address, abbr, iframe, caption, sub, sup, figure, figcaption ]
-    allowed_attributes: [ id, class, style, name, value, href, src, alt, title, width, height, frameborder, allowfullscreen, scrolling, target, colspan, rowspan ]
+    allowed_attributes: [ id, class, style, name, value, href, src, alt, title, width, height, frameborder, allowfullscreen, scrolling, target, colspan, rowspan, download ]
 
 # Uploaded file handling
 #
@@ -234,7 +234,9 @@ htmlcleaner:
 #     autoconfirm: false
 
 # Define the file types (extensions to be exact) that are acceptable for upload
-# in either 'file' fields or through the 'files' screen.
+# in either 'file' fields or through the 'files' screen. Note that certain file-
+# types are never acceptable, even if they are in this list. These types are
+# never allowed: sh, asp, cgi, php, php3, ph3, php4, ph4, php5, ph5, phtm, phtml
 accept_file_types: [ twig, html, js, css, scss, gif, jpg, jpeg, png, ico, zip, tgz, txt, md, doc, docx, pdf, epub, xls, xlsx, ppt, pptx, mp3, ogg, wav, m4a, mp4, m4v, ogv, wmv, avi, webm, svg]
 
 # Alternatively, if you wish to limit these, uncomment the following list
@@ -300,6 +302,7 @@ debuglog:
 # responsibility not to break the layout.
 wysiwyg:
     images: false            # Allow users to insert images in the content.
+    styles: false            # Allow users to use the custom styles you have defined (you need to set the "stylesSet" param in the ck section bellow)
     anchor: false            # Adds a button to create internal anchors to link to.
     tables: false            # Adds a button to insert and modify tables in the content.
     fontcolor: false         # Allow users to mess around with font coloring.
@@ -314,10 +317,12 @@ wysiwyg:
     specialchar: false       # Adds a button to insert special chars like '€' or '™'.
     clipboard: false         # Adds buttons to 'undo' and 'redo'.
     copypaste: false         # Adds buttons to 'cut', 'copy' and 'paste'.
+    abbr: true               # Adds button to insert abbreviations using the `<abbr>`-tag
     ck:
         autoParagraph: true  # If set to 'true', any pasted content is wrapped in `<p>`-tags for multiple line-breaks
         disableNativeSpellChecker: true # If set to 'true' it will stop browsers from underlining spelling mistakes
         allowNbsp: false     # If set to 'false', the editor will strip out `&nbsp;` characters. If set to 'true', it will allow them. ¯\_(ツ)_/¯
+        #stylesSet: "custom:/path/to/your/custom/styles.js" see https://ckeditor.com/docs/ckeditor4/latest/guide/dev_styles.html for more informations
 
 # Bolt uses the Google maps API for it's geolocation field and Google now
 # requires that it be loaded with an API key on new domains. You can generate
@@ -437,7 +442,7 @@ hash_strength: 10
 #       If you do not understand what this does, it is probably best to not
 #       touch it.
 # trustProxies:
-#     - 127.0.0.1
+#     - 127.0.0.1          # Required. Otherwise internal subrequests break.
 #     - 10.0.0.0/8
 
 # If you want Bolt installation get news through a proxy

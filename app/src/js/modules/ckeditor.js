@@ -118,7 +118,7 @@
             config.entities = false;
             config.fillEmptyBlocks = false;
             // Allow to add extra plugin from default CKEDITOR.config.
-            config.extraPlugins += (config.extraPlugins ? ',' : '') + 'codemirror';
+            config.extraPlugins += (config.extraPlugins ? ',' : '') + 'codemirror,abbr';
 
             // baseFloatZIndex needs to be this high, otherwise it'll fall below the sidebar.
             // @see https://github.com/bolt/bolt/issues/5331
@@ -149,7 +149,8 @@
 
                 [                 {name: 'links',       items: list( [                 'Link'          ],
                                                                      [                 'Unlink'        ],
-                                                                     [set.anchor,      '|Anchor'       ] )}],
+                                                                     [set.anchor,      '|Anchor'       ],
+                                                                     [set.abbr,        '|Abbr'         ] )}],
 
                 [set.subsuper,    {name: 'subsuper',    items: list( [                 'Subscript'     ],
                                                                      [                 'Superscript'   ] )}],

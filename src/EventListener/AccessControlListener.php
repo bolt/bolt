@@ -127,7 +127,7 @@ class AccessControlListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            StorageEvents::PRE_DELETE => 'onStorageEventPostSave',
+            StorageEvents::POST_SAVE => 'onStorageEventPostSave',
             StorageEvents::PRE_DELETE => 'onStorageEventPreDelete',
         ];
     }

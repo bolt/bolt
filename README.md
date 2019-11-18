@@ -33,6 +33,19 @@ Support
 Have a question? Want to chat? Run into a problem? See our [community][support]
 page.
 
+Development
+--------
+
+The ongoing Bolt development an maintenance takes place under the care of:
+
+ - [Two Kings &ndash; Artisinal Web Development](https://twokings.nl)
+
+Sponsors: 
+
+ - [Webforward, Richard Leishman](https://www.webfwd.co.uk/)
+ - → You and/or your company's name on this list? 
+ [Become a sponsor](https://github.com/users/bobdenotter/sponsorship).
+ 
 ---
 
 [![Build Status][travis-badge]][travis] [![Scrutinizer Continuous Inspections][codeclimate-badge]][codeclimate] [![SensioLabsInsight][sensio-badge]][sensio-insight] [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1223/badge)](https://bestpractices.coreinfrastructure.org/projects/1223) [![Slack][slack-badge]](https://slack.bolt.cm)

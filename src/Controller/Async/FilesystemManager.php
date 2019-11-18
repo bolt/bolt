@@ -7,10 +7,12 @@ use Bolt\Filesystem\Exception\FileExistsException;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
 use Bolt\Filesystem\Listing;
+use Bolt\Helpers\Str;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Csrf\CsrfToken;
 use Webmozart\PathUtil\Path;
 
 /**
@@ -100,9 +102,12 @@ class FilesystemManager extends AsyncBase
      */
     public function createFolder(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
-        $parentPath = $request->request->get('parent');
-        $folderName = $request->request->get('foldername');
+        $parentPath = Str::makeSafe($request->request->get('parent'), false, '()[]!@$^-_=+{},.~');
+        $folderName = Str::makeSafe($request->request->get('foldername'), false, '()[]!@$^-_=+{},.~');
 
         try {
             $dir = $this->filesystem()->getDir("$namespace://$parentPath/$folderName");
@@ -126,9 +131,12 @@ class FilesystemManager extends AsyncBase
      */
     public function createFile(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
-        $parentPath = $request->request->get('parentPath');
-        $filename = $request->request->get('filename');
+        $parentPath = Str::makeSafe($request->request->get('parentPath'), false, '()[]!@$^-_=+{},.~');
+        $filename = Str::makeSafe($request->request->get('filename'), false, '()[]!@$^-_=+{},.~');
 
         if ($this->validateFileExtension($filename) === false) {
             return $this->json(
@@ -159,6 +167,9 @@ class FilesystemManager extends AsyncBase
      */
     public function deleteFile(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
 
@@ -186,6 +197,9 @@ class FilesystemManager extends AsyncBase
      */
     public function duplicateFile(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
         $filename = $request->request->get('filename');
 
@@ -291,6 +305,9 @@ class FilesystemManager extends AsyncBase
      */
     public function removeFolder(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
         $parent = $request->request->get('parent');
         $folderName = $request->request->get('foldername');
@@ -317,6 +334,9 @@ class FilesystemManager extends AsyncBase
      */
     public function renameFile(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
         $parent = $request->request->get('parent');
         $oldName = $request->request->get('oldname');
@@ -362,6 +382,9 @@ class FilesystemManager extends AsyncBase
      */
     public function renameFolder(Request $request)
     {
+        // Verify CSRF token
+        $this->checkToken($request);
+
         $namespace = $request->request->get('namespace');
         $parent = $request->request->get('parent');
         $oldName = $request->request->get('oldname');
@@ -446,7 +469,7 @@ class FilesystemManager extends AsyncBase
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
         $allowedExtensions = $this->getAllowedUploadExtensions();
 
-        return $extension === '' || in_array($extension, $allowedExtensions);
+        return $extension === '' || in_array(mb_strtolower($extension), $allowedExtensions);
     }
 
     /**
@@ -457,5 +480,20 @@ class FilesystemManager extends AsyncBase
     private function getAllowedUploadExtensions()
     {
         return $this->app['config']->get('general/accept_file_types');
+    }
+
+    /**
+     * Check if the passed in token was valid
+     *
+     * @param Request $request
+     */
+    private function checkToken(Request $request)
+    {
+        $token = new CsrfToken('bolt', $request->request->get('token'));
+
+        if (! $this->app['csrf']->isTokenValid($token)) {
+            $msg = 'Token not valid';
+            $this->abort(Response::HTTP_UNAUTHORIZED, $msg);
+        }
     }
 }

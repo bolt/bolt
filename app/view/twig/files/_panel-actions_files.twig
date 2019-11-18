@@ -16,6 +16,7 @@
         <a href="#" class="btn btn-default"
            data-action="Bolt.files.createFolder('{{ context.directory.mountPoint }}',
                                                 '{{ context.directory.path }}',
+                                                '{{ token() }}',
                                                 this);">
           <i class="fa fa-fw fa-plus"></i>
             {{ __('page.file-management.label.create-folder') }}
@@ -23,6 +24,7 @@
         <a href="#" class="btn btn-default"
            data-action="Bolt.files.createFile('{{ context.directory.mountPoint }}',
                                               '{{ context.directory.path }}',
+                                              '{{ token() }}',
                                               this);">
           <i class="fa fa-fw fa-plus"></i>
             {{ __('page.file-management.label.create-file') }}
