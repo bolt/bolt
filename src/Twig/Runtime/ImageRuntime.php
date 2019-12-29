@@ -345,9 +345,12 @@ class ImageRuntime
         if (!is_array($fileName)) {
             return $fileName;
         }
-
-        return isset($fileName['filename']) ? $fileName['filename']
-            : isset($fileName['file']) ? $fileName['file'] : ''
-        ;
+        if (isset($fileName['filename']) {
+            return $fileName['filename'];
+        } 
+        if (isset($fileName['file']) {
+            return $fileName['file'];
+        } 
+        return '';
     }
 }
