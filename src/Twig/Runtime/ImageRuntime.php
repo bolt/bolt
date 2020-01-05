@@ -345,10 +345,10 @@ class ImageRuntime
         if (!is_array($fileName)) {
             return $fileName;
         }
-        if (isset($fileName['filename']) {
+        if (isset($fileName['filename'])) {
             return $fileName['filename'];
         }
-        if (isset($fileName['file']) {
+        if (isset($fileName['file'])) {
             return $fileName['file'];
         }
         return '';
