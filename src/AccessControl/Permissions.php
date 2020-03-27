@@ -547,7 +547,7 @@ class Permissions
         $this->audit($auditline);
 
         // First, let's see if we have the check in the per-request cache.
-        $rqCacheKey = $user['id'] . '//' . $what . '//' . $contenttypeSlug . '//' . $contentId;
+        $rqCacheKey = (!empty($user['id']) ? $user['id'] : '(none)') . '//' . $what . '//' . $contenttypeSlug . '//' . $contentId;
         if (isset($this->rqcache[$rqCacheKey])) {
             return $this->rqcache[$rqCacheKey];
         }
