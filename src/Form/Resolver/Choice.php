@@ -159,13 +159,17 @@ final class Choice
         $ctCount = count($entities->getOriginalQueries());
         foreach ($entities as $entity) {
             $id = $entity->get($field->get('keys', 'id'));
+
             if ($ctCount > 1) {
-                $values[(string)$entity->getContenttype() . '/' . $id] = $entity->get($queryFields[0]);
+                $key = (string)$entity->getContenttype() . '/' . $id;
             } else {
-                $values[$id] = $entity->get($queryFields[0]);
+                $key = $id;
             }
+
+            $values[$key] = $entity->get($queryFields[0]);
+
             if (isset($queryFields[1])) {
-                $values[$id] .= ' / ' . $entity->get($queryFields[1]);
+                $values[$key] .= ' / ' . $entity->get($queryFields[1]);
             }
         }
 
