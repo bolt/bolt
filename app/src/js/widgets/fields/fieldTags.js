@@ -26,7 +26,7 @@
         },
 
         /**
-         * The constructor of the ags field widget.
+         * The constructor of the tags field widget.
          *
          * @private
          */
