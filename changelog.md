@@ -1,8 +1,23 @@
 Changelog for Bolt 3.x
 ======================
 
+
+Bolt 3.7.1
+----------
+
+Released: 2020-05-07. Notable changes:
+
+  - Security: Check CSRF on Preview page, and prevent renaming files to blacklisted filetypes [#7853](https://github.com/bolt/bolt/pull/#7853)
+ - Change: Add hreflang to allowed_attributes [#7855](https://github.com/bolt/bolt/pull/#7855)
+ - Chore: Updating dependencies [#7842](https://github.com/bolt/bolt/pull/#7842)
+ - Fixed: Fix tag cloud, update NPM deps [#7856](https://github.com/bolt/bolt/pull/#7856)
+ - Fixed: Select field with multiple contenttypes and display values results in a `ContextErrorException` [#7849](https://github.com/bolt/bolt/pull/#7849)
+ - Fixed: Trying to access array offset on value of type `null` with PHP 7.4 [#7843](https://github.com/bolt/bolt/pull/#7843)
+ 
+Special thanks go out [Sivanesh Ashok](https://stazot.com/) for responsibly disclosing the two fixed security issues to us. 
+  
 Bolt 3.7.0
------------
+----------
 
 Released: 2019-11-12. Notable changes:
 
@@ -16,7 +31,6 @@ out-of-the-box. This is most noticeable with Doctrine, our database library.
 If you're stuck on an older PHP version, you can keep using Bolt 3.6 for the 
 foreseeable future. 
  
-
 Bolt 3.6.11
 -----------
 
