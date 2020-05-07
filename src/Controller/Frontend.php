@@ -17,6 +17,7 @@ use Bolt\Storage\Query\QueryResultset;
 use Bolt\Storage\Repository\TaxonomyRepository;
 use Bolt\Translation\Translator as Trans;
 use Silex\ControllerCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -201,6 +202,12 @@ class Frontend extends ConfigurableBase
     {
         if (!$request->isMethod('POST')) {
             throw new MethodNotAllowedHttpException(['POST'], 'This route only accepts POST requests.');
+        }
+
+        // Only accept requests with a valid token
+        $tokenValue = $request->request->get('content_edit', ['_token' => null])['_token'];
+        if (!$this->isAllowed('dashboard') || !$this->isCsrfTokenValid($tokenValue, 'content_edit')) {
+            return new Response('Not allowed or invalid CSRF token', Response::HTTP_FORBIDDEN);
         }
 
         $contenttype = $this->getContentType($contenttypeslug);

@@ -328,8 +328,7 @@ class FrontendTest extends ControllerUnitTest
 
         $response = $this->controller()->preview($this->getRequest(), 'pages');
 
-        $this->assertTrue($response instanceof TemplateView);
-        $this->assertSame('record.twig', $response->getTemplate());
+        $this->assertFalse($response instanceof TemplateView);
     }
 
     public function testListing()
