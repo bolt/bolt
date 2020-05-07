@@ -273,7 +273,7 @@ class FilesystemManagerTest extends ControllerUnitTest
              * Object doesn't exist
              */
             $this->createObject($object, $data['old']);
-            $response = $this->renameObject($object, $data['old'] . '_nonexistent', $data['new']);
+            $response = $this->renameObject($object, $data['old'] . '_nonexistent.txt', $data['new']);
 
             $this->assertInstanceOf(JsonResponse::class, $response);
             $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
