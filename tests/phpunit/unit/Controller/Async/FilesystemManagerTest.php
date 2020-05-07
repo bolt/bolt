@@ -25,9 +25,10 @@ class FilesystemManagerTest extends ControllerUnitTest
 {
     const FILESYSTEM = 'files';
 
-    const FILE_NAME = '__phpunit_test_file_delete_me';
+    const FILE_NAME = '__phpunit_test_file_delete_me.txt';
     const FILE_NAME_NOT_ALLOWED = '__phpunit_test_file_delete_me.exe';
-    const FILE_NAME_2 = '__phpunit_test_file_2_delete_me';
+    const FILE_NAME_NOT_ALLOWED_2 = '__phpunit_test_file_delete_me';
+    const FILE_NAME_2 = '__phpunit_test_file_2_delete_me.txt';
     const FOLDER_NAME = '__phpunit_test_folder_delete_me';
     const FOLDER_NAME_2 = '__phpunit_test_folder_2_delete_me';
 
@@ -142,6 +143,23 @@ class FilesystemManagerTest extends ControllerUnitTest
             'namespace'  => self::FILESYSTEM,
             'parentPath' => '',
             'filename'   => self::FILE_NAME_NOT_ALLOWED,
+            'token'      => $this->token,
+        ]));
+        $response = $this->controller()->createFile($this->getRequest());
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+
+        // Test whether the new file is not saved
+        $this->assertFalse($this->getService('filesystem')->has(self::FILESYSTEM . '://' . self::FILE_NAME_NOT_ALLOWED));
+    }
+
+    public function testCreateFileInvalidExtension2()
+    {
+        $this->setRequest(Request::create('/async/file/create', 'POST', [
+            'namespace'  => self::FILESYSTEM,
+            'parentPath' => '',
+            'filename'   => self::FILE_NAME_NOT_ALLOWED_2,
             'token'      => $this->token,
         ]));
         $response = $this->controller()->createFile($this->getRequest());
