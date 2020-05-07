@@ -263,7 +263,7 @@ class General extends AsyncBase
             ->select('slug, name, COUNT(slug) AS count')
             ->from($table)
             ->where('taxonomytype = :taxonomytype')
-            ->groupBy('name')
+            ->groupBy('name, slug')
             ->orderBy('count', 'DESC')
             ->setMaxResults($request->query->getInt('limit', 20))
             ->setParameters([
