@@ -37,8 +37,8 @@ locale: en_GB
 
 # Set maintenance mode on or off.
 #
-# While in maintenance mode, only users of level editor or higher can access the
-# site.
+# While in maintenance mode, only users that are logged in to the Bolt backend 
+# can access the site.
 #
 # All other visitors are presented with a notice that the site is currently
 # offline.
