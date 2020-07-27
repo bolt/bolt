@@ -118,5 +118,8 @@
     },
     "bin": [
         "app/nut"
-    ]
+    ],
+    "extra": {
+        "public-dir": "public"
+    }    
 }
