@@ -392,7 +392,8 @@ class FilesystemManager extends AsyncBase
 
         try {
             $dir = $this->filesystem()->getDir("$namespace://$parent/$oldName");
-            if (!$dir) {
+
+            if (!$dir || !$dir->isDir()) {
                 return $this->json(
                     sprintf("Only directories are allowed to be renamed with this method"),
                     Response::HTTP_BAD_REQUEST
