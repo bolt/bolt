@@ -17,12 +17,16 @@ class RoutingRuntime
 {
     /** @var Canonical */
     private $canonical;
+
     /** @var RequestStack */
     private $requestStack;
+
     /** @var string */
     private $locale;
+
     /** @var UrlGeneratorInterface  */
     private $urlGenerator;
+
     /** @var Users  */
     private $users;
 
@@ -70,7 +74,7 @@ class RoutingRuntime
     {
         $perm = 'contenttype:' . $record->contenttype['slug'] . ':edit:' . $record->id;
 
-        if ($this->users->isAllowed($perm)) {
+        if ($this->users->getCurrentUser() && $this->users->isAllowed($perm)) {
             return $this->urlGenerator->generate('editcontent', ['contenttypeslug' => $record->contenttype['slug'], 'id' => $record->id]);
         }
 
