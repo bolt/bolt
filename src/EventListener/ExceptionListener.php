@@ -282,7 +282,11 @@ class ExceptionListener implements EventSubscriberInterface
 
         $trace = $exception->getTrace();
         foreach ($trace as $key => $value) {
-            $trace[$key]['args_safe'] = $this->getSafeArguments($trace[$key]['args']);
+            // See: https://www.php.net/manual/en/migration74.other-changes.php#migration74.other-changes.ini
+            $trace[$key]['args_safe'] = [];
+            if (isset($trace[$key]['args'])) {
+                $trace[$key]['args_safe'] = $this->getSafeArguments($trace[$key]['args']);
+            }
 
             // Don't display the full path, trim 64-char hexadecimal file names.
             if (isset($trace[$key]['file'])) {
