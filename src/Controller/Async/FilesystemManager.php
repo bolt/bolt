@@ -106,8 +106,8 @@ class FilesystemManager extends AsyncBase
         $this->checkToken($request);
 
         $namespace = $request->request->get('namespace');
-        $parentPath = Str::makeSafe($request->request->get('parent'), false, '()[]!@$^-_=+{},.~');
-        $folderName = Str::makeSafe($request->request->get('foldername'), false, '()[]!@$^-_=+{},.~');
+        $parentPath = Str::makeSafe($request->request->get('parent'), false, '()[]!@$^-_=+{},.~/');
+        $folderName = Str::makeSafe($request->request->get('foldername'), false, '()[]!@$^-_=+{},.~/');
 
         try {
             $dir = $this->filesystem()->getDir("$namespace://$parentPath/$folderName");
