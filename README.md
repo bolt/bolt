@@ -36,7 +36,7 @@ page.
 Development
 --------
 
-The ongoing Bolt development an maintenance takes place under the care of:
+The ongoing Bolt development and maintenance takes place under the care of:
 
  - [Two Kings &ndash; Artisinal Web Development](https://twokings.nl)
 
