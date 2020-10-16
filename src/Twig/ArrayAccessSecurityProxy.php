@@ -72,6 +72,19 @@ class ArrayAccessSecurityProxy implements ArrayAccess, Countable, IteratorAggreg
     {
         $this->sandbox->checkPropertyAllowed($this, $offset);
 
+        if ($offset === 'request') {
+            $request = $this->object[$offset];
+
+            $request->request = new Request\ParameterBag($request->request->all());
+            $request->query = new Request\ParameterBag($request->query->all());
+            $request->attributes = new Request\ParameterBag($request->attributes->all());
+            $request->cookies = new Request\ParameterBag($request->cookies->all());
+            $request->files = new Request\FileBag($request->files->all());
+            $request->server = new Request\ServerBag($request->server->all());
+
+            return $request;
+        }
+
         return $this->object[$offset];
     }
 
