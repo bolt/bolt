@@ -1030,12 +1030,12 @@ class Storage
             function ($name) use ($instance) {
                 $ct = $instance->getContentType($name);
 
-                return $ct['slug'];
+                return $ct['slug'] ?? null;
             },
             $contenttypes
         );
 
-        return $contenttypes;
+        return array_filter($contenttypes);
     }
 
     /**
