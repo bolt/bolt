@@ -1,13 +1,19 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.7.2
+----------
+
+Released: 2020-10-20. Notable changes:
+
+
 
 Bolt 3.7.1
 ----------
 
 Released: 2020-05-07. Notable changes:
 
-  - Security: Check CSRF on Preview page, and prevent renaming files to blacklisted filetypes [#7853](https://github.com/bolt/bolt/pull/#7853)
+ - Security: Check CSRF on Preview page, and prevent renaming files to blacklisted filetypes [#7853](https://github.com/bolt/bolt/pull/#7853)
  - Change: Add hreflang to allowed_attributes [#7855](https://github.com/bolt/bolt/pull/#7855)
  - Chore: Updating dependencies [#7842](https://github.com/bolt/bolt/pull/#7842)
  - Fixed: Fix tag cloud, update NPM deps [#7856](https://github.com/bolt/bolt/pull/#7856)
