@@ -1,13 +1,31 @@
 Changelog for Bolt 3.x
 ======================
 
+Bolt 3.7.2
+----------
 
+Released: 2020-10-20. Notable changes:
+
+ - Security: Restrict `filter` options in `Request` in Twig context
+ - Security: Provide a stronger secret for `UrlSigner` 
+ - Security: Allow only directories to be renamed with `renameFolder` #7867
+ - Fixes slashes in directory names #7871
+ - fixed typo 'an' to 'and' in README #7875
+ - Check if we have a current user, prevent "Trying to access array offset" extension #7869
+ - Fix ContextErrorException in PHP 7.4 #7868
+ - Update composer.json: Add `"public-dir": "public"` #7866
+ 
+Special thanks go out to the following for responsibly disclosing a security issue to us: 
+
+ - Charles Fol - https://www.ambionics.io/
+ - ERNW Research GmbH - https://ernw.de/
+ 
 Bolt 3.7.1
 ----------
 
 Released: 2020-05-07. Notable changes:
 
-  - Security: Check CSRF on Preview page, and prevent renaming files to blacklisted filetypes [#7853](https://github.com/bolt/bolt/pull/#7853)
+ - Security: Check CSRF on Preview page, and prevent renaming files to blacklisted filetypes [#7853](https://github.com/bolt/bolt/pull/#7853)
  - Change: Add hreflang to allowed_attributes [#7855](https://github.com/bolt/bolt/pull/#7855)
  - Chore: Updating dependencies [#7842](https://github.com/bolt/bolt/pull/#7842)
  - Fixed: Fix tag cloud, update NPM deps [#7856](https://github.com/bolt/bolt/pull/#7856)
