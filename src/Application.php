@@ -225,7 +225,7 @@ class Application extends Silex\Application
     public function initProviders()
     {
         $this
-            ->register(new Silex\Provider\HttpFragmentServiceProvider())
+            ->register(new Provider\HttpFragmentServiceProvider())
             ->register(new Silex\Provider\UrlGeneratorServiceProvider())
             ->register(new Provider\ValidatorServiceProvider())
             ->register(new Provider\RoutingServiceProvider())
