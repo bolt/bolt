@@ -6,6 +6,7 @@ use Bolt\Composer\Script\BootstrapYamlUpdater;
 use Bolt\Composer\Script\BundleConfigurator;
 use Bolt\Composer\Script\DirectoryConfigurator;
 use Bolt\Composer\Script\DirectorySyncer;
+use Bolt\Composer\Script\NewStableVersionNotifier;
 use Bolt\Composer\Script\ScriptHandlerUpdater;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
@@ -39,6 +40,8 @@ final class ScriptHandler
 
         $syncer = DirectorySyncer::fromEvent($event);
         $syncer->sync('bolt_assets', 'bolt_assets', true, ['css', 'fonts', 'img', 'js']);
+
+        NewStableVersionNotifier::fromEvent($event)->run();
     }
 
     /**
@@ -54,6 +57,8 @@ final class ScriptHandler
 
         $syncer->sync('files', 'files');
         $syncer->sync('%vendor%/bolt/themes', 'themes', true, ['base-2016', 'base-2018', 'skeleton']);
+
+        NewStableVersionNotifier::fromEvent($event)->run();
     }
 
     /**
@@ -64,6 +69,7 @@ final class ScriptHandler
     public static function updateProject(Event $event)
     {
         BootstrapYamlUpdater::fromEvent($event)->update();
+        NewStableVersionNotifier::fromEvent($event)->run();
     }
 
     /**
@@ -78,6 +84,7 @@ final class ScriptHandler
     {
         DirectoryConfigurator::fromEvent($event)->run();
         BundleConfigurator::fromEvent($event)->run();
+        NewStableVersionNotifier::fromEvent($event)->run();
 
         // Install assets here since they they were skipped above
         static::installAssets($event, false);
