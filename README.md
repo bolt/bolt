@@ -1,3 +1,10 @@
+| :warning: Note - Not the latest version |
+|:----------------------------------------|
+| This is the repository for Bolt 3. Please know that <br><strong>Bolt 4 has been released</strong>. If you are starting a <br>new project, please use the following:                                
+| - [Bolt 4 installation instructions](https://docs.bolt.cm/4.0/installation/installation) |
+| - [Bolt 4 Core repository](https://github.com/bolt/core)   |
+
+
 Bolt
 ====
 
