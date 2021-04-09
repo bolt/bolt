@@ -204,7 +204,7 @@ general.about: "A propos"
 general.about-bolt: "A propos de Bolt"
 
 general.access-control.reset-failed: "Erreur lors de la demande de réinitialisation. "
-general.access-control.reset-successful: "Mot de passe réinitialisé. Vous pouvez maintenant vous connectez avec le mot de passe qui vous a été envoyé par mail."
+general.access-control.reset-successful: "Mot de passe réinitialisé. Vous pouvez maintenant vous connecter avec le mot de passe qui vous a été envoyé par mail."
 
 general.access-denied.content-not-modified: "Le contenu '%title%' n'a pu être modifié."
 
