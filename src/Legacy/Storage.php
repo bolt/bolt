@@ -1030,7 +1030,7 @@ class Storage
             function ($name) use ($instance) {
                 $ct = $instance->getContentType($name);
 
-                return $ct['slug'];
+                return $ct['slug'] ?? null;
             },
             $contenttypes
         );
@@ -2711,7 +2711,7 @@ class Storage
             $contenttype = $this->getContentType($contenttype);
         }
 
-        return $this->getTablename($contenttype['tablename']);
+        return $this->getTablename($contenttype['tablename'] ?? null);
     }
 
     protected function hasRecords($tablename)
