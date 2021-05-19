@@ -217,7 +217,7 @@ final class Export
         $val = [];
 
         /** @var Content $r */
-        foreach($referencedContent as $r) {
+        foreach ($referencedContent as $r) {
             $val[] = [
                 'value' => (string) $entity->$fieldName,
                 '_id' => sprintf('%s/%s', $r->getContenttype(), $r->getSlug())
