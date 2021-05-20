@@ -130,7 +130,6 @@ final class Export
         $repo = $this->em->getRepository($contentTypeName);
         $metadata = $repo->getClassMetadata();
         // Get all the records for the ContentType
-        // $entities = $this->query->getContent($contentTypeName, ['limit' => 100, 'order' => '-id']);
         $entities = $this->query->getContent($contentTypeName);
         $contentTypeBag = $exportData->get($contentTypeName);
 
