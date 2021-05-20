@@ -4,12 +4,14 @@ namespace Bolt\Storage\Migration;
 
 use Bolt\Collection\Bag;
 use Bolt\Collection\MutableBag;
+use Bolt\Common\Str;
 use Bolt\Exception\StorageException;
 use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Entity\Entity;
 use Bolt\Storage\Entity\Users;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\Type\RelationType;
+use Bolt\Storage\Field\Type\SelectType;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\Query;
 use Bolt\Storage\Repository\ContentRepository;
@@ -27,8 +29,12 @@ final class Export
 {
     /** @var EntityManager */
     private $em;
+
     /** @var Query */
     private $query;
+
+    /** @var array */
+    private $referenceCache = [];
 
     /**
      * Constructor.
@@ -153,13 +159,20 @@ final class Export
         foreach ($metadata->getFieldMappings() as $field) {
             $fieldName = $field['fieldname'];
             $val = $entity->$fieldName;
+
             if (in_array($field['type'], ['date', 'datetime'])) {
                 $val = (string) $entity->$fieldName;
             }
+
             if ($fieldName === 'incomingrelation') {
                 // There's no need to store the incoming end of a relation.
                 continue;
             }
+
+            if ($field['fieldtype'] === SelectType::class && is_string($field['data']['values']) && !empty(Str::splitFirst($field['data']['values'], '/'))) {
+                $val = $this->getReferencedContent($entity, $field);
+            }
+
             if ($field['fieldtype'] === RelationType::class) {
                 $val = $entity->getRelation($fieldName)
                     ->map(
@@ -169,10 +182,12 @@ final class Export
                     )
                     ->getValues();
             }
+
             if (is_callable([$val, 'serialize'])) {
                 /** @var Entity $val */
                 $val = $val->serialize();
             }
+
             $values[$fieldName] = $val;
         }
 
@@ -180,4 +195,37 @@ final class Export
         $values['_id'] = $entity->getContentType() . '/' . $entity->getSlug();
         $contentTypeBag->add($values);
     }
+
+    private function getReferencedContent(Content $entity, array $field): array
+    {
+        $fieldName = $field['fieldname'];
+
+        if (empty($entity->$fieldName)) {
+            return ['value' => null];
+        }
+
+        $contentTypeName = Str::splitFirst($field['data']['values'], '/');
+        $reference = $contentTypeName . '/' . $entity->$fieldName;
+
+        if (isset($this->referenceCache[$reference])) {
+            return $this->referenceCache[$reference];
+        }
+
+        $referencedContent = $this->query->getContent($contentTypeName, ['id' => $entity->$fieldName]);
+
+        $val = [];
+
+        /** @var Content $r */
+        foreach ($referencedContent as $r) {
+            $val[] = [
+                'value' => (string) $entity->$fieldName,
+                '_id' => sprintf('%s/%s', $r->getContenttype(), $r->getSlug())
+            ];
+        }
+
+        $this->referenceCache[$reference] = $val;
+
+        return $val;
+    }
+
 }
