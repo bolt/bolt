@@ -212,7 +212,7 @@ class RecordRuntime
         }
 
         // Still no record? Nothing to do here, then.
-        if (!$record instanceof \Bolt\Legacy\Content) {
+        if (!$record instanceof \Bolt\Legacy\Content && !$record instanceof Entity\Content) {
             return null;
         }
 
