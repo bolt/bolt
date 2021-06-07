@@ -41,8 +41,8 @@ class NewStableVersionNotifier
      */
     public function run()
     {
-        $message = 'You are using Bolt v3. There is a new major 4.0 release available.';
-        $message .= 'To learn more go to <href=https://docs.bolt.cm/>https://docs.bolt.cm/</href>';
+        $message = 'You are using Bolt v3. There is a new major Bolt release available.';
+        $message .= "\nTo learn more go to https://docs.bolt.cm/";
 
         $this->io->warning($message);
     }

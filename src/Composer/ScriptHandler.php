@@ -57,8 +57,6 @@ final class ScriptHandler
 
         $syncer->sync('files', 'files');
         $syncer->sync('%vendor%/bolt/themes', 'themes', true, ['base-2016', 'base-2018', 'skeleton']);
-
-        NewStableVersionNotifier::fromEvent($event)->run();
     }
 
     /**
@@ -69,7 +67,6 @@ final class ScriptHandler
     public static function updateProject(Event $event)
     {
         BootstrapYamlUpdater::fromEvent($event)->update();
-        NewStableVersionNotifier::fromEvent($event)->run();
     }
 
     /**
