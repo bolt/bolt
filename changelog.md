@@ -1,18 +1,24 @@
 Changelog for Bolt 3.x
 ======================
 
-Bolt 3.7.3
+Bolt 3.7.4
 ----------
 
-Released: 2021-06-07. Notable changes:
+Released: 2021-06-08. Notable changes:
 
  - Notify users of 4.0 stable release. #7890
  - Improve Yaml export for compatibility with Bolt 4/5 Conimex import. #7910
  - Killing PHP7.4.3 exceptions post-migration from older Bolt/PHP versions. #7906
- - FIXED: Fetching content by Taxonomy does not work if ContentType Name is different than ContentType Slug. #7894
+ - Fix: Fetching content by Taxonomy does not work if ContentType Name is different than ContentType Slug. #7894
  - Allow `rel`-attribute by default. #7885
  - Allow `{{ fields(record = record) }}`, to pass in a record not in global scope. #7912
  - Add Composer 2 compatibility. #7913
+ - Fix: querying by ContentType slug (fixes regression introduced in #7894) #7916
+
+Bolt 3.7.3
+----------
+
+Released: 2021-06-07. Scrapped due to a regression we found after release.
 
 Bolt 3.7.2
 ----------
