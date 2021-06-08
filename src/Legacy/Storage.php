@@ -1370,7 +1370,7 @@ class Storage
                             $this->parseWhereParameter($this->getTablename('taxonomy') . '.taxonomytype', $key),
                             $this->parseWhereParameter($this->getTablename('taxonomy') . '.slug', $value),
                             $this->parseWhereParameter($this->getTablename('taxonomy') . '.name', $value),
-                            $this->parseWhereParameter($this->getTablename('taxonomy') . '.contenttype', $contenttype['name'])
+                            $this->parseWhereParameter($this->getTablename('taxonomy') . '.contenttype', $contenttype['slug'] . ' || ' . $contenttype['name'])
                         );
                     }
                 }
