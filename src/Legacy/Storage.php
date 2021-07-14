@@ -1062,7 +1062,7 @@ class Storage
             $decoded['return_single'] = true;
             // if allow_numeric_slug option is set on contenttype, interpret number as slug instead of id
             $contenttype = $this->getContentType($decoded['contenttypes'][0]);
-            $field = ($contenttype['allow_numeric_slugs'] === true ? 'slug' : 'id');
+            $field = !empty($contenttype) ? ($contenttype['allow_numeric_slugs'] === true ? 'slug' : 'id') : 'id';
             $ctypeParameters[$field] = $match[2];
         } elseif (preg_match('#^/?([a-z0-9_(\),-]+)/search(/([0-9]+))?$#i', $textquery, $match)) {
             // like 'page/search or '(entry,page)/search'
