@@ -1,3 +1,0 @@
-paths:
-    web: '%site%/.'
-    bolt_assets: '%web%/app/view'
