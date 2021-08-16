@@ -1,9 +1,0 @@
-{% import '@bolt/_nav/_macros.twig' as nav %}
-{% spaceless %}
-    {% set menu = menus.get('files') %}
-    {% set sub = [] %}
-
-    {% if menu.has('files_uploads') %}{% set sub = sub|merge([menu.get('files_uploads')]) %}{% endif %}
-    {% if menu.has('files_themes') %}{% set sub = sub|merge([menu.get('files_themes')]) %}{% endif %}
-{% endspaceless %}
-{{ nav.submenu('fa:folder-open', __('general.phrase.file-management'), sub, (page_nav == 'Settings/FileManagement')) }}

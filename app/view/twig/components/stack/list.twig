@@ -1,5 +1,0 @@
-<ul>
-    {% for file in stack()[:context.count] %}
-        {% include '@bolt/components/stack/list-item.twig' with {'file': file} only %}
-    {% endfor %}
-</ul>

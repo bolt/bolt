@@ -1,8 +1,0 @@
-{##
- # Sidebar-Panel: Displays the latest activity
- # (Usage Example: Dashboards sidebar)
- #}
-{% if context.change %}
-    {{ include('@bolt/components/panel-activity-change.twig', context) }}
-{% endif %}
-{{ include('@bolt/components/panel-activity-system.twig', context) }}

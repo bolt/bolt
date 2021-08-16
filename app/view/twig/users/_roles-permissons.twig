@@ -1,9 +1,0 @@
-<p>
-    {{ __('The settings for roles and permissions are stored in <code>%permissions%</code>.', {'%permissions%': 'permissions.yml'}) }}
-</p>
-<a class="btn btn-tertiary btn-small" href="{{ path('roles') }}">
-    {{ __('general.phrase.view-roles') }}
-</a>
-<a class="btn btn-tertiary btn-small" href="{{ path('fileedit', {'namespace': 'config', 'file': 'permissions.yml'}) }}">
-    {{ __('general.phrase.edit-role-permissions') }}
-</a>

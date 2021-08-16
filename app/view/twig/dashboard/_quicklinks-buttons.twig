@@ -1,9 +1,0 @@
-<div class="btn-group">
-    {% for contenttypeslug, contenttype in config.get('contenttypes') %}
-        {% if isallowed('contenttype:' ~ contenttypeslug ~ ':create') and isallowed('contenttype:' ~ contenttypeslug ~ ':view') %}
-            <a class="btn btn-default" href="{{ path('editcontent', {'contenttypeslug': contenttypeslug}) }}">
-                <i class="fa fa-plus"></i> {{ __('contenttypes.generic.new', {'%contenttype%': contenttype.singular_name}) }}
-            </a>
-        {% endif %}
-    {% endfor %}
-</div>

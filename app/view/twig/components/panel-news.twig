@@ -1,7 +1,0 @@
-{##
- # Sidebar-Panel: Displays the latest news on Bolt
- # (Usage Example: Dashboards sidebar)
- #}
-{% for type, news in context if not context.disable or type == 'alert' %}
-    {{ include('@bolt/components/panel-news-item.twig') }}
-{% endfor %}
