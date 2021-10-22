@@ -11,12 +11,16 @@ use Bolt\Storage\Entity\Entity;
 use Bolt\Storage\Entity\Users;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\Type\RelationType;
+use Bolt\Storage\Field\Type\SelectMultipleType;
 use Bolt\Storage\Field\Type\SelectType;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\Query;
 use Bolt\Storage\Repository\ContentRepository;
 use Bolt\Version;
 use Carbon\Carbon;
+use function is_array;
+use function is_string;
+use function sprintf;
 
 /**
  * Database records export class.
@@ -173,6 +177,10 @@ final class Export
                 $val = $this->getReferencedContent($entity, $field);
             }
 
+            if ($field['fieldtype'] === SelectMultipleType::class && is_string($field['data']['values']) && !empty(Str::splitFirst($field['data']['values'], '/'))) {
+                $val = $this->getReferencedContent($entity, $field);
+            }
+
             if ($field['fieldtype'] === RelationType::class) {
                 $val = $entity->getRelation($fieldName)
                     ->map(
@@ -204,21 +212,36 @@ final class Export
             return ['value' => null];
         }
 
+        $values = $entity->$fieldName;
         $contentTypeName = Str::splitFirst($field['data']['values'], '/');
-        $reference = $contentTypeName . '/' . $entity->$fieldName;
+        if (is_array($values)) {
+            $val = [];
+            foreach ($values as $value) {
+                $reference = $contentTypeName . '/' . $value;
+                $val[] = $this->getContent($reference, $contentTypeName, (string) $value);
+            }
+        } else {
+            $reference = $contentTypeName . '/' . $entity->$fieldName;
+            $val = $this->getContent($reference, $contentTypeName, (string) $entity->$fieldName);
+        }
 
+        return $val;
+    }
+
+    private function getContent(string $reference, string $contentTypeName, string $value)
+    {
         if (isset($this->referenceCache[$reference])) {
             return $this->referenceCache[$reference];
         }
 
-        $referencedContent = $this->query->getContent($contentTypeName, ['id' => $entity->$fieldName]);
+        $referencedContent = $this->query->getContent($contentTypeName, ['id' => $value]);
 
         $val = [];
 
         /** @var Content $r */
         foreach ($referencedContent as $r) {
             $val[] = [
-                'value' => (string) $entity->$fieldName,
+                'value' => (string) $value,
                 '_id' => sprintf('%s/%s', $r->getContenttype(), $r->getSlug())
             ];
         }
@@ -227,5 +250,4 @@ final class Export
 
         return $val;
     }
-
 }
