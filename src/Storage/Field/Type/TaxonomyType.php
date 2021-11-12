@@ -66,7 +66,7 @@ class TaxonomyType extends JoinTypeBase
         $target = $this->mapping['target'];
         $boltname = $metadata->getBoltName();
 
-        if ($this->mapping['data']['has_sortorder']) {
+        if (is_array($this->mapping['data']) && $this->mapping['data']['has_sortorder']) {
             $order = "$field.sortorder";
             $query->addSelect($this->getPlatformGroupConcat("$field.sortorder", $order, '_' . $field . '_sortorder',
                 $query));
