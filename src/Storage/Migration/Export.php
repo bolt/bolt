@@ -16,6 +16,7 @@ use Bolt\Storage\Field\Type\SelectType;
 use Bolt\Storage\Mapping\ClassMetadata;
 use Bolt\Storage\Query\Query;
 use Bolt\Storage\Repository\ContentRepository;
+use Bolt\Storage\Repository\FieldValueRepository;
 use Bolt\Version;
 use Carbon\Carbon;
 use function is_array;
@@ -134,15 +135,23 @@ final class Export
         $repo = $this->em->getRepository($contentTypeName);
         $metadata = $repo->getClassMetadata();
         // Get all the records for the ContentType
-        $entities = $this->query->getContent($contentTypeName);
+        $entities = $this->query->getContent($contentTypeName, ['id' => '>790']);
         $contentTypeBag = $exportData->get($contentTypeName);
 
         foreach ($entities as $key => $entity) {
+            echo ' id: ' . $entity->getId();
+            flush();
             if (!$entity->getSlug()) {
                 throw new StorageException("Cannot export an entity that does not have a slug. Check contenttype/id {$contentTypeName}/{$entity->id} to make sure it has a slug!");
             }
 
             $this->addRecord($contentTypeBag, $metadata, $entity);
+//            if($entity->getId() > '0' && $entity->getId() <= '500'){
+////                break;
+//            }
+//            else {
+//                break;
+//            }
         }
 
         /** @var MutableBag $success */
@@ -193,7 +202,7 @@ final class Export
 
             if (is_callable([$val, 'serialize'])) {
                 /** @var Entity $val */
-                $val = $val->serialize();
+                $val = $val->serialize($entity, $field, $this->query);
             }
 
             $values[$fieldName] = $val;

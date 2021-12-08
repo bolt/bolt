@@ -2,10 +2,13 @@
 
 namespace Bolt\Storage\Field\Collection;
 
+use Bolt\Common\Str;
 use Bolt\Exception\FieldConfigurationException;
+use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Entity\FieldValue;
 use Bolt\Storage\EntityManager;
 use Bolt\Storage\Field\Type\FieldTypeBase;
+use Bolt\Storage\Field\Type\SelectType;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -285,17 +288,17 @@ class RepeatingFieldCollection extends ArrayCollection
         return new FieldCollection();
     }
 
-    public function serialize()
+    public function serialize($entity, $field, $query)
     {
         $output = [];
         foreach ($this as $collection => $vals) {
             if ($vals->getBlock() !== null) {
-                $output[$collection][$vals->getBlock()] = $vals->serialize();
+                $output[$collection][$vals->getBlock()] = $vals->serialize($entity, $field, $query);
             } else {
-                $output[$collection] = $vals->serialize();
+                $output[$collection] = $vals->serialize($entity, $field, $query);
             }
         }
 
         return $output;
-    }
+    } 
 }

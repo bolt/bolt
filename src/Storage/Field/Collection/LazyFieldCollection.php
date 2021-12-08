@@ -2,6 +2,8 @@
 
 namespace Bolt\Storage\Field\Collection;
 
+use Bolt\Common\Str;
+use Bolt\Storage\Entity\Content;
 use Bolt\Storage\Entity\FieldValue;
 use Bolt\Storage\EntityManager;
 use Doctrine\Common\Collections\AbstractLazyCollection;
@@ -146,15 +148,58 @@ class LazyFieldCollection extends AbstractLazyCollection implements FieldCollect
         $this->em = null;
     }
 
-    public function serialize()
+    public function serialize($entity, $fieldArray, $query)
     {
         $output = [];
         $this->initialize();
-
         foreach ($this->collection as $field) {
-            $output[$field->getFieldName()] = $field->getValue();
+            if ($field->getFieldType() == "select" && !is_array($fieldArray['data']['fields'][$field->getFieldName()]['values'])) {
+                $referenceContent = $this->getReferencedContent($entity, $fieldArray['data']['fields'][$field->getFieldName()], $query, $field->getValue());
+                $output[$field->getFieldName()] = $referenceContent;
+            } else {
+                $output[$field->getFieldName()] = $field->getValue();
+            }
+//            $output[$field->getFieldName()] = $field->getValue();
         }
 
         return $output;
+    }
+
+    private function getReferencedContent(Content $entity, array $field, $query, $searchId)
+    {
+        if (empty($searchId)) {
+            return "";
+        }
+
+        $values = str_replace(["[", "]", '"'], '', $searchId);
+        $values = explode(',', $values);
+        $contentTypeName = Str::splitFirst($field['values'], '/');
+
+        if (is_array($values)) {
+            $val = [];
+            foreach ($values as $value) {
+                $reference = $contentTypeName . '/' . $value;
+                $val[] = $this->getContent($reference, $contentTypeName, (string) $value, $query);
+            }
+        }
+
+        return $val;
+    }
+
+    private function getContent(string $reference, string $contentTypeName, string $value, $query)
+    {
+        $referencedContent = $query->getContent($contentTypeName, ['id' => $value]);
+
+        $val = [];
+
+        /** @var Content $r */
+        foreach ($referencedContent as $r) {
+            $val = [
+                'value' => (string) $value,
+                '_id' => sprintf('%s/%s', $r->getContenttype(), $r->getSlug())
+            ];
+        }
+
+        return $val;
     }
 }
