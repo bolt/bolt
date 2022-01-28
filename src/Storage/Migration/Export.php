@@ -135,7 +135,7 @@ final class Export
         $repo = $this->em->getRepository($contentTypeName);
         $metadata = $repo->getClassMetadata();
         // Get all the records for the ContentType
-        $entities = $this->query->getContent($contentTypeName, ['id' => '>790']);
+        $entities = $this->query->getContent($contentTypeName, ['id' => '>=2073&&<=2080']);
         $contentTypeBag = $exportData->get($contentTypeName);
 
         foreach ($entities as $key => $entity) {
@@ -228,6 +228,14 @@ final class Export
             foreach ($values as $value) {
                 $reference = $contentTypeName . '/' . $value;
                 $val[] = $this->getContent($reference, $contentTypeName, (string) $value);
+            }
+        } elseif (is_array(json_decode($values))) {
+            // If we are here is because we changed the fieldtype text to select in the contenttypes.yml.
+            // This will allow us to export text fieldtype data like '["342", "654"]' as a referenced select field
+            $val = [];
+            foreach (json_decode($values) as $value) {
+                $reference = $contentTypeName . '/' . $value;
+                $val[] = $this->getContent($reference, $contentTypeName, (string) $value)[0];
             }
         } else {
             $reference = $contentTypeName . '/' . $entity->$fieldName;
