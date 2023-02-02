@@ -40,6 +40,11 @@ Support
 Have a question? Want to chat? Run into a problem? See our [community][support]
 page.
 
+Contributing
+------------
+
+Thank you for considering contributing to the Bolt! The contribution guide can be found in the [Documentation](https://docs.boltcms.io/other/contributing).
+
 Development
 --------
 
