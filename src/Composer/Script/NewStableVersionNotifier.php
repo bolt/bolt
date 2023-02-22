@@ -8,42 +8,14 @@ use Composer\Script\Event;
 
 class NewStableVersionNotifier
 {
-    /** @var NutStyleInterface */
-    private $io;
-
-    /**
-     * Constructor.
-     *
-     * @param NutStyleInterface $io
-     */
-    public function __construct(NutStyleInterface $io)
-    {
-        $this->io = $io;
-    }
-
-    /**
-     * Create from a Composer event object.
-     *
-     * @param Event $event
-     *
-     * @return NewStableVersionNotifier
-     */
-    public static function fromEvent(Event $event)
-    {
-        $io = NutStyle::fromComposer($event->getIO());
-
-        return new static($io);
-    }
-
-
     /**
      * Go!
      */
-    public function run()
+    public static function run()
     {
-        $message = 'You are using Bolt v3. There is a new major Bolt release available.';
-        $message .= "\nTo learn more go to https://docs.bolt.cm/";
+        $message = "\nYou are using Bolt v3. There is a new major Bolt release available.";
+        $message .= "\nTo learn more go to https://docs.boltcms.io/\n";
 
-        $this->io->warning($message);
+        echo ($message);
     }
 }
