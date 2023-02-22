@@ -41,7 +41,7 @@ final class ScriptHandler
         $syncer = DirectorySyncer::fromEvent($event);
         $syncer->sync('bolt_assets', 'bolt_assets', true, ['css', 'fonts', 'img', 'js']);
 
-        NewStableVersionNotifier::fromEvent($event)->run();
+        NewStableVersionNotifier::run();
     }
 
     /**
@@ -81,7 +81,7 @@ final class ScriptHandler
     {
         DirectoryConfigurator::fromEvent($event)->run();
         BundleConfigurator::fromEvent($event)->run();
-        NewStableVersionNotifier::fromEvent($event)->run();
+        NewStableVersionNotifier::run();
 
         // Install assets here since they they were skipped above
         static::installAssets($event, false);
