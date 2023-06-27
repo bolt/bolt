@@ -217,36 +217,36 @@ final class Export
         if (is_array($values)) {
             $val = [];
             foreach ($values as $value) {
-                $reference = $contentTypeName . '/' . $value;
-                $val[] = $this->getContent($reference, $contentTypeName, (string) $value);
+                if (strpos($value, '/') !== false) {
+                    $reference = $value;
+                } else {
+                    $reference = $contentTypeName . '/' . $value;
+                }
+                $lookupResult = $this->getContentUsingSlug($reference);
+                $val[] = $lookupResult;
             }
         } else {
             $reference = $contentTypeName . '/' . $entity->$fieldName;
-            $val = $this->getContent($reference, $contentTypeName, (string) $entity->$fieldName);
+            $lookupResult = $this->getContentUsingSlug($reference);
+
+            $val[] = $lookupResult;
         }
 
         return $val;
     }
 
-    private function getContent(string $reference, string $contentTypeName, string $value)
+    private function getContentUsingSlug(string $search)
     {
-        if (isset($this->referenceCache[$reference])) {
-            return $this->referenceCache[$reference];
-        }
-
-        $referencedContent = $this->query->getContent($contentTypeName, ['id' => $value]);
+        $r = $this->query->getContent($search);
 
         $val = [];
 
-        /** @var Content $r */
-        foreach ($referencedContent as $r) {
+        if ($r instanceof Content) {
             $val[] = [
-                'value' => (string) $value,
+                'value' => (string) $search,
                 '_id' => sprintf('%s/%s', $r->getContenttype(), $r->getSlug())
             ];
         }
-
-        $this->referenceCache[$reference] = $val;
 
         return $val;
     }
